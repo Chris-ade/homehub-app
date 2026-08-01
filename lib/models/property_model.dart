@@ -43,6 +43,7 @@ class Property {
   final String id;
   final String title;
   final String area;
+  final String streetName;
   final String citySlug;
   final double price;
   final String period; // 'year' or 'month'
@@ -67,6 +68,7 @@ class Property {
     required this.id,
     required this.title,
     required this.area,
+    this.streetName = "",
     required this.citySlug,
     required this.price,
     this.period = "year",
@@ -158,6 +160,7 @@ class Property {
       area: (json['address'] != null && json['address'].toString().isNotEmpty)
           ? json['address'].toString()
           : (json['area']?.toString() ?? "Adebayo, Ado-Ekiti"),
+      streetName: json['street_name']?.toString() ?? json['streetName']?.toString() ?? "",
       citySlug: cityRaw.contains("ikere")
           ? "ikere-ekiti"
           : (cityRaw.contains("iworoko")

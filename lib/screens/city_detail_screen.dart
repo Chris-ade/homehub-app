@@ -5,6 +5,7 @@ import '../models/city_model.dart';
 import '../providers/property_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/property_card.dart';
+import '../widgets/no_data_widget.dart';
 import 'property_detail_screen.dart';
 
 class CityDetailScreen extends StatefulWidget {
@@ -23,14 +24,39 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final propertyProvider = context.watch<PropertyProvider>();
-    
+
+    // Filter listings matching city slug or city name
     final allCityListings = propertyProvider.properties
-        .where((p) => p.citySlug == widget.city.slug || p.area.toLowerCase().contains(widget.city.name.toLowerCase()))
+        .where(
+          (p) =>
+              p.citySlug == widget.city.slug ||
+              p.area.toLowerCase().contains(widget.city.name.toLowerCase()),
+        )
         .toList();
+
+    // Dynamically extract real street_name data ONLY from API payload
+    final Map<String, int> dynamicStreets = {};
+    for (var prop in allCityListings) {
+      final sName = prop.streetName.trim().isNotEmpty
+          ? prop.streetName.trim()
+          : (prop.area.contains(',')
+                ? prop.area.split(',').first.trim()
+                : prop.area.trim());
+      if (sName.isNotEmpty && sName.length > 2) {
+        dynamicStreets[sName] = (dynamicStreets[sName] ?? 0) + 1;
+      }
+    }
 
     final filteredListings = _activeArea == "all"
         ? allCityListings
-        : allCityListings.where((p) => p.area.toLowerCase().contains(_activeArea.toLowerCase())).toList();
+        : allCityListings.where((p) {
+            final sName = p.streetName.trim().isNotEmpty
+                ? p.streetName.trim()
+                : (p.area.contains(',')
+                      ? p.area.split(',').first.trim()
+                      : p.area.trim());
+            return sName.toLowerCase() == _activeArea.toLowerCase();
+          }).toList();
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBackground : AppColors.warmCream,
@@ -40,52 +66,27 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── 1. HERO BANNER SECTION (Matching Web bg-secondary) ──
+              // HERO BANNER SECTION
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 24,
+                ),
                 decoration: BoxDecoration(
                   color: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
                   border: Border(
-                    bottom: BorderSide(color: isDark ? AppColors.darkLine : AppColors.line),
+                    bottom: BorderSide(
+                      color: isDark ? AppColors.darkLine : AppColors.line,
+                    ),
                   ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Back to locations button
-                    InkWell(
-                      onTap: () => Navigator.pop(context),
-                      borderRadius: BorderRadius.circular(8),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.arrow_back_rounded,
-                              size: 16,
-                              color: isDark ? AppColors.darkMuted : AppColors.muted,
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              "Back to locations",
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: isDark ? AppColors.darkMuted : AppColors.muted,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 16),
-
                     // City Name H1
                     Text(
-                      widget.city.name,
+                      "${widget.city.name}, ${widget.city.state}",
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.w900,
@@ -149,22 +150,27 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1.8,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                      ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 1.8,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                          ),
                       itemCount: widget.city.stats.length,
                       itemBuilder: (context, index) {
                         final stat = widget.city.stats[index];
                         return Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: isDark ? AppColors.darkSurface : AppColors.surface,
+                            color: isDark
+                                ? AppColors.darkSurface
+                                : AppColors.surface,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                              color: isDark ? AppColors.darkLine : AppColors.line,
+                              color: isDark
+                                  ? AppColors.darkLine
+                                  : AppColors.line,
                             ),
                           ),
                           child: Column(
@@ -176,7 +182,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                 style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
-                                  color: isDark ? AppColors.darkMuted : AppColors.muted,
+                                  color: isDark
+                                      ? AppColors.darkMuted
+                                      : AppColors.muted,
                                   letterSpacing: 0.5,
                                 ),
                                 maxLines: 1,
@@ -188,7 +196,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w900,
-                                  color: isDark ? AppColors.terracotta : AppColors.forest,
+                                  color: isDark
+                                      ? AppColors.terracotta
+                                      : AppColors.forest,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -201,89 +211,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
 
                     const SizedBox(height: 28),
 
-                    // ── 3. POPULAR NEIGHBORHOODS (IF ANY) ──
-                    if (widget.city.neighborhoods.isNotEmpty) ...[
-                      Text(
-                        "Popular Neighborhoods",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                          color: isDark ? AppColors.darkInk : AppColors.forest,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      SizedBox(
-                        height: 105,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: widget.city.neighborhoods.length,
-                          itemBuilder: (context, index) {
-                            final n = widget.city.neighborhoods[index];
-                            return Container(
-                              width: 210,
-                              margin: const EdgeInsets.only(right: 12),
-                              padding: const EdgeInsets.all(14),
-                              decoration: BoxDecoration(
-                                color: isDark ? AppColors.darkSurface : AppColors.surface,
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          n.name,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            color: isDark ? AppColors.darkInk : AppColors.ink,
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                        decoration: BoxDecoration(
-                                          color: AppColors.terracotta.withValues(alpha: 0.15),
-                                          borderRadius: BorderRadius.circular(6),
-                                        ),
-                                        child: Text(
-                                          n.vibe,
-                                          style: const TextStyle(
-                                            color: AppColors.terracotta,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    n.copy,
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: isDark ? AppColors.darkMuted : AppColors.muted,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 28),
-                    ],
-
-                    // ── 4. AVAILABLE LISTINGS GRID ──
+                    // ── 3. AVAILABLE LISTINGS SECTION HEADER ──
                     Text(
                       "Available in ${widget.city.name}",
                       style: TextStyle(
@@ -293,61 +221,82 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                       ),
                     ),
 
-                    if (widget.city.neighborhoods.isNotEmpty) ...[
+                    // Dynamic Real Street Filter Chips from API Payload street_name
+                    if (dynamicStreets.isNotEmpty) ...[
                       const SizedBox(height: 8),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
                         child: Row(
                           children: [
                             ChoiceChip(
-                              label: Text("All Areas (${allCityListings.length})"),
+                              label: Text(
+                                "All Streets (${allCityListings.length})",
+                              ),
                               selected: _activeArea == "all",
                               selectedColor: AppColors.terracotta,
-                              backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+                              backgroundColor: isDark
+                                  ? AppColors.darkSurfaceAlt
+                                  : AppColors.creamAlt,
                               labelStyle: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
-                                color: _activeArea == "all" ? Colors.white : (isDark ? AppColors.darkInk : AppColors.ink),
+                                color: _activeArea == "all"
+                                    ? Colors.white
+                                    : (isDark
+                                          ? AppColors.darkInk
+                                          : AppColors.ink),
                               ),
-                              onSelected: (_) => setState(() => _activeArea = "all"),
+                              onSelected: (_) =>
+                                  setState(() => _activeArea = "all"),
                             ),
-                            ...widget.city.neighborhoods.map((n) => Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: ChoiceChip(
-                                label: Text(n.name),
-                                selected: _activeArea.toLowerCase() == n.name.toLowerCase(),
-                                selectedColor: AppColors.terracotta,
-                                backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
-                                labelStyle: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                  color: _activeArea.toLowerCase() == n.name.toLowerCase() ? Colors.white : (isDark ? AppColors.darkInk : AppColors.ink),
+                            ...dynamicStreets.entries.map(
+                              (entry) => Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: ChoiceChip(
+                                  label: Text("${entry.key} (${entry.value})"),
+                                  selected:
+                                      _activeArea.toLowerCase() ==
+                                      entry.key.toLowerCase(),
+                                  selectedColor: AppColors.terracotta,
+                                  backgroundColor: isDark
+                                      ? AppColors.darkSurfaceAlt
+                                      : AppColors.creamAlt,
+                                  labelStyle: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        _activeArea.toLowerCase() ==
+                                            entry.key.toLowerCase()
+                                        ? Colors.white
+                                        : (isDark
+                                              ? AppColors.darkInk
+                                              : AppColors.ink),
+                                  ),
+                                  onSelected: (_) => setState(
+                                    () => _activeArea =
+                                        _activeArea.toLowerCase() ==
+                                            entry.key.toLowerCase()
+                                        ? "all"
+                                        : entry.key,
+                                  ),
                                 ),
-                                onSelected: (_) => setState(() => _activeArea = _activeArea.toLowerCase() == n.name.toLowerCase() ? "all" : n.name),
                               ),
-                            )),
+                            ),
                           ],
                         ),
                       ),
                     ],
 
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 16),
 
+                    // Render Real API Listings or Web-Style NoDataWidget
                     filteredListings.isEmpty
-                        ? Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(24.0),
-                            decoration: BoxDecoration(
-                              color: isDark ? AppColors.darkSurface : AppColors.surface,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "No active listings in ${widget.city.name} at the moment.",
-                                style: TextStyle(color: isDark ? AppColors.darkMuted : AppColors.muted),
-                              ),
-                            ),
+                        ? NoDataWidget(
+                            cityName: widget.city.name,
+                            title: "No properties found in ${widget.city.name}",
+                            message:
+                                "We don't have active properties listed for this specific area right now.",
                           )
                         : Column(
                             children: filteredListings.map((prop) {
@@ -357,7 +306,8 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => PropertyDetailScreen(property: prop),
+                                      builder: (context) =>
+                                          PropertyDetailScreen(property: prop),
                                     ),
                                   );
                                 },
