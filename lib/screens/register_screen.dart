@@ -518,10 +518,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               isDark: isDark,
             ),
             validator: (v) {
-              if (v == null || v.trim().isEmpty)
+              if (v == null || v.trim().isEmpty) {
                 return "Please enter your email address";
-              if (!v.contains("@") || !v.contains("."))
+              }
+              if (!v.contains("@") || !v.contains(".")) {
                 return "Enter a valid email address";
+              }
               return null;
             },
           ),
@@ -574,10 +576,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               isDark: isDark,
             ),
             validator: (v) {
-              if (v == null || v.trim().isEmpty)
+              if (v == null || v.trim().isEmpty) {
                 return "Please enter your phone number";
-              if (v.trim().length < 10)
+              }
+              if (v.trim().length < 10) {
                 return "Enter a valid 11-digit phone number";
+              }
               return null;
             },
           ),
@@ -677,8 +681,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             validator: (v) {
-              if (v != _passwordController.text)
+              if (v != _passwordController.text) {
                 return "Passwords do not match";
+              }
               return null;
             },
           ),

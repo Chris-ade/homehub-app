@@ -10,7 +10,8 @@ class UserProvider extends ChangeNotifier {
   String _name = "";
   String _email = "";
   String _phone = "";
-  String _avatarUrl = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80";
+  final String _avatarUrl =
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80";
   bool _isVerified = true;
   bool _isEmailVerified = true;
   UserRole _role = UserRole.tenant;
@@ -58,10 +59,7 @@ class UserProvider extends ChangeNotifier {
           .post(
             Uri.parse('$baseUrl/auth/login'),
             headers: {'Content-Type': 'application/json'},
-            body: jsonEncode({
-              'email': emailInput,
-              'password': passwordInput,
-            }),
+            body: jsonEncode({'email': emailInput, 'password': passwordInput}),
           )
           .timeout(const Duration(seconds: 12));
 
@@ -73,7 +71,9 @@ class UserProvider extends ChangeNotifier {
           _name = "${u['first_name'] ?? ''} ${u['last_name'] ?? ''}".trim();
           if (_name.isEmpty) _name = u['email'] ?? emailInput;
           _email = u['email'] ?? emailInput;
-          _role = (u['type'] == 'agent' || u['type'] == 'landlord') ? UserRole.landlord : UserRole.tenant;
+          _role = (u['type'] == 'agent' || u['type'] == 'landlord')
+              ? UserRole.landlord
+              : UserRole.tenant;
           _isVerified = u['email_verified'] ?? true;
           _isLoggedIn = true;
           notifyListeners();

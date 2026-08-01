@@ -17,15 +17,28 @@ class MockData {
       sqft: 1280,
       type: "Flat",
       status: "Verified",
-      agent: const Agent(name: "Tunde Aluko", role: "Verified Agent", phone: "+234 803 456 7890"),
-      image: "https://images.unsplash.com/photo-1643297550841-1386b3a10612?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
+      agent: const Agent(
+        name: "Tunde Aluko",
+        role: "Verified Agent",
+        phone: "+234 803 456 7890",
+      ),
+      image:
+          "https://images.unsplash.com/photo-1643297550841-1386b3a10612?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
       gallery: [
         "https://images.unsplash.com/photo-1643297550841-1386b3a10612?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
         "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80",
       ],
-      description: "Contemporary 3-bedroom flat in the serene Adebayo neighborhood. Fully tiled floors, pop ceilings, all bedrooms en-suite, solar invertor prep, standby generator connection, and 24/7 security guard.",
-      amenities: ["Solar Inverter Setup", "24/7 Guarded Estate", "All En-Suite", "Fitted Kitchen", "Water Heater", "Balcony"],
+      description:
+          "Contemporary 3-bedroom flat in the serene Adebayo neighborhood. Fully tiled floors, pop ceilings, all bedrooms en-suite, solar invertor prep, standby generator connection, and 24/7 security guard.",
+      amenities: [
+        "Solar Inverter Setup",
+        "24/7 Guarded Estate",
+        "All En-Suite",
+        "Fitted Kitchen",
+        "Water Heater",
+        "Balcony",
+      ],
       isFeatured: true,
       rating: 4.9,
       reviewCount: 18,
@@ -42,14 +55,26 @@ class MockData {
       sqft: 880,
       type: "Apartment",
       status: "New",
-      agent: const Agent(name: "Bisi Adeyemi", role: "Landlord", phone: "+234 802 987 6543"),
-      image: "https://images.unsplash.com/photo-1628144688607-c373d8e3f31b?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
+      agent: const Agent(
+        name: "Bisi Adeyemi",
+        role: "Landlord",
+        phone: "+234 802 987 6543",
+      ),
+      image:
+          "https://images.unsplash.com/photo-1628144688607-c373d8e3f31b?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
       gallery: [
         "https://images.unsplash.com/photo-1628144688607-c373d8e3f31b?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
         "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80",
       ],
-      description: "Brand new 2-bedroom luxury apartment near Fajuyi Park. Ultra-modern finishing, built-in wardrobes, private balcony, secure parking, and clean pressurized borehole water.",
-      amenities: ["Borehole Water", "Gated Security", "Modern Cabinets", "Private Balcony", "Paved Compound"],
+      description:
+          "Brand new 2-bedroom luxury apartment near Fajuyi Park. Ultra-modern finishing, built-in wardrobes, private balcony, secure parking, and clean pressurized borehole water.",
+      amenities: [
+        "Borehole Water",
+        "Gated Security",
+        "Modern Cabinets",
+        "Private Balcony",
+        "Paved Compound",
+      ],
       isFeatured: true,
       rating: 4.7,
       reviewCount: 9,
@@ -66,14 +91,26 @@ class MockData {
       sqft: 420,
       type: "Self-contained",
       status: "Student-friendly",
-      agent: const Agent(name: "Femi Olatunji", role: "Property Manager", phone: "+234 814 555 1234"),
-      image: "https://images.unsplash.com/photo-1777029017899-b7f30eec36cf?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
+      agent: const Agent(
+        name: "Femi Olatunji",
+        role: "Property Manager",
+        phone: "+234 814 555 1234",
+      ),
+      image:
+          "https://images.unsplash.com/photo-1777029017899-b7f30eec36cf?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
       gallery: [
         "https://images.unsplash.com/photo-1777029017899-b7f30eec36cf?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
         "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
       ],
-      description: "Ideal student/young professional studio flat located 3 minutes walk from EKSU main gate. Includes dedicated study desk, high speed fiber Wi-Fi access, perimeter electric fence, and prepaid meter.",
-      amenities: ["High-Speed Wi-Fi", "Prepaid Meter", "3-min to EKSU", "Study Area", "CCTV Monitoring"],
+      description:
+          "Ideal student/young professional studio flat located 3 minutes walk from EKSU main gate. Includes dedicated study desk, high speed fiber Wi-Fi access, perimeter electric fence, and prepaid meter.",
+      amenities: [
+        "High-Speed Wi-Fi",
+        "Prepaid Meter",
+        "3-min to EKSU",
+        "Study Area",
+        "CCTV Monitoring",
+      ],
       isFeatured: false,
       rating: 4.6,
       reviewCount: 24,
@@ -90,15 +127,27 @@ class MockData {
       sqft: 2100,
       type: "Duplex",
       status: "Premium",
-      agent: const Agent(name: "Yetunde Adekunle", role: "Verified Agent", phone: "+234 805 111 2233"),
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      agent: const Agent(
+        name: "Yetunde Adekunle",
+        role: "Verified Agent",
+        phone: "+234 805 111 2233",
+      ),
+      image:
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
       gallery: [
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
         "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80",
         "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
       ],
-      description: "Exquisite 4-bedroom detached duplex located in exclusive GRA, Ado-Ekiti. Features private swimming pool, boy's quarters (BQ), smart security lock system, solar power backup, and landscaped gardens.",
-      amenities: ["Private Pool", "Boys Quarters", "Solar Hybrid System", "Smart Lock", "Ample Parking"],
+      description:
+          "Exquisite 4-bedroom detached duplex located in exclusive GRA, Ado-Ekiti. Features private swimming pool, boy's quarters (BQ), smart security lock system, solar power backup, and landscaped gardens.",
+      amenities: [
+        "Private Pool",
+        "Boys Quarters",
+        "Solar Hybrid System",
+        "Smart Lock",
+        "Ample Parking",
+      ],
       isFeatured: true,
       rating: 5.0,
       reviewCount: 31,
@@ -115,10 +164,21 @@ class MockData {
       sqft: 540,
       type: "Mini Flat",
       status: "Verified",
-      agent: const Agent(name: "Kunle Bamidele", role: "Landlord", phone: "+234 813 999 8877"),
-      image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
-      description: "Neat mini flat in a quiet residential off-street in Ajilosun. Sitting room, bedroom, kitchen, and bathroom. Well maintained compound with individual electric meter.",
-      amenities: ["Prepaid Meter", "Spacious Kitchen", "Paved Yard", "Quiet Street"],
+      agent: const Agent(
+        name: "Kunle Bamidele",
+        role: "Landlord",
+        phone: "+234 813 999 8877",
+      ),
+      image:
+          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+      description:
+          "Neat mini flat in a quiet residential off-street in Ajilosun. Sitting room, bedroom, kitchen, and bathroom. Well maintained compound with individual electric meter.",
+      amenities: [
+        "Prepaid Meter",
+        "Spacious Kitchen",
+        "Paved Yard",
+        "Quiet Street",
+      ],
       isFeatured: false,
       rating: 4.5,
       reviewCount: 7,
@@ -135,10 +195,22 @@ class MockData {
       sqft: 1640,
       type: "Bungalow",
       status: "Family",
-      agent: const Agent(name: "Adaeze Nwosu", role: "Verified Agent", phone: "+234 701 444 5566"),
-      image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80",
-      description: "Family-friendly standalone 3-bedroom bungalow with an attached 1-bedroom BQ. Large compound suitable for multiple cars and gardening.",
-      amenities: ["Standalone Compound", "1-Bed BQ", "Spacious Garden", "Water Treatment", "Security Post"],
+      agent: const Agent(
+        name: "Adaeze Nwosu",
+        role: "Verified Agent",
+        phone: "+234 701 444 5566",
+      ),
+      image:
+          "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80",
+      description:
+          "Family-friendly standalone 3-bedroom bungalow with an attached 1-bedroom BQ. Large compound suitable for multiple cars and gardening.",
+      amenities: [
+        "Standalone Compound",
+        "1-Bed BQ",
+        "Spacious Garden",
+        "Water Treatment",
+        "Security Post",
+      ],
       isFeatured: true,
       rating: 4.8,
       reviewCount: 15,
@@ -152,8 +224,10 @@ class MockData {
       state: "Ekiti State",
       live: true,
       tagline: "The state capital and busiest rental market in Ekiti.",
-      heroImage: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
-      copy: "Ado-Ekiti combines government, business, and three major universities into one vibrant city. High demand across Adebayo, Fajuyi, and GRA.",
+      heroImage:
+          "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+      copy:
+          "Ado-Ekiti combines government, business, and three major universities into one vibrant city. High demand across Adebayo, Fajuyi, and GRA.",
       listingsCount: 184,
       stats: [
         CityStat(label: "Active listings", value: "184"),
@@ -162,10 +236,26 @@ class MockData {
         CityStat(label: "Median time-to-rent", value: "11 days"),
       ],
       neighborhoods: [
-        Neighborhood(name: "Adebayo", vibe: "Family", copy: "Quiet residential streets with Shoprite nearby."),
-        Neighborhood(name: "Fajuyi", vibe: "Young pro", copy: "Central, walkable, packed with cafes."),
-        Neighborhood(name: "GRA", vibe: "Premium", copy: "Exclusive gated estates and top-tier properties."),
-        Neighborhood(name: "Ajilosun", vibe: "Mid-market", copy: "Affordable mid-market flats and bungalows."),
+        Neighborhood(
+          name: "Adebayo",
+          vibe: "Family",
+          copy: "Quiet residential streets with Shoprite nearby.",
+        ),
+        Neighborhood(
+          name: "Fajuyi",
+          vibe: "Young pro",
+          copy: "Central, walkable, packed with cafes.",
+        ),
+        Neighborhood(
+          name: "GRA",
+          vibe: "Premium",
+          copy: "Exclusive gated estates and top-tier properties.",
+        ),
+        Neighborhood(
+          name: "Ajilosun",
+          vibe: "Mid-market",
+          copy: "Affordable mid-market flats and bungalows.",
+        ),
       ],
     ),
     const City(
@@ -174,8 +264,10 @@ class MockData {
       state: "Ekiti State",
       live: true,
       tagline: "Historic town, growing rental scene around Federal Poly.",
-      heroImage: "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=800&q=80",
-      copy: "Ikere is a bustling education hub with steady demand for student housing and young professional apartments.",
+      heroImage:
+          "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=800&q=80",
+      copy:
+          "Ikere is a bustling education hub with steady demand for student housing and young professional apartments.",
       listingsCount: 62,
       stats: [
         CityStat(label: "Active listings", value: "62"),
@@ -184,8 +276,17 @@ class MockData {
         CityStat(label: "Median time-to-rent", value: "9 days"),
       ],
       neighborhoods: [
-        Neighborhood(name: "Odo-Oja", vibe: "Town centre", copy: "Walking distance to major commercial hubs."),
-        Neighborhood(name: "Afao Road", vibe: "Student", copy: "Self-contained apartments and mini-flats for polytechnic students."),
+        Neighborhood(
+          name: "Odo-Oja",
+          vibe: "Town centre",
+          copy: "Walking distance to major commercial hubs.",
+        ),
+        Neighborhood(
+          name: "Afao Road",
+          vibe: "Student",
+          copy:
+              "Self-contained apartments and mini-flats for polytechnic students.",
+        ),
       ],
     ),
     const City(
@@ -194,8 +295,10 @@ class MockData {
       state: "Ekiti State",
       live: true,
       tagline: "Home of EKSU. Where Ekiti's students live.",
-      heroImage: "https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&w=800&q=80",
-      copy: "Student capital of Ekiti. Self-contained studios and shared apartments dominate with high turnover.",
+      heroImage:
+          "https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&w=800&q=80",
+      copy:
+          "Student capital of Ekiti. Self-contained studios and shared apartments dominate with high turnover.",
       listingsCount: 41,
       stats: [
         CityStat(label: "Active listings", value: "41"),
@@ -204,7 +307,11 @@ class MockData {
         CityStat(label: "Median time-to-rent", value: "5 days"),
       ],
       neighborhoods: [
-        Neighborhood(name: "EKSU Gate", vibe: "Student", copy: "Prime student location with Wi-Fi amenities."),
+        Neighborhood(
+          name: "EKSU Gate",
+          vibe: "Student",
+          copy: "Prime student location with Wi-Fi amenities.",
+        ),
       ],
     ),
     const City(
@@ -213,8 +320,10 @@ class MockData {
       state: "Ekiti State",
       live: true,
       tagline: "Agricultural heartland & rising student market.",
-      heroImage: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80",
-      copy: "Lowest median rents in Ekiti with spacious plot sizes and steady growth around FUOYE campus.",
+      heroImage:
+          "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80",
+      copy:
+          "Lowest median rents in Ekiti with spacious plot sizes and steady growth around FUOYE campus.",
       listingsCount: 23,
       stats: [
         CityStat(label: "Active listings", value: "23"),
@@ -223,7 +332,11 @@ class MockData {
         CityStat(label: "Median time-to-rent", value: "14 days"),
       ],
       neighborhoods: [
-        Neighborhood(name: "FUOYE Campus Area", vibe: "Student", copy: "Newly built studios and shared units."),
+        Neighborhood(
+          name: "FUOYE Campus Area",
+          vibe: "Student",
+          copy: "Newly built studios and shared units.",
+        ),
       ],
     ),
     const City(
@@ -232,8 +345,10 @@ class MockData {
       state: "Lagos State",
       live: false,
       tagline: "Coming Q2 2026. Join the waitlist!",
-      heroImage: "https://images.unsplash.com/photo-1577190036430-04ea1eaaaa00?auto=format&fit=crop&w=800&q=80",
-      copy: "Expanding to Lekki, Yaba, Ikeja and Surulere with verified landlords and zero agency markups.",
+      heroImage:
+          "https://images.unsplash.com/photo-1577190036430-04ea1eaaaa00?auto=format&fit=crop&w=800&q=80",
+      copy:
+          "Expanding to Lekki, Yaba, Ikeja and Surulere with verified landlords and zero agency markups.",
       listingsCount: 0,
       stats: [CityStat(label: "Status", value: "Coming Q2 2026")],
       neighborhoods: [],
@@ -244,7 +359,8 @@ class MockData {
       state: "FCT",
       live: false,
       tagline: "Coming Q2 2026. Join the waitlist!",
-      heroImage: "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=800&q=80",
+      heroImage:
+          "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=800&q=80",
       copy: "Launching across Maitama, Wuse 2, Gwarinpa and Lugbe soon.",
       listingsCount: 0,
       stats: [CityStat(label: "Status", value: "Coming Q2 2026")],
@@ -252,43 +368,53 @@ class MockData {
     ),
   ];
 
-  static final List<Map<String, String>> TESTIMONIALS = [
+  static final List<Map<String, String>> testimonials = [
     {
       "name": "Damilola O.",
       "role": "Tenant, Ado-Ekiti",
-      "quote": "I found a verified 2-bedroom flat in four days. The agent details were already confirmed — no wasted trips, no agent fees surprise.",
-      "image": "https://images.unsplash.com/photo-1623244736886-1108836855e9?crop=entropy&cs=srgb&fm=jpg&w=200&q=80",
+      "quote":
+          "I found a verified 2-bedroom flat in four days. The agent details were already confirmed — no wasted trips, no agent fees surprise.",
+      "image":
+          "https://images.unsplash.com/photo-1623244736886-1108836855e9?crop=entropy&cs=srgb&fm=jpg&w=200&q=80",
     },
     {
       "name": "Engr. Bolanle A.",
       "role": "Landlord, Ikere-Ekiti",
-      "quote": "HomeHub filled two of my vacant units in under three weeks. Tenant screening is solid — I get to choose, not chance it.",
-      "image": "https://images.unsplash.com/photo-1623244727304-54995b233b1c?crop=entropy&cs=srgb&fm=jpg&w=200&q=80",
+      "quote":
+          "HomeHub filled two of my vacant units in under three weeks. Tenant screening is solid — I get to choose, not chance it.",
+      "image":
+          "https://images.unsplash.com/photo-1623244727304-54995b233b1c?crop=entropy&cs=srgb&fm=jpg&w=200&q=80",
     },
     {
       "name": "Tobi & Nkechi",
       "role": "Newly married, Fajuyi",
-      "quote": "First home together. The virtual tours saved us hours commuting between viewings. We signed without ever feeling rushed.",
-      "image": "https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=200&q=80",
+      "quote":
+          "First home together. The virtual tours saved us hours commuting between viewings. We signed without ever feeling rushed.",
+      "image":
+          "https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=200&q=80",
     },
   ];
 
-  static final List<Map<String, String>> FAQS = [
+  static final List<Map<String, String>> faqs = [
     {
       "q": "Is HomeHub currently available outside Ekiti State?",
-      "a": "We're focused on Ekiti State first — Ado-Ekiti, Ikere, Iworoko and Ikole. Lagos and Abuja roll out in 2026 as we onboard verified landlords.",
+      "a":
+          "We're focused on Ekiti State first — Ado-Ekiti, Ikere, Iworoko and Ikole. Lagos and Abuja roll out in 2026 as we onboard verified landlords.",
     },
     {
       "q": "Are listings on HomeHub verified?",
-      "a": "Yes. Every landlord and agent goes through ID verification. Property ownership or management rights are confirmed before a listing goes live.",
+      "a":
+          "Yes. Every landlord and agent goes through ID verification. Property ownership or management rights are confirmed before a listing goes live.",
     },
     {
       "q": "Does HomeHub charge tenants any agent fees?",
-      "a": "Browsing, contacting landlords, and booking inspections is 100% free for tenants with zero hidden Cuts.",
+      "a":
+          "Browsing, contacting landlords, and booking inspections is 100% free for tenants with zero hidden Cuts.",
     },
     {
       "q": "How does HomeHub Escrow payment work?",
-      "a": "Rent payments are safely held in escrow and released to the landlord only after physical move-in inspection and key handover.",
+      "a":
+          "Rent payments are safely held in escrow and released to the landlord only after physical move-in inspection and key handover.",
     },
   ];
 
@@ -297,7 +423,8 @@ class MockData {
       id: "bk-101",
       propertyId: "rh-001",
       propertyTitle: "3-Bedroom Garden Flat",
-      propertyImage: "https://images.unsplash.com/photo-1643297550841-1386b3a10612?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
+      propertyImage:
+          "https://images.unsplash.com/photo-1643297550841-1386b3a10612?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
       area: "Adebayo, Ado-Ekiti",
       agentName: "Tunde Aluko",
       agentPhone: "+234 803 456 7890",
@@ -331,8 +458,10 @@ class MockData {
       propertyId: "rh-001",
       propertyTitle: "3-Bedroom Garden Flat",
       agentName: "Tunde Aluko",
-      agentAvatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
-      lastMessage: "Hello! Looking forward to showing you the flat on Saturday.",
+      agentAvatar:
+          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+      lastMessage:
+          "Hello! Looking forward to showing you the flat on Saturday.",
       lastMessageTime: DateTime.now().subtract(const Duration(minutes: 45)),
       unreadCount: 1,
       messages: [
@@ -347,8 +476,10 @@ class MockData {
         ChatMessage(
           id: "m2",
           senderName: "Tunde Aluko",
-          senderAvatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
-          message: "Hello! Yes, solar prep is complete and ready for hookup. Looking forward to showing you the flat on Saturday.",
+          senderAvatar:
+              "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+          message:
+              "Hello! Yes, solar prep is complete and ready for hookup. Looking forward to showing you the flat on Saturday.",
           timestamp: DateTime.now().subtract(const Duration(minutes: 45)),
           isMe: false,
         ),
