@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 import '../models/property_model.dart';
 import '../models/city_model.dart';
 import '../data/mock_data.dart';
@@ -7,6 +10,9 @@ class PropertyProvider extends ChangeNotifier {
   final List<Property> _properties = List.from(MockData.sampleListings);
   final List<City> _cities = List.from(MockData.sampleCities);
 
+  bool _isLoading = false;
+  String? _apiError;
+
   String _searchQuery = "";
   String _selectedCitySlug = "all";
   String _selectedType = "All";
@@ -14,7 +20,16 @@ class PropertyProvider extends ChangeNotifier {
   int _minBeds = 0;
   bool _showOnlyFavorites = false;
 
+  static const String baseUrl = "https://rentalhub-api-0kuk.onrender.com/api";
+
+  PropertyProvider() {
+    fetchListingsFromApi();
+    fetchLocationStatsFromApi();
+  }
+
   // Getters
+  bool get isLoading => _isLoading;
+  String? get apiError => _apiError;
   List<Property> get properties => _properties;
   List<City> get cities => _cities;
   String get searchQuery => _searchQuery;
@@ -24,8 +39,13 @@ class PropertyProvider extends ChangeNotifier {
   int get minBeds => _minBeds;
   bool get showOnlyFavorites => _showOnlyFavorites;
 
-  List<Property> get featuredProperties =>
-      _properties.where((p) => p.isFeatured).toList();
+  List<Property> get featuredProperties {
+    final featured = _properties.where((p) => p.isFeatured).toList();
+    if (featured.isNotEmpty) {
+      return featured;
+    }
+    return _properties.take(6).toList();
+  }
 
   List<Property> get favoriteProperties =>
       _properties.where((p) => p.isFavorite).toList();
@@ -61,6 +81,88 @@ class PropertyProvider extends ChangeNotifier {
 
       return true;
     }).toList();
+  }
+
+  // Fetch real properties from live API
+  Future<void> fetchListingsFromApi() async {
+    _isLoading = true;
+    _apiError = null;
+    notifyListeners();
+
+    try {
+      final response = await http
+          .get(Uri.parse('$baseUrl/listings'))
+          .timeout(const Duration(seconds: 12));
+
+      if (response.statusCode == 200) {
+        final dynamic data = jsonDecode(response.body);
+        List<dynamic>? list;
+
+        if (data is List) {
+          list = data;
+        } else if (data is Map && data['data'] is List) {
+          list = data['data'];
+        } else if (data is Map && data['listings'] is List) {
+          list = data['listings'];
+        }
+
+        if (list != null && list.isNotEmpty) {
+          final List<Property> fetchedProps = [];
+          for (var item in list) {
+            if (item is Map<String, dynamic>) {
+              try {
+                fetchedProps.add(Property.fromJson(item));
+              } catch (_) {}
+            }
+          }
+          if (fetchedProps.isNotEmpty) {
+            _properties.clear();
+            _properties.addAll(fetchedProps);
+          }
+        }
+      }
+    } catch (e) {
+      _apiError = "Could not reach live API backend. Showing cached listings.";
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Fetch real location stats from live API
+  Future<void> fetchLocationStatsFromApi() async {
+    try {
+      final response = await http
+          .get(Uri.parse('$baseUrl/listings/locations/stats'))
+          .timeout(const Duration(seconds: 12));
+
+      if (response.statusCode == 200) {
+        final dynamic data = jsonDecode(response.body);
+        List<dynamic>? list;
+
+        if (data is List) {
+          list = data;
+        } else if (data is Map && data['data'] is List) {
+          list = data['data'];
+        }
+
+        if (list != null && list.isNotEmpty) {
+          final List<City> fetchedCities = [];
+          for (var item in list) {
+            if (item is Map<String, dynamic>) {
+              try {
+                fetchedCities.add(City.fromApiStat(item));
+              } catch (_) {}
+            }
+          }
+          if (fetchedCities.isNotEmpty) {
+            _cities.clear();
+            _cities.addAll(fetchedCities);
+            notifyListeners();
+          }
+        }
+      }
+    } catch (_) {}
   }
 
   // Filter modifiers

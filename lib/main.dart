@@ -7,7 +7,7 @@ import 'providers/property_provider.dart';
 import 'providers/booking_provider.dart';
 import 'providers/user_provider.dart';
 import 'providers/chat_provider.dart';
-import 'screens/main_navigation_screen.dart';
+import 'screens/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +38,7 @@ class HomeHubApp extends StatelessWidget {
       themeMode: themeProvider.themeMode,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      home: const MainNavigationScreen(),
+      home: const SplashScreen(),
     );
   }
 }

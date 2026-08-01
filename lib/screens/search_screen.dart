@@ -117,7 +117,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: ["All", "Flat", "Apartment", "Studio", "Duplex", "Mini Flat", "Bungalow"]
+                      children: ["All", "Flat", "Apartment", "Self-contained", "Hostel", "Single Room", "Duplex", "Mini Flat", "Bungalow"]
                           .map((type) {
                         final isSelected = propertyProvider.selectedType == type;
                         return Padding(

@@ -30,7 +30,7 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
   final String _imageUrl = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80";
 
   final List<String> _cities = ["ado-ekiti", "ikere-ekiti", "iworoko-ekiti", "ikole-ekiti"];
-  final List<String> _types = ["Flat", "Apartment", "Studio", "Duplex", "Mini Flat", "Bungalow"];
+  final List<String> _types = ["Flat", "Apartment", "Self-contained", "Hostel", "Single Room", "Duplex", "Mini Flat", "Bungalow"];
 
   @override
   Widget build(BuildContext context) {

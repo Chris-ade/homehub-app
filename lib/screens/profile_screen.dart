@@ -6,6 +6,8 @@ import '../providers/app_theme_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/add_property_modal.dart';
 import '../widgets/custom_button.dart';
+import 'login_screen.dart';
+import 'register_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -31,127 +33,194 @@ class ProfileScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // User Info Header Card
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: isDark ? AppColors.darkSurface : AppColors.surface,
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Stack(
-                        children: [
-                          CircleAvatar(
-                            radius: 36,
-                            backgroundImage: NetworkImage(userProvider.avatarUrl),
-                          ),
-                          if (userProvider.isVerified)
-                            Positioned(
-                              right: 0,
-                              bottom: 0,
-                              child: Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.forest,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(Icons.check, color: Colors.white, size: 12),
-                              ),
-                            ),
-                        ],
+            // User Header Card
+            if (!userProvider.isLoggedIn)
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkSurface : AppColors.surface,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
+                ),
+                child: Column(
+                  children: [
+                    const CircleAvatar(
+                      radius: 32,
+                      backgroundColor: AppColors.forest,
+                      child: Icon(Icons.person_rounded, color: Colors.white, size: 36),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      "Sign In to Your Account",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                        color: isDark ? AppColors.darkInk : AppColors.ink,
                       ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      "Access your saved properties, scheduled inspections, and e-signed leases.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: isDark ? AppColors.darkMuted : AppColors.muted,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomButton(
+                            text: "Sign In",
+                            isPrimary: false,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: CustomButton(
+                            text: "Register",
+                            isTerracotta: true,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            else
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkSurface : AppColors.surface,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Stack(
+                          children: [
+                            CircleAvatar(
+                              radius: 36,
+                              backgroundImage: NetworkImage(userProvider.avatarUrl),
+                            ),
+                            if (userProvider.isVerified)
+                              Positioned(
+                                right: 0,
+                                bottom: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.forest,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(Icons.check, color: Colors.white, size: 12),
+                                ),
+                              ),
+                          ],
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                userProvider.name,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w800,
+                                  color: isDark ? AppColors.darkInk : AppColors.ink,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                userProvider.email,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: isDark ? AppColors.darkMuted : AppColors.muted,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: userProvider.isLandlord
+                                      ? AppColors.terracotta.withValues(alpha: 0.15)
+                                      : AppColors.forest.withValues(alpha: 0.12),
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: Text(
+                                  userProvider.isLandlord ? "Landlord / Agent Mode" : "Tenant Mode",
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                    color: userProvider.isLandlord ? AppColors.terracotta : AppColors.forest,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 16),
+                    Divider(color: isDark ? AppColors.darkLine : AppColors.line),
+                    const SizedBox(height: 12),
+
+                    // Mode Toggle Switch
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              userProvider.name,
+                              "Switch to Landlord Mode",
                               style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
                                 color: isDark ? AppColors.darkInk : AppColors.ink,
                               ),
                             ),
-                            const SizedBox(height: 2),
                             Text(
-                              userProvider.email,
+                              "List properties & manage tenants",
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 11,
                                 color: isDark ? AppColors.darkMuted : AppColors.muted,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: userProvider.isLandlord
-                                    ? AppColors.terracotta.withValues(alpha: 0.15)
-                                    : AppColors.forest.withValues(alpha: 0.12),
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: Text(
-                                userProvider.isLandlord ? "Landlord / Agent Mode" : "Tenant Mode",
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                  color: userProvider.isLandlord ? AppColors.terracotta : AppColors.forest,
-                                ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 16),
-                  Divider(color: isDark ? AppColors.darkLine : AppColors.line),
-                  const SizedBox(height: 12),
-
-                  // Mode Toggle Switch
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Switch to Landlord Mode",
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: isDark ? AppColors.darkInk : AppColors.ink,
-                            ),
-                          ),
-                          Text(
-                            "List properties & manage tenants",
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: isDark ? AppColors.darkMuted : AppColors.muted,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Switch(
-                        value: userProvider.isLandlord,
-                        activeTrackColor: AppColors.terracotta,
-                        onChanged: (val) => userProvider.toggleRole(),
-                      ),
-                    ],
-                  ),
-                ],
+                        Switch(
+                          value: userProvider.isLandlord,
+                          activeTrackColor: AppColors.terracotta,
+                          onChanged: (val) => userProvider.toggleRole(),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
 
             const SizedBox(height: 16),
 
             // Landlord Quick Action Button
-            if (userProvider.isLandlord)
+            if (userProvider.isLoggedIn && userProvider.isLandlord)
               CustomButton(
                 text: "List a New Property",
                 isTerracotta: true,
@@ -221,15 +290,42 @@ class ProfileScreen extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // Logout Button
-            TextButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.logout_rounded, color: Colors.red, size: 18),
-              label: const Text(
-                "Sign Out",
-                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+            // Logout / Login Switch Button
+            if (userProvider.isLoggedIn)
+              TextButton.icon(
+                onPressed: () {
+                  userProvider.logout();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Signed out of account."),
+                      backgroundColor: AppColors.forest,
+                    ),
+                  );
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    (route) => false,
+                  );
+                },
+                icon: const Icon(Icons.logout_rounded, color: Colors.red, size: 18),
+                label: const Text(
+                  "Sign Out",
+                  style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                ),
+              )
+            else
+              TextButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  );
+                },
+                icon: const Icon(Icons.login_rounded, color: AppColors.terracotta, size: 18),
+                label: const Text(
+                  "Sign In to Your Account",
+                  style: TextStyle(color: AppColors.terracotta, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
           ],
         ),
       ),

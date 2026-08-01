@@ -56,7 +56,7 @@ class MockData {
     ),
     Property(
       id: "rh-003",
-      title: "Self-Contained Studio",
+      title: "Self-Contained Apartment",
       area: "EKSU Road, Iworoko",
       citySlug: "iworoko-ekiti",
       price: 320000,
@@ -64,7 +64,7 @@ class MockData {
       beds: 1,
       baths: 1,
       sqft: 420,
-      type: "Studio",
+      type: "Self-contained",
       status: "Student-friendly",
       agent: const Agent(name: "Femi Olatunji", role: "Property Manager", phone: "+234 814 555 1234"),
       image: "https://images.unsplash.com/photo-1777029017899-b7f30eec36cf?crop=entropy&cs=srgb&fm=jpg&w=800&q=80",
@@ -185,7 +185,7 @@ class MockData {
       ],
       neighborhoods: [
         Neighborhood(name: "Odo-Oja", vibe: "Town centre", copy: "Walking distance to major commercial hubs."),
-        Neighborhood(name: "Afao Road", vibe: "Student", copy: "Studios and mini-flats for polytechnic students."),
+        Neighborhood(name: "Afao Road", vibe: "Student", copy: "Self-contained apartments and mini-flats for polytechnic students."),
       ],
     ),
     const City(
