@@ -219,6 +219,91 @@ class MockData {
 
   static final List<City> sampleCities = [
     const City(
+      slug: "lagos",
+      name: "Lagos",
+      state: "Lagos State",
+      live: true,
+      tagline: "Nigeria's commercial capital and premier real estate market.",
+      heroImage:
+          "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=800&q=80",
+      copy:
+          "Lagos leads Nigeria's rental market across Victoria Island, Ikoyi, Lekki, Ikeja, and Surulere.",
+      listingsCount: 420,
+      stats: [
+        CityStat(label: "Active listings", value: "420"),
+        CityStat(label: "Avg. self-contained", value: "₦850k / yr"),
+        CityStat(label: "Avg. 2-bed rent", value: "₦2.5M / yr"),
+        CityStat(label: "Median time-to-rent", value: "7 days"),
+      ],
+      neighborhoods: [
+        Neighborhood(
+          name: "Lekki Phase 1",
+          vibe: "Upscale",
+          copy: "Modern apartments, high security, vibrant nightlife.",
+        ),
+        Neighborhood(
+          name: "Ikeja GRA",
+          vibe: "Executive",
+          copy: "Serene residential estates close to airport.",
+        ),
+      ],
+    ),
+    const City(
+      slug: "abuja",
+      name: "Abuja",
+      state: "Federal Capital Territory",
+      live: true,
+      tagline: "The Federal Capital Territory with luxury housing & diplomatic zones.",
+      heroImage:
+          "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
+      copy:
+          "Abuja offers top-tier residential options across Maitama, Asokoro, Wuse II, and Gwarinpa.",
+      listingsCount: 310,
+      stats: [
+        CityStat(label: "Active listings", value: "310"),
+        CityStat(label: "Avg. self-contained", value: "₦900k / yr"),
+        CityStat(label: "Avg. 2-bed rent", value: "₦3.0M / yr"),
+        CityStat(label: "Median time-to-rent", value: "8 days"),
+      ],
+      neighborhoods: [
+        Neighborhood(
+          name: "Wuse II",
+          vibe: "Commercial",
+          copy: "Bustling city centre with luxury flats.",
+        ),
+        Neighborhood(
+          name: "Gwarinpa",
+          vibe: "Family Estate",
+          copy: "West Africa's largest housing estate.",
+        ),
+      ],
+    ),
+    const City(
+      slug: "port-harcourt",
+      name: "Port Harcourt",
+      state: "Rivers State",
+      live: true,
+      tagline: "The Garden City & oil industry hub.",
+      heroImage:
+          "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+      copy:
+          "High rental demand across GRA Phase 2, Peter Odili Road, and Trans-Amadi.",
+      listingsCount: 195,
+      stats: [
+        CityStat(label: "Active listings", value: "195"),
+        CityStat(label: "Avg. self-contained", value: "₦650k / yr"),
+        CityStat(label: "Avg. 2-bed rent", value: "₦1.8M / yr"),
+        CityStat(label: "Median time-to-rent", value: "10 days"),
+      ],
+      neighborhoods: [
+        Neighborhood(
+          name: "GRA Phase 2",
+          vibe: "Luxury",
+          copy: "Exclusive residential area with top amenities.",
+        ),
+      ],
+    ),
+    const City(
       slug: "ado-ekiti",
       name: "Ado-Ekiti",
       state: "Ekiti State",

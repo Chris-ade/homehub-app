@@ -20,7 +20,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     {
       "tag": "ZERO AGENCY MARKUPS",
       "title": "Rentals Worth\nMoving In For.",
-      "description": "Verified flats, duplexes, and student housing across Ekiti State straight from verified landlords. No ghost listings.",
+      "description": "Verified flats, duplexes, self-contained, and student housing across Nigeria straight from verified landlords. No ghost listings.",
       "image": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
     },
     {

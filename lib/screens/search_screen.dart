@@ -239,7 +239,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  "Showing ${properties.length} pin markers across Ekiti State",
+                  "Showing ${properties.length} pin markers across Nigeria",
                   style: TextStyle(
                     fontSize: 12,
                     color: isDark ? AppColors.darkMuted : AppColors.muted,
@@ -411,11 +411,10 @@ class _SearchScreenState extends State<SearchScreen> {
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 8,
+                    runSpacing: 8,
                     children: [
                       _buildCityFilterChip("all", "All Cities", provider, setSheetState, isDark),
-                      _buildCityFilterChip("ado-ekiti", "Ado-Ekiti", provider, setSheetState, isDark),
-                      _buildCityFilterChip("ikere-ekiti", "Ikere-Ekiti", provider, setSheetState, isDark),
-                      _buildCityFilterChip("iworoko-ekiti", "Iworoko-Ekiti", provider, setSheetState, isDark),
+                      ...provider.cities.map((c) => _buildCityFilterChip(c.slug, c.name, provider, setSheetState, isDark)),
                     ],
                   ),
 

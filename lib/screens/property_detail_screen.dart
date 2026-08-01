@@ -167,12 +167,14 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         children: [
                           const Icon(Icons.location_on_rounded, size: 16, color: AppColors.terracotta),
                           const SizedBox(width: 6),
-                          Text(
-                            prop.area,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: isDark ? AppColors.darkMuted : AppColors.muted,
-                              fontWeight: FontWeight.w500,
+                          Expanded(
+                            child: Text(
+                              prop.area,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: isDark ? AppColors.darkMuted : AppColors.muted,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],

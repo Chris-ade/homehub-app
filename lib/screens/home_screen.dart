@@ -166,36 +166,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: isDark ? AppColors.darkMuted : AppColors.muted,
                       ),
                     ),
-
-                    const SizedBox(height: 16),
-
-                    // Hero Trust Strip Icons
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          _buildTrustItem(
-                            Icons.verified_user_rounded,
-                            "184 Verified Agents",
-                            isDark,
-                          ),
-                          const SizedBox(width: 14),
-                          _buildTrustItem(
-                            Icons.star_rounded,
-                            "4.8 / 5 Verified Ratings",
-                            isDark,
-                          ),
-                          const SizedBox(width: 14),
-                          _buildTrustItem(
-                            Icons.location_on_rounded,
-                            "184 Active Listings",
-                            isDark,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -240,27 +210,35 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 4),
                       DropdownButtonFormField<String>(
-                        initialValue: _heroLocation,
+                        initialValue:
+                            propertyProvider.cities.any(
+                              (c) => c.slug == _heroLocation,
+                            )
+                            ? _heroLocation
+                            : (propertyProvider.cities.isNotEmpty
+                                  ? propertyProvider.cities.first.slug
+                                  : "all"),
                         decoration: _searchFormDecoration(isDark),
-                        items: const [
-                          DropdownMenuItem(
-                            value: "ado-ekiti",
-                            child: Text("Ado-Ekiti"),
+                        items: [
+                          const DropdownMenuItem(
+                            value: "all",
+                            child: Text(
+                              "All Cities / Locations",
+                              style: TextStyle(fontSize: 13),
+                            ),
                           ),
-                          DropdownMenuItem(
-                            value: "ikere",
-                            child: Text("Ikere-Ekiti"),
-                          ),
-                          DropdownMenuItem(
-                            value: "iworoko",
-                            child: Text("Iworoko-Ekiti"),
-                          ),
-                          DropdownMenuItem(
-                            value: "ikole",
-                            child: Text("Ikole-Ekiti"),
+                          ...propertyProvider.cities.map(
+                            (c) => DropdownMenuItem(
+                              value: c.slug,
+                              child: Text(
+                                c.name,
+                                style: const TextStyle(fontSize: 13),
+                              ),
+                            ),
                           ),
                         ],
-                        onChanged: (v) => setState(() => _heroLocation = v!),
+                        onChanged: (v) =>
+                            setState(() => _heroLocation = v ?? "all"),
                       ),
 
                       const SizedBox(height: 12),
@@ -282,31 +260,52 @@ class _HomeScreenState extends State<HomeScreen> {
                         items: const [
                           DropdownMenuItem(
                             value: "any",
-                            child: Text("Any type"),
+                            child: Text(
+                              "Any type",
+                              style: TextStyle(fontSize: 13),
+                            ),
                           ),
                           DropdownMenuItem(
                             value: "flat",
-                            child: Text("Flat / Apartment"),
+                            child: Text(
+                              "Flat / Apartment",
+                              style: TextStyle(fontSize: 13),
+                            ),
                           ),
                           DropdownMenuItem(
                             value: "duplex",
-                            child: Text("Duplex"),
+                            child: Text(
+                              "Duplex",
+                              style: TextStyle(fontSize: 13),
+                            ),
                           ),
                           DropdownMenuItem(
                             value: "bungalow",
-                            child: Text("Bungalow"),
+                            child: Text(
+                              "Bungalow",
+                              style: TextStyle(fontSize: 13),
+                            ),
                           ),
                           DropdownMenuItem(
                             value: "self_contained",
-                            child: Text("Self-contained"),
+                            child: Text(
+                              "Self-contained",
+                              style: TextStyle(fontSize: 13),
+                            ),
                           ),
                           DropdownMenuItem(
                             value: "mini_flat",
-                            child: Text("Mini Flat"),
+                            child: Text(
+                              "Mini Flat",
+                              style: TextStyle(fontSize: 13),
+                            ),
                           ),
                           DropdownMenuItem(
                             value: "hostel",
-                            child: Text("Hostel"),
+                            child: Text(
+                              "Hostel",
+                              style: TextStyle(fontSize: 13),
+                            ),
                           ),
                         ],
                         onChanged: (v) => setState(() => _heroPropType = v!),
@@ -392,39 +391,35 @@ class _HomeScreenState extends State<HomeScreen> {
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
-                      children:
-                          [
-                                "Self-contained",
-                                "2-bedroom in GRA",
-                                "Furnished flats",
-                                "₦500k – ₦1M",
-                                "Student housing",
-                              ]
-                              .map(
-                                (tag) => ActionChip(
-                                  label: Text(tag),
-                                  backgroundColor: isDark
-                                      ? AppColors.darkSurfaceAlt
-                                      : AppColors.creamAlt,
-                                  side: BorderSide(
-                                    color: isDark
-                                        ? AppColors.darkLine
-                                        : AppColors.line,
-                                  ),
-                                  labelStyle: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600,
-                                    color: isDark
-                                        ? AppColors.darkInk
-                                        : AppColors.forest,
-                                  ),
-                                  onPressed: () {
-                                    propertyProvider.setSearchQuery(tag);
-                                    widget.onNavigateTab(1);
-                                  },
+                      children: [
+                        ...{
+                          ...propertyProvider.properties.map((p) => p.type),
+                          ...propertyProvider.cities.map((c) => c.name),
+                        }.take(5).map(
+                              (tag) => ActionChip(
+                                label: Text(tag),
+                                backgroundColor: isDark
+                                    ? AppColors.darkSurfaceAlt
+                                    : AppColors.creamAlt,
+                                side: BorderSide(
+                                  color: isDark
+                                      ? AppColors.darkLine
+                                      : AppColors.line,
                                 ),
-                              )
-                              .toList(),
+                                labelStyle: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: isDark
+                                      ? AppColors.darkInk
+                                      : AppColors.forest,
+                                ),
+                                onPressed: () {
+                                  propertyProvider.setSearchQuery(tag);
+                                  widget.onNavigateTab(1);
+                                },
+                              ),
+                            ),
+                      ],
                     ),
                   ],
                 ),
@@ -535,7 +530,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     )
                   : SizedBox(
-                      height: 335,
+                      height: 360,
                       child: ListView.builder(
                         padding: const EdgeInsets.only(left: 20, right: 4),
                         scrollDirection: Axis.horizontal,
@@ -599,65 +594,61 @@ class _HomeScreenState extends State<HomeScreen> {
 
             // City Horizontal Scroll Cards
             SliverToBoxAdapter(
-              child: SizedBox(
-                height: 175,
-                child: ListView.builder(
-                  padding: const EdgeInsets.only(left: 20, right: 6),
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: cities.length,
-                  itemBuilder: (context, index) {
-                    final city = cities[index];
-                    return CityCard(
-                      city: city,
-                      onTap: () {
-                        if (city.live) {
-                          propertyProvider.setSelectedCitySlug(city.slug);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  CityDetailScreen(city: city),
+              child: propertyProvider.isLoading
+                  ? const SizedBox(
+                      height: 140,
+                      child: Center(
+                        child: CircularProgressIndicator(color: AppColors.terracotta),
+                      ),
+                    )
+                  : cities.isEmpty
+                      ? Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: isDark ? AppColors.darkSurface : AppColors.surface,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "No active market locations found in database.",
+                              style: TextStyle(color: isDark ? AppColors.darkMuted : AppColors.muted, fontSize: 13),
                             ),
-                          );
-                        } else {
-                          _showWaitlistDialog(context, city.name, isDark);
-                        }
-                      },
-                    );
-                  },
-                ),
-              ),
+                          ),
+                        )
+                      : SizedBox(
+                          height: 160,
+                          child: ListView.builder(
+                            padding: const EdgeInsets.only(left: 20, right: 6),
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: cities.length,
+                            itemBuilder: (context, index) {
+                              final city = cities[index];
+                              return CityCard(
+                                city: city,
+                                onTap: () {
+                                  if (city.live) {
+                                    propertyProvider.setSelectedCitySlug(city.slug);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => CityDetailScreen(city: city),
+                                      ),
+                                    );
+                                  } else {
+                                    _showWaitlistDialog(context, city.name, isDark);
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 40)),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildTrustItem(IconData icon, String text, bool isDark) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.darkSurface : AppColors.creamAlt,
-        borderRadius: BorderRadius.circular(100),
-        border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: AppColors.forest),
-          const SizedBox(width: 6),
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.bold,
-              color: isDark ? AppColors.darkInk : AppColors.ink,
-            ),
-          ),
-        ],
       ),
     );
   }

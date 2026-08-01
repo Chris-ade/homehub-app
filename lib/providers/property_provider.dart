@@ -4,11 +4,10 @@ import 'dart:convert';
 
 import '../models/property_model.dart';
 import '../models/city_model.dart';
-import '../data/mock_data.dart';
 
 class PropertyProvider extends ChangeNotifier {
-  final List<Property> _properties = List.from(MockData.sampleListings);
-  final List<City> _cities = List.from(MockData.sampleCities);
+  final List<Property> _properties = [];
+  final List<City> _cities = [];
 
   bool _isLoading = false;
   String? _apiError;

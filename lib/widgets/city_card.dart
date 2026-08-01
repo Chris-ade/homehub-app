@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
 import '../models/city_model.dart';
 import '../theme/app_theme.dart';
 
@@ -19,118 +17,130 @@ class CityCard extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      width: 170,
+      width: 180,
       margin: const EdgeInsets.only(right: 14),
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurface : AppColors.surface,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
           color: isDark ? AppColors.darkLine : AppColors.line,
           width: 1,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: isDark
+                ? Colors.black.withValues(alpha: 0.2)
+                : AppColors.forest.withValues(alpha: 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Material(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
-                    child: SizedBox(
-                      height: 110,
-                      width: double.infinity,
-                      child: ColorFiltered(
-                        colorFilter: city.live
-                            ? const ColorFilter.mode(Colors.transparent, BlendMode.multiply)
-                            : const ColorFilter.mode(Colors.grey, BlendMode.saturation),
-                        child: CachedNetworkImage(
-                          imageUrl: city.heroImage,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
-                          ),
-                          errorWidget: (context, url, err) => Container(
-                            color: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
-                            child: const Icon(Icons.location_city_rounded, color: AppColors.muted),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Gradient overlay
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Colors.black.withValues(alpha: 0.6),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Tag Pill
-                  Positioned(
-                    top: 8,
-                    left: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: city.live ? AppColors.forest : Colors.black87,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Text(
-                        city.live ? "${city.listingsCount} Listings" : "Coming 2026",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          borderRadius: BorderRadius.circular(20),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Top Icon Header & Arrow Badge
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      city.name,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: isDark ? AppColors.darkInk : AppColors.ink,
+                    Container(
+                      height: 42,
+                      width: 42,
+                      decoration: BoxDecoration(
+                        color: isDark
+                            ? AppColors.forest.withValues(alpha: 0.3)
+                            : AppColors.forest.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      child: Icon(
+                        Icons.apartment_rounded,
+                        color: isDark ? AppColors.terracotta : AppColors.forest,
+                        size: 22,
+                      ),
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      city.state,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: isDark
+                            ? AppColors.darkSurfaceAlt
+                            : AppColors.creamAlt,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.arrow_outward_rounded,
+                        size: 16,
+                        color: isDark ? AppColors.darkInk : AppColors.forest,
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
+
+                const SizedBox(height: 12),
+
+                // State Tag
+                Text(
+                  city.state.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.terracotta,
+                    letterSpacing: 0.8,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+
+                const SizedBox(height: 2),
+
+                // City Name
+                Text(
+                  city.name,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w900,
+                    color: isDark ? AppColors.darkInk : AppColors.forest,
+                    letterSpacing: -0.3,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+
+                const SizedBox(height: 6),
+
+                // Listings Count with Location Pin
+                Row(
+                  children: [
+                    Icon(
+                      Icons.location_on_outlined,
+                      size: 13,
+                      color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Text(
+                        "${city.listingsCount} ${city.listingsCount == 1 ? "listing" : "listings"}",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: isDark ? AppColors.darkMuted : AppColors.muted,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

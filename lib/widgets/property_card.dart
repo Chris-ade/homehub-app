@@ -82,7 +82,7 @@ class PropertyCard extends StatelessWidget {
                   ClipRRect(
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                     child: SizedBox(
-                      height: 185,
+                      height: isHorizontal ? 165 : 185,
                       width: double.infinity,
                       child: CachedNetworkImage(
                         imageUrl: property.image,
@@ -249,23 +249,31 @@ class PropertyCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 12,
-                              backgroundImage: NetworkImage(property.agent.avatarUrl),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              "${property.agent.name} · ${property.agent.role.contains("Landlord") ? "Landlord" : "Agent"}",
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                                color: isDark ? AppColors.darkMuted : AppColors.muted,
+                        Flexible(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CircleAvatar(
+                                radius: 12,
+                                backgroundImage: NetworkImage(property.agent.avatarUrl),
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 6),
+                              Flexible(
+                                child: Text(
+                                  "${property.agent.name} · ${property.agent.role.contains("Landlord") ? "Landlord" : "Agent"}",
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                    color: isDark ? AppColors.darkMuted : AppColors.muted,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+                        const SizedBox(width: 8),
 
                         // Price in NGN
                         Row(
