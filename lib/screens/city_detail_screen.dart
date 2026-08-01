@@ -161,7 +161,10 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                       itemBuilder: (context, index) {
                         final stat = widget.city.stats[index];
                         return Container(
-                          padding: const EdgeInsets.all(14),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 0,
+                          ),
                           decoration: BoxDecoration(
                             color: isDark
                                 ? AppColors.darkSurface

@@ -25,7 +25,10 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   String _formatCurrency(double amount) {
-    return NumberFormat.compactCurrency(symbol: '₦', decimalDigits: 0).format(amount);
+    return NumberFormat.compactCurrency(
+      symbol: '₦',
+      decimalDigits: 0,
+    ).format(amount);
   }
 
   @override
@@ -43,7 +46,11 @@ class _SearchScreenState extends State<SearchScreen> {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: isDark ? AppColors.darkSurface : AppColors.surface,
-                border: Border(bottom: BorderSide(color: isDark ? AppColors.darkLine : AppColors.line)),
+                border: Border(
+                  bottom: BorderSide(
+                    color: isDark ? AppColors.darkLine : AppColors.line,
+                  ),
+                ),
               ),
               child: Column(
                 children: [
@@ -52,14 +59,21 @@ class _SearchScreenState extends State<SearchScreen> {
                       Expanded(
                         child: TextField(
                           controller: _searchController,
-                          onChanged: (val) => propertyProvider.setSearchQuery(val),
+                          onChanged: (val) =>
+                              propertyProvider.setSearchQuery(val),
                           decoration: InputDecoration(
-                            hintText: "Search location, property, EKSU...",
+                            hintText: "Search location, property...",
                             hintStyle: TextStyle(
-                              color: isDark ? AppColors.darkMuted : AppColors.muted,
+                              color: isDark
+                                  ? AppColors.darkMuted
+                                  : AppColors.muted,
                               fontSize: 13,
                             ),
-                            prefixIcon: const Icon(Icons.search_rounded, size: 20, color: AppColors.forest),
+                            prefixIcon: const Icon(
+                              Icons.search_rounded,
+                              size: 20,
+                              color: AppColors.forest,
+                            ),
                             suffixIcon: _searchController.text.isNotEmpty
                                 ? IconButton(
                                     icon: const Icon(Icons.clear, size: 16),
@@ -70,8 +84,13 @@ class _SearchScreenState extends State<SearchScreen> {
                                   )
                                 : null,
                             filled: true,
-                            fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                            fillColor: isDark
+                                ? AppColors.darkSurfaceAlt
+                                : AppColors.creamAlt,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 14,
+                              vertical: 10,
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14),
                               borderSide: BorderSide.none,
@@ -84,11 +103,20 @@ class _SearchScreenState extends State<SearchScreen> {
                       // Filter Bottom Sheet Button
                       IconButton(
                         style: IconButton.styleFrom(
-                          backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          backgroundColor: isDark
+                              ? AppColors.darkSurfaceAlt
+                              : AppColors.creamAlt,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
-                        icon: const Icon(Icons.tune_rounded, color: AppColors.terracotta, size: 20),
-                        onPressed: () => _showFilterSheet(context, propertyProvider, isDark),
+                        icon: const Icon(
+                          Icons.tune_rounded,
+                          color: AppColors.terracotta,
+                          size: 20,
+                        ),
+                        onPressed: () =>
+                            _showFilterSheet(context, propertyProvider, isDark),
                       ),
 
                       const SizedBox(width: 4),
@@ -98,15 +126,24 @@ class _SearchScreenState extends State<SearchScreen> {
                         style: IconButton.styleFrom(
                           backgroundColor: _isMapView
                               ? AppColors.terracotta
-                              : (isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              : (isDark
+                                    ? AppColors.darkSurfaceAlt
+                                    : AppColors.creamAlt),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                         icon: Icon(
-                          _isMapView ? Icons.format_list_bulleted_rounded : Icons.map_rounded,
-                          color: _isMapView ? Colors.white : (isDark ? AppColors.darkInk : AppColors.ink),
+                          _isMapView
+                              ? Icons.format_list_bulleted_rounded
+                              : Icons.map_rounded,
+                          color: _isMapView
+                              ? Colors.white
+                              : (isDark ? AppColors.darkInk : AppColors.ink),
                           size: 20,
                         ),
-                        onPressed: () => setState(() => _isMapView = !_isMapView),
+                        onPressed: () =>
+                            setState(() => _isMapView = !_isMapView),
                       ),
                     ],
                   ),
@@ -117,31 +154,46 @@ class _SearchScreenState extends State<SearchScreen> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: ["All", "Flat", "Apartment", "Self-contained", "Hostel", "Single Room", "Duplex", "Mini Flat", "Bungalow"]
-                          .map((type) {
-                        final isSelected = propertyProvider.selectedType == type;
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: ChoiceChip(
-                            label: Text(type),
-                            selected: isSelected,
-                            selectedColor: AppColors.terracotta,
-                            backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
-                            labelStyle: TextStyle(
-                              color: isSelected
-                                  ? Colors.white
-                                  : (isDark ? AppColors.darkInk : AppColors.ink),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 12,
-                            ),
-                            onSelected: (sel) {
-                              if (sel) {
-                                propertyProvider.setSelectedType(type);
-                              }
-                            },
-                          ),
-                        );
-                      }).toList(),
+                      children:
+                          [
+                            "All",
+                            "Flat",
+                            "Apartment",
+                            "Self-contained",
+                            "Hostel",
+                            "Single Room",
+                            "Duplex",
+                            "Mini Flat",
+                            "Bungalow",
+                          ].map((type) {
+                            final isSelected =
+                                propertyProvider.selectedType == type;
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: ChoiceChip(
+                                label: Text(type),
+                                selected: isSelected,
+                                selectedColor: AppColors.terracotta,
+                                backgroundColor: isDark
+                                    ? AppColors.darkSurfaceAlt
+                                    : AppColors.creamAlt,
+                                labelStyle: TextStyle(
+                                  color: isSelected
+                                      ? Colors.white
+                                      : (isDark
+                                            ? AppColors.darkInk
+                                            : AppColors.ink),
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12,
+                                ),
+                                onSelected: (sel) {
+                                  if (sel) {
+                                    propertyProvider.setSelectedType(type);
+                                  }
+                                },
+                              ),
+                            );
+                          }).toList(),
                     ),
                   ),
                 ],
@@ -150,7 +202,10 @@ class _SearchScreenState extends State<SearchScreen> {
 
             // Active Filters Info Bar
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 10.0,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -188,28 +243,29 @@ class _SearchScreenState extends State<SearchScreen> {
               child: _isMapView
                   ? _buildMapView(listings, isDark)
                   : listings.isEmpty
-                      ? _buildEmptyState(isDark)
-                      : ListView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          itemCount: listings.length,
-                          itemBuilder: (context, index) {
-                            final property = listings[index];
-                            return PropertyCard(
-                              property: property,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PropertyDetailScreen(property: property),
-                                  ),
-                                );
-                              },
-                              onFavoriteToggle: () {
-                                propertyProvider.toggleFavorite(property.id);
-                              },
+                  ? _buildEmptyState(isDark)
+                  : ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: listings.length,
+                      itemBuilder: (context, index) {
+                        final property = listings[index];
+                        return PropertyCard(
+                          property: property,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    PropertyDetailScreen(property: property),
+                              ),
                             );
                           },
-                        ),
+                          onFavoriteToggle: () {
+                            propertyProvider.toggleFavorite(property.id);
+                          },
+                        );
+                      },
+                    ),
             ),
           ],
         ),
@@ -227,7 +283,11 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.location_on_rounded, size: 48, color: AppColors.terracotta),
+                const Icon(
+                  Icons.location_on_rounded,
+                  size: 48,
+                  color: AppColors.terracotta,
+                ),
                 const SizedBox(height: 12),
                 Text(
                   "Interactive Property Map View",
@@ -266,7 +326,8 @@ class _SearchScreenState extends State<SearchScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PropertyDetailScreen(property: prop),
+                          builder: (context) =>
+                              PropertyDetailScreen(property: prop),
                         ),
                       );
                     },
@@ -275,9 +336,13 @@ class _SearchScreenState extends State<SearchScreen> {
                       margin: const EdgeInsets.only(right: 12),
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: isDark ? AppColors.darkSurface : AppColors.surface,
+                        color: isDark
+                            ? AppColors.darkSurface
+                            : AppColors.surface,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
+                        border: Border.all(
+                          color: isDark ? AppColors.darkLine : AppColors.line,
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -301,7 +366,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.bold,
-                                    color: isDark ? AppColors.darkInk : AppColors.ink,
+                                    color: isDark
+                                        ? AppColors.darkInk
+                                        : AppColors.ink,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -320,7 +387,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                   prop.area,
                                   style: TextStyle(
                                     fontSize: 11,
-                                    color: isDark ? AppColors.darkMuted : AppColors.muted,
+                                    color: isDark
+                                        ? AppColors.darkMuted
+                                        : AppColors.muted,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -372,7 +441,11 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void _showFilterSheet(BuildContext context, PropertyProvider provider, bool isDark) {
+  void _showFilterSheet(
+    BuildContext context,
+    PropertyProvider provider,
+    bool isDark,
+  ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -413,8 +486,22 @@ class _SearchScreenState extends State<SearchScreen> {
                     spacing: 8,
                     runSpacing: 8,
                     children: [
-                      _buildCityFilterChip("all", "All Cities", provider, setSheetState, isDark),
-                      ...provider.cities.map((c) => _buildCityFilterChip(c.slug, c.name, provider, setSheetState, isDark)),
+                      _buildCityFilterChip(
+                        "all",
+                        "All Cities",
+                        provider,
+                        setSheetState,
+                        isDark,
+                      ),
+                      ...provider.cities.map(
+                        (c) => _buildCityFilterChip(
+                          c.slug,
+                          c.name,
+                          provider,
+                          setSheetState,
+                          isDark,
+                        ),
+                      ),
                     ],
                   ),
 
@@ -448,10 +535,18 @@ class _SearchScreenState extends State<SearchScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.terracotta,
                       minimumSize: const Size(double.infinity, 48),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                     ),
                     onPressed: () => Navigator.pop(context),
-                    child: const Text("Apply Filters", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    child: const Text(
+                      "Apply Filters",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -462,7 +557,13 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _buildCityFilterChip(String slug, String label, PropertyProvider provider, StateSetter setSheetState, bool isDark) {
+  Widget _buildCityFilterChip(
+    String slug,
+    String label,
+    PropertyProvider provider,
+    StateSetter setSheetState,
+    bool isDark,
+  ) {
     final isSelected = provider.selectedCitySlug == slug;
     return ChoiceChip(
       label: Text(label),
@@ -470,7 +571,9 @@ class _SearchScreenState extends State<SearchScreen> {
       selectedColor: AppColors.terracotta,
       backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
       labelStyle: TextStyle(
-        color: isSelected ? Colors.white : (isDark ? AppColors.darkInk : AppColors.ink),
+        color: isSelected
+            ? Colors.white
+            : (isDark ? AppColors.darkInk : AppColors.ink),
         fontWeight: FontWeight.bold,
         fontSize: 11,
       ),

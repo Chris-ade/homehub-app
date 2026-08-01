@@ -44,9 +44,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
+        child: RefreshIndicator(
+          color: AppColors.terracotta,
+          onRefresh: () async {
+            await Future.wait([
+              propertyProvider.fetchListingsFromApi(),
+              propertyProvider.fetchLocationStatsFromApi(),
+            ]);
+          },
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics(),
+            ),
+            slivers: [
             // Top Navigation Bar matching Web Header
             SliverToBoxAdapter(
               child: Padding(
@@ -161,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "Verified flats, duplexes and student housing across the country, straight from the landlord or a vetted agent. No ghost listings. No payments before you've seen the door.",
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 16,
                         height: 1.45,
                         color: isDark ? AppColors.darkMuted : AppColors.muted,
                       ),
@@ -382,7 +392,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const Text(
                       "Popular searches:",
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 14,
                         color: AppColors.muted,
                         fontWeight: FontWeight.w600,
                       ),
@@ -393,9 +403,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       runSpacing: 8,
                       children: [
                         ...{
-                          ...propertyProvider.properties.map((p) => p.type),
-                          ...propertyProvider.cities.map((c) => c.name),
-                        }.take(5).map(
+                              ...propertyProvider.properties.map((p) => p.type),
+                              ...propertyProvider.cities.map((c) => c.name),
+                            }
+                            .take(5)
+                            .map(
                               (tag) => ActionChip(
                                 label: Text(tag),
                                 backgroundColor: isDark
@@ -433,22 +445,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "FEATURED LISTINGS",
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.terracotta,
-                        letterSpacing: 1.0,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Text(
-                            "Doors opening this week.",
+                            "Featured listings",
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w900,
@@ -480,11 +482,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 4),
                     Text(
-                      "Discover active homes and rental properties verified on HomeHub directly from verified hosts.",
+                      "Active homes and rental properties verified on HomeHub directly from verified hosts.",
                       style: TextStyle(
-                        fontSize: 13,
+                        fontSize: 14,
                         color: isDark ? AppColors.darkMuted : AppColors.muted,
                       ),
                     ),
@@ -530,7 +531,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     )
                   : SizedBox(
-                      height: 360,
+                      height: 315,
                       child: ListView.builder(
                         padding: const EdgeInsets.only(left: 20, right: 4),
                         scrollDirection: Axis.horizontal,
@@ -598,59 +599,72 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? const SizedBox(
                       height: 140,
                       child: Center(
-                        child: CircularProgressIndicator(color: AppColors.terracotta),
+                        child: CircularProgressIndicator(
+                          color: AppColors.terracotta,
+                        ),
                       ),
                     )
                   : cities.isEmpty
-                      ? Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: isDark ? AppColors.darkSurface : AppColors.surface,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "No active market locations found in database.",
-                              style: TextStyle(color: isDark ? AppColors.darkMuted : AppColors.muted, fontSize: 13),
-                            ),
-                          ),
-                        )
-                      : SizedBox(
-                          height: 160,
-                          child: ListView.builder(
-                            padding: const EdgeInsets.only(left: 20, right: 6),
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: cities.length,
-                            itemBuilder: (context, index) {
-                              final city = cities[index];
-                              return CityCard(
-                                city: city,
-                                onTap: () {
-                                  if (city.live) {
-                                    propertyProvider.setSelectedCitySlug(city.slug);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => CityDetailScreen(city: city),
-                                      ),
-                                    );
-                                  } else {
-                                    _showWaitlistDialog(context, city.name, isDark);
-                                  }
-                                },
-                              );
-                            },
+                  ? Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: isDark
+                            ? AppColors.darkSurface
+                            : AppColors.surface,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: isDark ? AppColors.darkLine : AppColors.line,
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "No active market locations found in database.",
+                          style: TextStyle(
+                            color: isDark
+                                ? AppColors.darkMuted
+                                : AppColors.muted,
+                            fontSize: 13,
                           ),
                         ),
+                      ),
+                    )
+                  : SizedBox(
+                      height: 160,
+                      child: ListView.builder(
+                        padding: const EdgeInsets.only(left: 20, right: 6),
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: cities.length,
+                        itemBuilder: (context, index) {
+                          final city = cities[index];
+                          return CityCard(
+                            city: city,
+                            onTap: () {
+                              if (city.live) {
+                                propertyProvider.setSelectedCitySlug(city.slug);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        CityDetailScreen(city: city),
+                                  ),
+                                );
+                              } else {
+                                _showWaitlistDialog(context, city.name, isDark);
+                              }
+                            },
+                          );
+                        },
+                      ),
+                    ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 40)),
           ],
         ),
       ),
-    );
+    ),
+  );
   }
 
   InputDecoration _searchFormDecoration(bool isDark) {

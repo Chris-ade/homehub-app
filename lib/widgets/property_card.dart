@@ -80,7 +80,9 @@ class PropertyCard extends StatelessWidget {
               Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
                     child: SizedBox(
                       height: isHorizontal ? 165 : 185,
                       width: double.infinity,
@@ -88,14 +90,25 @@ class PropertyCard extends StatelessWidget {
                         imageUrl: property.image,
                         fit: BoxFit.cover,
                         placeholder: (context, url) => Container(
-                          color: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+                          color: isDark
+                              ? AppColors.darkSurfaceAlt
+                              : AppColors.creamAlt,
                           child: const Center(
-                            child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.terracotta),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColors.terracotta,
+                            ),
                           ),
                         ),
                         errorWidget: (context, url, error) => Container(
-                          color: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
-                          child: const Icon(Icons.apartment_rounded, size: 40, color: AppColors.muted),
+                          color: isDark
+                              ? AppColors.darkSurfaceAlt
+                              : AppColors.creamAlt,
+                          child: const Icon(
+                            Icons.apartment_rounded,
+                            size: 40,
+                            color: AppColors.muted,
+                          ),
                         ),
                       ),
                     ),
@@ -113,11 +126,18 @@ class PropertyCard extends StatelessWidget {
                     top: 12,
                     right: 12,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
-                        color: (isDark ? AppColors.darkBackground : Colors.white).withValues(alpha: 0.95),
+                        color:
+                            (isDark ? AppColors.darkBackground : Colors.white)
+                                .withValues(alpha: 0.95),
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
+                        border: Border.all(
+                          color: isDark ? AppColors.darkLine : AppColors.line,
+                        ),
                       ),
                       child: Text(
                         property.type,
@@ -135,7 +155,10 @@ class PropertyCard extends StatelessWidget {
                     bottom: 12,
                     right: 12,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.75),
                         borderRadius: BorderRadius.circular(10),
@@ -143,7 +166,11 @@ class PropertyCard extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.star_rounded, size: 14, color: Colors.amber),
+                          const Icon(
+                            Icons.star_rounded,
+                            size: 14,
+                            color: Colors.amber,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             "${property.rating}",
@@ -162,7 +189,7 @@ class PropertyCard extends StatelessWidget {
 
               // Content Body matching web layout
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(isHorizontal ? 12.0 : 16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -176,7 +203,9 @@ class PropertyCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w800,
-                              color: isDark ? AppColors.darkInk : AppColors.forest,
+                              color: isDark
+                                  ? AppColors.darkInk
+                                  : AppColors.forest,
                               letterSpacing: -0.2,
                             ),
                             maxLines: 1,
@@ -189,12 +218,20 @@ class PropertyCard extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+                              color: isDark
+                                  ? AppColors.darkSurfaceAlt
+                                  : AppColors.creamAlt,
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
-                              property.isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                              color: property.isFavorite ? AppColors.terracotta : (isDark ? AppColors.darkInk : AppColors.forest),
+                              property.isFavorite
+                                  ? Icons.favorite_rounded
+                                  : Icons.favorite_border_rounded,
+                              color: property.isFavorite
+                                  ? AppColors.terracotta
+                                  : (isDark
+                                        ? AppColors.darkInk
+                                        : AppColors.forest),
                               size: 18,
                             ),
                           ),
@@ -218,7 +255,9 @@ class PropertyCard extends StatelessWidget {
                             property.area,
                             style: TextStyle(
                               fontSize: 13,
-                              color: isDark ? AppColors.darkMuted : AppColors.muted,
+                              color: isDark
+                                  ? AppColors.darkMuted
+                                  : AppColors.muted,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -227,22 +266,37 @@ class PropertyCard extends StatelessWidget {
                       ],
                     ),
 
-                    const SizedBox(height: 12),
+                    SizedBox(height: isHorizontal ? 8 : 12),
 
                     // Specs Row: Bed, Bath, Sqft
                     Row(
                       children: [
-                        _buildSpecItem(Icons.king_bed_outlined, "${property.beds} bd", isDark),
+                        _buildSpecItem(
+                          Icons.king_bed_outlined,
+                          "${property.beds} bd",
+                          isDark,
+                        ),
                         const SizedBox(width: 14),
-                        _buildSpecItem(Icons.bathtub_outlined, "${property.baths} ba", isDark),
+                        _buildSpecItem(
+                          Icons.bathtub_outlined,
+                          "${property.baths} ba",
+                          isDark,
+                        ),
                         const SizedBox(width: 14),
-                        _buildSpecItem(Icons.square_foot_outlined, "${property.sqft} sqft", isDark),
+                        _buildSpecItem(
+                          Icons.square_foot_outlined,
+                          "${property.sqft} sqft",
+                          isDark,
+                        ),
                       ],
                     ),
 
-                    const SizedBox(height: 12),
-                    Divider(height: 1, color: isDark ? AppColors.darkLine : AppColors.line),
-                    const SizedBox(height: 12),
+                    SizedBox(height: isHorizontal ? 8 : 12),
+                    Divider(
+                      height: 1,
+                      color: isDark ? AppColors.darkLine : AppColors.line,
+                    ),
+                    SizedBox(height: isHorizontal ? 8 : 12),
 
                     // Bottom Row: Listed By Agent on Left, Price on Right
                     Row(
@@ -255,7 +309,9 @@ class PropertyCard extends StatelessWidget {
                             children: [
                               CircleAvatar(
                                 radius: 12,
-                                backgroundImage: NetworkImage(property.agent.avatarUrl),
+                                backgroundImage: NetworkImage(
+                                  property.agent.avatarUrl,
+                                ),
                               ),
                               const SizedBox(width: 6),
                               Flexible(
@@ -264,7 +320,9 @@ class PropertyCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w600,
-                                    color: isDark ? AppColors.darkMuted : AppColors.muted,
+                                    color: isDark
+                                        ? AppColors.darkMuted
+                                        : AppColors.muted,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -283,14 +341,18 @@ class PropertyCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w900,
-                                color: isDark ? AppColors.terracotta : AppColors.forest,
+                                color: isDark
+                                    ? AppColors.terracotta
+                                    : AppColors.forest,
                               ),
                             ),
                             Text(
                               " / ${property.period}",
                               style: TextStyle(
                                 fontSize: 11,
-                                color: isDark ? AppColors.darkMuted : AppColors.muted,
+                                color: isDark
+                                    ? AppColors.darkMuted
+                                    : AppColors.muted,
                               ),
                             ),
                           ],
