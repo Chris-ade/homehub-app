@@ -23,13 +23,26 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Account & Settings",
+          "Profile",
           style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w900,
-            color: isDark ? AppColors.darkInk : AppColors.ink,
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: isDark ? AppColors.darkInk : const Color(0xFF222222),
           ),
         ),
+        elevation: 0,
+        backgroundColor: isDark ? AppColors.darkBackground : Colors.white,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.notifications_none_rounded,
+              color: isDark ? AppColors.darkInk : const Color(0xFF222222),
+              size: 24,
+            ),
+            onPressed: () {},
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -38,24 +51,27 @@ class ProfileScreen extends StatelessWidget {
         color: AppColors.terracotta,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // User Header Card
               if (!userProvider.isLoggedIn)
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkSurface : AppColors.surface,
+                    color: isDark ? AppColors.darkSurface : Colors.white,
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
-                      color: isDark ? AppColors.darkLine : AppColors.line,
+                      color: isDark
+                          ? AppColors.darkLine
+                          : const Color(0xFFEBEBEB),
                     ),
                   ),
                   child: Column(
                     children: [
                       const CircleAvatar(
-                        radius: 32,
+                        radius: 36,
                         backgroundColor: AppColors.forest,
                         child: Icon(
                           Icons.person_rounded,
@@ -74,7 +90,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        "Access your saved properties, scheduled inspections, and e-signed leases.",
+                        "Access your saved properties, scheduled inspections, and profile settings.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 12,
@@ -120,234 +136,133 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 )
               else
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkSurface : AppColors.surface,
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                      color: isDark ? AppColors.darkLine : AppColors.line,
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Stack(
-                            children: [
-                              CircleAvatar(
-                                radius: 36,
-                                backgroundImage: NetworkImage(
-                                  userProvider.avatarUrl,
-                                ),
-                              ),
-                              if (userProvider.isVerified)
-                                Positioned(
-                                  right: 0,
-                                  bottom: 0,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(4),
-                                    decoration: const BoxDecoration(
-                                      color: AppColors.forest,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Icon(
-                                      Icons.check,
-                                      color: Colors.white,
-                                      size: 12,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  userProvider.name,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w800,
-                                    color: isDark
-                                        ? AppColors.darkInk
-                                        : AppColors.ink,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  userProvider.email,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: isDark
-                                        ? AppColors.darkMuted
-                                        : AppColors.muted,
-                                  ),
-                                ),
-                                if (userProvider.userState.isNotEmpty &&
-                                    userProvider.lga.isNotEmpty) ...[
-                                  const SizedBox(height: 4),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.location_on_rounded,
-                                        size: 13,
-                                        color: AppColors.terracotta,
-                                      ),
-                                      const SizedBox(width: 3),
-                                      Text(
-                                        "${userProvider.lga}, ${userProvider.userState}",
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w600,
-                                          color: isDark
-                                              ? AppColors.darkMuted
-                                              : AppColors.muted,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                                const SizedBox(height: 8),
-                                Row(
-                                  children: [
-                                    // Automatic Role Badge based on User Type
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 4,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: userProvider.isLandlord
-                                            ? AppColors.terracotta.withValues(
-                                                alpha: 0.15,
-                                              )
-                                            : AppColors.forest.withValues(
-                                                alpha: 0.12,
-                                              ),
-                                        borderRadius: BorderRadius.circular(
-                                          100,
-                                        ),
-                                      ),
-                                      child: Text(
-                                        userProvider.isLandlord
-                                            ? "Landlord / Agent Account"
-                                            : "Tenant Account",
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.bold,
-                                          color: userProvider.isLandlord
-                                              ? AppColors.terracotta
-                                              : AppColors.forest,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 6),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 4,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: userProvider.isEmailVerified
-                                            ? AppColors.forest.withValues(
-                                                alpha: 0.15,
-                                              )
-                                            : Colors.amber.withValues(
-                                                alpha: 0.15,
-                                              ),
-                                        borderRadius: BorderRadius.circular(
-                                          100,
-                                        ),
-                                      ),
-                                      child: Text(
-                                        userProvider.isEmailVerified
-                                            ? "Verified"
-                                            : "Unverified Email",
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          color: userProvider.isEmailVerified
-                                              ? AppColors.forest
-                                              : Colors.amber.shade900,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditProfileScreen(),
                       ),
-
-                      if (!userProvider.isEmailVerified) ...[
-                        const SizedBox(height: 14),
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.amber.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Colors.amber.withValues(alpha: 0.4),
-                            ),
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 24,
+                      horizontal: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isDark ? AppColors.darkSurface : Colors.white,
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: isDark
+                            ? AppColors.darkLine
+                            : const Color(0xFFEBEBEB),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.04),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 44,
+                          backgroundImage: NetworkImage(userProvider.avatarUrl),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          userProvider.name,
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: isDark
+                                ? AppColors.darkInk
+                                : const Color(0xFF222222),
                           ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.warning_amber_rounded,
-                                color: Colors.amber,
-                                size: 20,
-                              ),
-                              const SizedBox(width: 10),
-                              const Expanded(
-                                child: Text(
-                                  "Your email is unverified. Verify with OTP to secure your account.",
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.terracotta,
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 6,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  OtpVerificationModal.show(
-                                    context,
-                                    email: userProvider.email,
-                                  );
-                                },
-                                child: const Text(
-                                  "Verify",
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          userProvider.userState.isNotEmpty &&
+                                  userProvider.lga.isNotEmpty
+                              ? "${userProvider.lga}, ${userProvider.userState}"
+                              : userProvider.email,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: isDark
+                                ? AppColors.darkMuted
+                                : const Color(0xFF717171),
                           ),
                         ),
                       ],
-                    ],
+                    ),
                   ),
                 ),
 
-              const SizedBox(height: 16),
+              if (userProvider.isLoggedIn && !userProvider.isEmailVerified) ...[
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.amber.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: Colors.amber.withValues(alpha: 0.4),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.warning_amber_rounded,
+                        color: Colors.amber,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 10),
+                      const Expanded(
+                        child: Text(
+                          "Your email is unverified. Verify with OTP to secure your account.",
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.terracotta,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () {
+                          OtpVerificationModal.show(
+                            context,
+                            email: userProvider.email,
+                          );
+                        },
+                        child: const Text(
+                          "Verify",
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
 
-              // Landlord Quick Action Button
-              if (userProvider.isLoggedIn && userProvider.isLandlord)
+              if (userProvider.isLoggedIn && userProvider.isLandlord) ...[
+                const SizedBox(height: 16),
                 CustomButton(
                   text: "List a New Property",
                   isTerracotta: true,
@@ -362,39 +277,55 @@ class ProfileScreen extends StatelessWidget {
                     );
                   },
                 ),
+              ],
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
 
-              // Settings Options List
+              // Settings List
               Column(
                 children: [
-                  if (userProvider.isLoggedIn) ...[
-                    _buildSettingTile(
-                      icon: Icons.edit_rounded,
-                      title: "Edit Profile",
-                      isDark: isDark,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EditProfileScreen(),
-                        ),
+                  _buildSettingTile(
+                    icon: Icons.settings_outlined,
+                    title: "Account settings",
+                    isDark: isDark,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditProfileScreen(),
                       ),
                     ),
-                    _buildDivider(isDark),
-                    _buildSettingTile(
-                      icon: Icons.lock_outline_rounded,
-                      title: "Change Password",
-                      isDark: isDark,
-                      onTap: () =>
-                          _showChangePasswordModal(context, userProvider),
-                    ),
-                    _buildDivider(isDark),
-                  ],
+                  ),
+                  _buildDivider(isDark),
+
+                  _buildSettingTile(
+                    icon: Icons.help_outline_rounded,
+                    title: "Get help",
+                    isDark: isDark,
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("HomeHub Support & Help Center"),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    },
+                  ),
+                  _buildDivider(isDark),
+
+                  _buildSettingTile(
+                    icon: Icons.privacy_tip_outlined,
+                    title: "Privacy & Password",
+                    isDark: isDark,
+                    onTap: () =>
+                        _showChangePasswordModal(context, userProvider),
+                  ),
+                  _buildDivider(isDark),
+
                   _buildSettingTile(
                     icon: themeProvider.isDarkMode
-                        ? Icons.wb_sunny_rounded
-                        : Icons.nightlight_round,
-                    title: "Dark Mode Theme",
+                        ? Icons.wb_sunny_outlined
+                        : Icons.dark_mode_outlined,
+                    title: "Dark mode theme",
                     trailing: Switch(
                       value: themeProvider.isDarkMode,
                       activeTrackColor: AppColors.terracotta,
@@ -403,23 +334,29 @@ class ProfileScreen extends StatelessWidget {
                     isDark: isDark,
                   ),
                   _buildDivider(isDark),
+
                   _buildSettingTile(
-                    icon: Icons.help_outline_rounded,
-                    title: "Help & Support",
+                    icon: Icons.menu_book_outlined,
+                    title: "Legal & Terms",
                     isDark: isDark,
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            "HomeHub Terms of Service & Privacy Policy",
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    },
                   ),
-                  _buildDivider(isDark),
-                  _buildSettingTile(
-                    icon: Icons.description_rounded,
-                    title: "Terms & Privacy Policy",
-                    isDark: isDark,
-                  ),
+
                   if (userProvider.isLoggedIn) ...[
                     _buildDivider(isDark),
                     _buildSettingTile(
-                      icon: Icons.no_accounts_rounded,
+                      icon: Icons.no_accounts_outlined,
                       iconColor: Colors.red,
-                      title: "Deactivate Account",
+                      title: "Deactivate account",
                       titleColor: Colors.red,
                       isDark: isDark,
                       onTap: () =>
@@ -429,62 +366,43 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 28),
 
-              // Logout / Login Switch Button
+              // Logout Button
               if (userProvider.isLoggedIn)
-                TextButton.icon(
-                  onPressed: () {
-                    userProvider.logout();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Signed out of account."),
-                        backgroundColor: AppColors.forest,
-                      ),
-                    );
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
-                      (route) => false,
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.logout_rounded,
-                    color: Colors.red,
-                    size: 18,
-                  ),
-                  label: const Text(
-                    "Sign Out",
-                    style: TextStyle(
+                Center(
+                  child: TextButton.icon(
+                    onPressed: () {
+                      userProvider.logout();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Signed out of account."),
+                          backgroundColor: AppColors.forest,
+                        ),
+                      );
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                        (route) => false,
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.logout_rounded,
                       color: Colors.red,
-                      fontWeight: FontWeight.bold,
+                      size: 18,
                     ),
-                  ),
-                )
-              else
-                TextButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
+                    label: const Text(
+                      "Log out",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
                       ),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.login_rounded,
-                    color: AppColors.terracotta,
-                    size: 18,
-                  ),
-                  label: const Text(
-                    "Sign In to Your Account",
-                    style: TextStyle(
-                      color: AppColors.terracotta,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
+              const SizedBox(height: 24),
             ],
           ),
         ),
@@ -775,142 +693,186 @@ class ProfileScreen extends StatelessWidget {
     final reasonController = TextEditingController();
     bool isDeactivating = false;
 
-    showDialog(
+    showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
+            return Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
               ),
-              backgroundColor: isDark
-                  ? AppColors.darkSurface
-                  : AppColors.surface,
-              title: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.red.withValues(alpha: 0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.warning_amber_rounded,
-                      color: Colors.red,
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      "Deactivate Account",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w900,
-                        color: isDark ? AppColors.darkInk : AppColors.ink,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Are you sure you want to deactivate your account? Your profile and active property listings will be hidden, and you will be signed out.",
-                    style: TextStyle(
-                      fontSize: 13,
-                      height: 1.4,
-                      color: isDark ? AppColors.darkMuted : AppColors.muted,
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-                  Text(
-                    "Reason for leaving (Optional):",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: isDark ? AppColors.darkInk : AppColors.ink,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  TextFormField(
-                    controller: reasonController,
-                    maxLines: 2,
-                    decoration: InputDecoration(
-                      hintText: "e.g. Found a house, no longer need account",
-                      hintStyle: TextStyle(
-                        fontSize: 12,
-                        color: isDark ? AppColors.darkMuted : AppColors.muted,
-                      ),
-                      filled: true,
-                      fillColor: isDark
-                          ? AppColors.darkSurfaceAlt
-                          : AppColors.creamAlt,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              actionsPadding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 16,
-              ),
-              actions: [
-                OutlinedButton(
-                  onPressed: isDeactivating
-                      ? null
-                      : () => Navigator.pop(context),
-                  style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text("Cancel"),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  onPressed: isDeactivating
-                      ? null
-                      : () async {
-                          setDialogState(() => isDeactivating = true);
-
-                          final res = await userProvider.deactivateAccount(
-                            reason: reasonController.text.trim(),
-                          );
-
-                          if (!context.mounted) return;
-
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(res.message),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ),
-                            (route) => false,
-                          );
-                        },
-                  child: Text(
-                    isDeactivating ? "Deactivating..." : "Deactivate",
+              child: Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkSurface : AppColors.surface,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(28),
                   ),
                 ),
-              ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 40,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? AppColors.darkLine
+                                : AppColors.line,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.red.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.warning_amber_rounded,
+                              color: Colors.red,
+                              size: 22,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            "Deactivate Account",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              color: isDark ? AppColors.darkInk : AppColors.ink,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+
+                      Text(
+                        "Are you sure you want to deactivate your account? Your profile and active property listings will be hidden, and you will be signed out.",
+                        style: TextStyle(
+                          fontSize: 13,
+                          height: 1.4,
+                          color: isDark ? AppColors.darkMuted : AppColors.muted,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      Text(
+                        "Reason for leaving (Optional):",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: isDark ? AppColors.darkInk : AppColors.ink,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      TextFormField(
+                        controller: reasonController,
+                        maxLines: 2,
+                        decoration: InputDecoration(
+                          hintText: "e.g. Found a house, no longer need account",
+                          hintStyle: TextStyle(
+                            fontSize: 12,
+                            color: isDark ? AppColors.darkMuted : AppColors.muted,
+                          ),
+                          filled: true,
+                          fillColor: isDark
+                              ? AppColors.darkSurfaceAlt
+                              : AppColors.creamAlt,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: isDeactivating
+                                  ? null
+                                  : () => Navigator.pop(context),
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Text("Cancel"),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onPressed: isDeactivating
+                                  ? null
+                                  : () async {
+                                      setDialogState(() => isDeactivating = true);
+
+                                      final res = await userProvider.deactivateAccount(
+                                        reason: reasonController.text.trim(),
+                                      );
+
+                                      if (!context.mounted) return;
+
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(res.message),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (context) => const LoginScreen(),
+                                        ),
+                                        (route) => false,
+                                      );
+                                    },
+                              child: isDeactivating
+                                  ? const SizedBox(
+                                      width: 18,
+                                      height: 18,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Text(
+                                      "Deactivate",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             );
           },
         );
