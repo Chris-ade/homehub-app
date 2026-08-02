@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
+import 'login_screen.dart';
 import 'main_navigation_screen.dart';
 import 'onboarding_screen.dart';
 
@@ -39,26 +40,43 @@ class _SplashScreenState extends State<SplashScreen>
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
 
     _controller.forward();
+    _checkSessionAndNavigate();
+  }
 
-    // Auto navigate based on authentication state after 2.4 seconds
-    Future.delayed(const Duration(milliseconds: 2400), () {
+  Future<void> _checkSessionAndNavigate() async {
+    // Wait for minimum splash animation time (1.6s)
+    await Future.delayed(const Duration(milliseconds: 1600));
+
+    if (!mounted) return;
+
+    final userProvider = context.read<UserProvider>();
+
+    // If UserProvider is still loading session from storage, wait until ready (max 2s fallback)
+    int elapsedMs = 0;
+    while (userProvider.isInitializing && elapsedMs < 2000) {
+      await Future.delayed(const Duration(milliseconds: 100));
+      elapsedMs += 100;
       if (!mounted) return;
+    }
 
-      final userProvider = context.read<UserProvider>();
-      final Widget nextScreen = userProvider.isLoggedIn
-          ? const MainNavigationScreen()
-          : const OnboardingScreen();
+    final Widget nextScreen;
+    if (userProvider.isLoggedIn) {
+      nextScreen = const MainNavigationScreen();
+    } else if (userProvider.hasCompletedOnboarding) {
+      nextScreen = const LoginScreen();
+    } else {
+      nextScreen = const OnboardingScreen();
+    }
 
-      Navigator.of(context).pushReplacement(
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => nextScreen,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
-          transitionDuration: const Duration(milliseconds: 500),
-        ),
-      );
-    });
+    Navigator.of(context).pushReplacement(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => nextScreen,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+    );
   }
 
   @override

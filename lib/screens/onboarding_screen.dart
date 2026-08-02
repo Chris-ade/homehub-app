@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/custom_button.dart';
 import 'login_screen.dart';
@@ -44,6 +46,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _finishOnboarding() {
+    context.read<UserProvider>().setOnboardingCompleted();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => const LoginScreen()),
     );

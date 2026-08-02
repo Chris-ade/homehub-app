@@ -16,12 +16,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController(
-    text: "tunde.aluko@example.ng",
-  );
-  final TextEditingController _passwordController = TextEditingController(
-    text: "password123",
-  );
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   bool _obscurePassword = true;
   bool _isLoading = false;
@@ -43,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     final userProvider = context.read<UserProvider>();
-    final success = await userProvider.login(
+    final result = await userProvider.login(
       _emailController.text.trim(),
       _passwordController.text.trim(),
     );
@@ -54,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = false;
     });
 
-    if (success) {
+    if (result.success) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.forest,
@@ -62,11 +58,13 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const Icon(Icons.check_circle_rounded, color: Colors.white),
               const SizedBox(width: 10),
-              Text(
-                "Welcome back, ${userProvider.name}!",
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+              Expanded(
+                child: Text(
+                  "Welcome back, ${userProvider.name}!",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -82,10 +80,109 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } else {
       setState(() {
-        _errorMessage =
-            "Invalid email or password. Please check your credentials.";
+        _errorMessage = result.message;
       });
     }
+  }
+
+  void _showForgotPasswordDialog() {
+    final resetEmailController = TextEditingController(text: _emailController.text);
+    bool isSubmittingReset = false;
+    String? resetStatus;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            final isDark = Theme.of(context).brightness == Brightness.dark;
+
+            return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              backgroundColor: isDark ? AppColors.darkSurface : AppColors.surface,
+              title: Row(
+                children: [
+                  const Icon(Icons.lock_reset_rounded, color: AppColors.terracotta),
+                  const SizedBox(width: 10),
+                  Text(
+                    "Reset Password",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                    ),
+                  ),
+                ],
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Enter your email address and we'll send you a password reset link.",
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: resetEmailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      hintText: "you@example.com",
+                      prefixIcon: const Icon(Icons.mail_outline_rounded, color: AppColors.forest, size: 20),
+                      filled: true,
+                      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                  ),
+                  if (resetStatus != null) ...[
+                    const SizedBox(height: 12),
+                    Text(
+                      resetStatus!,
+                      style: const TextStyle(fontSize: 12, color: AppColors.forest, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Cancel"),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.terracotta,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  onPressed: isSubmittingReset
+                      ? null
+                      : () async {
+                          final email = resetEmailController.text.trim();
+                          if (email.isEmpty || !email.contains('@')) return;
+
+                          setDialogState(() {
+                            isSubmittingReset = true;
+                          });
+
+                          final userProvider = context.read<UserProvider>();
+                          final res = await userProvider.requestPasswordReset(email);
+
+                          setDialogState(() {
+                            isSubmittingReset = false;
+                            resetStatus = res.message;
+                          });
+                        },
+                  child: Text(isSubmittingReset ? "Sending..." : "Send Request"),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -144,7 +241,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  "Already have an account? Sign in to continue.",
+                  "Access your HomeHub profile, inspections & leases.",
                   style: TextStyle(
                     fontSize: 14,
                     color: isDark ? AppColors.darkMuted : AppColors.muted,
@@ -232,16 +329,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              "Password reset instructions sent to your email.",
-                            ),
-                            backgroundColor: AppColors.forest,
-                          ),
-                        );
-                      },
+                      onTap: _showForgotPasswordDialog,
                       child: const Text(
                         "Forgot Password?",
                         style: TextStyle(

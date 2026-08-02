@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/otp_verification_modal.dart';
 import 'main_navigation_screen.dart';
 import 'login_screen.dart';
 
@@ -39,13 +41,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isLoading = false;
   String? _stepError;
 
+  // Real-time email and phone verification state
+  bool _isCheckingEmail = false;
+  bool? _isEmailAvailable;
+  String? _emailCheckMessage;
+  Timer? _emailDebounce;
+
+  bool _isCheckingPhone = false;
+  bool? _isPhoneAvailable;
+  String? _phoneCheckMessage;
+  Timer? _phoneDebounce;
+
   final _formKey1 = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
   final _formKey3 = GlobalKey<FormState>();
   final _formKey4 = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(_onEmailChanged);
+    _phoneController.addListener(_onPhoneChanged);
+  }
+
+  @override
   void dispose() {
+    _emailDebounce?.cancel();
+    _phoneDebounce?.cancel();
+    _emailController.removeListener(_onEmailChanged);
+    _phoneController.removeListener(_onPhoneChanged);
     _firstNameController.dispose();
     _lastNameController.dispose();
     _emailController.dispose();
@@ -55,7 +79,87 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  void _nextStep() {
+  void _onEmailChanged() {
+    final text = _emailController.text.trim();
+    if (text.isEmpty || !text.contains('@') || !text.contains('.')) {
+      if (_isEmailAvailable != null || _emailCheckMessage != null) {
+        setState(() {
+          _isEmailAvailable = null;
+          _emailCheckMessage = null;
+          _isCheckingEmail = false;
+        });
+      }
+      return;
+    }
+
+    _emailDebounce?.cancel();
+    _emailDebounce = Timer(const Duration(milliseconds: 500), () {
+      _verifyEmailAvailability();
+    });
+  }
+
+  Future<void> _verifyEmailAvailability() async {
+    final text = _emailController.text.trim();
+    if (text.isEmpty || !text.contains('@') || !text.contains('.')) return;
+
+    setState(() {
+      _isCheckingEmail = true;
+      _emailCheckMessage = null;
+    });
+
+    final userProvider = context.read<UserProvider>();
+    final res = await userProvider.checkEmailAvailability(text);
+
+    if (!mounted) return;
+
+    setState(() {
+      _isCheckingEmail = false;
+      _isEmailAvailable = res.available;
+      _emailCheckMessage = res.message;
+    });
+  }
+
+  void _onPhoneChanged() {
+    final text = _phoneController.text.trim();
+    if (text.isEmpty || text.length < 10) {
+      if (_isPhoneAvailable != null || _phoneCheckMessage != null) {
+        setState(() {
+          _isPhoneAvailable = null;
+          _phoneCheckMessage = null;
+          _isCheckingPhone = false;
+        });
+      }
+      return;
+    }
+
+    _phoneDebounce?.cancel();
+    _phoneDebounce = Timer(const Duration(milliseconds: 500), () {
+      _verifyPhoneAvailability();
+    });
+  }
+
+  Future<void> _verifyPhoneAvailability() async {
+    final text = _phoneController.text.trim();
+    if (text.isEmpty || text.length < 10) return;
+
+    setState(() {
+      _isCheckingPhone = true;
+      _phoneCheckMessage = null;
+    });
+
+    final userProvider = context.read<UserProvider>();
+    final res = await userProvider.checkPhoneAvailability(text);
+
+    if (!mounted) return;
+
+    setState(() {
+      _isCheckingPhone = false;
+      _isPhoneAvailable = res.available;
+      _phoneCheckMessage = res.message;
+    });
+  }
+
+  Future<void> _nextStep() async {
     setState(() => _stepError = null);
 
     if (_currentStep == 0) {
@@ -72,6 +176,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (_currentStep == 2) {
       if (_formKey2.currentState!.validate()) {
+        if (_isEmailAvailable == false) {
+          setState(
+            () =>
+                _stepError =
+                    _emailCheckMessage ??
+                    "This email address is already registered.",
+          );
+          return;
+        }
+        if (_isEmailAvailable == null) {
+          setState(() => _isLoading = true);
+          await _verifyEmailAvailability();
+          if (!mounted) return;
+          setState(() => _isLoading = false);
+          if (_isEmailAvailable == false) {
+            setState(
+              () =>
+                  _stepError =
+                      _emailCheckMessage ??
+                      "This email address is already registered.",
+            );
+            return;
+          }
+        }
         setState(() => _currentStep = 3);
       }
       return;
@@ -79,6 +207,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (_currentStep == 3) {
       if (_formKey3.currentState!.validate()) {
+        if (_isPhoneAvailable == false) {
+          setState(
+            () =>
+                _stepError =
+                    _phoneCheckMessage ??
+                    "This phone number is already registered.",
+          );
+          return;
+        }
+        if (_isPhoneAvailable == null) {
+          setState(() => _isLoading = true);
+          await _verifyPhoneAvailability();
+          if (!mounted) return;
+          setState(() => _isLoading = false);
+          if (_isPhoneAvailable == false) {
+            setState(
+              () =>
+                  _stepError =
+                      _phoneCheckMessage ??
+                      "This phone number is already registered.",
+            );
+            return;
+          }
+        }
         setState(() => _currentStep = 4);
       }
       return;
@@ -116,7 +268,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     final userProvider = context.read<UserProvider>();
-    final success = await userProvider.register(
+    final result = await userProvider.register(
       firstName: _firstNameController.text.trim(),
       lastName: _lastNameController.text.trim(),
       email: _emailController.text.trim(),
@@ -131,7 +283,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _isLoading = false;
     });
 
-    if (success) {
+    if (result.success) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.forest,
@@ -154,14 +306,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       );
 
+      // Offer OTP verification modal
+      final userEmail = _emailController.text.trim();
+      await OtpVerificationModal.show(
+        context,
+        email: userEmail,
+        onVerified: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Email verified! Welcome aboard."),
+              backgroundColor: AppColors.forest,
+            ),
+          );
+        },
+      );
+
+      if (!mounted) return;
+
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
         (route) => false,
       );
     } else {
       setState(() {
-        _stepError =
-            "Registration failed. Email or phone number may already exist.";
+        _stepError = result.message;
       });
     }
   }
@@ -476,6 +644,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   // STEP 2: Email
   Widget _buildStepEmail(bool isDark) {
+    Widget? emailSuffix;
+    if (_isCheckingEmail) {
+      emailSuffix = const Padding(
+        padding: EdgeInsets.all(12),
+        child: SizedBox(
+          width: 16,
+          height: 16,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.terracotta,
+          ),
+        ),
+      );
+    } else if (_isEmailAvailable == true) {
+      emailSuffix = const Icon(
+        Icons.check_circle_rounded,
+        color: Colors.green,
+        size: 20,
+      );
+    } else if (_isEmailAvailable == false) {
+      emailSuffix = const Icon(
+        Icons.cancel_rounded,
+        color: Colors.red,
+        size: 20,
+      );
+    }
+
     return Form(
       key: _formKey2,
       child: Column(
@@ -516,6 +711,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               hint: "name@example.com",
               icon: Icons.mail_outline_rounded,
               isDark: isDark,
+              suffixIcon: emailSuffix,
             ),
             validator: (v) {
               if (v == null || v.trim().isEmpty) {
@@ -524,9 +720,72 @@ class _RegisterScreenState extends State<RegisterScreen> {
               if (!v.contains("@") || !v.contains(".")) {
                 return "Enter a valid email address";
               }
+              if (_isEmailAvailable == false) {
+                return _emailCheckMessage ??
+                    "This email address is already registered";
+              }
               return null;
             },
           ),
+
+          if (_isCheckingEmail || _isEmailAvailable != null) ...[
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                if (_isCheckingEmail) ...[
+                  const SizedBox(
+                    width: 14,
+                    height: 14,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.terracotta,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    "Checking email availability...",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    ),
+                  ),
+                ] else if (_isEmailAvailable == true) ...[
+                  const Icon(
+                    Icons.check_circle_outline_rounded,
+                    color: Colors.green,
+                    size: 16,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    _emailCheckMessage ?? "Email address is available",
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ] else if (_isEmailAvailable == false) ...[
+                  const Icon(
+                    Icons.error_outline_rounded,
+                    color: Colors.red,
+                    size: 16,
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      _emailCheckMessage ??
+                          "This email address is already registered",
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ],
         ],
       ),
     );
@@ -534,6 +793,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   // STEP 3: Phone
   Widget _buildStepPhone(bool isDark) {
+    Widget? phoneSuffix;
+    if (_isCheckingPhone) {
+      phoneSuffix = const Padding(
+        padding: EdgeInsets.all(12),
+        child: SizedBox(
+          width: 16,
+          height: 16,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.terracotta,
+          ),
+        ),
+      );
+    } else if (_isPhoneAvailable == true) {
+      phoneSuffix = const Icon(
+        Icons.check_circle_rounded,
+        color: Colors.green,
+        size: 20,
+      );
+    } else if (_isPhoneAvailable == false) {
+      phoneSuffix = const Icon(
+        Icons.cancel_rounded,
+        color: Colors.red,
+        size: 20,
+      );
+    }
+
     return Form(
       key: _formKey3,
       child: Column(
@@ -574,6 +860,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               hint: "+234 801 234 5678",
               icon: Icons.phone_outlined,
               isDark: isDark,
+              suffixIcon: phoneSuffix,
             ),
             validator: (v) {
               if (v == null || v.trim().isEmpty) {
@@ -582,9 +869,72 @@ class _RegisterScreenState extends State<RegisterScreen> {
               if (v.trim().length < 10) {
                 return "Enter a valid 11-digit phone number";
               }
+              if (_isPhoneAvailable == false) {
+                return _phoneCheckMessage ??
+                    "This phone number is already registered";
+              }
               return null;
             },
           ),
+
+          if (_isCheckingPhone || _isPhoneAvailable != null) ...[
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                if (_isCheckingPhone) ...[
+                  const SizedBox(
+                    width: 14,
+                    height: 14,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.terracotta,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    "Checking phone number availability...",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    ),
+                  ),
+                ] else if (_isPhoneAvailable == true) ...[
+                  const Icon(
+                    Icons.check_circle_outline_rounded,
+                    color: Colors.green,
+                    size: 16,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    _phoneCheckMessage ?? "Phone number is available",
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ] else if (_isPhoneAvailable == false) ...[
+                  const Icon(
+                    Icons.error_outline_rounded,
+                    color: Colors.red,
+                    size: 16,
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      _phoneCheckMessage ??
+                          "This phone number is already registered",
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ],
         ],
       ),
     );

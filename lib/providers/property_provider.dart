@@ -128,6 +128,35 @@ class PropertyProvider extends ChangeNotifier {
     }
   }
 
+  // Fetch detailed property (with full amenities & reviews) from GET /listings/:id
+  Future<Property?> fetchPropertyDetailFromApi(String propertyId) async {
+    try {
+      final response = await http
+          .get(Uri.parse('$baseUrl/listings/$propertyId'))
+          .timeout(const Duration(seconds: 10));
+
+      if (response.statusCode == 200) {
+        final dynamic data = jsonDecode(response.body);
+        Map<String, dynamic>? itemMap;
+        if (data is Map<String, dynamic>) {
+          itemMap = data['data'] is Map<String, dynamic> ? data['data'] : data;
+        }
+        if (itemMap != null) {
+          final updatedProp = Property.fromJson(itemMap);
+          final index = _properties.indexWhere((p) => p.id == propertyId);
+          if (index != -1) {
+            _properties[index] = updatedProp;
+          } else {
+            _properties.add(updatedProp);
+          }
+          notifyListeners();
+          return updatedProp;
+        }
+      }
+    } catch (_) {}
+    return null;
+  }
+
   // Fetch real location stats from live API
   Future<void> fetchLocationStatsFromApi() async {
     try {

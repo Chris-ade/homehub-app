@@ -43,29 +43,31 @@ class City {
   });
 
   factory City.fromApiStat(Map<String, dynamic> json) {
-    final cityName = json['city']?.toString().trim() ?? "Ado-Ekiti";
-    final stateName = json['state']?.toString().trim() ?? "Ekiti";
-    final count = int.tryParse(json['count']?.toString() ?? "0") ?? 0;
-    final slug = cityName.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '-').replaceAll(RegExp(r'(^-|-$)'), '');
+    final rawCity = json['city'] ?? json['name'] ?? "Ado-Ekiti";
+    final rawState = json['state'] ?? "Ekiti";
+    final cityName = rawCity.toString().trim();
+    final stateName = rawState.toString().trim();
+    final count = int.tryParse((json['count'] ?? json['listings_count'] ?? "0").toString()) ?? 0;
+    
+    final cleanCity = cityName.isNotEmpty ? cityName : "Ado-Ekiti";
+    final cleanState = stateName.isNotEmpty ? stateName : "Ekiti";
+    final slug = cleanCity.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '-').replaceAll(RegExp(r'(^-|-$)'), '');
 
     return City(
-      slug: slug,
-      name: cityName,
-      state: stateName.endsWith("State") ? stateName : "$stateName State",
+      slug: slug.isNotEmpty ? slug : "ado-ekiti",
+      name: cleanCity,
+      state: cleanState.endsWith("State") ? cleanState : "$cleanState State",
       live: count > 0,
       tagline: "Active market with verified listings",
       heroImage: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
-      copy: "Discover verified rental properties directly from verified landlords in $cityName.",
+      copy: "Discover verified rental properties directly from verified landlords in $cleanCity.",
       listingsCount: count,
       stats: [
         CityStat(label: "Active Listings", value: "$count"),
         const CityStat(label: "Avg. Rent / yr", value: "₦850k"),
         const CityStat(label: "Verified Hosts", value: "100%"),
       ],
-      neighborhoods: const [
-        Neighborhood(name: "GRA / Central", vibe: "Prime", copy: "Serene residential area."),
-        Neighborhood(name: "Campus Axis", vibe: "Student Hub", copy: "Popular among students."),
-      ],
+      neighborhoods: const [],
     );
   }
 }
