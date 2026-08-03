@@ -66,9 +66,11 @@ class Property {
   final double longitude;
   final bool isFeatured;
   bool isFavorite;
+  final DateTime? availableFrom;
 
   String get city => _city.isNotEmpty ? _city : "Ado Ekiti";
   String get state => _state.isNotEmpty ? _state : "Ekiti";
+  DateTime get availableDate => availableFrom ?? DateTime.now();
 
   Property({
     required this.id,
@@ -97,6 +99,7 @@ class Property {
     this.longitude = 5.2188,
     this.isFeatured = false,
     this.isFavorite = false,
+    this.availableFrom,
   })  : _city = city ?? "Ado Ekiti",
         _state = state ?? "Ekiti",
         gallery = gallery ?? [image],
@@ -252,6 +255,9 @@ class Property {
       longitude: resolvedLng,
       isFeatured: json['verified'] == true || json['is_featured'] == true || json['isFeatured'] == true,
       isFavorite: json['is_favorite'] == true || json['isFavorite'] == true,
+      availableFrom: (json['available_from'] != null || json['availableFrom'] != null)
+          ? DateTime.tryParse((json['available_from'] ?? json['availableFrom']).toString())
+          : null,
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../models/property_model.dart';
@@ -35,6 +36,18 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     ).format(amount);
   }
 
+  String _formatDate(dynamic dateInput) {
+    if (dateInput == null) return "Immediately";
+    DateTime? date;
+    if (dateInput is DateTime) {
+      date = dateInput;
+    } else if (dateInput is String && dateInput.isNotEmpty) {
+      date = DateTime.tryParse(dateInput);
+    }
+    if (date == null) return "Immediately";
+    return DateFormat('MMMM d, yyyy').format(date);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -48,50 +61,51 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   IconData _getAmenityIcon(String amenity) {
     final lower = amenity.toLowerCase();
     if (lower.contains("wifi") || lower.contains("internet")) {
-      return Icons.wifi_rounded;
+      return LucideIcons.wifi;
     } else if (lower.contains("parking") || lower.contains("car")) {
-      return Icons.directions_car_rounded;
+      return LucideIcons.car_front;
     } else if (lower.contains("security") && !lower.contains("deposit")) {
-      return Icons.shield_rounded;
-    } else if (lower.contains("electricity") ||
-        lower.contains("power") ||
-        lower.contains("solar") ||
-        lower.contains("generator")) {
-      return Icons.bolt_rounded;
+      return LucideIcons.shield_check;
+    } else if (lower.contains("electricity") || lower.contains("generator")) {
+      return LucideIcons.zap;
     } else if (lower.contains("water")) {
-      return Icons.water_drop_rounded;
+      return LucideIcons.droplet;
     } else if (lower.contains("air conditioning") || lower.contains("ac")) {
-      return Icons.ac_unit_rounded;
+      return LucideIcons.air_vent;
     } else if (lower.contains("pool") || lower.contains("swimming")) {
-      return Icons.pool_rounded;
+      return LucideIcons.waves;
     } else if (lower.contains("fenced") ||
         lower.contains("yard") ||
         lower.contains("gated")) {
-      return Icons.fence_rounded;
+      return LucideIcons.fence;
+    } else if (lower.contains("solar") || lower.contains("solar power")) {
+      return LucideIcons.solar_panel;
     } else if (lower.contains("garden")) {
-      return Icons.eco_rounded;
+      return LucideIcons.trees;
     } else if (lower.contains("pet")) {
-      return Icons.pets_rounded;
+      return LucideIcons.paw_print;
     } else if (lower.contains("waste") ||
         lower.contains("disposal") ||
         lower.contains("trash")) {
-      return Icons.delete_outline_rounded;
+      return LucideIcons.trash;
     } else if (lower.contains("clean")) {
-      return Icons.cleaning_services_rounded;
+      return LucideIcons.sparkles;
     } else if (lower.contains("gym") || lower.contains("fitness")) {
-      return Icons.fitness_center_rounded;
+      return LucideIcons.dumbbell;
     } else if (lower.contains("laundry") || lower.contains("washing")) {
-      return Icons.local_laundry_service_rounded;
+      return LucideIcons.washing_machine;
     } else if (lower.contains("balcony")) {
-      return Icons.balcony_rounded;
+      return LucideIcons.house;
     } else if (lower.contains("cctv") || lower.contains("camera")) {
-      return Icons.videocam_rounded;
+      return LucideIcons.cctv;
     } else if (lower.contains("furnished") || lower.contains("sofa")) {
-      return Icons.chair_rounded;
-    } else if (lower.contains("kitchen") || lower.contains("appliance")) {
-      return Icons.countertops_rounded;
+      return LucideIcons.sofa;
+    } else if (lower.contains("kitchen") ||
+        lower.contains("appliance") ||
+        lower.contains("cooker")) {
+      return LucideIcons.chef_hat;
     } else {
-      return Icons.check_circle_outline_rounded;
+      return LucideIcons.circle_check;
     }
   }
 
@@ -294,14 +308,14 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       Row(
                         children: [
                           const Icon(
-                            Icons.location_on_rounded,
+                            LucideIcons.map_pin,
                             size: 16,
                             color: AppColors.terracotta,
                           ),
                           const SizedBox(width: 4),
                           Expanded(
                             child: Text(
-                              "${prop.area}, ${prop.citySlug.replaceAll('-', ' ')}",
+                              "${prop.area}, ${prop.city}, ${prop.state} State",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: isDark
@@ -340,7 +354,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                       ? "MONTHLY RENT"
                                       : "ANNUAL RENT",
                                   style: const TextStyle(
-                                    fontSize: 10,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.w800,
                                     color: AppColors.terracotta,
                                     letterSpacing: 0.8,
@@ -350,34 +364,38 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                 Text(
                                   _formatCurrency(prop.price),
                                   style: TextStyle(
-                                    fontSize: 24,
+                                    fontSize: 26,
                                     fontWeight: FontWeight.w900,
                                     color: isDark
                                         ? AppColors.darkInk
                                         : AppColors.forest,
                                   ),
                                 ),
-                              ],
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 6,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.forest.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: Text(
-                                "0% Agent Fee",
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                  color: isDark
-                                      ? AppColors.terracotta
-                                      : AppColors.forest,
+                                const SizedBox(height: 2),
+                                Text(
+                                  prop.period == "month"
+                                      ? "${_formatCurrency(prop.price * 12)} / year equivalent"
+                                      : "${_formatCurrency(prop.price / 12)} / month equivalent",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: isDark
+                                        ? AppColors.darkMuted
+                                        : AppColors.muted,
+                                  ),
                                 ),
-                              ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  "Available from ${_formatDate(prop.availableDate)}",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: isDark
+                                        ? AppColors.darkMuted
+                                        : AppColors.muted,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -390,7 +408,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         children: [
                           Expanded(
                             child: _buildSpecPill(
-                              Icons.king_bed_outlined,
+                              LucideIcons.bed_double,
                               "${prop.beds} Bedrooms",
                               isDark,
                             ),
@@ -398,7 +416,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: _buildSpecPill(
-                              Icons.bathtub_outlined,
+                              LucideIcons.bath,
                               "${prop.baths} Baths",
                               isDark,
                             ),
@@ -406,7 +424,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: _buildSpecPill(
-                              Icons.square_foot_outlined,
+                              LucideIcons.maximize,
                               "${prop.sqft} sqft",
                               isDark,
                             ),
@@ -437,7 +455,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       Text(
                         prop.description,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 15,
                           height: 1.5,
                           color: isDark ? AppColors.darkMuted : AppColors.muted,
                         ),
@@ -471,56 +489,38 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
-                                    childAspectRatio: 3.5,
+                                    childAspectRatio: 4,
                                     crossAxisSpacing: 12,
-                                    mainAxisSpacing: 10,
+                                    mainAxisSpacing: 8,
                                   ),
                               itemCount: prop.amenities.length,
                               itemBuilder: (context, index) {
                                 final amenity = prop.amenities[index];
                                 final iconData = _getAmenityIcon(amenity);
-                                return Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: isDark
-                                        ? AppColors.darkSurface
-                                        : AppColors.surface,
-                                    borderRadius: BorderRadius.circular(14),
-                                    border: Border.all(
+                                return Row(
+                                  children: [
+                                    Icon(
+                                      iconData,
+                                      size: 22,
                                       color: isDark
-                                          ? AppColors.darkLine
-                                          : AppColors.line,
+                                          ? AppColors.terracotta
+                                          : AppColors.forest,
                                     ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        iconData,
-                                        size: 18,
-                                        color: isDark
-                                            ? AppColors.terracotta
-                                            : AppColors.forest,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Text(
-                                          amenity,
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w700,
-                                            color: isDark
-                                                ? AppColors.darkInk
-                                                : AppColors.ink,
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        amenity,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: isDark
+                                              ? AppColors.darkInk
+                                              : AppColors.ink,
                                         ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 );
                               },
                             ),
@@ -548,9 +548,16 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           Expanded(
                             child: Builder(
                               builder: (context) {
-                                final cityText = (prop.city.isNotEmpty) ? prop.city : "Ado Ekiti";
-                                final stateText = (prop.state.isNotEmpty) ? prop.state : "Ekiti";
-                                final formattedState = stateText.endsWith("State") ? stateText : "$stateText State";
+                                final cityText = (prop.city.isNotEmpty)
+                                    ? prop.city
+                                    : "Ado Ekiti";
+                                final stateText = (prop.state.isNotEmpty)
+                                    ? prop.state
+                                    : "Ekiti";
+                                final formattedState =
+                                    stateText.endsWith("State")
+                                    ? stateText
+                                    : "$stateText State";
                                 return Text(
                                   "${prop.area}, $cityText, $formattedState",
                                   style: TextStyle(
@@ -842,20 +849,14 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   Widget _buildSpecPill(IconData icon, String label, bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.darkSurface : AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
-      ),
       child: Column(
         children: [
-          Icon(icon, size: 18, color: AppColors.terracotta),
+          Icon(icon, size: 22, color: AppColors.terracotta),
           const SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
+              fontSize: 13,
               color: isDark ? AppColors.darkInk : AppColors.ink,
             ),
             maxLines: 1,

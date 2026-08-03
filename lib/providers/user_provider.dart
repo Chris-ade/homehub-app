@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 
+import '../models/user_model.dart';
+
 enum UserRole { tenant, landlord }
 
 class AuthResponse {
@@ -40,6 +42,10 @@ class UserProvider extends ChangeNotifier {
   double _profileCompletionPercentage = 0.85;
   String? _accessToken;
   String? _refreshToken;
+
+  UserModel? _userModel;
+  LandlordProfile? _landlordProfile;
+  TenantProfile? _tenantProfile;
 
   // Base API URL
   static const String baseUrl = "https://rentalhub-api-0kuk.onrender.com/api";
@@ -82,6 +88,9 @@ class UserProvider extends ChangeNotifier {
   double get profileCompletionPercentage => _profileCompletionPercentage;
   String? get accessToken => _accessToken;
   String? get refreshToken => _refreshToken;
+  UserModel? get currentUser => _userModel;
+  LandlordProfile? get landlordProfile => _landlordProfile;
+  TenantProfile? get tenantProfile => _tenantProfile;
 
   Future<void> setOnboardingCompleted() async {
     _hasCompletedOnboarding = true;
@@ -912,16 +921,20 @@ class UserProvider extends ChangeNotifier {
     // Check embedded profiles from Go backend: LandlordProfile and TenantProfile
     final lp = u['landlord_profile'];
     if (lp is Map<String, dynamic>) {
+      _landlordProfile = LandlordProfile.fromJson(lp);
       if (lp['state'] != null && lp['state'].toString().isNotEmpty) {
         _state = lp['state'].toString();
       }
       if (lp['lga'] != null && lp['lga'].toString().isNotEmpty) {
         _lga = lp['lga'].toString();
       }
+    } else {
+      _landlordProfile = null;
     }
 
     final tp = u['tenant_profile'];
     if (tp is Map<String, dynamic>) {
+      _tenantProfile = TenantProfile.fromJson(tp);
       if (tp['state'] != null && tp['state'].toString().isNotEmpty) {
         _state = tp['state'].toString();
       }
@@ -931,7 +944,13 @@ class UserProvider extends ChangeNotifier {
       if (tp['occupation'] != null && tp['occupation'].toString().isNotEmpty) {
         _bio = tp['occupation'].toString();
       }
+    } else {
+      _tenantProfile = null;
     }
+
+    try {
+      _userModel = UserModel.fromJson(u);
+    } catch (_) {}
 
     if (saveLocally) {
       _saveUserDataLocally(u);
