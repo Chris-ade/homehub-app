@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
 import '../models/property_model.dart';
@@ -75,7 +76,7 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
                       color: AppColors.forest.withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.add_circle_outline_rounded, color: AppColors.forest, size: 22),
+                    child: Icon(LucideIcons.circle_plus, color: AppColors.forest, size: 22),
                   ),
                   const SizedBox(width: 12),
                   Column(

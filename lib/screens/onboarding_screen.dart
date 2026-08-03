@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -75,7 +76,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           color: AppColors.forest,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: const Icon(Icons.home_work_rounded, color: Colors.white, size: 20),
+                        child: const Icon(LucideIcons.building_2, color: Colors.white, size: 20),
                       ),
                       const SizedBox(width: 10),
                       Text(

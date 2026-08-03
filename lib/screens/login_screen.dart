@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
@@ -56,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: AppColors.forest,
           content: Row(
             children: [
-              const Icon(Icons.check_circle_rounded, color: Colors.white),
+              const Icon(LucideIcons.circle_check, color: Colors.white),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -102,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
               backgroundColor: isDark ? AppColors.darkSurface : AppColors.surface,
               title: Row(
                 children: [
-                  const Icon(Icons.lock_reset_rounded, color: AppColors.terracotta),
+                  const Icon(LucideIcons.key_round, color: AppColors.terracotta),
                   const SizedBox(width: 10),
                   Text(
                     "Reset Password",
@@ -131,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       hintText: "you@example.com",
-                      prefixIcon: const Icon(Icons.mail_outline_rounded, color: AppColors.forest, size: 20),
+                      prefixIcon: const Icon(LucideIcons.mail, color: AppColors.forest, size: 20),
                       filled: true,
                       fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -212,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(
-                        Icons.home_work_rounded,
+                        LucideIcons.building_2,
                         color: Colors.white,
                         size: 24,
                       ),
@@ -266,7 +267,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       children: [
                         const Icon(
-                          Icons.error_outline_rounded,
+                          LucideIcons.circle_alert,
                           color: Colors.red,
                           size: 20,
                         ),
@@ -302,7 +303,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: _inputDecoration(
                     hint: "you@example.com",
-                    icon: Icons.mail_outline_rounded,
+                    icon: LucideIcons.mail,
                     isDark: isDark,
                   ),
                   validator: (v) {
@@ -349,13 +350,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: _obscurePassword,
                   decoration: _inputDecoration(
                     hint: "••••••••",
-                    icon: Icons.lock_outline_rounded,
+                    icon: LucideIcons.lock,
                     isDark: isDark,
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscurePassword
-                            ? Icons.visibility_off_rounded
-                            : Icons.visibility_rounded,
+                            ? LucideIcons.eye_off
+                            : LucideIcons.eye,
                         color: isDark ? AppColors.darkMuted : AppColors.muted,
                         size: 20,
                       ),

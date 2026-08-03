@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import '../theme/app_theme.dart';
 
 class BadgeChip extends StatelessWidget {
@@ -47,7 +48,7 @@ class BadgeChip extends StatelessWidget {
       label: status,
       backgroundColor: bg,
       textColor: fg,
-      icon: status.toLowerCase() == 'verified' ? Icons.verified_rounded : null,
+      icon: status.toLowerCase() == 'verified' ? LucideIcons.badge_check : null,
     );
   }
 

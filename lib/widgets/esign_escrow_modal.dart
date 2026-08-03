@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -88,7 +89,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    _step == 1 ? Icons.border_color_rounded : Icons.verified_user_rounded,
+                    _step == 1 ? LucideIcons.pencil : LucideIcons.shield_check,
                     color: AppColors.forest,
                     size: 22,
                   ),
@@ -312,7 +313,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.verified_user_rounded, color: AppColors.forest, size: 28),
+                    const Icon(LucideIcons.shield_check, color: AppColors.forest, size: 28),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
@@ -385,7 +386,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                               color: Color(0xFFE8F5E9),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.check_circle_rounded, color: Colors.green, size: 48),
+                            child: const Icon(LucideIcons.circle_check, color: Colors.green, size: 48),
                           ),
                           const SizedBox(height: 14),
                           Text(

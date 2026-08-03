@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
@@ -289,7 +290,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           backgroundColor: AppColors.forest,
           content: Row(
             children: [
-              const Icon(Icons.check_circle_rounded, color: Colors.white),
+              const Icon(LucideIcons.circle_check, color: Colors.white),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -343,7 +344,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
-            Icons.arrow_back_rounded,
+            LucideIcons.arrow_left,
             color: isDark ? AppColors.darkInk : AppColors.ink,
           ),
           onPressed: _previousStep,
@@ -389,7 +390,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Icon(
-                            Icons.home_work_rounded,
+                            LucideIcons.building_2,
                             color: Colors.white,
                             size: 20,
                           ),
@@ -424,7 +425,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: Row(
                           children: [
                             const Icon(
-                              Icons.error_outline_rounded,
+                              LucideIcons.circle_alert,
                               color: Colors.red,
                               size: 18,
                             ),
@@ -548,7 +549,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _buildRoleSelectionCard(
           title: "I'm a Tenant / House Seeker",
           subtitle: "Looking for housing.",
-          icon: Icons.person_rounded,
+          icon: LucideIcons.user,
           value: "user",
           isDark: isDark,
         ),
@@ -558,7 +559,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _buildRoleSelectionCard(
           title: "I'm a Landlord or Agent",
           subtitle: "Looking to list properties for rent.",
-          icon: Icons.apartment_rounded,
+          icon: LucideIcons.building_2,
           value: "agent",
           isDark: isDark,
         ),
@@ -606,7 +607,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             textCapitalization: TextCapitalization.words,
             decoration: _inputDecoration(
               hint: "e.g. Tunde",
-              icon: Icons.person_outline_rounded,
+              icon: LucideIcons.user,
               isDark: isDark,
             ),
             validator: (v) => v == null || v.trim().isEmpty
@@ -630,7 +631,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             textCapitalization: TextCapitalization.words,
             decoration: _inputDecoration(
               hint: "e.g. Aluko",
-              icon: Icons.person_outline_rounded,
+              icon: LucideIcons.user,
               isDark: isDark,
             ),
             validator: (v) => v == null || v.trim().isEmpty
@@ -659,13 +660,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
     } else if (_isEmailAvailable == true) {
       emailSuffix = const Icon(
-        Icons.check_circle_rounded,
+        LucideIcons.circle_check,
         color: Colors.green,
         size: 20,
       );
     } else if (_isEmailAvailable == false) {
       emailSuffix = const Icon(
-        Icons.cancel_rounded,
+        LucideIcons.circle_alert,
         color: Colors.red,
         size: 20,
       );
@@ -709,7 +710,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             keyboardType: TextInputType.emailAddress,
             decoration: _inputDecoration(
               hint: "name@example.com",
-              icon: Icons.mail_outline_rounded,
+              icon: LucideIcons.mail,
               isDark: isDark,
               suffixIcon: emailSuffix,
             ),
@@ -751,7 +752,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ] else if (_isEmailAvailable == true) ...[
                   const Icon(
-                    Icons.check_circle_outline_rounded,
+                    LucideIcons.circle_check,
                     color: Colors.green,
                     size: 16,
                   ),
@@ -766,7 +767,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ] else if (_isEmailAvailable == false) ...[
                   const Icon(
-                    Icons.error_outline_rounded,
+                    LucideIcons.circle_alert,
                     color: Colors.red,
                     size: 16,
                   ),
@@ -808,13 +809,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
     } else if (_isPhoneAvailable == true) {
       phoneSuffix = const Icon(
-        Icons.check_circle_rounded,
+        LucideIcons.circle_check,
         color: Colors.green,
         size: 20,
       );
     } else if (_isPhoneAvailable == false) {
       phoneSuffix = const Icon(
-        Icons.cancel_rounded,
+        LucideIcons.circle_alert,
         color: Colors.red,
         size: 20,
       );
@@ -858,7 +859,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             keyboardType: TextInputType.phone,
             decoration: _inputDecoration(
               hint: "+234 801 234 5678",
-              icon: Icons.phone_outlined,
+              icon: LucideIcons.phone,
               isDark: isDark,
               suffixIcon: phoneSuffix,
             ),
@@ -900,7 +901,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ] else if (_isPhoneAvailable == true) ...[
                   const Icon(
-                    Icons.check_circle_outline_rounded,
+                    LucideIcons.circle_check,
                     color: Colors.green,
                     size: 16,
                   ),
@@ -915,7 +916,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ] else if (_isPhoneAvailable == false) ...[
                   const Icon(
-                    Icons.error_outline_rounded,
+                    LucideIcons.circle_alert,
                     color: Colors.red,
                     size: 16,
                   ),
@@ -980,13 +981,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             obscureText: _obscurePassword,
             decoration: _inputDecoration(
               hint: "At least 6 characters",
-              icon: Icons.lock_outline_rounded,
+              icon: LucideIcons.lock,
               isDark: isDark,
               suffixIcon: IconButton(
                 icon: Icon(
                   _obscurePassword
-                      ? Icons.visibility_off_rounded
-                      : Icons.visibility_rounded,
+                      ? LucideIcons.eye_off
+                      : LucideIcons.eye,
                   size: 20,
                 ),
                 onPressed: () =>
@@ -1016,13 +1017,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             obscureText: _obscureConfirmPassword,
             decoration: _inputDecoration(
               hint: "Re-enter password",
-              icon: Icons.lock_outline_rounded,
+              icon: LucideIcons.lock,
               isDark: isDark,
               suffixIcon: IconButton(
                 icon: Icon(
                   _obscureConfirmPassword
-                      ? Icons.visibility_off_rounded
-                      : Icons.visibility_rounded,
+                      ? LucideIcons.eye_off
+                      : LucideIcons.eye,
                   size: 20,
                 ),
                 onPressed: () => setState(
@@ -1135,7 +1136,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             if (isSelected)
               const Icon(
-                Icons.check_circle_rounded,
+                LucideIcons.circle_check,
                 color: AppColors.terracotta,
                 size: 22,
               ),

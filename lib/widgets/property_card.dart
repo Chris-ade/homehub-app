@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -105,7 +106,7 @@ class PropertyCard extends StatelessWidget {
                               ? AppColors.darkSurfaceAlt
                               : AppColors.creamAlt,
                           child: const Icon(
-                            Icons.apartment_rounded,
+                            LucideIcons.building_2,
                             size: 40,
                             color: AppColors.muted,
                           ),
@@ -167,7 +168,7 @@ class PropertyCard extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Icon(
-                            Icons.star_rounded,
+                            LucideIcons.star,
                             size: 14,
                             color: Colors.amber,
                           ),
@@ -224,9 +225,7 @@ class PropertyCard extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
-                              property.isFavorite
-                                  ? Icons.favorite_rounded
-                                  : Icons.favorite_border_rounded,
+                              LucideIcons.heart,
                               color: property.isFavorite
                                   ? AppColors.terracotta
                                   : (isDark
@@ -245,7 +244,7 @@ class PropertyCard extends StatelessWidget {
                     Row(
                       children: [
                         const Icon(
-                          Icons.location_on_rounded,
+                          LucideIcons.map_pin,
                           size: 14,
                           color: AppColors.terracotta,
                         ),
@@ -272,19 +271,19 @@ class PropertyCard extends StatelessWidget {
                     Row(
                       children: [
                         _buildSpecItem(
-                          Icons.king_bed_outlined,
+                          LucideIcons.bed_double,
                           "${property.beds} bd",
                           isDark,
                         ),
                         const SizedBox(width: 14),
                         _buildSpecItem(
-                          Icons.bathtub_outlined,
+                          LucideIcons.bath,
                           "${property.baths} ba",
                           isDark,
                         ),
                         const SizedBox(width: 14),
                         _buildSpecItem(
-                          Icons.square_foot_outlined,
+                          LucideIcons.maximize,
                           "${property.sqft} sqft",
                           isDark,
                         ),

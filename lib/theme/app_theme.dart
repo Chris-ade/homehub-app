@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
   // Primary Palette
@@ -41,6 +40,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
+    fontFamily: 'Satoshi',
     scaffoldBackgroundColor: AppColors.warmCream,
     colorScheme: const ColorScheme.light(
       primary: AppColors.forest,
@@ -79,48 +79,56 @@ class AppTheme {
       color: AppColors.line,
       thickness: 1,
     ),
-    textTheme: TextTheme(
-      displayLarge: GoogleFonts.plusJakartaSans(
+    textTheme: const TextTheme(
+      displayLarge: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
         fontSize: 32,
         fontWeight: FontWeight.w800,
         height: 1.1,
       ),
-      displayMedium: GoogleFonts.plusJakartaSans(
+      displayMedium: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
         fontSize: 26,
         fontWeight: FontWeight.w700,
         height: 1.2,
       ),
-      headlineMedium: GoogleFonts.plusJakartaSans(
+      headlineMedium: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
         fontSize: 22,
         fontWeight: FontWeight.w700,
       ),
-      titleLarge: GoogleFonts.plusJakartaSans(
+      titleLarge: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
         fontSize: 18,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
       ),
-      titleMedium: GoogleFonts.inter(
+      titleMedium: TextStyle(
+        fontFamily: 'Satoshi',
         color: AppColors.ink,
         fontSize: 16,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
       ),
-      bodyLarge: GoogleFonts.inter(
+      bodyLarge: TextStyle(
+        fontFamily: 'Satoshi',
         color: AppColors.ink,
         fontSize: 15,
         fontWeight: FontWeight.w400,
       ),
-      bodyMedium: GoogleFonts.inter(
+      bodyMedium: TextStyle(
+        fontFamily: 'Satoshi',
         color: AppColors.muted,
         fontSize: 14,
         fontWeight: FontWeight.w400,
       ),
-      labelLarge: GoogleFonts.inter(
+      labelLarge: TextStyle(
+        fontFamily: 'Satoshi',
         color: AppColors.forest,
         fontSize: 14,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
       ),
     ),
   );
@@ -128,6 +136,7 @@ class AppTheme {
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
+    fontFamily: 'Satoshi',
     scaffoldBackgroundColor: AppColors.darkBackground,
     colorScheme: const ColorScheme.dark(
       primary: AppColors.terracotta,
@@ -166,48 +175,56 @@ class AppTheme {
       color: AppColors.darkLine,
       thickness: 1,
     ),
-    textTheme: TextTheme(
-      displayLarge: GoogleFonts.plusJakartaSans(
+    textTheme: const TextTheme(
+      displayLarge: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
         color: AppColors.darkInk,
         fontSize: 32,
         fontWeight: FontWeight.w800,
         height: 1.1,
       ),
-      displayMedium: GoogleFonts.plusJakartaSans(
+      displayMedium: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
         color: AppColors.darkInk,
         fontSize: 26,
         fontWeight: FontWeight.w700,
         height: 1.2,
       ),
-      headlineMedium: GoogleFonts.plusJakartaSans(
+      headlineMedium: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
         color: AppColors.darkInk,
         fontSize: 22,
         fontWeight: FontWeight.w700,
       ),
-      titleLarge: GoogleFonts.plusJakartaSans(
+      titleLarge: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
         color: AppColors.darkInk,
         fontSize: 18,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
       ),
-      titleMedium: GoogleFonts.inter(
+      titleMedium: TextStyle(
+        fontFamily: 'Satoshi',
         color: AppColors.darkInk,
         fontSize: 16,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
       ),
-      bodyLarge: GoogleFonts.inter(
+      bodyLarge: TextStyle(
+        fontFamily: 'Satoshi',
         color: AppColors.darkInk,
         fontSize: 15,
         fontWeight: FontWeight.w400,
       ),
-      bodyMedium: GoogleFonts.inter(
+      bodyMedium: TextStyle(
+        fontFamily: 'Satoshi',
         color: AppColors.darkMuted,
         fontSize: 14,
         fontWeight: FontWeight.w400,
       ),
-      labelLarge: GoogleFonts.inter(
+      labelLarge: TextStyle(
+        fontFamily: 'Satoshi',
         color: AppColors.terracotta,
         fontSize: 14,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
       ),
     ),
   );

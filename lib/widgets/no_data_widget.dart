@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import '../theme/app_theme.dart';
 
 class NoDataWidget extends StatelessWidget {
@@ -9,7 +10,7 @@ class NoDataWidget extends StatelessWidget {
 
   const NoDataWidget({
     super.key,
-    this.icon = Icons.home_outlined,
+    this.icon = LucideIcons.house,
     required this.title,
     required this.message,
     required this.cityName,
@@ -87,7 +88,7 @@ class NoDataWidget extends StatelessWidget {
           // Clean "Notify Me" Button without text field
           ElevatedButton.icon(
             onPressed: () => _onNotifyMe(context),
-            icon: const Icon(Icons.notifications_active_rounded, size: 18),
+            icon: const Icon(LucideIcons.bell, size: 18),
             label: const Text(
               "Notify Me",
               style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),

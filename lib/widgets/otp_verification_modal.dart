@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 
@@ -184,7 +185,7 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
-                  Icons.mark_email_read_rounded,
+                  LucideIcons.mail_check,
                   color: AppColors.terracotta,
                   size: 24,
                 ),
@@ -231,7 +232,7 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.error_outline_rounded, color: Colors.red, size: 18),
+                  const Icon(LucideIcons.circle_alert, color: Colors.red, size: 18),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -255,7 +256,7 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.check_circle_rounded, color: AppColors.forest, size: 18),
+                  const Icon(LucideIcons.circle_check, color: AppColors.forest, size: 18),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(

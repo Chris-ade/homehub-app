@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -148,7 +149,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                             children: [
                               Row(
                                 children: [
-                                  const Icon(Icons.calendar_month_rounded, size: 16, color: AppColors.terracotta),
+                                  const Icon(LucideIcons.calendar, size: 16, color: AppColors.terracotta),
                                   const SizedBox(width: 6),
                                   Text(
                                     "${DateFormat('EEE, MMM d').format(b.date)} @ ${b.timeSlot}",
@@ -217,7 +218,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                                 ),
                                 child: const Row(
                                   children: [
-                                    Icon(Icons.verified_user_rounded, size: 14, color: AppColors.terracotta),
+                                    Icon(LucideIcons.shield_check, size: 14, color: AppColors.terracotta),
                                     SizedBox(width: 4),
                                     Text(
                                       "ESCROW PROTECTED",
@@ -269,7 +270,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                             ),
                             child: Row(
                               children: [
-                                const Icon(Icons.description_rounded, color: AppColors.forest, size: 20),
+                                const Icon(LucideIcons.file_text, color: AppColors.forest, size: 20),
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: Column(
@@ -343,7 +344,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.event_busy_rounded, size: 60, color: isDark ? AppColors.darkMuted : AppColors.muted),
+          Icon(LucideIcons.calendar_x, size: 60, color: isDark ? AppColors.darkMuted : AppColors.muted),
           const SizedBox(height: 16),
           Text(
             text,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/property_provider.dart';
@@ -32,7 +33,7 @@ class FavoritesScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.favorite_border_rounded,
+                    LucideIcons.heart,
                     size: 64,
                     color: isDark ? AppColors.darkMuted : AppColors.muted,
                   ),

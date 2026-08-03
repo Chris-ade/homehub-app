@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -31,7 +32,7 @@ class ChatScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.chat_bubble_outline_rounded, size: 60, color: isDark ? AppColors.darkMuted : AppColors.muted),
+                  Icon(LucideIcons.message_square, size: 60, color: isDark ? AppColors.darkMuted : AppColors.muted),
                   const SizedBox(height: 16),
                   Text(
                     "No Conversations Yet",

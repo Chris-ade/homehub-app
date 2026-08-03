@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -70,13 +71,13 @@ class _SearchScreenState extends State<SearchScreen> {
                               fontSize: 13,
                             ),
                             prefixIcon: const Icon(
-                              Icons.search_rounded,
+                              LucideIcons.search,
                               size: 20,
                               color: AppColors.forest,
                             ),
                             suffixIcon: _searchController.text.isNotEmpty
                                 ? IconButton(
-                                    icon: const Icon(Icons.clear, size: 16),
+                                    icon: const Icon(LucideIcons.x, size: 16),
                                     onPressed: () {
                                       _searchController.clear();
                                       propertyProvider.setSearchQuery("");
@@ -111,7 +112,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                         ),
                         icon: const Icon(
-                          Icons.tune_rounded,
+                          LucideIcons.sliders_horizontal,
                           color: AppColors.terracotta,
                           size: 20,
                         ),
@@ -135,8 +136,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         icon: Icon(
                           _isMapView
-                              ? Icons.format_list_bulleted_rounded
-                              : Icons.map_rounded,
+                              ? LucideIcons.list
+                              : LucideIcons.map,
                           color: _isMapView
                               ? Colors.white
                               : (isDark ? AppColors.darkInk : AppColors.ink),
@@ -284,7 +285,7 @@ class _SearchScreenState extends State<SearchScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.location_on_rounded,
+                  LucideIcons.map_pin,
                   size: 48,
                   color: AppColors.terracotta,
                 ),
@@ -415,7 +416,7 @@ class _SearchScreenState extends State<SearchScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.apartment_rounded,
+            LucideIcons.building_2,
             size: 60,
             color: isDark ? AppColors.darkMuted : AppColors.muted,
           ),

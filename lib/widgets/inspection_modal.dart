@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -80,7 +81,7 @@ class _InspectionModalState extends State<InspectionModal> {
                     color: AppColors.terracotta.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.calendar_month_rounded, color: AppColors.terracotta, size: 22),
+                  child: const Icon(LucideIcons.calendar, color: AppColors.terracotta, size: 22),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -129,7 +130,7 @@ class _InspectionModalState extends State<InspectionModal> {
                 Expanded(
                   child: _buildTypeOption(
                     "In-Person Viewing",
-                    Icons.how_to_reg_rounded,
+                    LucideIcons.user_check,
                     _inspectionType == "In-Person Viewing",
                     isDark,
                   ),
@@ -138,7 +139,7 @@ class _InspectionModalState extends State<InspectionModal> {
                 Expanded(
                   child: _buildTypeOption(
                     "3D Virtual Tour",
-                    Icons.videocam_rounded,
+                    LucideIcons.video,
                     _inspectionType == "3D Virtual Tour",
                     isDark,
                   ),
@@ -172,7 +173,7 @@ class _InspectionModalState extends State<InspectionModal> {
                       setState(() => _selectedDate = picked);
                     }
                   },
-                  icon: const Icon(Icons.calendar_today_rounded, size: 16, color: AppColors.terracotta),
+                  icon: const Icon(LucideIcons.calendar, size: 16, color: AppColors.terracotta),
                   label: Text(
                     DateFormat('E, MMM d').format(_selectedDate),
                     style: const TextStyle(
@@ -283,7 +284,7 @@ class _InspectionModalState extends State<InspectionModal> {
                     backgroundColor: AppColors.forest,
                     content: Row(
                       children: [
-                        const Icon(Icons.check_circle_rounded, color: Colors.white),
+                        const Icon(LucideIcons.circle_check, color: Colors.white),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(

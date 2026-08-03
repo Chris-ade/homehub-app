@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -167,7 +168,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     backgroundColor: AppColors.terracotta,
                     shape: const CircleBorder(),
                   ),
-                  icon: const Icon(Icons.send_rounded, color: Colors.white, size: 18),
+                  icon: const Icon(LucideIcons.send, color: Colors.white, size: 18),
                   onPressed: () {
                     if (_msgController.text.trim().isNotEmpty) {
                       chatProvider.sendMessage(thread.id, _msgController.text.trim());

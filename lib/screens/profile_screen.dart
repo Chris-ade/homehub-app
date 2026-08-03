@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
@@ -35,7 +36,7 @@ class ProfileScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(
-              Icons.notifications_none_rounded,
+              LucideIcons.bell,
               color: isDark ? AppColors.darkInk : const Color(0xFF222222),
               size: 24,
             ),
@@ -74,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
                         radius: 36,
                         backgroundColor: AppColors.forest,
                         child: Icon(
-                          Icons.person_rounded,
+                          LucideIcons.user,
                           color: Colors.white,
                           size: 36,
                         ),
@@ -216,7 +217,7 @@ class ProfileScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       const Icon(
-                        Icons.warning_amber_rounded,
+                        LucideIcons.triangle_alert,
                         color: Colors.amber,
                         size: 20,
                       ),
@@ -266,7 +267,7 @@ class ProfileScreen extends StatelessWidget {
                 CustomButton(
                   text: "List a New Property",
                   isTerracotta: true,
-                  icon: Icons.add_rounded,
+                  icon: LucideIcons.plus,
                   width: double.infinity,
                   onPressed: () {
                     showModalBottomSheet(
@@ -285,7 +286,7 @@ class ProfileScreen extends StatelessWidget {
               Column(
                 children: [
                   _buildSettingTile(
-                    icon: Icons.settings_outlined,
+                    icon: LucideIcons.settings,
                     title: "Account settings",
                     isDark: isDark,
                     onTap: () => Navigator.push(
@@ -298,7 +299,7 @@ class ProfileScreen extends StatelessWidget {
                   _buildDivider(isDark),
 
                   _buildSettingTile(
-                    icon: Icons.help_outline_rounded,
+                    icon: LucideIcons.life_buoy,
                     title: "Get help",
                     isDark: isDark,
                     onTap: () {
@@ -313,7 +314,7 @@ class ProfileScreen extends StatelessWidget {
                   _buildDivider(isDark),
 
                   _buildSettingTile(
-                    icon: Icons.privacy_tip_outlined,
+                    icon: LucideIcons.shield,
                     title: "Privacy & Password",
                     isDark: isDark,
                     onTap: () =>
@@ -323,8 +324,8 @@ class ProfileScreen extends StatelessWidget {
 
                   _buildSettingTile(
                     icon: themeProvider.isDarkMode
-                        ? Icons.wb_sunny_outlined
-                        : Icons.dark_mode_outlined,
+                        ? LucideIcons.sun
+                        : LucideIcons.moon,
                     title: "Dark mode theme",
                     trailing: Switch(
                       value: themeProvider.isDarkMode,
@@ -336,7 +337,7 @@ class ProfileScreen extends StatelessWidget {
                   _buildDivider(isDark),
 
                   _buildSettingTile(
-                    icon: Icons.menu_book_outlined,
+                    icon: LucideIcons.book_open,
                     title: "Legal & Terms",
                     isDark: isDark,
                     onTap: () {
@@ -354,7 +355,7 @@ class ProfileScreen extends StatelessWidget {
                   if (userProvider.isLoggedIn) ...[
                     _buildDivider(isDark),
                     _buildSettingTile(
-                      icon: Icons.no_accounts_outlined,
+                      icon: LucideIcons.user_x,
                       iconColor: Colors.red,
                       title: "Deactivate account",
                       titleColor: Colors.red,
@@ -388,7 +389,7 @@ class ProfileScreen extends StatelessWidget {
                       );
                     },
                     icon: const Icon(
-                      Icons.logout_rounded,
+                      LucideIcons.log_out,
                       color: Colors.red,
                       size: 18,
                     ),
@@ -477,7 +478,7 @@ class ProfileScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: const Icon(
-                                Icons.lock_rounded,
+                                LucideIcons.lock,
                                 color: AppColors.forest,
                                 size: 22,
                               ),
@@ -534,13 +535,13 @@ class ProfileScreen extends StatelessWidget {
                           obscureText: obscureCurrent,
                           decoration: _inputDecoration(
                             hint: "Enter current password",
-                            icon: Icons.lock_outline_rounded,
+                            icon: LucideIcons.lock,
                             isDark: isDark,
                             suffixIcon: IconButton(
                               icon: Icon(
                                 obscureCurrent
-                                    ? Icons.visibility_off_rounded
-                                    : Icons.visibility_rounded,
+                                    ? LucideIcons.eye_off
+                                    : LucideIcons.eye,
                                 size: 20,
                               ),
                               onPressed: () => setModalState(
@@ -569,13 +570,13 @@ class ProfileScreen extends StatelessWidget {
                           obscureText: obscureNew,
                           decoration: _inputDecoration(
                             hint: "At least 6 characters",
-                            icon: Icons.lock_outline_rounded,
+                            icon: LucideIcons.lock,
                             isDark: isDark,
                             suffixIcon: IconButton(
                               icon: Icon(
                                 obscureNew
-                                    ? Icons.visibility_off_rounded
-                                    : Icons.visibility_rounded,
+                                    ? LucideIcons.eye_off
+                                    : LucideIcons.eye,
                                 size: 20,
                               ),
                               onPressed: () =>
@@ -609,13 +610,13 @@ class ProfileScreen extends StatelessWidget {
                           obscureText: obscureConfirm,
                           decoration: _inputDecoration(
                             hint: "Re-enter new password",
-                            icon: Icons.lock_outline_rounded,
+                            icon: LucideIcons.lock,
                             isDark: isDark,
                             suffixIcon: IconButton(
                               icon: Icon(
                                 obscureConfirm
-                                    ? Icons.visibility_off_rounded
-                                    : Icons.visibility_rounded,
+                                    ? LucideIcons.eye_off
+                                    : LucideIcons.eye,
                                 size: 20,
                               ),
                               onPressed: () => setModalState(
@@ -740,7 +741,7 @@ class ProfileScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Icon(
-                              Icons.warning_amber_rounded,
+                              LucideIcons.triangle_alert,
                               color: Colors.red,
                               size: 22,
                             ),
@@ -918,7 +919,7 @@ class ProfileScreen extends StatelessWidget {
       trailing:
           trailing ??
           Icon(
-            Icons.chevron_right_rounded,
+            LucideIcons.chevron_right,
             size: 18,
             color: isDark ? AppColors.darkMuted : AppColors.muted,
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -128,9 +129,9 @@ class _SplashScreenState extends State<SplashScreen>
                         ],
                       ),
                       child: const Icon(
-                        Icons.home_work_rounded,
-                        size: 54,
+                        LucideIcons.building_2,
                         color: Colors.white,
+                        size: 48,
                       ),
                     ),
 

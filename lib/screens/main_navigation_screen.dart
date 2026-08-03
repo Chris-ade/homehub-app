@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
@@ -83,28 +84,28 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500),
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home_rounded),
-              activeIcon: Icon(Icons.home_rounded, color: AppColors.terracotta),
+              icon: Icon(LucideIcons.house),
+              activeIcon: Icon(LucideIcons.house, color: AppColors.terracotta),
               label: "Home",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search_rounded),
-              activeIcon: Icon(Icons.search_rounded, color: AppColors.terracotta),
+              icon: Icon(LucideIcons.search),
+              activeIcon: Icon(LucideIcons.search, color: AppColors.terracotta),
               label: "Explore",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month_rounded),
-              activeIcon: Icon(Icons.calendar_month_rounded, color: AppColors.terracotta),
+              icon: Icon(LucideIcons.calendar),
+              activeIcon: Icon(LucideIcons.calendar, color: AppColors.terracotta),
               label: "My Rentals",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_outline_rounded),
-              activeIcon: Icon(Icons.favorite_rounded, color: AppColors.terracotta),
+              icon: Icon(LucideIcons.heart),
+              activeIcon: Icon(LucideIcons.heart, color: AppColors.terracotta),
               label: "Saved",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person_rounded),
-              activeIcon: Icon(Icons.person_rounded, color: AppColors.terracotta),
+              icon: Icon(LucideIcons.user),
+              activeIcon: Icon(LucideIcons.user, color: AppColors.terracotta),
               label: "Profile",
             ),
           ],

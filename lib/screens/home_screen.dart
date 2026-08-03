@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/property_provider.dart';
@@ -73,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Icon(
-                              Icons.home_work_rounded,
+                              LucideIcons.building_2,
                               color: Colors.white,
                               size: 20,
                             ),
@@ -99,8 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           IconButton(
                             icon: Icon(
                               themeProvider.isDarkMode
-                                  ? Icons.wb_sunny_rounded
-                                  : Icons.nightlight_round,
+                                  ? LucideIcons.sun
+                                  : LucideIcons.moon,
                               color: isDark
                                   ? AppColors.darkInk
                                   : AppColors.forest,
@@ -215,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 SizedBox(width: 4),
                                 Icon(
-                                  Icons.arrow_outward_rounded,
+                                  LucideIcons.arrow_up_right,
                                   size: 16,
                                   color: AppColors.terracotta,
                                 ),

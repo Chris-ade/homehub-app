@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -197,7 +198,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
-                    Icons.camera_alt_rounded,
+                    LucideIcons.camera,
                     color: AppColors.terracotta,
                     size: 22,
                   ),
@@ -218,7 +219,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 trailing: Icon(
-                  Icons.chevron_right_rounded,
+                  LucideIcons.chevron_right,
                   color: isDark ? AppColors.darkMuted : AppColors.muted,
                 ),
                 onTap: () => _pickPhoto(ImageSource.camera),
@@ -245,7 +246,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
-                    Icons.photo_library_rounded,
+                    LucideIcons.image,
                     color: AppColors.forest,
                     size: 22,
                   ),
@@ -266,7 +267,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 trailing: Icon(
-                  Icons.chevron_right_rounded,
+                  LucideIcons.chevron_right,
                   color: isDark ? AppColors.darkMuted : AppColors.muted,
                 ),
                 onTap: () => _pickPhoto(ImageSource.gallery),
@@ -375,7 +376,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             const Row(
                               children: [
                                 Icon(
-                                  Icons.info_outline_rounded,
+                                  LucideIcons.info,
                                   color: AppColors.forest,
                                   size: 18,
                                 ),
@@ -464,9 +465,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             children: [
                                               Icon(
                                                 res.success
-                                                    ? Icons.check_circle_rounded
-                                                    : Icons
-                                                          .error_outline_rounded,
+                                                    ? LucideIcons.circle_check
+                                                    : LucideIcons.circle_alert,
                                                 color: Colors.white,
                                               ),
                                               const SizedBox(width: 8),
@@ -583,7 +583,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         const SnackBar(
           content: Row(
             children: [
-              Icon(Icons.check_circle_rounded, color: Colors.white),
+              Icon(LucideIcons.circle_check, color: Colors.white),
               SizedBox(width: 10),
               Text(
                 "Saved successfully!",
@@ -855,7 +855,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ],
                               ),
                               child: const Icon(
-                                Icons.camera_alt_rounded,
+                                LucideIcons.camera,
                                 color: Colors.white,
                                 size: 16,
                               ),
@@ -1116,7 +1116,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                   // Privacy Info Card
                   _buildInfoCard(
-                    icon: Icons.visibility_outlined,
+                    icon: LucideIcons.eye,
                     title: "Privacy Info",
                     description:
                         "Only your full name, location, phone number, and occupation are shared with verified property agents.",

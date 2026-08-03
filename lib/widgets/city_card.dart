@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import '../models/city_model.dart';
 import '../theme/app_theme.dart';
 
@@ -62,7 +63,7 @@ class CityCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
-                        Icons.apartment_rounded,
+                        LucideIcons.building_2,
                         color: isDark ? AppColors.terracotta : AppColors.forest,
                         size: 22,
                       ),
@@ -76,7 +77,7 @@ class CityCard extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
-                        Icons.arrow_outward_rounded,
+                        LucideIcons.arrow_up_right,
                         size: 16,
                         color: isDark ? AppColors.darkInk : AppColors.forest,
                       ),
@@ -120,7 +121,7 @@ class CityCard extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      Icons.location_on_outlined,
+                      LucideIcons.map_pin,
                       size: 13,
                       color: isDark ? AppColors.darkMuted : AppColors.muted,
                     ),
