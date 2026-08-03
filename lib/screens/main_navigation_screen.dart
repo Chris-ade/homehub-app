@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
 import 'home_screen.dart';
 import 'search_screen.dart';
 import 'bookings_screen.dart';
 import 'favorites_screen.dart';
 import 'profile_screen.dart';
+import 'login_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -25,6 +28,13 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = context.watch<UserProvider>();
+
+    // Strict Auth Guard: Unauthenticated users MUST NOT see tabs or main app.
+    if (!userProvider.isLoggedIn) {
+      return const LoginScreen();
+    }
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final pages = [

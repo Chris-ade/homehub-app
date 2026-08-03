@@ -20,8 +20,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _heroLocation = "ado-ekiti";
-  String _heroPropType = "any";
   final TextEditingController _budgetController = TextEditingController(
     text: "₦ 1,500,000",
   );
@@ -412,26 +410,6 @@ class _HomeScreenState extends State<HomeScreen> {
               const SliverToBoxAdapter(child: SizedBox(height: 40)),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  InputDecoration _searchFormDecoration(bool isDark) {
-    return InputDecoration(
-      filled: true,
-      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(
-          color: isDark ? AppColors.darkLine : AppColors.line,
-        ),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(
-          color: isDark ? AppColors.darkLine : AppColors.line,
         ),
       ),
     );
