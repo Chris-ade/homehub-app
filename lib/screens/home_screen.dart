@@ -83,7 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             "HomeHub",
                             style: TextStyle(
-                              fontSize: 22,
+                              fontFamily: 'Cabinet Grotesk',
+                              fontSize: 24,
                               fontWeight: FontWeight.w900,
                               color: isDark
                                   ? AppColors.darkInk
@@ -141,7 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       RichText(
                         text: TextSpan(
                           style: TextStyle(
-                            fontSize: 34,
+                            fontFamily: 'Cabinet Grotesk',
+                            fontSize: 36,
                             fontWeight: FontWeight.w900,
                             height: 1.1,
                             color: isDark
@@ -154,6 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             TextSpan(
                               text: "moving in",
                               style: TextStyle(
+                                fontFamily: 'Cabinet Grotesk',
                                 color: AppColors.terracotta,
                                 decoration: TextDecoration.underline,
                                 decorationColor: AppColors.terracotta,
@@ -171,7 +174,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         "Verified flats, duplexes and student housing across the country, straight from the landlord or a vetted agent. No ghost listings. No payments before you've seen the door.",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontFamily: 'Satoshi',
+                          fontSize: 17,
                           height: 1.45,
                           color: isDark ? AppColors.darkMuted : AppColors.muted,
                         ),
@@ -195,7 +199,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(
                               "Featured listings",
                               style: TextStyle(
-                                fontSize: 22,
+                                fontFamily: 'Cabinet Grotesk',
+                                fontSize: 25,
                                 fontWeight: FontWeight.w900,
                                 color: isDark
                                     ? AppColors.darkInk
@@ -210,7 +215,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Text(
                                   "Browse all",
                                   style: TextStyle(
+                                    fontFamily: 'Satoshi',
                                     color: AppColors.terracotta,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -228,7 +235,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         "Active homes and rental properties verified on HomeHub directly from verified hosts.",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontFamily: 'Satoshi',
+                          fontSize: 15,
                           color: isDark ? AppColors.darkMuted : AppColors.muted,
                         ),
                       ),
@@ -315,7 +323,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Text(
                         "EXPLORE MARKETS",
                         style: TextStyle(
-                          fontSize: 11,
+                          fontFamily: 'Cabinet Grotesk',
+                          fontSize: 12,
                           fontWeight: FontWeight.w800,
                           color: AppColors.terracotta,
                           letterSpacing: 1.0,
@@ -325,7 +334,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         "Across the country.",
                         style: TextStyle(
-                          fontSize: 22,
+                          fontFamily: 'Cabinet Grotesk',
+                          fontSize: 25,
                           fontWeight: FontWeight.w900,
                           color: isDark ? AppColors.darkInk : AppColors.forest,
                         ),

@@ -202,7 +202,8 @@ class PropertyCard extends StatelessWidget {
                           child: Text(
                             property.title,
                             style: TextStyle(
-                              fontSize: 16,
+                              fontFamily: 'Cabinet Grotesk',
+                              fontSize: 20,
                               fontWeight: FontWeight.w800,
                               color: isDark
                                   ? AppColors.darkInk
@@ -231,21 +232,21 @@ class PropertyCard extends StatelessWidget {
                                   : (isDark
                                         ? AppColors.darkInk
                                         : AppColors.forest),
-                              size: 18,
+                              size: 20,
                             ),
                           ),
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 6),
 
                     // Location Address Row with Terracotta Pin Icon
                     Row(
                       children: [
                         const Icon(
                           LucideIcons.map_pin,
-                          size: 14,
+                          size: 16,
                           color: AppColors.terracotta,
                         ),
                         const SizedBox(width: 4),
@@ -253,7 +254,8 @@ class PropertyCard extends StatelessWidget {
                           child: Text(
                             property.area,
                             style: TextStyle(
-                              fontSize: 13,
+                              fontFamily: 'Satoshi',
+                              fontSize: 15,
                               color: isDark
                                   ? AppColors.darkMuted
                                   : AppColors.muted,
@@ -265,7 +267,7 @@ class PropertyCard extends StatelessWidget {
                       ],
                     ),
 
-                    SizedBox(height: isHorizontal ? 8 : 12),
+                    SizedBox(height: isHorizontal ? 10 : 14),
 
                     // Specs Row: Bed, Bath, Sqft
                     Row(
@@ -290,12 +292,12 @@ class PropertyCard extends StatelessWidget {
                       ],
                     ),
 
-                    SizedBox(height: isHorizontal ? 8 : 12),
+                    SizedBox(height: isHorizontal ? 10 : 14),
                     Divider(
                       height: 1,
                       color: isDark ? AppColors.darkLine : AppColors.line,
                     ),
-                    SizedBox(height: isHorizontal ? 8 : 12),
+                    SizedBox(height: isHorizontal ? 10 : 14),
 
                     // Bottom Row: Listed By Agent on Left, Price on Right
                     Row(
@@ -307,7 +309,7 @@ class PropertyCard extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               CircleAvatar(
-                                radius: 12,
+                                radius: 14,
                                 backgroundImage: NetworkImage(
                                   property.agent.avatarUrl,
                                 ),
@@ -317,7 +319,8 @@ class PropertyCard extends StatelessWidget {
                                 child: Text(
                                   "${property.agent.name} · ${property.agent.role.contains("Landlord") ? "Landlord" : "Agent"}",
                                   style: TextStyle(
-                                    fontSize: 11,
+                                    fontFamily: 'Satoshi',
+                                    fontSize: 13,
                                     fontWeight: FontWeight.w600,
                                     color: isDark
                                         ? AppColors.darkMuted
@@ -338,7 +341,8 @@ class PropertyCard extends StatelessWidget {
                             Text(
                               _formatCurrency(property.price),
                               style: TextStyle(
-                                fontSize: 15,
+                                fontFamily: 'Cabinet Grotesk',
+                                fontSize: 20,
                                 fontWeight: FontWeight.w900,
                                 color: isDark
                                     ? AppColors.terracotta
@@ -348,7 +352,8 @@ class PropertyCard extends StatelessWidget {
                             Text(
                               " / ${property.period}",
                               style: TextStyle(
-                                fontSize: 11,
+                                fontFamily: 'Satoshi',
+                                fontSize: 13,
                                 color: isDark
                                     ? AppColors.darkMuted
                                     : AppColors.muted,
@@ -373,14 +378,15 @@ class PropertyCard extends StatelessWidget {
       children: [
         Icon(
           icon,
-          size: 15,
+          size: 16,
           color: isDark ? AppColors.terracotta : AppColors.forest,
         ),
         const SizedBox(width: 4),
         Text(
           text,
           style: TextStyle(
-            fontSize: 12,
+            fontFamily: 'Satoshi',
+            fontSize: 14,
             fontWeight: FontWeight.w600,
             color: isDark ? AppColors.darkInk : AppColors.ink,
           ),

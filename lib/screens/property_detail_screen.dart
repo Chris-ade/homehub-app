@@ -11,9 +11,6 @@ import '../providers/property_provider.dart';
 import '../providers/chat_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/badge_chip.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/inspection_modal.dart';
-import '../widgets/esign_escrow_modal.dart';
 import 'chat_detail_screen.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
@@ -34,18 +31,6 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       symbol: '₦',
       decimalDigits: 0,
     ).format(amount);
-  }
-
-  String _formatDate(dynamic dateInput) {
-    if (dateInput == null) return "Immediately";
-    DateTime? date;
-    if (dateInput is DateTime) {
-      date = dateInput;
-    } else if (dateInput is String && dateInput.isNotEmpty) {
-      date = DateTime.tryParse(dateInput);
-    }
-    if (date == null) return "Immediately";
-    return DateFormat('MMMM d, yyyy').format(date);
   }
 
   @override
@@ -295,8 +280,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       Text(
                         prop.title,
                         style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Cabinet Grotesk',
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
                           color: isDark ? AppColors.darkInk : AppColors.forest,
                           letterSpacing: -0.3,
                         ),
@@ -309,7 +295,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         children: [
                           const Icon(
                             LucideIcons.map_pin,
-                            size: 16,
+                            size: 15,
                             color: AppColors.terracotta,
                           ),
                           const SizedBox(width: 4),
@@ -317,7 +303,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                             child: Text(
                               "${prop.area}, ${prop.city}, ${prop.state} State",
                               style: TextStyle(
-                                fontSize: 13,
+                                fontSize: 16,
                                 color: isDark
                                     ? AppColors.darkMuted
                                     : AppColors.muted,
@@ -327,78 +313,6 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                             ),
                           ),
                         ],
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Price Header Box
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? AppColors.darkSurface
-                              : AppColors.surface,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: isDark ? AppColors.darkLine : AppColors.line,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  prop.period == "month"
-                                      ? "MONTHLY RENT"
-                                      : "ANNUAL RENT",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w800,
-                                    color: AppColors.terracotta,
-                                    letterSpacing: 0.8,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  _formatCurrency(prop.price),
-                                  style: TextStyle(
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.w900,
-                                    color: isDark
-                                        ? AppColors.darkInk
-                                        : AppColors.forest,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  prop.period == "month"
-                                      ? "${_formatCurrency(prop.price * 12)} / year equivalent"
-                                      : "${_formatCurrency(prop.price / 12)} / month equivalent",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: isDark
-                                        ? AppColors.darkMuted
-                                        : AppColors.muted,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  "Available from ${_formatDate(prop.availableDate)}",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: isDark
-                                        ? AppColors.darkMuted
-                                        : AppColors.muted,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
                       ),
 
                       const SizedBox(height: 20),
@@ -429,25 +343,17 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               isDark,
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: _buildSpecPill(
-                              Icons.home_work_outlined,
-                              prop.type,
-                              isDark,
-                            ),
-                          ),
                         ],
                       ),
-
                       const SizedBox(height: 24),
 
                       // Description Section
                       Text(
                         "About this home",
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Cabinet Grotesk',
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
                           color: isDark ? AppColors.darkInk : AppColors.forest,
                         ),
                       ),
@@ -455,7 +361,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       Text(
                         prop.description,
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 19,
                           height: 1.5,
                           color: isDark ? AppColors.darkMuted : AppColors.muted,
                         ),
@@ -467,12 +373,12 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       Text(
                         "Amenities & Features",
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Cabinet Grotesk',
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
                           color: isDark ? AppColors.darkInk : AppColors.forest,
                         ),
                       ),
-
                       prop.amenities.isEmpty
                           ? Text(
                               "No amenities listed for this property.",
@@ -489,9 +395,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
-                                    childAspectRatio: 4,
-                                    crossAxisSpacing: 12,
-                                    mainAxisSpacing: 8,
+                                    childAspectRatio: 3.7,
                                   ),
                               itemCount: prop.amenities.length,
                               itemBuilder: (context, index) {
@@ -501,17 +405,17 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                   children: [
                                     Icon(
                                       iconData,
-                                      size: 22,
+                                      size: 20,
                                       color: isDark
                                           ? AppColors.terracotta
                                           : AppColors.forest,
                                     ),
-                                    const SizedBox(width: 8),
+                                    const SizedBox(width: 10),
                                     Expanded(
                                       child: Text(
                                         amenity,
                                         style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 17,
                                           color: isDark
                                               ? AppColors.darkInk
                                               : AppColors.ink,
@@ -531,8 +435,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       Text(
                         "Location on the map",
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Cabinet Grotesk',
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
                           color: isDark ? AppColors.darkInk : AppColors.forest,
                         ),
                       ),
@@ -540,11 +445,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       Row(
                         children: [
                           const Icon(
-                            Icons.map_rounded,
-                            size: 16,
+                            LucideIcons.map,
+                            size: 18,
                             color: AppColors.terracotta,
                           ),
-                          const SizedBox(width: 6),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: Builder(
                               builder: (context) {
@@ -561,7 +466,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                 return Text(
                                   "${prop.area}, $cityText, $formattedState",
                                   style: TextStyle(
-                                    fontSize: 13,
+                                    fontSize: 17,
                                     color: isDark
                                         ? AppColors.darkMuted
                                         : AppColors.muted,
@@ -672,7 +577,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                 prop.agent.avatarUrl,
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 16),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -680,7 +585,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                   Text(
                                     prop.agent.name,
                                     style: TextStyle(
-                                      fontSize: 15,
+                                      fontFamily: 'Cabinet Grotesk',
+                                      fontSize: 17,
                                       fontWeight: FontWeight.bold,
                                       color: isDark
                                           ? AppColors.darkInk
@@ -690,7 +596,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                   Text(
                                     prop.agent.role,
                                     style: TextStyle(
-                                      fontSize: 11,
+                                      fontSize: 15,
                                       color: isDark
                                           ? AppColors.darkMuted
                                           : AppColors.muted,
@@ -698,36 +604,6 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                   ),
                                 ],
                               ),
-                            ),
-
-                            // Contact / Chat Button
-                            IconButton(
-                              style: IconButton.styleFrom(
-                                backgroundColor: AppColors.forest,
-                                shape: const CircleBorder(),
-                              ),
-                              icon: const Icon(
-                                Icons.chat_bubble_outline_rounded,
-                                color: Colors.white,
-                                size: 18,
-                              ),
-                              onPressed: () {
-                                final chatProvider = context
-                                    .read<ChatProvider>();
-                                final thread = chatProvider.startOrGetThread(
-                                  propertyId: prop.id,
-                                  propertyTitle: prop.title,
-                                  agentName: prop.agent.name,
-                                  agentAvatar: prop.agent.avatarUrl,
-                                );
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ChatDetailScreen(threadId: thread.id),
-                                  ),
-                                );
-                              },
                             ),
                           ],
                         ),
@@ -743,13 +619,13 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             ],
           ),
 
-          // ── 3. ACTION BUTTONS MATCHING WEB MODEL (Chat, Inspect, E-Sign & Rent) ──
+          // FLOATING BOTTOM ACTION BAR (Price, Deposit & Agent Actions)
           Positioned(
             left: 0,
             right: 0,
             bottom: 0,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               decoration: BoxDecoration(
                 color: isDark ? AppColors.darkSurface : AppColors.surface,
                 border: Border(
@@ -760,84 +636,108 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.12),
-                    blurRadius: 12,
+                    blurRadius: 14,
                     offset: const Offset(0, -4),
                   ),
                 ],
               ),
-              child: Row(
-                children: [
-                  // WhatsApp / Chat Action
-                  IconButton.filled(
-                    style: IconButton.styleFrom(
-                      backgroundColor: AppColors.forest,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+              child: SafeArea(
+                top: false,
+                child: Row(
+                  children: [
+                    // Price & Deposit Box
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                _formatCurrency(prop.price),
+                                style: TextStyle(
+                                  fontFamily: 'Cabinet Grotesk',
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w900,
+                                  color: isDark
+                                      ? AppColors.terracotta
+                                      : AppColors.forest,
+                                ),
+                              ),
+                              Text(
+                                " / ${prop.period}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: isDark
+                                      ? AppColors.darkMuted
+                                      : AppColors.muted,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            "Deposit: ${_formatCurrency(prop.securityDeposit)} (Refundable)",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: isDark
+                                  ? AppColors.darkMuted
+                                  : AppColors.muted,
+                            ),
+                          ),
+                        ],
                       ),
-                      padding: const EdgeInsets.all(14),
                     ),
-                    icon: const Icon(
-                      Icons.chat_rounded,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    onPressed: () {
-                      final chatProvider = context.read<ChatProvider>();
-                      final thread = chatProvider.startOrGetThread(
-                        propertyId: prop.id,
-                        propertyTitle: prop.title,
-                        agentName: prop.agent.name,
-                        agentAvatar: prop.agent.avatarUrl,
-                      );
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ChatDetailScreen(threadId: thread.id),
+
+                    const SizedBox(width: 12),
+
+                    // 2. Message Agent Button
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.forest,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 14,
                         ),
-                      );
-                    },
-                  ),
-
-                  const SizedBox(width: 8),
-
-                  // 2. Book Inspection Action
-                  Expanded(
-                    child: CustomButton(
-                      text: "Inspect",
-                      isPrimary: false,
-                      icon: Icons.calendar_month_rounded,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 0,
+                      ),
+                      icon: const Icon(
+                        LucideIcons.message_circle,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                      label: const Text(
+                        "Message Agent",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          builder: (context) => InspectionModal(property: prop),
+                        final chatProvider = context.read<ChatProvider>();
+                        final thread = chatProvider.startOrGetThread(
+                          propertyId: prop.id,
+                          propertyTitle: prop.title,
+                          agentName: prop.agent.name,
+                          agentAvatar: prop.agent.avatarUrl,
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ChatDetailScreen(threadId: thread.id),
+                          ),
                         );
                       },
                     ),
-                  ),
-
-                  const SizedBox(width: 8),
-
-                  // 3. E-Sign Lease & Rent Action
-                  Expanded(
-                    child: CustomButton(
-                      text: "E-Sign & Rent",
-                      isTerracotta: true,
-                      icon: Icons.border_color_rounded,
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          builder: (context) =>
-                              ESignEscrowModal(property: prop),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -856,7 +756,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
           Text(
             label,
             style: TextStyle(
-              fontSize: 13,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
               color: isDark ? AppColors.darkInk : AppColors.ink,
             ),
             maxLines: 1,

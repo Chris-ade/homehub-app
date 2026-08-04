@@ -67,6 +67,7 @@ class Property {
   final bool isFeatured;
   bool isFavorite;
   final DateTime? availableFrom;
+  final double securityDeposit;
 
   String get city => _city.isNotEmpty ? _city : "Ado Ekiti";
   String get state => _state.isNotEmpty ? _state : "Ekiti";
@@ -100,6 +101,7 @@ class Property {
     this.isFeatured = false,
     this.isFavorite = false,
     this.availableFrom,
+    this.securityDeposit = 100000.0,
   })  : _city = city ?? "Ado Ekiti",
         _state = state ?? "Ekiti",
         gallery = gallery ?? [image],
@@ -163,6 +165,16 @@ class Property {
 
     final rawPrice = json['rent_amount'] ?? json['rentAmount'] ?? json['price'] ?? 0;
     final double parsedPrice = double.tryParse(rawPrice.toString()) ?? 0.0;
+
+    final rawDeposit = json['caution_fee'] ??
+        json['cautionFee'] ??
+        json['security_deposit'] ??
+        json['securityDeposit'] ??
+        json['deposit'] ??
+        json['deposit_amount'] ??
+        json['caution_deposit'];
+    final double? parsedDeposit = rawDeposit != null ? double.tryParse(rawDeposit.toString()) : null;
+    final double finalDeposit = parsedDeposit ?? (parsedPrice > 0 ? (parsedPrice * 0.1) : 100000.0);
 
     final String cityVal = (json['city'] ?? json['city_slug'] ?? json['citySlug'] ?? 'Ado Ekiti').toString();
     final String stateVal = (json['state'] ?? 'Ekiti').toString();
@@ -258,6 +270,7 @@ class Property {
       availableFrom: (json['available_from'] != null || json['availableFrom'] != null)
           ? DateTime.tryParse((json['available_from'] ?? json['availableFrom']).toString())
           : null,
+      securityDeposit: finalDeposit,
     );
   }
 }

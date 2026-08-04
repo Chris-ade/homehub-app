@@ -65,10 +65,11 @@ class _SearchScreenState extends State<SearchScreen> {
                           decoration: InputDecoration(
                             hintText: "Search location, property...",
                             hintStyle: TextStyle(
+                              fontFamily: 'Satoshi',
                               color: isDark
                                   ? AppColors.darkMuted
                                   : AppColors.muted,
-                              fontSize: 13,
+                              fontSize: 15,
                             ),
                             prefixIcon: const Icon(
                               LucideIcons.search,
@@ -179,13 +180,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                     ? AppColors.darkSurfaceAlt
                                     : AppColors.creamAlt,
                                 labelStyle: TextStyle(
+                                  fontFamily: 'Satoshi',
                                   color: isSelected
                                       ? Colors.white
                                       : (isDark
                                             ? AppColors.darkInk
                                             : AppColors.ink),
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 12,
+                                  fontSize: 14,
                                 ),
                                 onSelected: (sel) {
                                   if (sel) {

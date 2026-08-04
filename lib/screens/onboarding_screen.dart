@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
@@ -81,7 +80,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       const SizedBox(width: 10),
                       Text(
                         "HomeHub",
-                        style: GoogleFonts.plusJakartaSans(
+                        style: TextStyle(
+                          fontFamily: 'Cabinet Grotesk',
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
                           color: isDark ? AppColors.darkInk : AppColors.forest,
@@ -96,6 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Text(
                       "Skip",
                       style: TextStyle(
+                        fontFamily: 'Satoshi',
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: isDark ? AppColors.darkMuted : AppColors.muted,
@@ -148,6 +149,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           child: Text(
                             slide["tag"]!,
                             style: const TextStyle(
+                              fontFamily: 'Satoshi',
                               color: AppColors.terracotta,
                               fontSize: 10,
                               fontWeight: FontWeight.w800,
@@ -162,7 +164,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         Text(
                           slide["title"]!,
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.plusJakartaSans(
+                          style: TextStyle(
+                            fontFamily: 'Cabinet Grotesk',
                             fontSize: 28,
                             fontWeight: FontWeight.w900,
                             height: 1.15,
@@ -177,7 +180,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         Text(
                           slide["description"]!,
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
+                          style: TextStyle(
+                            fontFamily: 'Satoshi',
                             fontSize: 13,
                             height: 1.45,
                             color: isDark ? AppColors.darkMuted : AppColors.muted,

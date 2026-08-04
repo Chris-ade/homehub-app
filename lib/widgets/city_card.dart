@@ -91,7 +91,8 @@ class CityCard extends StatelessWidget {
                 Text(
                   city.state.toUpperCase(),
                   style: const TextStyle(
-                    fontSize: 10,
+                    fontFamily: 'Cabinet Grotesk',
+                    fontSize: 11,
                     fontWeight: FontWeight.w800,
                     color: AppColors.terracotta,
                     letterSpacing: 0.8,
@@ -106,7 +107,8 @@ class CityCard extends StatelessWidget {
                 Text(
                   city.name,
                   style: TextStyle(
-                    fontSize: 17,
+                    fontFamily: 'Cabinet Grotesk',
+                    fontSize: 20,
                     fontWeight: FontWeight.w900,
                     color: isDark ? AppColors.darkInk : AppColors.forest,
                     letterSpacing: -0.3,
@@ -122,7 +124,7 @@ class CityCard extends StatelessWidget {
                   children: [
                     Icon(
                       LucideIcons.map_pin,
-                      size: 13,
+                      size: 14,
                       color: isDark ? AppColors.darkMuted : AppColors.muted,
                     ),
                     const SizedBox(width: 4),
@@ -130,7 +132,8 @@ class CityCard extends StatelessWidget {
                       child: Text(
                         "${city.listingsCount} ${city.listingsCount == 1 ? "listing" : "listings"}",
                         style: TextStyle(
-                          fontSize: 12,
+                          fontFamily: 'Satoshi',
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: isDark ? AppColors.darkMuted : AppColors.muted,
                         ),

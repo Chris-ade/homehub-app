@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
@@ -140,7 +139,8 @@ class _SplashScreenState extends State<SplashScreen>
                     // App Name Title
                     Text(
                       "HomeHub",
-                      style: GoogleFonts.plusJakartaSans(
+                      style: TextStyle(
+                        fontFamily: 'Cabinet Grotesk',
                         fontSize: 38,
                         fontWeight: FontWeight.w900,
                         color: Colors.white,
@@ -162,7 +162,8 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                       child: Text(
                         "Verified Accommodations across Nigeria",
-                        style: GoogleFonts.inter(
+                        style: TextStyle(
+                          fontFamily: 'Satoshi',
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: Colors.white70,
@@ -188,7 +189,8 @@ class _SplashScreenState extends State<SplashScreen>
               child: Center(
                 child: Text(
                   "Zero Markups • Escrow Protected",
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
+                    fontFamily: 'Satoshi',
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
                     color: Colors.white.withValues(alpha: 0.5),

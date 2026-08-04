@@ -58,6 +58,12 @@ class AppTheme {
       centerTitle: false,
       iconTheme: IconThemeData(color: AppColors.forest),
       actionsIconTheme: IconThemeData(color: AppColors.forest),
+      titleTextStyle: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
+        fontSize: 25,
+        fontWeight: FontWeight.w800,
+        color: AppColors.forest,
+      ),
     ),
     cardTheme: CardThemeData(
       color: AppColors.surface,
@@ -71,9 +77,14 @@ class AppTheme {
       backgroundColor: AppColors.creamAlt,
       selectedColor: AppColors.terracotta,
       disabledColor: AppColors.line,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
       side: const BorderSide(color: AppColors.line),
+      labelStyle: const TextStyle(
+        fontFamily: 'Satoshi',
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      ),
     ),
     dividerTheme: const DividerThemeData(
       color: AppColors.line,
@@ -83,18 +94,36 @@ class AppTheme {
       displayLarge: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
-        fontSize: 32,
-        fontWeight: FontWeight.w800,
+        fontSize: 38,
+        fontWeight: FontWeight.w900,
         height: 1.1,
       ),
       displayMedium: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
+        fontSize: 32,
+        fontWeight: FontWeight.w800,
+        height: 1.15,
+      ),
+      displaySmall: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
+        color: AppColors.ink,
+        fontSize: 28,
+        fontWeight: FontWeight.w800,
+      ),
+      headlineLarge: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
+        color: AppColors.ink,
         fontSize: 26,
-        fontWeight: FontWeight.w700,
-        height: 1.2,
+        fontWeight: FontWeight.w800,
       ),
       headlineMedium: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
+        color: AppColors.ink,
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
+      ),
+      headlineSmall: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
         fontSize: 22,
@@ -103,11 +132,17 @@ class AppTheme {
       titleLarge: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: FontWeight.w700,
       ),
       titleMedium: TextStyle(
-        fontFamily: 'Satoshi',
+        fontFamily: 'Cabinet Grotesk',
+        color: AppColors.ink,
+        fontSize: 18,
+        fontWeight: FontWeight.w700,
+      ),
+      titleSmall: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
         fontSize: 16,
         fontWeight: FontWeight.w700,
@@ -115,10 +150,18 @@ class AppTheme {
       bodyLarge: TextStyle(
         fontFamily: 'Satoshi',
         color: AppColors.ink,
-        fontSize: 15,
+        fontSize: 18,
         fontWeight: FontWeight.w400,
+        height: 1.45,
       ),
       bodyMedium: TextStyle(
+        fontFamily: 'Satoshi',
+        color: AppColors.muted,
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        height: 1.4,
+      ),
+      bodySmall: TextStyle(
         fontFamily: 'Satoshi',
         color: AppColors.muted,
         fontSize: 14,
@@ -127,8 +170,14 @@ class AppTheme {
       labelLarge: TextStyle(
         fontFamily: 'Satoshi',
         color: AppColors.forest,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+      labelMedium: TextStyle(
+        fontFamily: 'Satoshi',
+        color: AppColors.muted,
         fontSize: 14,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
       ),
     ),
   );
@@ -154,6 +203,12 @@ class AppTheme {
       centerTitle: false,
       iconTheme: IconThemeData(color: AppColors.darkInk),
       actionsIconTheme: IconThemeData(color: AppColors.darkInk),
+      titleTextStyle: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
+        fontSize: 25,
+        fontWeight: FontWeight.w800,
+        color: AppColors.darkInk,
+      ),
     ),
     cardTheme: CardThemeData(
       color: AppColors.darkSurface,
@@ -167,9 +222,14 @@ class AppTheme {
       backgroundColor: AppColors.darkSurfaceAlt,
       selectedColor: AppColors.terracotta,
       disabledColor: AppColors.darkLine,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
       side: const BorderSide(color: AppColors.darkLine),
+      labelStyle: const TextStyle(
+        fontFamily: 'Satoshi',
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      ),
     ),
     dividerTheme: const DividerThemeData(
       color: AppColors.darkLine,
@@ -179,18 +239,36 @@ class AppTheme {
       displayLarge: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.darkInk,
-        fontSize: 32,
-        fontWeight: FontWeight.w800,
+        fontSize: 38,
+        fontWeight: FontWeight.w900,
         height: 1.1,
       ),
       displayMedium: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.darkInk,
+        fontSize: 32,
+        fontWeight: FontWeight.w800,
+        height: 1.15,
+      ),
+      displaySmall: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
+        color: AppColors.darkInk,
+        fontSize: 28,
+        fontWeight: FontWeight.w800,
+      ),
+      headlineLarge: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
+        color: AppColors.darkInk,
         fontSize: 26,
-        fontWeight: FontWeight.w700,
-        height: 1.2,
+        fontWeight: FontWeight.w800,
       ),
       headlineMedium: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
+        color: AppColors.darkInk,
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
+      ),
+      headlineSmall: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.darkInk,
         fontSize: 22,
@@ -199,11 +277,17 @@ class AppTheme {
       titleLarge: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.darkInk,
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: FontWeight.w700,
       ),
       titleMedium: TextStyle(
-        fontFamily: 'Satoshi',
+        fontFamily: 'Cabinet Grotesk',
+        color: AppColors.darkInk,
+        fontSize: 18,
+        fontWeight: FontWeight.w700,
+      ),
+      titleSmall: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
         color: AppColors.darkInk,
         fontSize: 16,
         fontWeight: FontWeight.w700,
@@ -211,10 +295,18 @@ class AppTheme {
       bodyLarge: TextStyle(
         fontFamily: 'Satoshi',
         color: AppColors.darkInk,
-        fontSize: 15,
+        fontSize: 18,
         fontWeight: FontWeight.w400,
+        height: 1.45,
       ),
       bodyMedium: TextStyle(
+        fontFamily: 'Satoshi',
+        color: AppColors.darkMuted,
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        height: 1.4,
+      ),
+      bodySmall: TextStyle(
         fontFamily: 'Satoshi',
         color: AppColors.darkMuted,
         fontSize: 14,
@@ -223,9 +315,57 @@ class AppTheme {
       labelLarge: TextStyle(
         fontFamily: 'Satoshi',
         color: AppColors.terracotta,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+      labelMedium: TextStyle(
+        fontFamily: 'Satoshi',
+        color: AppColors.darkMuted,
         fontSize: 14,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
       ),
     ),
   );
+}
+
+/// Convenience reusable HeadingText widget that automatically applies 'Cabinet Grotesk'
+class HeadingText extends StatelessWidget {
+  final String text;
+  final double fontSize;
+  final FontWeight fontWeight;
+  final Color? color;
+  final TextAlign? textAlign;
+  final int? maxLines;
+  final TextOverflow? overflow;
+  final double? letterSpacing;
+
+  const HeadingText(
+    this.text, {
+    super.key,
+    this.fontSize = 22,
+    this.fontWeight = FontWeight.w800,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.letterSpacing,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Text(
+      text,
+      textAlign: textAlign,
+      maxLines: maxLines,
+      overflow: overflow,
+      style: TextStyle(
+        fontFamily: 'Cabinet Grotesk',
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: color ?? (isDark ? AppColors.darkInk : AppColors.forest),
+        letterSpacing: letterSpacing,
+      ),
+    );
+  }
 }
