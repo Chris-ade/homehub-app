@@ -177,7 +177,7 @@ class ChatProvider extends ChangeNotifier {
         '/messages/conversations',
         body: {
           'participantId': participantId,
-          if (propertyId != null) 'propertyId': propertyId,
+          'propertyId': ?propertyId,
         },
         auth: true,
       );
