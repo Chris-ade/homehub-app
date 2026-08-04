@@ -1,3 +1,5 @@
+import '../config/app_config.dart';
+
 class Agent {
   final String name;
   final String phone;
@@ -129,7 +131,7 @@ class Property {
     }
 
     if (mainImage.startsWith('/')) {
-      mainImage = "https://rentalhub-api-0kuk.onrender.com$mainImage";
+      mainImage = "${AppConfig.apiHost}$mainImage";
     }
 
     // Extract gallery URLs safely
@@ -144,7 +146,7 @@ class Property {
           url = img;
         }
         if (url.isNotEmpty) {
-          if (url.startsWith('/')) url = "https://rentalhub-api-0kuk.onrender.com$url";
+          if (url.startsWith('/')) url = "${AppConfig.apiHost}$url";
           parsedGallery.add(url);
         }
       }

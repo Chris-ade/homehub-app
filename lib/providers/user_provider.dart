@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'dart:async';
 
 import '../models/user_model.dart';
+import '../config/app_config.dart';
+import '../services/api_client.dart';
 
 enum UserRole { tenant, landlord }
 
@@ -25,7 +27,9 @@ class AuthResponse {
   });
 }
 
-class UserProvider extends ChangeNotifier {
+class UserProvider extends ChangeNotifier implements AuthTokenProvider {
+  final ApiClient _api;
+
   bool _isLoggedIn = false;
   bool _isInitializing = true;
   bool _hasCompletedOnboarding = false;
@@ -47,10 +51,11 @@ class UserProvider extends ChangeNotifier {
   LandlordProfile? _landlordProfile;
   TenantProfile? _tenantProfile;
 
-  // Base API URL
-  static const String baseUrl = "https://rentalhub-api-0kuk.onrender.com/api";
+  // Base API URL (single source of truth in AppConfig)
+  static const String baseUrl = AppConfig.apiBaseUrl;
 
-  UserProvider() {
+  UserProvider(this._api) {
+    _api.authProvider = this;
     initAuth();
   }
 
@@ -86,8 +91,16 @@ class UserProvider extends ChangeNotifier {
   UserRole get role => _role;
   bool get isLandlord => _role == UserRole.landlord;
   double get profileCompletionPercentage => _profileCompletionPercentage;
+  @override
   String? get accessToken => _accessToken;
   String? get refreshToken => _refreshToken;
+
+  // --- AuthTokenProvider (used by the shared ApiClient for authed calls) ---
+  @override
+  Future<bool> refreshAccessToken() => refreshAuthToken();
+
+  @override
+  Future<void> onAuthFailure() => clearSession();
   UserModel? get currentUser => _userModel;
   LandlordProfile? get landlordProfile => _landlordProfile;
   TenantProfile? get tenantProfile => _tenantProfile;

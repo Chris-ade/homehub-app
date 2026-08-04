@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 import '../models/property_model.dart';
 import '../models/city_model.dart';
+import '../services/api_client.dart';
 
 class PropertyProvider extends ChangeNotifier {
+  final ApiClient _api;
+
   final List<Property> _properties = [];
   final List<City> _cities = [];
 
@@ -19,9 +20,7 @@ class PropertyProvider extends ChangeNotifier {
   int _minBeds = 0;
   bool _showOnlyFavorites = false;
 
-  static const String baseUrl = "https://rentalhub-api-0kuk.onrender.com/api";
-
-  PropertyProvider() {
+  PropertyProvider(this._api) {
     fetchListingsFromApi();
     fetchLocationStatsFromApi();
   }
@@ -89,12 +88,10 @@ class PropertyProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await http
-          .get(Uri.parse('$baseUrl/listings'))
-          .timeout(const Duration(seconds: 12));
+      final res = await _api.get('/listings');
 
-      if (response.statusCode == 200) {
-        final dynamic data = jsonDecode(response.body);
+      if (res.ok) {
+        final dynamic data = res.data;
         List<dynamic>? list;
 
         if (data is List) {
@@ -131,12 +128,10 @@ class PropertyProvider extends ChangeNotifier {
   // Fetch detailed property (with full amenities & reviews) from GET /listings/:id
   Future<Property?> fetchPropertyDetailFromApi(String propertyId) async {
     try {
-      final response = await http
-          .get(Uri.parse('$baseUrl/listings/$propertyId'))
-          .timeout(const Duration(seconds: 10));
+      final res = await _api.get('/listings/$propertyId', timeout: const Duration(seconds: 10));
 
-      if (response.statusCode == 200) {
-        final dynamic data = jsonDecode(response.body);
+      if (res.ok) {
+        final dynamic data = res.data;
         Map<String, dynamic>? itemMap;
         if (data is Map<String, dynamic>) {
           itemMap = data['data'] is Map<String, dynamic> ? data['data'] : data;
@@ -160,12 +155,10 @@ class PropertyProvider extends ChangeNotifier {
   // Fetch real location stats from live API
   Future<void> fetchLocationStatsFromApi() async {
     try {
-      final response = await http
-          .get(Uri.parse('$baseUrl/listings/locations/stats'))
-          .timeout(const Duration(seconds: 12));
+      final res = await _api.get('/listings/locations/stats');
 
-      if (response.statusCode == 200) {
-        final dynamic data = jsonDecode(response.body);
+      if (res.ok) {
+        final dynamic data = res.data;
         List<dynamic>? list;
 
         if (data is List) {
