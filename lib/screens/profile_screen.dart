@@ -323,18 +323,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   _buildDivider(isDark),
 
-                  _buildSettingTile(
-                    icon: themeProvider.isDarkMode
-                        ? LucideIcons.sun
-                        : LucideIcons.moon,
-                    title: "Dark mode theme",
-                    trailing: Switch(
-                      value: themeProvider.isDarkMode,
-                      activeTrackColor: AppColors.terracotta,
-                      onChanged: (v) => themeProvider.toggleTheme(),
-                    ),
-                    isDark: isDark,
-                  ),
+                  _buildThemeModeTile(themeProvider, isDark),
                   _buildDivider(isDark),
 
                   _buildSettingTile(
@@ -933,6 +922,96 @@ class ProfileScreen extends StatelessWidget {
       height: 1,
       indent: 56,
       color: isDark ? AppColors.darkLine : AppColors.line,
+    );
+  }
+
+  /// Appearance row with a System / Light / Dark segmented control. "System"
+  /// follows the device; the choice persists via AppThemeProvider.
+  Widget _buildThemeModeTile(AppThemeProvider themeProvider, bool isDark) {
+    final accent = isDark ? AppColors.darkAccent : AppColors.terracotta;
+
+    Widget segment(ThemeMode mode, IconData icon, String label) {
+      final selected = themeProvider.themeMode == mode;
+      return Expanded(
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => themeProvider.setThemeMode(mode),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            decoration: BoxDecoration(
+              color: selected ? accent : Colors.transparent,
+              borderRadius: BorderRadius.circular(9),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  icon,
+                  size: 18,
+                  color: selected
+                      ? Colors.white
+                      : (isDark ? AppColors.darkMuted : AppColors.muted),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontFamily: 'Satoshi',
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: selected
+                        ? Colors.white
+                        : (isDark ? AppColors.darkMuted : AppColors.muted),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                themeProvider.isDarkMode ? LucideIcons.moon : LucideIcons.sun,
+                size: 20,
+                color: isDark ? AppColors.darkInk : AppColors.forest,
+              ),
+              const SizedBox(width: 16),
+              Text(
+                "Appearance",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: isDark ? AppColors.darkInk : AppColors.ink,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                segment(ThemeMode.system, LucideIcons.smartphone, "System"),
+                segment(ThemeMode.light, LucideIcons.sun, "Light"),
+                segment(ThemeMode.dark, LucideIcons.moon, "Dark"),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
