@@ -32,6 +32,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   Timer? _typingTimer;
   int _lastMessageCount = 0;
   bool _lastTyping = false;
+  bool _openingProperty = false;
 
   @override
   void initState() {
@@ -129,15 +130,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   Future<void> _viewProperty(ChatThread thread) async {
     final propertyId = thread.propertyId;
-    if (propertyId == null || propertyId.isEmpty) return;
+    if (propertyId == null || propertyId.isEmpty || _openingProperty) return;
 
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
+    setState(() => _openingProperty = true);
     final property = await context
         .read<PropertyProvider>()
         .fetchPropertyDetailFromApi(propertyId);
 
     if (!mounted) return;
+    setState(() => _openingProperty = false);
     if (property == null) {
       messenger.showSnackBar(
         const SnackBar(
@@ -266,15 +269,36 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       fontWeight: FontWeight.bold,
                       color: isDark ? AppColors.darkInk : AppColors.ink,
                     ),
-                  ),
-                  Text(
-                    thread.propertyTitle,
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: isDark ? AppColors.darkMuted : AppColors.muted,
-                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 7,
+                        height: 7,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: thread.online
+                              ? Colors.green
+                              : (isDark
+                                  ? AppColors.darkMuted
+                                  : AppColors.muted),
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        thread.online ? "Active now" : "Offline",
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: thread.online
+                              ? Colors.green
+                              : (isDark
+                                  ? AppColors.darkMuted
+                                  : AppColors.muted),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -286,9 +310,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             icon: const Icon(LucideIcons.ellipsis_vertical),
             onSelected: (value) {
               switch (value) {
-                case 'property':
-                  _viewProperty(thread);
-                  break;
                 case 'archive':
                   _archive(thread);
                   break;
@@ -298,20 +319,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               }
             },
             itemBuilder: (context) {
-              final hasProperty =
-                  thread.propertyId != null && thread.propertyId!.isNotEmpty;
               return [
-                if (hasProperty)
-                  const PopupMenuItem(
-                    value: 'property',
-                    child: Row(
-                      children: [
-                        Icon(LucideIcons.building_2, size: 18),
-                        SizedBox(width: 10),
-                        Text("View property"),
-                      ],
-                    ),
-                  ),
                 const PopupMenuItem(
                   value: 'archive',
                   child: Row(
@@ -340,6 +348,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       ),
       body: Column(
         children: [
+          if (thread.propertyId != null && thread.propertyId!.isNotEmpty)
+            _buildPropertyBanner(isDark, thread),
+
           // Messages Feed
           Expanded(
             child: (messages.isEmpty && !isTyping)
@@ -556,6 +567,87 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               fontWeight: FontWeight.w600,
               color: isDark ? AppColors.darkMuted : AppColors.muted,
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Fixed banner under the header linking to the property this chat is about.
+  Widget _buildPropertyBanner(bool isDark, ChatThread thread) {
+    return Material(
+      color: isDark ? AppColors.darkSurface : AppColors.surface,
+      child: InkWell(
+        onTap: () => _viewProperty(thread),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                  color: isDark ? AppColors.darkLine : AppColors.line),
+            ),
+          ),
+          child: Row(
+            children: [
+              const Icon(LucideIcons.building_2,
+                  size: 18, color: AppColors.forest),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Enquiry about",
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: isDark ? AppColors.darkMuted : AppColors.muted,
+                      ),
+                    ),
+                    Text(
+                      thread.propertyTitle,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: isDark ? AppColors.darkInk : AppColors.ink,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              _openingProperty
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: AppColors.forest,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "View",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(width: 4),
+                          Icon(LucideIcons.arrow_right,
+                              size: 14, color: Colors.white),
+                        ],
+                      ),
+                    ),
+            ],
           ),
         ),
       ),
