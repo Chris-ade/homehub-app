@@ -33,8 +33,8 @@ This document tracks completed features and pending tasks for the **HomeHub** re
 ### 1. Frontend Integration & Enhancements (Flutter)
 - [ ] **Live API Integration for Landlord Property Creation**:
   - Connect [`AddPropertyModal`](file:///home/chrisdev/Desktop/homehub-app/lib/widgets/add_property_modal.dart) directly to `POST /api/listings` and `POST /api/listings/upload-images` instead of local state mutation only. Currently builds an in-memory `Property` with a hardcoded Unsplash placeholder image and never POSTs.
-- [ ] **Live Bookmarks / Favorites Persistence**:
-  - Wire [`PropertyProvider.toggleFavorite`](file:///home/chrisdev/Desktop/homehub-app/lib/providers/property_provider.dart) to the existing backend endpoints `POST /api/listings/bookmark/:id` and `GET /api/listings/bookmark/all`. Backend is ready; the app currently only flips an in-memory bool, so saved properties are lost on restart.
+- [x] **Live Bookmarks / Favorites Persistence**:
+  - Wired [`PropertyProvider.toggleFavorite`](file:///home/chrisdev/Desktop/homehub-app/lib/providers/property_provider.dart) to `POST /api/listings/bookmark/:id` (optimistic flip + revert on failure, reconciles with the server's `bookmarked` flag). Saved state loaded via `GET /api/listings/bookmark/all` in `fetchBookmarksFromApi()`, triggered after listings load (returning users) and after login.
 - [ ] **Live Chat / Messaging Integration (currently 100% mock)**:
   - [`ChatProvider`](file:///home/chrisdev/Desktop/homehub-app/lib/providers/chat_provider.dart) is entirely local — it seeds from `MockData` and replies with a scripted keyword bot (`_simulateAgentResponse`). The backend + web app already have full realtime chat. Wire the REST endpoints (`GET/POST /api/messages/conversations`, `/conversations/:id`, `/conversations/:id/read`, `/messages/unread-count`) **and** the live WebSocket listener (`/api/messages/ws`, token via `?token=`) for push messages, typing indicators, and read receipts. **← highest-value parity gap.**
 - [ ] **Live API Integration for Bookings**:
