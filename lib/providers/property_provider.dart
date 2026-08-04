@@ -123,6 +123,11 @@ class PropertyProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+
+    // For a returning, already-authenticated user, merge in their saved
+    // bookmarks so heart icons reflect server state on launch. Self-guards
+    // when signed out.
+    await fetchBookmarksFromApi();
   }
 
   // Fetch detailed property (with full amenities & reviews) from GET /listings/:id
@@ -214,8 +219,93 @@ class PropertyProvider extends ChangeNotifier {
 
   void toggleFavorite(String propertyId) {
     final index = _properties.indexWhere((p) => p.id == propertyId);
-    if (index != -1) {
-      _properties[index].isFavorite = !_properties[index].isFavorite;
+    if (index == -1) return;
+
+    // Optimistic update for a snappy UI.
+    final previous = _properties[index].isFavorite;
+    _setFavorite(propertyId, !previous);
+
+    // App requires auth to reach these screens; skip persistence if somehow
+    // signed out so we never trigger a spurious 401/session clear.
+    if (!_isLoggedIn) return;
+
+    _persistBookmark(propertyId, previous);
+  }
+
+  // Persist a bookmark toggle to the backend; revert local state on failure.
+  Future<void> _persistBookmark(String propertyId, bool previous) async {
+    try {
+      final res = await _api.post('/listings/bookmark/$propertyId', auth: true);
+      if (!res.isSuccess) {
+        _setFavorite(propertyId, previous);
+        return;
+      }
+      // Reconcile with server truth when the response reports it.
+      final data = res.data;
+      if (data is Map &&
+          data['data'] is Map &&
+          data['data']['bookmarked'] is bool) {
+        _setFavorite(propertyId, data['data']['bookmarked'] as bool);
+      }
+    } catch (_) {
+      _setFavorite(propertyId, previous);
+    }
+  }
+
+  // Load the authenticated user's saved properties and reflect them locally.
+  Future<void> fetchBookmarksFromApi() async {
+    if (!_isLoggedIn) return;
+
+    try {
+      final res = await _api.get('/listings/bookmark/all', auth: true);
+      if (!res.ok) return;
+
+      final dynamic data = res.data;
+      List<dynamic>? list;
+      if (data is List) {
+        list = data;
+      } else if (data is Map && data['data'] is List) {
+        list = data['data'];
+      }
+      if (list == null) return;
+
+      final bookmarked = <Property>[];
+      for (var item in list) {
+        if (item is Map<String, dynamic>) {
+          try {
+            bookmarked.add(Property.fromJson(item));
+          } catch (_) {}
+        }
+      }
+
+      final ids = bookmarked.map((p) => p.id).toSet();
+
+      // Mark saved state on the listings we already have.
+      for (final p in _properties) {
+        p.isFavorite = ids.contains(p.id);
+      }
+      // Add saved properties that aren't in the current listing set so the
+      // Saved tab shows them even when they're off the current page.
+      for (final b in bookmarked) {
+        if (_properties.indexWhere((p) => p.id == b.id) == -1) {
+          b.isFavorite = true;
+          _properties.add(b);
+        }
+      }
+
+      notifyListeners();
+    } catch (_) {}
+  }
+
+  bool get _isLoggedIn {
+    final token = _api.authProvider?.accessToken;
+    return token != null && token.isNotEmpty;
+  }
+
+  void _setFavorite(String propertyId, bool value) {
+    final i = _properties.indexWhere((p) => p.id == propertyId);
+    if (i != -1) {
+      _properties[i].isFavorite = value;
       notifyListeners();
     }
   }

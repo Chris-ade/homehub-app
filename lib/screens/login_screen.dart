@@ -3,6 +3,7 @@ import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
+import '../providers/property_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/custom_button.dart';
 import 'main_navigation_screen.dart';
@@ -52,6 +53,9 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     if (result.success) {
+      // Load this user's saved properties (fire-and-forget; won't block nav).
+      context.read<PropertyProvider>().fetchBookmarksFromApi();
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.forest,
