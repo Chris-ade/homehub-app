@@ -27,6 +27,9 @@ class ChatMessage {
   final DateTime timestamp;
   final bool read;
   final bool isMe;
+  final bool pending; // true while the POST is in flight
+  final bool failed; // true if the POST failed (tap to retry)
+  final String? failReason; // why it failed (e.g. content-filter message)
 
   const ChatMessage({
     required this.id,
@@ -38,6 +41,9 @@ class ChatMessage {
     required this.timestamp,
     required this.read,
     required this.isMe,
+    this.pending = false,
+    this.failed = false,
+    this.failReason,
   });
 
   /// Tolerant of both the REST DTO (snake_case: `sender_id`, `conversation_id`)
@@ -87,6 +93,9 @@ class ChatMessage {
     DateTime? timestamp,
     bool? read,
     bool? isMe,
+    bool? pending,
+    bool? failed,
+    String? failReason,
   }) {
     return ChatMessage(
       id: id ?? this.id,
@@ -98,6 +107,9 @@ class ChatMessage {
       timestamp: timestamp ?? this.timestamp,
       read: read ?? this.read,
       isMe: isMe ?? this.isMe,
+      pending: pending ?? this.pending,
+      failed: failed ?? this.failed,
+      failReason: failReason ?? this.failReason,
     );
   }
 }

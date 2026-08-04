@@ -28,7 +28,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   final TextEditingController _msgController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  bool _sending = false;
   bool _typingSent = false;
   Timer? _typingTimer;
   int _lastMessageCount = 0;
@@ -92,7 +91,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   Future<void> _send() async {
     final text = _msgController.text.trim();
-    if (text.isEmpty || _sending) return;
+    if (text.isEmpty) return;
 
     final chat = context.read<ChatProvider>();
 
@@ -103,27 +102,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       chat.sendTyping(widget.threadId, false);
     }
 
-    setState(() => _sending = true);
+    // Fire-and-forget: the bubble appears instantly with a pending clock and
+    // uploads in the background — the field stays usable so you can keep
+    // sending. No awaiting, no disabling.
+    chat.enqueueMessage(widget.threadId, text);
     _msgController.clear();
     _scrollToBottom();
-
-    final result = await chat.sendMessage(widget.threadId, text);
-
-    if (!mounted) return;
-    setState(() => _sending = false);
-
-    if (result.ok) {
-      _scrollToBottom();
-    } else {
-      // Restore the text so the user can retry, and surface the reason.
-      _msgController.text = text;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(result.error ?? "Message could not be sent."),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-    }
   }
 
   // --- grouping helpers ---------------------------------------------------
@@ -476,17 +460,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               ),
               if (isMe) ...[
                 const SizedBox(width: 4),
-                Icon(
-                  msg.read ? LucideIcons.circle_check : LucideIcons.check,
-                  size: 12,
-                  color: Colors.white70,
-                ),
+                _statusIcon(msg),
               ],
             ],
           ),
         ],
       ),
     );
+
+    // Failed messages are tappable to retry / surface the reason.
+    final Widget bubbleWrapped = msg.failed
+        ? GestureDetector(
+            onTap: () => _onFailedTap(msg),
+            child: bubble,
+          )
+        : bubble;
 
     // Received messages carry the sender avatar, but only on the bottom-most
     // bubble of a group; a spacer keeps earlier bubbles aligned.
@@ -501,7 +489,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               : _Avatar(url: thread.agentAvatar, radius: 14),
           const SizedBox(width: 8),
         ],
-        Flexible(child: bubble),
+        Flexible(child: bubbleWrapped),
       ],
     );
 
@@ -513,6 +501,38 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           child: row,
         ),
       ],
+    );
+  }
+
+  /// WhatsApp-style delivery status: clock (pending) → single check (sent) →
+  /// circle-check (read); a red alert when a send failed.
+  Widget _statusIcon(ChatMessage msg) {
+    if (msg.pending) {
+      return const Icon(LucideIcons.clock, size: 11, color: Colors.white70);
+    }
+    if (msg.failed) {
+      return const Icon(LucideIcons.circle_alert,
+          size: 12, color: Color(0xFFFFC1B6));
+    }
+    return Icon(
+      msg.read ? LucideIcons.circle_check : LucideIcons.check,
+      size: 12,
+      color: Colors.white70,
+    );
+  }
+
+  void _onFailedTap(ChatMessage msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg.failReason ?? "Message not delivered."),
+        behavior: SnackBarBehavior.floating,
+        action: SnackBarAction(
+          label: "Retry",
+          onPressed: () => context
+              .read<ChatProvider>()
+              .retryMessage(widget.threadId, msg.id),
+        ),
+      ),
     );
   }
 
@@ -584,17 +604,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               backgroundColor: AppColors.terracotta,
               shape: const CircleBorder(),
             ),
-            icon: _sending
-                ? const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
-                  )
-                : const Icon(LucideIcons.send, color: Colors.white, size: 18),
-            onPressed: _sending ? null : _send,
+            icon: const Icon(LucideIcons.send, color: Colors.white, size: 18),
+            onPressed: _send,
           ),
         ],
       ),

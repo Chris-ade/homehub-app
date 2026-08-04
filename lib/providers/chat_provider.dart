@@ -37,6 +37,9 @@ class ChatProvider extends ChangeNotifier {
   // conversationId -> whether the counterparty is currently typing.
   final Map<String, bool> _typingByConversation = {};
 
+  // conversationId -> tail of the serial send chain (preserves message order).
+  final Map<String, Future<void>> _sendQueues = {};
+
   // Getters
   List<ChatThread> get threads => _threads;
   bool get isLoading => _loadingThreads;
@@ -219,14 +222,12 @@ class ChatProvider extends ChangeNotifier {
     }
   }
 
-  /// Sends [content] optimistically. Returns an error string on failure (e.g.
-  /// the backend's content-filter 400) so the UI can surface it.
-  Future<({bool ok, String? error})> sendMessage(
-    String conversationId,
-    String content,
-  ) async {
+  /// Enqueues [content] the WhatsApp way: the bubble appears immediately with a
+  /// pending clock, the input stays usable, and delivery happens in the
+  /// background. Sends are serialized per conversation to preserve order.
+  void enqueueMessage(String conversationId, String content) {
     final thread = getThreadById(conversationId);
-    if (thread == null) return (ok: false, error: "Conversation not found.");
+    if (thread == null) return;
 
     final tempId = "temp-${DateTime.now().microsecondsSinceEpoch}";
     final optimistic = ChatMessage(
@@ -239,11 +240,51 @@ class ChatProvider extends ChangeNotifier {
       timestamp: DateTime.now(),
       read: false,
       isMe: true,
+      pending: true,
     );
     thread.messages.add(optimistic);
     thread.lastMessage = content;
     thread.lastMessageTime = optimistic.timestamp;
     notifyListeners();
+
+    _chainSend(conversationId, () => _deliver(conversationId, tempId, content));
+  }
+
+  /// Retries a previously-failed message (tap-to-retry).
+  void retryMessage(String conversationId, String messageId) {
+    final thread = getThreadById(conversationId);
+    if (thread == null) return;
+    final i = thread.messages.indexWhere((m) => m.id == messageId);
+    if (i == -1) return;
+    final msg = thread.messages[i];
+    if (!msg.failed) return;
+
+    thread.messages[i] = msg.copyWith(pending: true, failed: false);
+    notifyListeners();
+
+    _chainSend(
+        conversationId, () => _deliver(conversationId, messageId, msg.content));
+  }
+
+  // Serializes deliveries per conversation so bubbles land in send order.
+  void _chainSend(String conversationId, Future<void> Function() task) {
+    final prev = _sendQueues[conversationId] ?? Future.value();
+    final next = prev.then((_) => task()).catchError((_) {});
+    _sendQueues[conversationId] = next;
+  }
+
+  Future<void> _deliver(
+    String conversationId,
+    String tempId,
+    String content,
+  ) async {
+    final thread = getThreadById(conversationId);
+    if (thread == null) return;
+
+    void patch(ChatMessage Function(ChatMessage) update) {
+      final i = thread.messages.indexWhere((m) => m.id == tempId);
+      if (i != -1) thread.messages[i] = update(thread.messages[i]);
+    }
 
     try {
       final res = await _api.post(
@@ -260,27 +301,30 @@ class ChatProvider extends ChangeNotifier {
             currentUserId: _currentUserId,
           );
           final i = thread.messages.indexWhere((m) => m.id == tempId);
-          if (i != -1) {
-            thread.messages[i] = confirmed;
-          }
+          if (i != -1) thread.messages[i] = confirmed;
           thread.lastMessage = confirmed.content;
           thread.lastMessageTime = confirmed.timestamp;
-          notifyListeners();
+        } else {
+          patch((m) => m.copyWith(pending: false));
         }
-        return (ok: true, error: null);
+        notifyListeners();
+        return;
       }
 
-      // Failure — drop the optimistic bubble and surface the server message.
-      _removeMessage(thread, tempId);
+      // Failure (e.g. content-filter 400) — keep the bubble, flag it failed.
+      patch((m) => m.copyWith(
+            pending: false,
+            failed: true,
+            failReason: res.message ?? "Message could not be sent.",
+          ));
       notifyListeners();
-      return (
-        ok: false,
-        error: res.message ?? "Message could not be sent.",
-      );
     } catch (_) {
-      _removeMessage(thread, tempId);
+      patch((m) => m.copyWith(
+            pending: false,
+            failed: true,
+            failReason: "Not delivered. Tap to retry.",
+          ));
       notifyListeners();
-      return (ok: false, error: "Could not reach the chat server.");
     }
   }
 
@@ -465,6 +509,7 @@ class ChatProvider extends ChangeNotifier {
     _activeConversationId = null;
     _threads.clear();
     _typingByConversation.clear();
+    _sendQueues.clear();
     _error = null;
     notifyListeners();
   }
@@ -488,13 +533,5 @@ class ChatProvider extends ChangeNotifier {
     if (data is List) return data;
     if (data is Map && data['data'] is List) return data['data'] as List;
     return null;
-  }
-
-  void _removeMessage(ChatThread thread, String messageId) {
-    thread.messages.removeWhere((m) => m.id == messageId);
-    if (thread.messages.isNotEmpty) {
-      thread.lastMessage = thread.messages.last.content;
-      thread.lastMessageTime = thread.messages.last.timestamp;
-    }
   }
 }
