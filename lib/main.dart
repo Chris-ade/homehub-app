@@ -18,10 +18,14 @@ void main() {
   // chat) gets bearer tokens + automatic 401 refresh for free.
   final apiClient = ApiClient();
 
+  // Load any persisted theme preference; until it resolves the provider stays
+  // on ThemeMode.system (follow device), so there's no wrong-theme flash.
+  final themeProvider = AppThemeProvider()..init();
+
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AppThemeProvider()),
+        ChangeNotifierProvider.value(value: themeProvider),
         // UserProvider before PropertyProvider so authProvider is registered first.
         ChangeNotifierProvider(create: (_) => UserProvider(apiClient)),
         ChangeNotifierProvider(create: (_) => PropertyProvider(apiClient)),
