@@ -77,6 +77,14 @@ class ApiClient {
   }) =>
       _send('PUT', path, body: body, auth: auth, timeout: timeout);
 
+  Future<ApiResponse> patch(
+    String path, {
+    Object? body,
+    bool auth = false,
+    Duration? timeout,
+  }) =>
+      _send('PATCH', path, body: body, auth: auth, timeout: timeout);
+
   Future<ApiResponse> delete(
     String path, {
     Object? body,
@@ -119,6 +127,11 @@ class ApiClient {
       case 'PUT':
         response = await http
             .put(uri, headers: headers, body: encodedBody)
+            .timeout(effectiveTimeout);
+        break;
+      case 'PATCH':
+        response = await http
+            .patch(uri, headers: headers, body: encodedBody)
             .timeout(effectiveTimeout);
         break;
       case 'DELETE':

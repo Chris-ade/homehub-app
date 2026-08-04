@@ -291,6 +291,45 @@ class ChatProvider extends ChangeNotifier {
     } catch (_) {}
   }
 
+  /// Archives a conversation (`PATCH /:id {archived:true}`). On success it's
+  /// removed from the local list. Returns true on success.
+  Future<bool> archiveConversation(String conversationId) async {
+    try {
+      final res = await _api.patch(
+        '/messages/conversations/$conversationId',
+        body: {'archived': true},
+        auth: true,
+      );
+      if (res.isSuccess) {
+        _threads.removeWhere((t) => t.id == conversationId);
+        _typingByConversation.remove(conversationId);
+        notifyListeners();
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Permanently deletes a conversation (`DELETE /:id`). On success it's removed
+  /// from the local list. Returns true on success.
+  Future<bool> deleteConversation(String conversationId) async {
+    try {
+      final res =
+          await _api.delete('/messages/conversations/$conversationId', auth: true);
+      if (res.isSuccess) {
+        _threads.removeWhere((t) => t.id == conversationId);
+        _typingByConversation.remove(conversationId);
+        notifyListeners();
+        return true;
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
   void sendTyping(String conversationId, bool isTyping) {
     _socket?.send({
       'type': isTyping ? 'typing:start' : 'typing:stop',

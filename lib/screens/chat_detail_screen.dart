@@ -7,7 +7,9 @@ import 'package:intl/intl.dart';
 
 import '../models/chat_model.dart';
 import '../providers/chat_provider.dart';
+import '../providers/property_provider.dart';
 import '../theme/app_theme.dart';
+import 'property_detail_screen.dart';
 
 /// Messages from the same sender within this window are visually grouped
 /// (tighter spacing, shared bubble corners, avatar only on the last one).
@@ -139,6 +141,102 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     return DateFormat('MMMM d, yyyy').format(d);
   }
 
+  // --- header actions -----------------------------------------------------
+
+  Future<void> _viewProperty(ChatThread thread) async {
+    final propertyId = thread.propertyId;
+    if (propertyId == null || propertyId.isEmpty) return;
+
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    final property = await context
+        .read<PropertyProvider>()
+        .fetchPropertyDetailFromApi(propertyId);
+
+    if (!mounted) return;
+    if (property == null) {
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text("Could not open the property."),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+    navigator.push(
+      MaterialPageRoute(
+        builder: (_) => PropertyDetailScreen(property: property),
+      ),
+    );
+  }
+
+  Future<void> _archive(ChatThread thread) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    final ok = await context.read<ChatProvider>().archiveConversation(thread.id);
+    if (!mounted) return;
+    if (ok) {
+      navigator.pop(); // thread is gone from the list
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text("Conversation archived"),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } else {
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text("Could not archive the conversation."),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
+  Future<void> _confirmDelete(ChatThread thread) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text("Delete conversation?"),
+        content: const Text(
+            "This permanently removes the conversation and its messages."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text("Delete"),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    final ok = await context.read<ChatProvider>().deleteConversation(thread.id);
+    if (!mounted) return;
+    if (ok) {
+      navigator.pop();
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text("Conversation deleted"),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } else {
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text("Could not delete the conversation."),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -199,6 +297,62 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             ),
           ],
         ),
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(LucideIcons.ellipsis_vertical),
+            onSelected: (value) {
+              switch (value) {
+                case 'property':
+                  _viewProperty(thread);
+                  break;
+                case 'archive':
+                  _archive(thread);
+                  break;
+                case 'delete':
+                  _confirmDelete(thread);
+                  break;
+              }
+            },
+            itemBuilder: (context) {
+              final hasProperty =
+                  thread.propertyId != null && thread.propertyId!.isNotEmpty;
+              return [
+                if (hasProperty)
+                  const PopupMenuItem(
+                    value: 'property',
+                    child: Row(
+                      children: [
+                        Icon(LucideIcons.building_2, size: 18),
+                        SizedBox(width: 10),
+                        Text("View property"),
+                      ],
+                    ),
+                  ),
+                const PopupMenuItem(
+                  value: 'archive',
+                  child: Row(
+                    children: [
+                      Icon(LucideIcons.archive, size: 18),
+                      SizedBox(width: 10),
+                      Text("Archive conversation"),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'delete',
+                  child: Row(
+                    children: [
+                      Icon(LucideIcons.trash_2, size: 18, color: Colors.red),
+                      SizedBox(width: 10),
+                      Text("Delete conversation",
+                          style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -323,7 +477,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               if (isMe) ...[
                 const SizedBox(width: 4),
                 Icon(
-                  msg.read ? LucideIcons.check_check : LucideIcons.check,
+                  msg.read ? LucideIcons.circle_check : LucideIcons.check,
                   size: 12,
                   color: Colors.white70,
                 ),
