@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(go build *)",
+      "Bash(echo \"=== BUILD EXIT: $? ===\")",
+      "Bash(go vet *)",
+      "Bash(echo \"=== VET EXIT: $? ===\")"
+    ],
+    "additionalDirectories": [
+      "/home/chrisdev/Desktop/rentalhub-go/models",
+      "/home/chrisdev/Desktop/rentalhub-go/controllers"
+    ]
+  }
+}
