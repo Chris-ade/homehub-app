@@ -1,7 +1,6 @@
 import '../models/property_model.dart';
 import '../models/city_model.dart';
 import '../models/booking_model.dart';
-import '../models/chat_model.dart';
 
 class MockData {
   static final List<Property> sampleListings = [
@@ -534,41 +533,6 @@ class MockData {
       signatureText: "Chris Dev",
       signedAt: DateTime.now().subtract(const Duration(days: 1)),
       escrowStatus: EscrowStatus.inEscrow,
-    ),
-  ];
-
-  static final List<ChatThread> initialChats = [
-    ChatThread(
-      id: "ch-01",
-      propertyId: "rh-001",
-      propertyTitle: "3-Bedroom Garden Flat",
-      agentName: "Tunde Aluko",
-      agentAvatar:
-          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
-      lastMessage:
-          "Hello! Looking forward to showing you the flat on Saturday.",
-      lastMessageTime: DateTime.now().subtract(const Duration(minutes: 45)),
-      unreadCount: 1,
-      messages: [
-        ChatMessage(
-          id: "m1",
-          senderName: "Chris",
-          senderAvatar: "",
-          message: "Hi Tunde, is the solar inverter already installed?",
-          timestamp: DateTime.now().subtract(const Duration(hours: 2)),
-          isMe: true,
-        ),
-        ChatMessage(
-          id: "m2",
-          senderName: "Tunde Aluko",
-          senderAvatar:
-              "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
-          message:
-              "Hello! Yes, solar prep is complete and ready for hookup. Looking forward to showing you the flat on Saturday.",
-          timestamp: DateTime.now().subtract(const Duration(minutes: 45)),
-          isMe: false,
-        ),
-      ],
     ),
   ];
 }

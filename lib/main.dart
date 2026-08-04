@@ -26,7 +26,12 @@ void main() {
         ChangeNotifierProvider(create: (_) => UserProvider(apiClient)),
         ChangeNotifierProvider(create: (_) => PropertyProvider(apiClient)),
         ChangeNotifierProvider(create: (_) => BookingProvider()),
-        ChangeNotifierProvider(create: (_) => ChatProvider()),
+        // Chat reacts to auth: bindUser connects the socket + loads
+        // conversations on login and tears everything down on logout.
+        ChangeNotifierProxyProvider<UserProvider, ChatProvider>(
+          create: (_) => ChatProvider(apiClient),
+          update: (_, user, chat) => chat!..bindUser(user),
+        ),
       ],
       child: const HomeHubApp(),
     ),

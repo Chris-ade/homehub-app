@@ -24,6 +24,50 @@ class PropertyDetailScreen extends StatefulWidget {
 
 class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   int _activeGalleryIndex = 0;
+  bool _startingChat = false;
+
+  Future<void> _messageAgent(Property prop) async {
+    final agentId = prop.agent.id;
+    if (agentId.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("This listing has no contactable agent yet."),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    setState(() => _startingChat = true);
+    final chatProvider = context.read<ChatProvider>();
+    final conversationId = await chatProvider.startConversation(
+      participantId: agentId,
+      propertyId: prop.id,
+      propertyTitle: prop.title,
+      agentName: prop.agent.name,
+      agentAvatar: prop.agent.avatarUrl,
+    );
+
+    if (!mounted) return;
+    setState(() => _startingChat = false);
+
+    if (conversationId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Could not start the conversation. Please try again."),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChatDetailScreen(threadId: conversationId),
+      ),
+    );
+  }
 
   String _formatCurrency(double amount) {
     return NumberFormat.currency(
@@ -707,11 +751,21 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         ),
                         elevation: 0,
                       ),
-                      icon: const Icon(
-                        LucideIcons.message_circle,
-                        color: Colors.white,
-                        size: 18,
-                      ),
+                      icon: _startingChat
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                            )
+                          : const Icon(
+                              LucideIcons.message_circle,
+                              color: Colors.white,
+                              size: 18,
+                            ),
                       label: const Text(
                         "Message Agent",
                         style: TextStyle(
@@ -719,22 +773,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      onPressed: () {
-                        final chatProvider = context.read<ChatProvider>();
-                        final thread = chatProvider.startOrGetThread(
-                          propertyId: prop.id,
-                          propertyTitle: prop.title,
-                          agentName: prop.agent.name,
-                          agentAvatar: prop.agent.avatarUrl,
-                        );
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ChatDetailScreen(threadId: thread.id),
-                          ),
-                        );
-                      },
+                      onPressed:
+                          _startingChat ? null : () => _messageAgent(prop),
                     ),
                   ],
                 ),
