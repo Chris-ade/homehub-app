@@ -17,11 +17,13 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
   bool _isMapView = false;
 
   @override
   void dispose() {
     _searchController.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
@@ -37,6 +39,15 @@ class _SearchScreenState extends State<SearchScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final propertyProvider = context.watch<PropertyProvider>();
     final listings = propertyProvider.filteredProperties;
+
+    // Honour a focus request coming from another screen (e.g. the home hero
+    // search pill), then clear it so it doesn't refire on the next rebuild.
+    if (propertyProvider.searchFocusRequested) {
+      propertyProvider.consumeSearchFocusRequest();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _searchFocusNode.requestFocus();
+      });
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -60,6 +71,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       Expanded(
                         child: TextField(
                           controller: _searchController,
+                          focusNode: _searchFocusNode,
                           onChanged: (val) =>
                               propertyProvider.setSearchQuery(val),
                           decoration: InputDecoration(

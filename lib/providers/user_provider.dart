@@ -217,7 +217,29 @@ class UserProvider extends ChangeNotifier implements AuthTokenProvider {
     return false;
   }
 
-  // Refresh access token via POST /api/auth/refresh
+  // Fetch the FULL profile (mobile/state/lga/occupation/etc.) via GET /profile.
+  // GET /me deliberately returns only a thin set of fields, so the edit screen
+  // must reload from here to reflect saved values across a refresh. Routed
+  // through the shared client for transparent 401 -> refresh -> retry.
+  Future<bool> fetchFullProfile() async {
+    if (_accessToken == null || _accessToken!.isEmpty) return false;
+
+    try {
+      final res = await _api.get('/profile', auth: true);
+      if (res.isSuccess) {
+        final data = res.data;
+        final userData = (data is Map ? (data['data'] ?? data['user']) : null);
+        if (userData is Map<String, dynamic>) {
+          _updateUserDataFromJson(userData);
+          _isLoggedIn = true;
+          notifyListeners();
+          return true;
+        }
+      }
+    } catch (_) {}
+
+    return false;
+  }
   Future<bool> refreshAuthToken() async {
     if (_refreshToken == null || _refreshToken!.isEmpty) return false;
 
@@ -582,43 +604,66 @@ class UserProvider extends ChangeNotifier implements AuthTokenProvider {
     if (gender != null) _gender = gender.trim();
     if (bio != null) _bio = bio.trim();
 
-    if (_accessToken != null && _accessToken!.isNotEmpty && _id.isNotEmpty) {
-      try {
-        final response = await http
-            .put(
-              Uri.parse('$baseUrl/users/$_id'),
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer $_accessToken',
-              },
-              body: jsonEncode({
-                'first_name': _firstName,
-                'last_name': _lastName,
-                'mobile': _phone,
-                'state': _state,
-                'lga': _lga,
-                'occupation': _bio,
-                'bio': _bio,
-                'address': _address,
-                'gender': _gender,
-                if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar': _avatarUrl,
-              }),
-            )
-            .timeout(const Duration(seconds: 10));
-
-        if (response.statusCode == 200 || response.statusCode == 201) {
-          final data = jsonDecode(response.body);
-          if (data['success'] == true && data['data'] != null) {
-            _updateUserDataFromJson(data['data']);
-          } else if (data['success'] == true && data['user'] != null) {
-            _updateUserDataFromJson(data['user']);
-          }
-        }
-      } catch (e) {
-        debugPrint("Error updating user profile on backend API: $e");
-      }
+    // Not signed in: this is a local-only edit (e.g. onboarding preview).
+    // Persist locally and report success so the UI reflects the change.
+    if (_accessToken == null || _accessToken!.isEmpty || _id.isEmpty) {
+      _persistProfileLocally(avatarUrl: avatarUrl);
+      notifyListeners();
+      return true;
     }
 
+    // Route through the shared client so an expired access token is transparently
+    // refreshed and the request retried (a raw http.put would just 401 and the
+    // save would be silently lost — the root cause of the "reverts on refresh"
+    // bug). The returned bool reflects the ACTUAL outcome so the UI toast is honest.
+    try {
+      final res = await _api.put(
+        '/users/$_id',
+        auth: true,
+        body: {
+          'first_name': _firstName,
+          'last_name': _lastName,
+          'mobile': _phone,
+          'state': _state,
+          'lga': _lga,
+          'occupation': _bio,
+          'bio': _bio,
+          'address': _address,
+          'gender': _gender,
+          if (avatarUrl != null && avatarUrl.isNotEmpty) 'avatar': _avatarUrl,
+        },
+        timeout: const Duration(seconds: 10),
+      );
+
+      if (!res.isSuccess) {
+        debugPrint(
+          "Profile update failed (status ${res.statusCode}): ${res.message}",
+        );
+        notifyListeners();
+        return false;
+      }
+
+      // Reconcile local state with the server's authoritative response.
+      final data = res.data;
+      if (data is Map && data['data'] is Map<String, dynamic>) {
+        _updateUserDataFromJson(data['data'] as Map<String, dynamic>);
+      } else if (data is Map && data['user'] is Map<String, dynamic>) {
+        _updateUserDataFromJson(data['user'] as Map<String, dynamic>);
+      }
+
+      _persistProfileLocally(avatarUrl: avatarUrl);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint("Error updating user profile on backend API: $e");
+      notifyListeners();
+      return false;
+    }
+  }
+
+  // Persist the current profile fields to local storage. Merges over the existing
+  // cached blob so no previously-saved field is dropped.
+  void _persistProfileLocally({String? avatarUrl}) {
     _saveUserDataLocally({
       'id': _id,
       'first_name': _firstName,
@@ -635,9 +680,6 @@ class UserProvider extends ChangeNotifier implements AuthTokenProvider {
       'bio': _bio,
       'occupation': _bio,
     });
-
-    notifyListeners();
-    return true;
   }
 
   // Upload profile picture file via POST /api/users/:id/avatar
@@ -973,7 +1015,22 @@ class UserProvider extends ChangeNotifier implements AuthTokenProvider {
   Future<void> _saveUserDataLocally(Map<String, dynamic> u) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('user_data', jsonEncode(u));
+      // Merge over any existing cached blob so a partial payload (e.g. GET /me,
+      // which omits mobile/state/lga/occupation) can't drop fields that were
+      // previously saved. Only non-empty incoming values overwrite.
+      Map<String, dynamic> merged = {};
+      final existing = prefs.getString('user_data');
+      if (existing != null && existing.isNotEmpty) {
+        try {
+          final decoded = jsonDecode(existing);
+          if (decoded is Map<String, dynamic>) merged = decoded;
+        } catch (_) {}
+      }
+      u.forEach((key, value) {
+        final isEmptyString = value is String && value.isEmpty;
+        if (value != null && !isEmptyString) merged[key] = value;
+      });
+      await prefs.setString('user_data', jsonEncode(merged));
     } catch (_) {}
   }
 }

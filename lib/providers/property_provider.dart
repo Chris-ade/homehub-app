@@ -20,6 +20,11 @@ class PropertyProvider extends ChangeNotifier {
   int _minBeds = 0;
   bool _showOnlyFavorites = false;
 
+  // Set when another screen (e.g. the home hero search pill) wants the Search
+  // tab to open with its text field already focused. The Search screen consumes
+  // this on its next build.
+  bool _searchFocusRequested = false;
+
   PropertyProvider(this._api) {
     fetchListingsFromApi();
     fetchLocationStatsFromApi();
@@ -36,6 +41,18 @@ class PropertyProvider extends ChangeNotifier {
   RangeValues get priceRange => _priceRange;
   int get minBeds => _minBeds;
   bool get showOnlyFavorites => _showOnlyFavorites;
+  bool get searchFocusRequested => _searchFocusRequested;
+
+  /// Asks the Search tab to focus its text field the next time it's shown.
+  void requestSearchFocus() {
+    _searchFocusRequested = true;
+    notifyListeners();
+  }
+
+  /// Called by the Search screen once it has honoured a focus request.
+  void consumeSearchFocusRequest() {
+    _searchFocusRequested = false;
+  }
 
   List<Property> get featuredProperties {
     final featured = _properties.where((p) => p.isFeatured).toList();

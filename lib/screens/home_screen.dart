@@ -8,6 +8,7 @@ import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/property_card.dart';
 import '../widgets/city_card.dart';
+import '../widgets/section_header.dart';
 import 'property_detail_screen.dart';
 import 'city_detail_screen.dart';
 
@@ -21,14 +22,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController _budgetController = TextEditingController(
-    text: "₦ 1,500,000",
-  );
+  static const int _searchTabIndex = 1;
 
-  @override
-  void dispose() {
-    _budgetController.dispose();
-    super.dispose();
+  String _greeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return "Good morning";
+    if (hour < 17) return "Good afternoon";
+    return "Good evening";
+  }
+
+  /// Jumps to the Search tab with its field pre-focused.
+  void _openSearch() {
+    context.read<PropertyProvider>().requestSearchFocus();
+    widget.onNavigateTab(_searchTabIndex);
   }
 
   @override
@@ -40,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final featuredList = propertyProvider.featuredProperties;
     final cities = propertyProvider.cities;
+    final totalHomes = propertyProvider.properties.length;
 
     return Scaffold(
       body: SafeArea(
@@ -54,96 +61,92 @@ class _HomeScreenState extends State<HomeScreen> {
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
-              // Top Navigation Bar matching Web Header
+              // Greeting bar + actions
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0,
-                    vertical: 12.0,
-                  ),
+                  padding: const EdgeInsets.fromLTRB(20, 14, 20, 6),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // Brand Logo + Title
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: AppColors.forest,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Icon(
-                              LucideIcons.building_2,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            "HomeHub",
-                            style: TextStyle(
-                              fontFamily: 'Cabinet Grotesk',
-                              fontSize: 24,
-                              fontWeight: FontWeight.w900,
-                              color: isDark
-                                  ? AppColors.darkInk
-                                  : AppColors.forest,
-                              letterSpacing: -0.5,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      // Actions Row (Dark/Light toggle + User Avatar)
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              themeProvider.isDarkMode
-                                  ? LucideIcons.sun
-                                  : LucideIcons.moon,
-                              color: isDark
-                                  ? AppColors.darkInk
-                                  : AppColors.forest,
-                              size: 20,
-                            ),
-                            onPressed: () => themeProvider.toggleTheme(),
-                          ),
-                          const SizedBox(width: 4),
-                          GestureDetector(
-                            onTap: () =>
-                                widget.onNavigateTab(4), // Go to Profile
-                            child: CircleAvatar(
-                              radius: 18,
-                              backgroundImage: NetworkImage(
-                                userProvider.avatarUrl,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${_greeting()},",
+                              style: TextStyle(
+                                fontFamily: 'Satoshi',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: isDark
+                                    ? AppColors.darkMuted
+                                    : AppColors.muted,
                               ),
                             ),
+                            const SizedBox(height: 2),
+                            Text(
+                              userProvider.firstName.isNotEmpty
+                                  ? "${userProvider.firstName} 👋"
+                                  : "Welcome 👋",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: 'Cabinet Grotesk',
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: -0.5,
+                                color: isDark
+                                    ? AppColors.darkInk
+                                    : AppColors.forest,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      _circleAction(
+                        isDark: isDark,
+                        icon: themeProvider.isDarkMode
+                            ? LucideIcons.sun
+                            : LucideIcons.moon,
+                        onTap: () => themeProvider.toggleTheme(),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () => widget.onNavigateTab(4), // Profile
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.terracotta.withValues(alpha: 0.6),
+                              width: 2,
+                            ),
                           ),
-                        ],
+                          padding: const EdgeInsets.all(2),
+                          child: CircleAvatar(
+                            radius: 18,
+                            backgroundImage: NetworkImage(
+                              userProvider.avatarUrl,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
 
-              // HERO SECTION (Matching exact web layout)
+              // HERO — headline, subtitle, search pill, trust chips
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0,
-                    vertical: 10.0,
-                  ),
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Main Hero Title
                       RichText(
                         text: TextSpan(
                           style: TextStyle(
                             fontFamily: 'Cabinet Grotesk',
-                            fontSize: 36,
+                            fontSize: 34,
                             fontWeight: FontWeight.w900,
                             height: 1.1,
                             color: isDark
@@ -167,86 +170,107 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-
-                      const SizedBox(height: 12),
-
-                      // Hero Subtitle Paragraph
+                      const SizedBox(height: 10),
                       Text(
-                        "Verified flats, duplexes and student housing across the country, straight from the landlord or a vetted agent. No ghost listings. No payments before you've seen the door.",
+                        "Verified flats, duplexes and student housing across the country — straight from the landlord or a vetted agent.",
                         style: TextStyle(
                           fontFamily: 'Satoshi',
-                          fontSize: 17,
-                          height: 1.45,
+                          fontSize: 15.5,
+                          height: 1.4,
                           color: isDark ? AppColors.darkMuted : AppColors.muted,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
+                      const SizedBox(height: 18),
 
-              // FEATURED LISTINGS SECTION HEADER
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // Search pill (routes to Search tab, pre-focused)
+                      _buildSearchPill(isDark),
+
+                      const SizedBox(height: 14),
+
+                      // Trust chips
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
                         children: [
-                          Expanded(
-                            child: Text(
-                              "Featured listings",
-                              style: TextStyle(
-                                fontFamily: 'Cabinet Grotesk',
-                                fontSize: 25,
-                                fontWeight: FontWeight.w900,
-                                color: isDark
-                                    ? AppColors.darkInk
-                                    : AppColors.forest,
-                              ),
-                            ),
+                          _trustChip(
+                            isDark,
+                            LucideIcons.badge_check,
+                            "Verified hosts",
                           ),
-                          TextButton(
-                            onPressed: () => widget.onNavigateTab(1),
-                            child: const Row(
-                              children: [
-                                Text(
-                                  "Browse all",
-                                  style: TextStyle(
-                                    fontFamily: 'Satoshi',
-                                    color: AppColors.terracotta,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(width: 4),
-                                Icon(
-                                  LucideIcons.arrow_up_right,
-                                  size: 16,
-                                  color: AppColors.terracotta,
-                                ),
-                              ],
-                            ),
+                          _trustChip(
+                            isDark,
+                            LucideIcons.shield_check,
+                            "No ghost listings",
+                          ),
+                          _trustChip(
+                            isDark,
+                            LucideIcons.door_open,
+                            "See before you pay",
                           ),
                         ],
                       ),
-                      Text(
-                        "Active homes and rental properties verified on HomeHub directly from verified hosts.",
-                        style: TextStyle(
-                          fontFamily: 'Satoshi',
-                          fontSize: 15,
-                          color: isDark ? AppColors.darkMuted : AppColors.muted,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
               ),
 
-              // Featured Listings Carousel
+              // Stats strip
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 22, 20, 0),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isDark ? AppColors.darkSurface : AppColors.forest,
+                      borderRadius: BorderRadius.circular(20),
+                      border: isDark
+                          ? Border.all(color: AppColors.darkLine)
+                          : null,
+                    ),
+                    child: Row(
+                      children: [
+                        _statItem(
+                          value: totalHomes > 0 ? "$totalHomes+" : "—",
+                          label: "Verified homes",
+                        ),
+                        _statDivider(),
+                        _statItem(
+                          value: cities.isNotEmpty ? "${cities.length}" : "—",
+                          label: "Active markets",
+                        ),
+                        _statDivider(),
+                        _statItem(
+                          value: "100%",
+                          label: "Vetted listings",
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 28)),
+
+              // FEATURED LISTINGS header
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: SectionHeader(
+                    title: "Featured listings",
+                    subtitle:
+                        "Active homes verified on HomeHub directly from hosts.",
+                    actionLabel: "Browse all",
+                    onAction: () => widget.onNavigateTab(1),
+                  ),
+                ),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
+              // Featured carousel
               SliverToBoxAdapter(
                 child: propertyProvider.isLoading
                     ? const SizedBox(
@@ -258,28 +282,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       )
                     : featuredList.isEmpty
-                    ? Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? AppColors.darkSurface
-                              : AppColors.surface,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: isDark ? AppColors.darkLine : AppColors.line,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "No active featured listings found.",
-                            style: TextStyle(
-                              color: isDark
-                                  ? AppColors.darkMuted
-                                  : AppColors.muted,
-                            ),
-                          ),
-                        ),
+                    ? _emptyCard(
+                        isDark,
+                        "No active featured listings found.",
                       )
                     : SizedBox(
                         height: 315,
@@ -313,40 +318,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SliverToBoxAdapter(child: SizedBox(height: 28)),
 
-              // EXPLORE MARKETS (CITIES) SECTION
+              // EXPLORE MARKETS header
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "EXPLORE MARKETS",
-                        style: TextStyle(
-                          fontFamily: 'Cabinet Grotesk',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.terracotta,
-                          letterSpacing: 1.0,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        "Across the country.",
-                        style: TextStyle(
-                          fontFamily: 'Cabinet Grotesk',
-                          fontSize: 25,
-                          fontWeight: FontWeight.w900,
-                          color: isDark ? AppColors.darkInk : AppColors.forest,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                    ],
+                  child: SectionHeader(
+                    eyebrow: "Explore markets",
+                    title: "Across the country.",
                   ),
                 ),
               ),
 
-              // City Horizontal Scroll Cards
+              const SliverToBoxAdapter(child: SizedBox(height: 12)),
+
+              // City carousel
               SliverToBoxAdapter(
                 child: propertyProvider.isLoading
                     ? const SizedBox(
@@ -358,29 +343,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       )
                     : cities.isEmpty
-                    ? Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? AppColors.darkSurface
-                              : AppColors.surface,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: isDark ? AppColors.darkLine : AppColors.line,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "No active market locations found in database.",
-                            style: TextStyle(
-                              color: isDark
-                                  ? AppColors.darkMuted
-                                  : AppColors.muted,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
+                    ? _emptyCard(
+                        isDark,
+                        "No active market locations found in database.",
                       )
                     : SizedBox(
                         height: 160,
@@ -420,6 +385,193 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 40)),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // --- small building blocks ------------------------------------------------
+
+  Widget _buildSearchPill(bool isDark) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: _openSearch,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: isDark ? AppColors.darkSurface : AppColors.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: isDark ? AppColors.darkLine : AppColors.line,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: isDark
+                    ? Colors.black.withValues(alpha: 0.2)
+                    : AppColors.forest.withValues(alpha: 0.05),
+                blurRadius: 14,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              const SizedBox(width: 10),
+              Icon(
+                LucideIcons.search,
+                size: 20,
+                color: isDark ? AppColors.darkMuted : AppColors.muted,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  "Search by city, area or budget",
+                  style: TextStyle(
+                    fontFamily: 'Satoshi',
+                    fontSize: 15,
+                    color: isDark ? AppColors.darkMuted : AppColors.muted,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppColors.terracotta,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  LucideIcons.arrow_right,
+                  size: 18,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _circleAction({
+    required bool isDark,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: isDark ? AppColors.darkSurface : AppColors.surface,
+      shape: const CircleBorder(),
+      child: InkWell(
+        onTap: onTap,
+        customBorder: const CircleBorder(),
+        child: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: isDark ? AppColors.darkLine : AppColors.line,
+            ),
+          ),
+          child: Icon(
+            icon,
+            size: 19,
+            color: isDark ? AppColors.darkInk : AppColors.forest,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _trustChip(bool isDark, IconData icon, String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: isDark
+            ? AppColors.forest.withValues(alpha: 0.25)
+            : AppColors.terracottaLight,
+        borderRadius: BorderRadius.circular(100),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 15,
+            color: isDark ? AppColors.darkInk : AppColors.terracotta,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: TextStyle(
+              fontFamily: 'Satoshi',
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: isDark ? AppColors.darkInk : AppColors.forest,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _statItem({required String value, required String label}) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            value,
+            style: const TextStyle(
+              fontFamily: 'Cabinet Grotesk',
+              fontSize: 22,
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Satoshi',
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: Colors.white.withValues(alpha: 0.75),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _statDivider() {
+    return Container(
+      width: 1,
+      height: 34,
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      color: Colors.white.withValues(alpha: 0.18),
+    );
+  }
+
+  Widget _emptyCard(bool isDark, String message) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.darkSurface : AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isDark ? AppColors.darkLine : AppColors.line,
+        ),
+      ),
+      child: Center(
+        child: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: isDark ? AppColors.darkMuted : AppColors.muted,
           ),
         ),
       ),

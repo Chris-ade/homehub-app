@@ -71,7 +71,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     });
 
     final userProvider = context.read<UserProvider>();
-    await userProvider.fetchMe();
+    // Reload from GET /profile (full field set) — GET /me omits
+    // mobile/state/lga/occupation, which is why saved values used to revert.
+    await userProvider.fetchFullProfile();
 
     if (!mounted) return;
 
