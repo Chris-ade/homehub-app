@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
 import '../providers/app_theme_provider.dart';
+import '../providers/property_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/add_property_modal.dart';
 import '../widgets/custom_button.dart';
@@ -375,6 +376,7 @@ class ProfileScreen extends StatelessWidget {
                   child: TextButton.icon(
                     onPressed: () {
                       userProvider.logout();
+                      context.read<PropertyProvider>().clearFavorites();
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text("Signed out of account."),

@@ -310,6 +310,16 @@ class PropertyProvider extends ChangeNotifier {
     }
   }
 
+  // Clear all saved state locally (call on logout so the next account doesn't
+  // briefly see the previous user's hearts before their bookmarks sync).
+  void clearFavorites() {
+    for (final p in _properties) {
+      p.isFavorite = false;
+    }
+    _showOnlyFavorites = false;
+    notifyListeners();
+  }
+
   void resetFilters() {
     _searchQuery = "";
     _selectedCitySlug = "all";
