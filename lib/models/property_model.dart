@@ -1,6 +1,7 @@
 import '../config/app_config.dart';
 
 class Agent {
+  final String id;
   final String name;
   final String phone;
   final String avatarUrl;
@@ -8,6 +9,7 @@ class Agent {
   final String role; // 'Landlord' or 'Verified Agent'
 
   const Agent({
+    this.id = "",
     required this.name,
     this.phone = "+234 803 123 4567",
     this.avatarUrl = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
@@ -28,6 +30,7 @@ class Agent {
       final nameStr = "$firstName $lastName".trim();
       final finalName = nameStr.isNotEmpty ? nameStr : (json['name']?.toString() ?? "Verified Agent");
       return Agent(
+        id: json['id']?.toString() ?? "",
         name: finalName,
         phone: json['phone']?.toString() ?? json['mobileNo']?.toString() ?? "+234 803 123 4567",
         avatarUrl: (json['avatar'] != null && json['avatar'].toString().isNotEmpty)
