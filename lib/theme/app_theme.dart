@@ -21,13 +21,17 @@ class AppColors {
   static const Color muted = Color(0xFF4A5B50);
   static const Color line = Color(0xFFE5E3DB);
 
-  // Dark Mode Palette
-  static const Color darkBackground = Color(0xFF07140B);
-  static const Color darkSurface = Color(0xFF0F2317);
-  static const Color darkSurfaceAlt = Color(0xFF162D1F);
-  static const Color darkLine = Color(0xFF1F3D2B);
-  static const Color darkInk = Color(0xFFEBF3ED);
-  static const Color darkMuted = Color(0xFFA1B5A8);
+  // Dark Mode Palette — warm neutral charcoal with a whisper of green,
+  // so the brand reads through without bathing every surface in green.
+  static const Color darkBackground = Color(0xFF12110F);
+  static const Color darkSurface = Color(0xFF1A1815);
+  static const Color darkSurfaceAlt = Color(0xFF232019);
+  static const Color darkLine = Color(0xFF322D25);
+  static const Color darkInk = Color(0xFFF4F1EB);
+  static const Color darkMuted = Color(0xFFA8A092);
+  // Brightened terracotta for dark surfaces (the light-mode terracotta is too
+  // dim against charcoal). Used as the dark accent/primary.
+  static const Color darkAccent = Color(0xFFE07A54);
 
   // Status & Utility
   static const Color success = Color(0xFF2E7D32);
@@ -188,7 +192,7 @@ class AppTheme {
     fontFamily: 'Satoshi',
     scaffoldBackgroundColor: AppColors.darkBackground,
     colorScheme: const ColorScheme.dark(
-      primary: AppColors.terracotta,
+      primary: AppColors.darkAccent,
       secondary: AppColors.forestLight,
       surface: AppColors.darkSurface,
       error: AppColors.error,
@@ -220,7 +224,7 @@ class AppTheme {
     ),
     chipTheme: ChipThemeData(
       backgroundColor: AppColors.darkSurfaceAlt,
-      selectedColor: AppColors.terracotta,
+      selectedColor: AppColors.darkAccent,
       disabledColor: AppColors.darkLine,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
@@ -314,7 +318,7 @@ class AppTheme {
       ),
       labelLarge: TextStyle(
         fontFamily: 'Satoshi',
-        color: AppColors.terracotta,
+        color: AppColors.darkAccent,
         fontSize: 16,
         fontWeight: FontWeight.bold,
       ),
