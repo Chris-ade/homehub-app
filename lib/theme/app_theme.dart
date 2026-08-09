@@ -5,7 +5,7 @@ class AppColors {
   static const Color forest = Color(0xFF0F3820);
   static const Color forestHover = Color(0xFF16502E);
   static const Color forestLight = Color(0xFF1E5233);
-  
+
   // Action / Accent
   static const Color terracotta = Color(0xFFD36B46);
   static const Color terracottaHover = Color(0xFFBF5D3B);
@@ -38,6 +38,23 @@ class AppColors {
   static const Color warning = Color(0xFFE65100);
   static const Color error = Color(0xFFC62828);
   static const Color info = Color(0xFF0277BD);
+}
+
+class AppFontSizes {
+  static const double displayLarge = 38;
+  static const double displayMedium = 32;
+  static const double displaySmall = 28;
+  static const double headlineLarge = 26;
+  static const double headlineMedium = 24;
+  static const double headlineSmall = 22;
+  static const double titleLarge = 20;
+  static const double titleMedium = 18;
+  static const double titleSmall = 16;
+  static const double bodyLarge = 18;
+  static const double bodyMedium = 16;
+  static const double bodySmall = 14;
+  static const double labelLarge = 16;
+  static const double labelMedium = 14;
 }
 
 class AppTheme {
@@ -90,47 +107,44 @@ class AppTheme {
         fontWeight: FontWeight.bold,
       ),
     ),
-    dividerTheme: const DividerThemeData(
-      color: AppColors.line,
-      thickness: 1,
-    ),
+    dividerTheme: const DividerThemeData(color: AppColors.line, thickness: 1),
     textTheme: const TextTheme(
       displayLarge: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
-        fontSize: 38,
+        fontSize: AppFontSizes.displayLarge,
         fontWeight: FontWeight.w900,
         height: 1.1,
       ),
       displayMedium: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
-        fontSize: 32,
+        fontSize: AppFontSizes.displayMedium,
         fontWeight: FontWeight.w800,
         height: 1.15,
       ),
       displaySmall: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
-        fontSize: 28,
+        fontSize: AppFontSizes.displaySmall,
         fontWeight: FontWeight.w800,
       ),
       headlineLarge: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
-        fontSize: 26,
+        fontSize: AppFontSizes.headlineLarge,
         fontWeight: FontWeight.w800,
       ),
       headlineMedium: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
-        fontSize: 24,
+        fontSize: AppFontSizes.headlineMedium,
         fontWeight: FontWeight.w700,
       ),
       headlineSmall: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         color: AppColors.ink,
-        fontSize: 22,
+        fontSize: AppFontSizes.headlineSmall,
         fontWeight: FontWeight.w700,
       ),
       titleLarge: TextStyle(
@@ -168,19 +182,19 @@ class AppTheme {
       bodySmall: TextStyle(
         fontFamily: 'Satoshi',
         color: AppColors.muted,
-        fontSize: 14,
+        fontSize: AppFontSizes.bodySmall,
         fontWeight: FontWeight.w400,
       ),
       labelLarge: TextStyle(
         fontFamily: 'Satoshi',
         color: AppColors.forest,
-        fontSize: 16,
+        fontSize: AppFontSizes.labelLarge,
         fontWeight: FontWeight.bold,
       ),
       labelMedium: TextStyle(
         fontFamily: 'Satoshi',
         color: AppColors.muted,
-        fontSize: 14,
+        fontSize: AppFontSizes.labelMedium,
         fontWeight: FontWeight.w600,
       ),
     ),

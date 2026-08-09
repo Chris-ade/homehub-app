@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../providers/property_provider.dart';
 import '../theme/app_theme.dart';
+import '../widgets/inputs/search_input_field.dart';
 import '../widgets/property_card.dart';
 import 'property_detail_screen.dart';
 
@@ -69,47 +70,14 @@ class _SearchScreenState extends State<SearchScreen> {
                   Row(
                     children: [
                       Expanded(
-                        child: TextField(
+                        child: SearchInputField(
                           controller: _searchController,
                           focusNode: _searchFocusNode,
+                          hintText: "Search location, property...",
                           onChanged: (val) =>
                               propertyProvider.setSearchQuery(val),
-                          decoration: InputDecoration(
-                            hintText: "Search location, property...",
-                            hintStyle: TextStyle(
-                              fontFamily: 'Satoshi',
-                              color: isDark
-                                  ? AppColors.darkMuted
-                                  : AppColors.muted,
-                              fontSize: 15,
-                            ),
-                            prefixIcon: const Icon(
-                              LucideIcons.search,
-                              size: 20,
-                              color: AppColors.forest,
-                            ),
-                            suffixIcon: _searchController.text.isNotEmpty
-                                ? IconButton(
-                                    icon: const Icon(LucideIcons.x, size: 16),
-                                    onPressed: () {
-                                      _searchController.clear();
-                                      propertyProvider.setSearchQuery("");
-                                    },
-                                  )
-                                : null,
-                            filled: true,
-                            fillColor: isDark
-                                ? AppColors.darkSurfaceAlt
-                                : AppColors.creamAlt,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 14,
-                              vertical: 10,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
+                          onClear: () => propertyProvider.setSearchQuery(""),
+                          isDark: isDark,
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -148,9 +116,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                         ),
                         icon: Icon(
-                          _isMapView
-                              ? LucideIcons.list
-                              : LucideIcons.map,
+                          _isMapView ? LucideIcons.list : LucideIcons.map,
                           color: _isMapView
                               ? Colors.white
                               : (isDark ? AppColors.darkInk : AppColors.ink),

@@ -10,6 +10,7 @@ class CustomButton extends StatelessWidget {
   final IconData? icon;
   final double height;
   final double? width;
+  final bool? isDisabled;
 
   const CustomButton({
     super.key,
@@ -21,6 +22,7 @@ class CustomButton extends StatelessWidget {
     this.icon,
     this.height = 48,
     this.width,
+    this.isDisabled,
   });
 
   @override
@@ -50,6 +52,9 @@ class CustomButton extends StatelessWidget {
       height: height,
       width: width,
       child: ElevatedButton(
+        statesController: isDisabled == true
+            ? WidgetStatesController({WidgetState.disabled})
+            : null,
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: bg,
@@ -81,7 +86,7 @@ class CustomButton extends StatelessWidget {
               text,
               style: TextStyle(
                 color: fg,
-                fontSize: 15,
+                fontSize: AppFontSizes.bodyLarge,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0.2,
               ),

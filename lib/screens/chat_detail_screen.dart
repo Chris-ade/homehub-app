@@ -9,6 +9,7 @@ import '../models/chat_model.dart';
 import '../providers/chat_provider.dart';
 import '../providers/property_provider.dart';
 import '../theme/app_theme.dart';
+import '../widgets/inputs/chat_input_field.dart';
 import 'property_detail_screen.dart';
 
 /// Messages from the same sender within this window are visually grouped
@@ -662,44 +663,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         border: Border(
             top: BorderSide(color: isDark ? AppColors.darkLine : AppColors.line)),
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: _msgController,
-              onChanged: _onTextChanged,
-              onSubmitted: (_) => _send(),
-              textInputAction: TextInputAction.send,
-              minLines: 1,
-              maxLines: 4,
-              decoration: InputDecoration(
-                hintText: "Type a message...",
-                hintStyle: TextStyle(
-                  color: isDark ? AppColors.darkMuted : AppColors.muted,
-                  fontSize: 13,
-                ),
-                filled: true,
-                fillColor:
-                    isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          IconButton(
-            style: IconButton.styleFrom(
-              backgroundColor: AppColors.terracotta,
-              shape: const CircleBorder(),
-            ),
-            icon: const Icon(LucideIcons.send, color: Colors.white, size: 18),
-            onPressed: _send,
-          ),
-        ],
+      child: ChatInputField(
+        controller: _msgController,
+        onSend: _send,
+        isDark: isDark,
+        onChanged: _onTextChanged,
+        onSubmitted: (_) => _send(),
       ),
     );
   }
