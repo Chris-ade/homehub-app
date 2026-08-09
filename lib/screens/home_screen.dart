@@ -117,7 +117,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: AppColors.terracotta.withValues(alpha: 0.6),
+                              color: AppColors.terracotta.withValues(
+                                alpha: 0.6,
+                              ),
                               width: 2,
                             ),
                           ),
@@ -214,44 +216,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              // Stats strip
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 22, 20, 0),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 18,
-                      vertical: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: isDark ? AppColors.darkSurface : AppColors.forest,
-                      borderRadius: BorderRadius.circular(20),
-                      border: isDark
-                          ? Border.all(color: AppColors.darkLine)
-                          : null,
-                    ),
-                    child: Row(
-                      children: [
-                        _statItem(
-                          value: totalHomes > 0 ? "$totalHomes+" : "—",
-                          label: "Verified homes",
-                        ),
-                        _statDivider(),
-                        _statItem(
-                          value: cities.isNotEmpty ? "${cities.length}" : "—",
-                          label: "Active markets",
-                        ),
-                        _statDivider(),
-                        _statItem(
-                          value: "100%",
-                          label: "Vetted listings",
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
               const SliverToBoxAdapter(child: SizedBox(height: 28)),
 
               // FEATURED LISTINGS header
@@ -282,12 +246,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       )
                     : featuredList.isEmpty
-                    ? _emptyCard(
-                        isDark,
-                        "No active featured listings found.",
-                      )
+                    ? _emptyCard(isDark, "No active featured listings found.")
                     : SizedBox(
-                        height: 315,
+                        height: 245,
                         child: ListView.builder(
                           padding: const EdgeInsets.only(left: 20, right: 4),
                           scrollDirection: Axis.horizontal,
@@ -562,9 +523,7 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurface : AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.darkLine : AppColors.line,
-        ),
+        border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
       ),
       child: Center(
         child: Text(

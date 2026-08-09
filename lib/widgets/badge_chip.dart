@@ -71,14 +71,14 @@ class BadgeChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[
-            Icon(icon, size: 13, color: fg),
-            const SizedBox(width: 4),
+            Icon(icon, size: 16, color: fg),
+            const SizedBox(width: 8),
           ],
           Text(
             label,
             style: TextStyle(
               color: fg,
-              fontSize: 11,
+              fontSize: 13,
               fontWeight: FontWeight.w700,
               letterSpacing: 0.2,
             ),

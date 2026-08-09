@@ -744,7 +744,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 18,
-                          vertical: 14,
+                          vertical: 20,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -757,12 +757,13 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               height: 18,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
                               ),
                             )
                           : const Icon(
-                              LucideIcons.message_circle,
+                              LucideIcons.mail,
                               color: Colors.white,
                               size: 18,
                             ),
@@ -773,8 +774,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      onPressed:
-                          _startingChat ? null : () => _messageAgent(prop),
+                      onPressed: _startingChat
+                          ? null
+                          : () => _messageAgent(prop),
                     ),
                   ],
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
 import '../models/city_model.dart';
@@ -84,6 +85,31 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Back button
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).maybePop(),
+                      child: Container(
+                        width: 42,
+                        height: 42,
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? AppColors.darkSurface
+                              : AppColors.surface,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: isDark ? AppColors.darkLine : AppColors.line,
+                          ),
+                        ),
+                        child: Icon(
+                          LucideIcons.arrow_left,
+                          size: 20,
+                          color: isDark ? AppColors.darkInk : AppColors.forest,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
                     // City Name H1
                     Text(
                       "${widget.city.name}, ${widget.city.state}",
@@ -293,7 +319,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
 
                     const SizedBox(height: 16),
 
-                    // Render Real API Listings or Web-Style NoDataWidget
+                    // Render property cards or no data widget based on filtered listings
                     filteredListings.isEmpty
                         ? NoDataWidget(
                             cityName: widget.city.name,
