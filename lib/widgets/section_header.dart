@@ -61,7 +61,10 @@ class SectionHeader extends StatelessWidget {
               TextButton(
                 onPressed: onAction,
                 style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
@@ -92,8 +95,7 @@ class SectionHeader extends StatelessWidget {
           Text(
             subtitle!,
             style: TextStyle(
-              fontFamily: 'Satoshi',
-              fontSize: 15,
+              fontSize: 17,
               height: 1.35,
               color: isDark ? AppColors.darkMuted : AppColors.muted,
             ),

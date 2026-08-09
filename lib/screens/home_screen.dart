@@ -174,10 +174,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        "Verified flats, duplexes and student housing across the country — straight from the landlord or a vetted agent.",
+                        "Verified flats, duplexes and student housing across the country straight from the landlord or a vetted agent.",
                         style: TextStyle(
-                          fontFamily: 'Satoshi',
-                          fontSize: 15.5,
+                          fontSize: 18,
                           height: 1.4,
                           color: isDark ? AppColors.darkMuted : AppColors.muted,
                         ),
@@ -277,16 +276,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
               ),
 
-              const SliverToBoxAdapter(child: SizedBox(height: 28)),
+              const SliverToBoxAdapter(child: SizedBox(height: 8)),
 
               // EXPLORE MARKETS header
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: SectionHeader(
-                    eyebrow: "Explore markets",
-                    title: "Across the country.",
-                  ),
+                  child: SectionHeader(title: "Explore markets"),
                 ),
               ),
 
