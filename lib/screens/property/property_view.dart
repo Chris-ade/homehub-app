@@ -165,8 +165,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                   padding: const EdgeInsets.only(left: 16.0),
                   child: Center(
                     child: Container(
-                      width: 40,
-                      height: 40,
+                      width: 35,
+                      height: 35,
                       decoration: const BoxDecoration(
                         color: Colors.black45,
                         shape: BoxShape.circle,
@@ -186,8 +186,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                 actions: [
                   Center(
                     child: Container(
-                      width: 40,
-                      height: 40,
+                      width: 35,
+                      height: 35,
                       decoration: const BoxDecoration(
                         color: Colors.black45,
                         shape: BoxShape.circle,
@@ -212,8 +212,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                   const SizedBox(width: 8),
                   Center(
                     child: Container(
-                      width: 40,
-                      height: 40,
+                      width: 35,
+                      height: 35,
                       decoration: const BoxDecoration(
                         color: Colors.black45,
                         shape: BoxShape.circle,
@@ -257,7 +257,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
                       // Image counter indicator
                       Positioned(
-                        bottom: 16,
+                        bottom: 26,
                         right: 16,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -285,8 +285,17 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
               // Property Content Details
               SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 24,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isDark ? AppColors.darkSurface : AppColors.surface,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(24),
+                    ),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -325,7 +334,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         prop.title,
                         style: TextStyle(
                           fontFamily: 'Cabinet Grotesk',
-                          fontSize: 30,
+                          fontSize: AppFontSizes.displaySmall,
                           fontWeight: FontWeight.bold,
                           color: isDark ? AppColors.darkInk : AppColors.forest,
                           letterSpacing: -0.3,
@@ -396,7 +405,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         "About this home",
                         style: TextStyle(
                           fontFamily: 'Cabinet Grotesk',
-                          fontSize: 26,
+                          fontSize: AppFontSizes.headlineLarge,
                           fontWeight: FontWeight.bold,
                           color: isDark ? AppColors.darkInk : AppColors.forest,
                         ),
@@ -405,7 +414,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       Text(
                         prop.description,
                         style: TextStyle(
-                          fontSize: 19,
+                          fontSize: AppFontSizes.bodyLarge,
                           height: 1.5,
                           color: isDark ? AppColors.darkMuted : AppColors.muted,
                         ),
@@ -415,10 +424,10 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
                       // AMENITIES & FEATURES WITH RESPECTIVE ICONS
                       Text(
-                        "Amenities & Features",
+                        "What this place offers",
                         style: TextStyle(
                           fontFamily: 'Cabinet Grotesk',
-                          fontSize: 26,
+                          fontSize: AppFontSizes.headlineLarge,
                           fontWeight: FontWeight.bold,
                           color: isDark ? AppColors.darkInk : AppColors.forest,
                         ),
@@ -477,51 +486,38 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
                       // LOCATION ON THE MAP SECTION
                       Text(
-                        "Location on the map",
+                        "Where this place is",
                         style: TextStyle(
                           fontFamily: 'Cabinet Grotesk',
-                          fontSize: 26,
+                          fontSize: AppFontSizes.headlineLarge,
                           fontWeight: FontWeight.bold,
                           color: isDark ? AppColors.darkInk : AppColors.forest,
                         ),
                       ),
                       const SizedBox(height: 6),
-                      Row(
-                        children: [
-                          const Icon(
-                            LucideIcons.map,
-                            size: 18,
-                            color: AppColors.terracotta,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Builder(
-                              builder: (context) {
-                                final cityText = (prop.city.isNotEmpty)
-                                    ? prop.city
-                                    : "Ado Ekiti";
-                                final stateText = (prop.state.isNotEmpty)
-                                    ? prop.state
-                                    : "Ekiti";
-                                final formattedState =
-                                    stateText.endsWith("State")
-                                    ? stateText
-                                    : "$stateText State";
-                                return Text(
-                                  "${prop.area}, $cityText, $formattedState",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    color: isDark
-                                        ? AppColors.darkMuted
-                                        : AppColors.muted,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                );
-                              },
+                      Builder(
+                        builder: (context) {
+                          final cityText = (prop.city.isNotEmpty)
+                              ? prop.city
+                              : "Ado Ekiti";
+                          final stateText = (prop.state.isNotEmpty)
+                              ? prop.state
+                              : "Ekiti";
+                          final formattedState = stateText.endsWith("State")
+                              ? stateText
+                              : "$stateText State";
+                          return Text(
+                            "${prop.area}, $cityText, $formattedState",
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: isDark
+                                  ? AppColors.darkMuted
+                                  : AppColors.muted,
                             ),
-                          ),
-                        ],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          );
+                        },
                       ),
                       const SizedBox(height: 12),
 
