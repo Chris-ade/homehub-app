@@ -9,6 +9,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/modals/add_property.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/modals/otp_verification.dart';
+import '../../widgets/app_toast.dart';
 import 'edit.dart';
 import '../auth/login.dart';
 import '../auth/register.dart';
@@ -304,13 +305,21 @@ class ProfileScreen extends StatelessWidget {
                     title: "Get help",
                     isDark: isDark,
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("HomeHub Support & Help Center"),
-                          behavior: SnackBarBehavior.floating,
-                        ),
+                      AppToast.showInfo(
+                        context,
+                        message: "HomeHub Support & Help Center",
+                        actionLabel: "Contact",
+                        onAction: () {},
                       );
                     },
+                  ),
+                  _buildDivider(isDark),
+
+                  _buildSettingTile(
+                    icon: LucideIcons.sparkles,
+                    title: "Toast Component Demo",
+                    isDark: isDark,
+                    onTap: () => _showToastShowcaseModal(context),
                   ),
                   _buildDivider(isDark),
 
@@ -331,13 +340,11 @@ class ProfileScreen extends StatelessWidget {
                     title: "Legal & Terms",
                     isDark: isDark,
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            "HomeHub Terms of Service & Privacy Policy",
-                          ),
-                          behavior: SnackBarBehavior.floating,
-                        ),
+                      AppToast.show(
+                        context,
+                        message: "HomeHub Terms of Service & Privacy Policy",
+                        actionLabel: "View",
+                        onAction: () {},
                       );
                     },
                   ),
@@ -366,12 +373,7 @@ class ProfileScreen extends StatelessWidget {
                     onPressed: () {
                       userProvider.logout();
                       context.read<PropertyProvider>().clearFavorites();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Signed out of account."),
-                          backgroundColor: AppColors.forest,
-                        ),
-                      );
+                      AppToast.showInfo(context, message: "Signed out of account.");
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
                           builder: (context) => const LoginScreen(),
@@ -387,9 +389,9 @@ class ProfileScreen extends StatelessWidget {
                     label: const Text(
                       "Log out",
                       style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                         color: Colors.red,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -397,6 +399,222 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 24),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  // --- TOAST SHOWCASE MODAL ---
+  void _showToastShowcaseModal(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: isDark ? AppColors.darkSurface : Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 36,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: isDark ? AppColors.darkLine : AppColors.line,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.terracotta.withValues(alpha: 0.12),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      LucideIcons.sparkles,
+                      color: AppColors.terracotta,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    "Toast Showcase",
+                    style: TextStyle(
+                      fontFamily: 'Cabinet Grotesk',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "Tap any toast style below to test the animated, swipeable toast overlay.",
+                style: TextStyle(
+                  fontSize: 13,
+                  color: isDark ? AppColors.darkMuted : AppColors.muted,
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Buttons grid/list
+              _buildDemoButton(
+                context,
+                label: "Success Toast",
+                icon: LucideIcons.circle_check,
+                color: AppColors.success,
+                onTap: () {
+                  AppToast.showSuccess(
+                    context,
+                    message: "Listing saved to your Bookmarks",
+                    actionLabel: "Undo",
+                    onAction: () {},
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+              _buildDemoButton(
+                context,
+                label: "Error Toast",
+                icon: LucideIcons.circle_alert,
+                color: AppColors.error,
+                onTap: () {
+                  AppToast.showError(
+                    context,
+                    message: "Unable to sync updates with server",
+                    actionLabel: "Retry",
+                    onAction: () {},
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+              _buildDemoButton(
+                context,
+                label: "Info Toast",
+                icon: LucideIcons.info,
+                color: AppColors.info,
+                onTap: () {
+                  AppToast.showInfo(
+                    context,
+                    message: "New verified homes available in Ado-Ekiti!",
+                    actionLabel: "Explore",
+                    onAction: () {},
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+              _buildDemoButton(
+                context,
+                label: "Warning Toast",
+                icon: LucideIcons.triangle_alert,
+                color: AppColors.warning,
+                onTap: () {
+                  AppToast.showWarning(
+                    context,
+                    message: "Your host verification is pending approval",
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+              _buildDemoButton(
+                context,
+                label: "Top Position Banner Toast",
+                icon: LucideIcons.arrow_up,
+                color: AppColors.forest,
+                onTap: () {
+                  AppToast.show(
+                    context,
+                    message: "Notification preferences updated",
+                    position: ToastPosition.top,
+                    type: ToastType.success,
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+              _buildDemoButton(
+                context,
+                label: "Avatar Notification Toast",
+                icon: LucideIcons.user,
+                color: Colors.purple,
+                onTap: () {
+                  AppToast.show(
+                    context,
+                    message: "Agent Alex sent you a new message",
+                    avatarUrl:
+                        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
+                    actionLabel: "View",
+                    onAction: () {},
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDemoButton(
+    BuildContext context, {
+    required String label,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: isDark ? AppColors.darkSurfaceAlt : AppColors.warmCream,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: isDark ? AppColors.darkLine : AppColors.line,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, size: 16, color: color),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontFamily: 'Satoshi',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: isDark ? AppColors.darkInk : AppColors.ink,
+                ),
+              ),
+            ),
+            Icon(
+              LucideIcons.chevron_right,
+              size: 16,
+              color: isDark ? AppColors.darkMuted : AppColors.muted,
+            ),
+          ],
         ),
       ),
     );

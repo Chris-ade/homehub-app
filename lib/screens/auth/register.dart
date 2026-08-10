@@ -9,6 +9,7 @@ import '../../widgets/custom_button.dart';
 import '../../widgets/modals/otp_verification.dart';
 import '../../widgets/inputs/form_input_field.dart';
 import '../../widgets/inputs/validation_status_message.dart';
+import '../../widgets/app_toast.dart';
 import '../navbar.dart';
 import 'login.dart';
 
@@ -222,11 +223,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           if (!mounted) return;
           setState(() => _isLoading = false);
           if (_isPhoneAvailable == false) {
-            setState(
-              () => _stepError =
-                  _phoneCheckMessage ??
-                  "This phone number is already registered.",
-            );
+            final errorMsg = _phoneCheckMessage ?? "This phone number is already registered.";
+            setState(() => _stepError = errorMsg);
+            AppToast.showError(context, message: errorMsg);
             return;
           }
         }
@@ -238,10 +237,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_currentStep == 4) {
       if (_formKey4.currentState!.validate()) {
         if (!_agreedToTerms) {
-          setState(
-            () =>
-                _stepError = "Please accept the Terms of Service to continue.",
-          );
+          const errorMsg = "Please accept the Terms of Service to continue.";
+          setState(() => _stepError = errorMsg);
+          AppToast.showWarning(context, message: errorMsg);
           return;
         }
         _handleFinalRegister();
@@ -290,26 +288,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     if (result.success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: AppColors.forest,
-          content: Row(
-            children: [
-              const Icon(LucideIcons.circle_check, color: Colors.white),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  "Account created! Welcome to HomeHub, ${_firstNameController.text.trim()}.",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          behavior: SnackBarBehavior.floating,
-        ),
+      AppToast.showSuccess(
+        context,
+        message: "Account created! Welcome to HomeHub, ${_firstNameController.text.trim()}.",
       );
 
       // Offer OTP verification modal
@@ -318,11 +299,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         context,
         email: userEmail,
         onVerified: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Email verified! Welcome aboard."),
-              backgroundColor: AppColors.forest,
-            ),
+          AppToast.showSuccess(
+            context,
+            message: "Email verified! Welcome aboard.",
           );
         },
       );
@@ -334,9 +313,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
         (route) => false,
       );
     } else {
+      final errorMsg = result.message.isNotEmpty
+          ? result.message
+          : "Registration failed. Please try again.";
       setState(() {
-        _stepError = result.message;
+        _stepError = errorMsg;
       });
+      AppToast.showError(
+        context,
+        message: errorMsg,
+      );
     }
   }
 

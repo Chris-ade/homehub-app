@@ -8,6 +8,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/inputs/form_input_field.dart';
 import '../../widgets/inputs/custom_input_field.dart';
+import '../../widgets/app_toast.dart';
 import '../navbar.dart';
 import 'register.dart';
 
@@ -25,7 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _obscurePassword = true;
   bool _isLoading = false;
-  String? _errorMessage;
 
   @override
   void dispose() {
@@ -39,7 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() {
       _isLoading = true;
-      _errorMessage = null;
     });
 
     final userProvider = context.read<UserProvider>();
@@ -58,26 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
       // Load this user's saved properties (fire-and-forget; won't block nav).
       context.read<PropertyProvider>().fetchBookmarksFromApi();
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: AppColors.forest,
-          content: Row(
-            children: [
-              const Icon(LucideIcons.circle_check, color: Colors.white),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  "Welcome back, ${userProvider.name}!",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          behavior: SnackBarBehavior.floating,
-        ),
+      AppToast.showSuccess(
+        context,
+        message: "Welcome back, ${userProvider.name}!",
       );
 
       // Navigate to main navigation screen & clear auth stack
@@ -86,9 +68,10 @@ class _LoginScreenState extends State<LoginScreen> {
         (route) => false,
       );
     } else {
-      setState(() {
-        _errorMessage = result.message;
-      });
+      final errorMsg = result.message.isNotEmpty
+          ? result.message
+          : "Invalid email or password. Please try again.";
+      AppToast.showError(context, message: errorMsg);
     }
   }
 
@@ -280,40 +263,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
 
                   const SizedBox(height: 28),
-
-                  if (_errorMessage != null) ...[
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.red.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: Colors.red.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            LucideIcons.circle_alert,
-                            color: Colors.red,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              _errorMessage!,
-                              style: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
 
                   // Email Address Input
                   FormInputField(

@@ -11,6 +11,7 @@ import '../../providers/property_provider.dart';
 import '../../providers/chat_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/badge_chip.dart';
+import '../../widgets/app_toast.dart';
 import '../messages/message_view.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
@@ -29,11 +30,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   Future<void> _messageAgent(Property prop) async {
     final agentId = prop.agent.id;
     if (agentId.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("This listing has no contactable agent yet."),
-          behavior: SnackBarBehavior.floating,
-        ),
+      AppToast.showInfo(
+        context,
+        message: "This listing has no contactable agent yet.",
       );
       return;
     }
@@ -52,11 +51,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     setState(() => _startingChat = false);
 
     if (conversationId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Could not start the conversation. Please try again."),
-          behavior: SnackBarBehavior.floating,
-        ),
+      AppToast.showError(
+        context,
+        message: "Could not start the conversation. Please try again.",
       );
       return;
     }
@@ -204,7 +201,18 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           size: 20,
                         ),
                         onPressed: () {
+                          final wasFavorite = prop.isFavorite;
                           propertyProvider.toggleFavorite(prop.id);
+                          AppToast.showSuccess(
+                            context,
+                            message: !wasFavorite
+                                ? "Saved to your bookmarks"
+                                : "Removed from bookmarks",
+                            actionLabel: !wasFavorite ? "Undo" : null,
+                            onAction: !wasFavorite
+                                ? () => propertyProvider.toggleFavorite(prop.id)
+                                : null,
+                          );
                         },
                       ),
                     ),
@@ -226,13 +234,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           size: 20,
                         ),
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                "Listing link copied to clipboard!",
-                              ),
-                              backgroundColor: AppColors.forest,
-                            ),
+                          AppToast.showSuccess(
+                            context,
+                            message: "Listing link copied to clipboard!",
+                            actionLabel: "Share",
+                            onAction: () {},
                           );
                         },
                       ),

@@ -12,6 +12,7 @@ import '../widgets/skeletons/property_card_skeleton.dart';
 import '../widgets/cards/city_card.dart';
 import '../widgets/skeletons/city_card_skeleton.dart';
 import '../widgets/section_header.dart';
+import '../widgets/app_toast.dart';
 import 'property/property_view.dart';
 import 'city_view.dart';
 
@@ -49,7 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final featuredList = propertyProvider.featuredProperties;
     final cities = propertyProvider.cities;
-    final totalHomes = propertyProvider.properties.length;
 
     return Scaffold(
       body: SafeArea(
@@ -485,27 +485,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _emptyCard(bool isDark, String message) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.darkSurface : AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
-      ),
-      child: Center(
-        child: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: isDark ? AppColors.darkMuted : AppColors.muted,
-          ),
-        ),
-      ),
-    );
-  }
-
   void _showWaitlistDialog(BuildContext context, String cityName, bool isDark) {
     showDialog(
       context: context,
@@ -533,11 +512,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             onPressed: () {
               Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("You've been added to the priority waitlist!"),
-                  backgroundColor: AppColors.forest,
-                ),
+              AppToast.showSuccess(
+                context,
+                message: "You've been added to the priority waitlist!",
               );
             },
             child: const Text(

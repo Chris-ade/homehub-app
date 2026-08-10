@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../providers/booking_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/app_toast.dart';
 
 class BookingsScreen extends StatefulWidget {
   const BookingsScreen({super.key});
@@ -319,11 +320,11 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                                 isPrimary: true,
                                 height: 36,
                                 onPressed: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Downloading official tenancy contract PDF..."),
-                                      backgroundColor: AppColors.forest,
-                                    ),
+                                  AppToast.showInfo(
+                                    context,
+                                    message: "Downloading official tenancy contract PDF...",
+                                    actionLabel: "Open",
+                                    onAction: () {},
                                   );
                                 },
                               ),

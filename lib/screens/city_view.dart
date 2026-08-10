@@ -24,11 +24,15 @@ class CityDetailScreen extends StatefulWidget {
 class _CityDetailScreenState extends State<CityDetailScreen> {
   String _activeArea = "all";
   bool _isMapView = false;
+  bool _isSatelliteMode = false;
   final Set<String> _selectedAmenityFilters = {};
   String _selectedPropertyType = "Any";
   RangeValues _priceRange = const RangeValues(100000, 10000000);
   int _selectedBeds = 0;
   int _selectedBaths = 0;
+
+  final MapController _heroMapController = MapController();
+  final MapController _feedMapController = MapController();
 
   final List<String> _quickAmenityList = const [
     "24/7 Power",
@@ -934,7 +938,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
         // Map Hero Banner Container
         Container(
           width: double.infinity,
-          height: 190,
+          height: 250,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             boxShadow: [
@@ -950,16 +954,24 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
           child: Stack(
             children: [
               FlutterMap(
+                mapController: _heroMapController,
                 options: MapOptions(
                   initialCenter: centerLatLng,
                   initialZoom: 13.0,
                 ),
                 children: [
                   TileLayer(
-                    urlTemplate:
-                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    urlTemplate: _isSatelliteMode
+                        ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+                        : 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
                     userAgentPackageName: 'com.homehub.app',
                   ),
+                  if (_isSatelliteMode)
+                    TileLayer(
+                      urlTemplate:
+                          'https://basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}@2x.png',
+                      userAgentPackageName: 'com.homehub.app',
+                    ),
                 ],
               ),
 
@@ -989,7 +1001,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        "${widget.city.name}, ${widget.city.state}",
+                        "${widget.city.name}, ${widget.city.state} ${_isSatelliteMode ? '(Satellite)' : ''}",
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
@@ -1000,11 +1012,62 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                   ),
                 ),
               ),
+
+              // On-Screen Map Navigation Buttons (Layer Toggle, Zoom In, Zoom Out, Re-center)
+              Positioned(
+                bottom: 12,
+                right: 12,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildMapControlButton(
+                      isDark: isDark,
+                      icon: LucideIcons.layers,
+                      active: _isSatelliteMode,
+                      onTap: () {
+                        setState(() {
+                          _isSatelliteMode = !_isSatelliteMode;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 6),
+                    _buildMapControlButton(
+                      isDark: isDark,
+                      icon: LucideIcons.plus,
+                      onTap: () {
+                        final currentZoom = _heroMapController.camera.zoom;
+                        _heroMapController.move(
+                          _heroMapController.camera.center,
+                          currentZoom + 1,
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 6),
+                    _buildMapControlButton(
+                      isDark: isDark,
+                      icon: LucideIcons.minus,
+                      onTap: () {
+                        final currentZoom = _heroMapController.camera.zoom;
+                        _heroMapController.move(
+                          _heroMapController.camera.center,
+                          currentZoom - 1,
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 6),
+                    _buildMapControlButton(
+                      isDark: isDark,
+                      icon: LucideIcons.locate_fixed,
+                      onTap: () {
+                        _heroMapController.move(centerLatLng, 13.0);
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
-
-        const SizedBox(height: 10),
 
         // ── 3-Column Compact Stats Row (No big paddings) ──
         _buildThreeColumnStats(isDark),
@@ -1017,11 +1080,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
     if (stats.isEmpty) return const SizedBox.shrink();
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurfaceAlt : AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
       ),
       child: Row(
@@ -1080,61 +1141,171 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
     List<Property> filteredListings,
     LatLng centerLatLng,
   ) {
-    return FlutterMap(
-      options: MapOptions(initialCenter: centerLatLng, initialZoom: 13.0),
+    return Stack(
       children: [
-        TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.homehub.app',
-        ),
-        MarkerLayer(
-          markers: filteredListings.map((prop) {
-            return Marker(
-              point: LatLng(prop.latitude, prop.longitude),
-              width: 90,
-              height: 36,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          PropertyDetailScreen(property: prop),
+        FlutterMap(
+          mapController: _feedMapController,
+          options: MapOptions(initialCenter: centerLatLng, initialZoom: 13.0),
+          children: [
+            TileLayer(
+              urlTemplate: _isSatelliteMode
+                  ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+                  : 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+              userAgentPackageName: 'com.homehub.app',
+            ),
+            if (_isSatelliteMode)
+              TileLayer(
+                urlTemplate:
+                    'https://basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}@2x.png',
+                userAgentPackageName: 'com.homehub.app',
+              ),
+            MarkerLayer(
+              markers: filteredListings.map((prop) {
+                return Marker(
+                  point: LatLng(prop.latitude, prop.longitude),
+                  width: 90,
+                  height: 36,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PropertyDetailScreen(property: prop),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.terracotta,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.25),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          _formatCompactPrice(prop.price),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
                     ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+
+        // On-Screen Map Navigation Buttons (Layer Toggle, Zoom In, Zoom Out, Re-center)
+        Positioned(
+          top: 16,
+          right: 16,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildMapControlButton(
+                isDark: isDark,
+                icon: LucideIcons.layers,
+                active: _isSatelliteMode,
+                onTap: () {
+                  setState(() {
+                    _isSatelliteMode = !_isSatelliteMode;
+                  });
+                },
+              ),
+              const SizedBox(height: 8),
+              _buildMapControlButton(
+                isDark: isDark,
+                icon: LucideIcons.plus,
+                onTap: () {
+                  final currentZoom = _feedMapController.camera.zoom;
+                  _feedMapController.move(
+                    _feedMapController.camera.center,
+                    currentZoom + 1,
                   );
                 },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.terracotta,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.25),
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      _formatCompactPrice(prop.price),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                ),
               ),
-            );
-          }).toList(),
+              const SizedBox(height: 8),
+              _buildMapControlButton(
+                isDark: isDark,
+                icon: LucideIcons.minus,
+                onTap: () {
+                  final currentZoom = _feedMapController.camera.zoom;
+                  _feedMapController.move(
+                    _feedMapController.camera.center,
+                    currentZoom - 1,
+                  );
+                },
+              ),
+              const SizedBox(height: 8),
+              _buildMapControlButton(
+                isDark: isDark,
+                icon: LucideIcons.locate_fixed,
+                onTap: () {
+                  _feedMapController.move(centerLatLng, 13.0);
+                },
+              ),
+            ],
+          ),
         ),
       ],
+    );
+  }
+
+  Widget _buildMapControlButton({
+    required bool isDark,
+    required IconData icon,
+    bool active = false,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 38,
+        height: 38,
+        decoration: BoxDecoration(
+          color: active
+              ? AppColors.terracotta
+              : (isDark ? AppColors.darkSurface : Colors.white).withValues(
+                  alpha: 0.95,
+                ),
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: active
+                ? AppColors.terracotta
+                : (isDark ? AppColors.darkLine : AppColors.line),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.15),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Icon(
+            icon,
+            size: 18,
+            color: active
+                ? Colors.white
+                : (isDark ? AppColors.darkInk : AppColors.forest),
+          ),
+        ),
+      ),
     );
   }
 }
