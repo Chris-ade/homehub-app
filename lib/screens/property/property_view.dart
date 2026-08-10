@@ -26,6 +26,8 @@ class PropertyDetailScreen extends StatefulWidget {
 class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   int _activeGalleryIndex = 0;
   bool _startingChat = false;
+  bool _isSatelliteMode = false;
+  final MapController _mapController = MapController();
 
   Future<void> _messageAgent(Property prop) async {
     final agentId = prop.agent.id;
@@ -545,6 +547,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           child: Stack(
                             children: [
                               FlutterMap(
+                                mapController: _mapController,
                                 options: MapOptions(
                                   initialCenter: LatLng(
                                     prop.latitude,
@@ -559,10 +562,17 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                 ),
                                 children: [
                                   TileLayer(
-                                    urlTemplate:
-                                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                    urlTemplate: _isSatelliteMode
+                                        ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+                                        : 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
                                     userAgentPackageName: 'com.homehub.app',
                                   ),
+                                  if (_isSatelliteMode)
+                                    TileLayer(
+                                      urlTemplate:
+                                          'https://basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}@2x.png',
+                                      userAgentPackageName: 'com.homehub.app',
+                                    ),
                                   MarkerLayer(
                                     markers: [
                                       Marker(
@@ -595,6 +605,62 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                     ],
                                   ),
                                 ],
+                              ),
+
+                              // On-Screen Map Control Buttons (Layer Toggle, Zoom In, Zoom Out, Re-Center)
+                              Positioned(
+                                bottom: 12,
+                                right: 12,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    _buildMapControlButton(
+                                      isDark: isDark,
+                                      icon: LucideIcons.layers,
+                                      active: _isSatelliteMode,
+                                      onTap: () {
+                                        setState(() {
+                                          _isSatelliteMode = !_isSatelliteMode;
+                                        });
+                                      },
+                                    ),
+                                    const SizedBox(height: 6),
+                                    _buildMapControlButton(
+                                      isDark: isDark,
+                                      icon: LucideIcons.plus,
+                                      onTap: () {
+                                        final currentZoom = _mapController.camera.zoom;
+                                        _mapController.move(
+                                          _mapController.camera.center,
+                                          currentZoom + 1,
+                                        );
+                                      },
+                                    ),
+                                    const SizedBox(height: 6),
+                                    _buildMapControlButton(
+                                      isDark: isDark,
+                                      icon: LucideIcons.minus,
+                                      onTap: () {
+                                        final currentZoom = _mapController.camera.zoom;
+                                        _mapController.move(
+                                          _mapController.camera.center,
+                                          currentZoom - 1,
+                                        );
+                                      },
+                                    ),
+                                    const SizedBox(height: 6),
+                                    _buildMapControlButton(
+                                      isDark: isDark,
+                                      icon: LucideIcons.locate_fixed,
+                                      onTap: () {
+                                        _mapController.move(
+                                          LatLng(prop.latitude, prop.longitude),
+                                          15.0,
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -808,6 +874,50 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             overflow: TextOverflow.ellipsis,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMapControlButton({
+    required bool isDark,
+    required IconData icon,
+    bool active = false,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 34,
+        height: 34,
+        decoration: BoxDecoration(
+          color: active
+              ? AppColors.terracotta
+              : (isDark ? AppColors.darkSurface : Colors.white).withValues(
+                  alpha: 0.95,
+                ),
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: active
+                ? AppColors.terracotta
+                : (isDark ? AppColors.darkLine : AppColors.line),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.15),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Icon(
+            icon,
+            size: 16,
+            color: active
+                ? Colors.white
+                : (isDark ? AppColors.darkInk : AppColors.forest),
+          ),
+        ),
       ),
     );
   }
