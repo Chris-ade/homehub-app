@@ -8,7 +8,7 @@ import '../models/city_model.dart';
 import '../models/property_model.dart';
 import '../providers/property_provider.dart';
 import '../theme/app_theme.dart';
-import '../widgets/property_card.dart';
+import '../widgets/cards/property_card.dart';
 import '../widgets/no_data_widget.dart';
 import 'property/property_view.dart';
 

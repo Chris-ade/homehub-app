@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/property_provider.dart';
 import '../theme/app_theme.dart';
-import '../widgets/property_card.dart';
+import '../widgets/cards/property_card.dart';
 import 'property/property_view.dart';
 
 class FavoritesScreen extends StatelessWidget {

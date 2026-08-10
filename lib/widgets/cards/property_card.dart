@@ -3,8 +3,8 @@ import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../models/property_model.dart';
-import '../theme/app_theme.dart';
+import '../../models/property_model.dart';
+import '../../theme/app_theme.dart';
 
 class PropertyCard extends StatelessWidget {
   final Property property;

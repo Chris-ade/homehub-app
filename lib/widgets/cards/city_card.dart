@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
-import '../models/city_model.dart';
-import '../theme/app_theme.dart';
+import '../../models/city_model.dart';
+import '../../theme/app_theme.dart';
 
 class CityCard extends StatelessWidget {
   final City city;
   final VoidCallback onTap;
 
-  const CityCard({
-    super.key,
-    required this.city,
-    required this.onTap,
-  });
+  const CityCard({super.key, required this.city, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
