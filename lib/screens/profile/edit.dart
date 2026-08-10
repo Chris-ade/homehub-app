@@ -4,9 +4,9 @@ import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../data/nigeria_locations.dart';
-import '../providers/user_provider.dart';
-import '../theme/app_theme.dart';
+import '../../data/nigeria_locations.dart';
+import '../../providers/user_provider.dart';
+import '../../theme/app_theme.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -639,7 +639,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: isDark ? AppColors.darkInk : const Color(0xFF222222),
+                      color: isDark
+                          ? AppColors.darkInk
+                          : const Color(0xFF222222),
                     ),
                   ),
                   if (subtext.isNotEmpty && isEditing) ...[
@@ -755,8 +757,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final userProvider = context.watch<UserProvider>();
     final lgaList = _stateLgaMap[_selectedState] ?? [];
 
-    final fullName =
-        "${userProvider.firstName} ${userProvider.lastName}".trim();
+    final fullName = "${userProvider.firstName} ${userProvider.lastName}"
+        .trim();
 
     return Scaffold(
       appBar: AppBar(
@@ -892,7 +894,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     title: "Legal name",
                     subtext:
                         "This is the name on your official travel document, like your passport or driver's license.",
-                    displayValue: fullName.isNotEmpty ? fullName : "Not provided",
+                    displayValue: fullName.isNotEmpty
+                        ? fullName
+                        : "Not provided",
                     isDark: isDark,
                     onSave: () => _handleSaveProfile(sectionId: "legal_name"),
                     editFormContent: Column(

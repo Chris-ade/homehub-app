@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
-import 'login_screen.dart';
-import 'main_navigation_screen.dart';
-import 'onboarding_screen.dart';
+import 'auth/login.dart';
+import 'navbar.dart';
+import 'onboarding.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

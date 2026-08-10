@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:homehub_app/widgets/no_data_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/property_provider.dart';
@@ -9,8 +10,8 @@ import '../theme/app_theme.dart';
 import '../widgets/property_card.dart';
 import '../widgets/city_card.dart';
 import '../widgets/section_header.dart';
-import 'property_detail_screen.dart';
-import 'city_detail_screen.dart';
+import 'property/property_view.dart';
+import 'city_view.dart';
 
 class HomeScreen extends StatefulWidget {
   final Function(int) onNavigateTab;
@@ -245,7 +246,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       )
                     : featuredList.isEmpty
-                    ? _emptyCard(isDark, "No active featured listings found.")
+                    ? NoDataWidget(
+                        title: "No listings",
+                        message:
+                            "There's no property listing available at the moment",
+                      )
                     : SizedBox(
                         height: 245,
                         child: ListView.builder(
@@ -278,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SliverToBoxAdapter(child: SizedBox(height: 8)),
 
-              // EXPLORE MARKETS header
+              // Explore markets header
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -300,9 +305,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       )
                     : cities.isEmpty
-                    ? _emptyCard(
-                        isDark,
-                        "No active market locations found in database.",
+                    ? NoDataWidget(
+                        title: "No cities available",
+                        message: "There is no data available at the moment.",
                       )
                     : SizedBox(
                         height: 160,
@@ -347,8 +352,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  // --- small building blocks ------------------------------------------------
 
   Widget _buildSearchPill(bool isDark) {
     return Material(
@@ -471,44 +474,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _statItem({required String value, required String label}) {
-    return Expanded(
-      child: Column(
-        children: [
-          Text(
-            value,
-            style: const TextStyle(
-              fontFamily: 'Cabinet Grotesk',
-              fontSize: 22,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'Satoshi',
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: Colors.white.withValues(alpha: 0.75),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _statDivider() {
-    return Container(
-      width: 1,
-      height: 34,
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      color: Colors.white.withValues(alpha: 0.18),
     );
   }
 

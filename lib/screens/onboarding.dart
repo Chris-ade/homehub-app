@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/custom_button.dart';
-import 'login_screen.dart';
+import 'auth/login.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -22,20 +22,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     {
       "tag": "ZERO AGENCY MARKUPS",
       "title": "Rentals Worth\nMoving In For.",
-      "description": "Verified flats, duplexes, self-contained, and student housing across Nigeria straight from verified landlords. No ghost listings.",
-      "image": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+      "description":
+          "Verified flats, duplexes, self-contained, and student housing across Nigeria straight from verified landlords. No ghost listings.",
+      "image":
+          "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
     },
     {
       "tag": "EASY INSPECTIONS",
       "title": "In-Person &\n3D Virtual Tours.",
-      "description": "Schedule physical viewing slots or explore immersive 3D virtual tours before making any rent commitment.",
-      "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      "description":
+          "Schedule physical viewing slots or explore immersive 3D virtual tours before making any rent commitment.",
+      "image":
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
     },
     {
       "tag": "ESCROW PROTECTION",
       "title": "Digital E-Sign &\nPayment Protection.",
-      "description": "Sign tenancy contracts electronically in-app and pay rent via HomeHub Escrow. Funds are released only after move-in.",
-      "image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
+      "description":
+          "Sign tenancy contracts electronically in-app and pay rent via HomeHub Escrow. Funds are released only after move-in.",
+      "image":
+          "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
     },
   ];
 
@@ -63,7 +69,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             // Top Bar with Logo & Skip Button
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 12.0,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -75,7 +84,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           color: AppColors.forest,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: const Icon(LucideIcons.building_2, color: Colors.white, size: 20),
+                        child: const Icon(
+                          LucideIcons.building_2,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                       const SizedBox(width: 10),
                       Text(
@@ -141,7 +154,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                         // Tag Pill
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 5,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.terracotta.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(100),
@@ -169,7 +185,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             fontSize: 28,
                             fontWeight: FontWeight.w900,
                             height: 1.15,
-                            color: isDark ? AppColors.darkInk : AppColors.forest,
+                            color: isDark
+                                ? AppColors.darkInk
+                                : AppColors.forest,
                             letterSpacing: -0.5,
                           ),
                         ),
@@ -184,7 +202,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             fontFamily: 'Satoshi',
                             fontSize: 13,
                             height: 1.45,
-                            color: isDark ? AppColors.darkMuted : AppColors.muted,
+                            color: isDark
+                                ? AppColors.darkMuted
+                                : AppColors.muted,
                           ),
                         ),
                       ],
@@ -210,7 +230,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         width: _currentPage == idx ? 24 : 8,
                         height: 8,
                         decoration: BoxDecoration(
-                          color: _currentPage == idx ? AppColors.terracotta : (isDark ? AppColors.darkLine : AppColors.line),
+                          color: _currentPage == idx
+                              ? AppColors.terracotta
+                              : (isDark ? AppColors.darkLine : AppColors.line),
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),
@@ -221,7 +243,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                   // Bottom Button
                   CustomButton(
-                    text: _currentPage == _slides.length - 1 ? "Get Started" : "Continue",
+                    text: _currentPage == _slides.length - 1
+                        ? "Get Started"
+                        : "Continue",
                     isTerracotta: true,
                     width: double.infinity,
                     onPressed: () {

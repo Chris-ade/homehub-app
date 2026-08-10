@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/user_provider.dart';
-import '../providers/app_theme_provider.dart';
-import '../providers/property_provider.dart';
-import '../theme/app_theme.dart';
-import '../widgets/add_property_modal.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/otp_verification_modal.dart';
-import 'edit_profile_screen.dart';
-import 'login_screen.dart';
-import 'register_screen.dart';
+import '../../providers/user_provider.dart';
+import '../../providers/app_theme_provider.dart';
+import '../../providers/property_provider.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/add_property_modal.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/otp_verification_modal.dart';
+import 'edit.dart';
+import '../auth/login.dart';
+import '../auth/register.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -714,9 +714,7 @@ class ProfileScreen extends StatelessWidget {
                           width: 40,
                           height: 4,
                           decoration: BoxDecoration(
-                            color: isDark
-                                ? AppColors.darkLine
-                                : AppColors.line,
+                            color: isDark ? AppColors.darkLine : AppColors.line,
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
@@ -773,10 +771,13 @@ class ProfileScreen extends StatelessWidget {
                         controller: reasonController,
                         maxLines: 2,
                         decoration: InputDecoration(
-                          hintText: "e.g. Found a house, no longer need account",
+                          hintText:
+                              "e.g. Found a house, no longer need account",
                           hintStyle: TextStyle(
                             fontSize: 12,
-                            color: isDark ? AppColors.darkMuted : AppColors.muted,
+                            color: isDark
+                                ? AppColors.darkMuted
+                                : AppColors.muted,
                           ),
                           filled: true,
                           fillColor: isDark
@@ -797,7 +798,9 @@ class ProfileScreen extends StatelessWidget {
                                   ? null
                                   : () => Navigator.pop(context),
                               style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -811,7 +814,9 @@ class ProfileScreen extends StatelessWidget {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
                                 foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -819,16 +824,22 @@ class ProfileScreen extends StatelessWidget {
                               onPressed: isDeactivating
                                   ? null
                                   : () async {
-                                      setDialogState(() => isDeactivating = true);
-
-                                      final res = await userProvider.deactivateAccount(
-                                        reason: reasonController.text.trim(),
+                                      setDialogState(
+                                        () => isDeactivating = true,
                                       );
+
+                                      final res = await userProvider
+                                          .deactivateAccount(
+                                            reason: reasonController.text
+                                                .trim(),
+                                          );
 
                                       if (!context.mounted) return;
 
                                       Navigator.pop(context);
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
                                         SnackBar(
                                           content: Text(res.message),
                                           backgroundColor: Colors.red,
@@ -837,7 +848,8 @@ class ProfileScreen extends StatelessWidget {
 
                                       Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
-                                          builder: (context) => const LoginScreen(),
+                                          builder: (context) =>
+                                              const LoginScreen(),
                                         ),
                                         (route) => false,
                                       );

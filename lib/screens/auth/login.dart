@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/user_provider.dart';
-import '../providers/property_provider.dart';
-import '../theme/app_theme.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/inputs/form_input_field.dart';
-import '../widgets/inputs/custom_input_field.dart';
-import 'main_navigation_screen.dart';
-import 'register_screen.dart';
+import '../../providers/user_provider.dart';
+import '../../providers/property_provider.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/inputs/form_input_field.dart';
+import '../../widgets/inputs/custom_input_field.dart';
+import '../navbar.dart';
+import 'register.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -376,9 +376,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: isDark ? AppColors.darkMuted : AppColors.muted,
                         size: 20,
                       ),
-                      onPressed: () => setState(
-                        () => _obscurePassword = !_obscurePassword,
-                      ),
+                      onPressed: () =>
+                          setState(() => _obscurePassword = !_obscurePassword),
                     ),
                     validator: (v) {
                       if (v == null || v.isEmpty) {

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../providers/property_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/property_card.dart';
-import 'property_detail_screen.dart';
+import 'property/property_view.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
@@ -68,7 +68,8 @@ class FavoritesScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PropertyDetailScreen(property: property),
+                        builder: (context) =>
+                            PropertyDetailScreen(property: property),
                       ),
                     );
                   },

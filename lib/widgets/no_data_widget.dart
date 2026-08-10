@@ -6,20 +6,24 @@ class NoDataWidget extends StatelessWidget {
   final IconData icon;
   final String title;
   final String message;
-  final String cityName;
+  final String? cityName;
+  final bool notify;
 
   const NoDataWidget({
     super.key,
     this.icon = LucideIcons.house,
     required this.title,
     required this.message,
-    required this.cityName,
+    this.cityName,
+    this.notify = false,
   });
 
   void _onNotifyMe(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text("We'll notify you the moment $cityName has new properties!"),
+        content: Text(
+          "We'll notify you the moment $cityName has new properties!",
+        ),
         backgroundColor: AppColors.forest,
         duration: const Duration(seconds: 3),
       ),
@@ -32,12 +36,7 @@ class NoDataWidget extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.darkSurface : AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 14),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -50,11 +49,7 @@ class NoDataWidget extends StatelessWidget {
                   : AppColors.creamAlt,
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              size: 36,
-              color: AppColors.terracotta,
-            ),
+            child: Icon(icon, size: 36, color: AppColors.terracotta),
           ),
 
           const SizedBox(height: 16),
@@ -77,7 +72,7 @@ class NoDataWidget extends StatelessWidget {
             message,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 13,
+              fontSize: 15,
               height: 1.4,
               color: isDark ? AppColors.darkMuted : AppColors.muted,
             ),
@@ -85,22 +80,27 @@ class NoDataWidget extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          // Clean "Notify Me" Button without text field
-          ElevatedButton.icon(
-            onPressed: () => _onNotifyMe(context),
-            icon: const Icon(LucideIcons.bell, size: 18),
-            label: const Text(
-              "Notify Me",
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+          if (notify)
+            ElevatedButton.icon(
+              onPressed: () => _onNotifyMe(context),
+              icon: const Icon(LucideIcons.bell, size: 18),
+              label: const Text(
+                "Notify Me",
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.terracotta,
+                foregroundColor: Colors.white,
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 14,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
             ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.terracotta,
-              foregroundColor: Colors.white,
-              elevation: 0,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-            ),
-          ),
         ],
       ),
     );

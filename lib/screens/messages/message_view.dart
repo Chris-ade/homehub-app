@@ -5,12 +5,12 @@ import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-import '../models/chat_model.dart';
-import '../providers/chat_provider.dart';
-import '../providers/property_provider.dart';
-import '../theme/app_theme.dart';
-import '../widgets/inputs/chat_input_field.dart';
-import 'property_detail_screen.dart';
+import '../../models/chat_model.dart';
+import '../../providers/chat_provider.dart';
+import '../../providers/property_provider.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/inputs/chat_input_field.dart';
+import '../property/property_view.dart';
 
 /// Messages from the same sender within this window are visually grouped
 /// (tighter spacing, shared bubble corners, avatar only on the last one).
@@ -34,6 +34,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   int _lastMessageCount = 0;
   bool _lastTyping = false;
   bool _openingProperty = false;
+  late ChatProvider _chatProvider;
 
   @override
   void initState() {
@@ -46,12 +47,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _chatProvider = context.read<ChatProvider>();
+  }
+
+  @override
   void dispose() {
     _typingTimer?.cancel();
-    // Stop typing + clear the active conversation on the way out.
-    final chat = context.read<ChatProvider>();
-    if (_typingSent) chat.sendTyping(widget.threadId, false);
-    chat.setActiveConversation(null);
+    // Stop typing + clear the active conversation on the way out using cached provider.
+    if (_typingSent) _chatProvider.sendTyping(widget.threadId, false);
+    _chatProvider.setActiveConversation(null);
     _msgController.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -161,7 +167,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   Future<void> _archive(ChatThread thread) async {
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
-    final ok = await context.read<ChatProvider>().archiveConversation(thread.id);
+    final ok = await context.read<ChatProvider>().archiveConversation(
+      thread.id,
+    );
     if (!mounted) return;
     if (ok) {
       navigator.pop(); // thread is gone from the list
@@ -187,7 +195,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       builder: (ctx) => AlertDialog(
         title: const Text("Delete conversation?"),
         content: const Text(
-            "This permanently removes the conversation and its messages."),
+          "This permanently removes the conversation and its messages.",
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
@@ -283,8 +292,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           color: thread.online
                               ? Colors.green
                               : (isDark
-                                  ? AppColors.darkMuted
-                                  : AppColors.muted),
+                                    ? AppColors.darkMuted
+                                    : AppColors.muted),
                         ),
                       ),
                       const SizedBox(width: 5),
@@ -295,8 +304,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           color: thread.online
                               ? Colors.green
                               : (isDark
-                                  ? AppColors.darkMuted
-                                  : AppColors.muted),
+                                    ? AppColors.darkMuted
+                                    : AppColors.muted),
                         ),
                       ),
                     ],
@@ -337,8 +346,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       Icon(LucideIcons.trash_2, size: 18, color: Colors.red),
                       SizedBox(width: 10),
-                      Text("Delete conversation",
-                          style: TextStyle(color: Colors.red)),
+                      Text(
+                        "Delete conversation",
+                        style: TextStyle(color: Colors.red),
+                      ),
                     ],
                   ),
                 ),
@@ -367,7 +378,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 : ListView.builder(
                     controller: _scrollController,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
+                      horizontal: 12,
+                      vertical: 12,
+                    ),
                     // One extra slot for the typing bubble at the bottom.
                     itemCount: messages.length + (isTyping ? 1 : 0),
                     itemBuilder: (context, index) {
@@ -378,7 +391,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         );
                       }
                       return _buildMessageRow(
-                          context, isDark, thread, messages, index);
+                        context,
+                        isDark,
+                        thread,
+                        messages,
+                        index,
+                      );
                     },
                   ),
           ),
@@ -404,12 +422,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     final showDateSeparator =
         prev == null || !_isSameDay(msg.timestamp, prev.timestamp);
 
-    final groupedWithPrev = prev != null &&
+    final groupedWithPrev =
+        prev != null &&
         prev.senderId == msg.senderId &&
         !showDateSeparator &&
         msg.timestamp.difference(prev.timestamp).abs() <= _kGroupWindow;
 
-    final groupedWithNext = next != null &&
+    final groupedWithNext =
+        next != null &&
         next.senderId == msg.senderId &&
         _isSameDay(msg.timestamp, next.timestamp) &&
         next.timestamp.difference(msg.timestamp).abs() <= _kGroupWindow;
@@ -444,8 +464,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         borderRadius: radius,
       ),
       child: Column(
-        crossAxisAlignment:
-            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment: isMe
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
         children: [
           Text(
             msg.content,
@@ -470,10 +491,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   fontSize: 10,
                 ),
               ),
-              if (isMe) ...[
-                const SizedBox(width: 4),
-                _statusIcon(msg),
-              ],
+              if (isMe) ...[const SizedBox(width: 4), _statusIcon(msg)],
             ],
           ),
         ],
@@ -482,17 +500,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
     // Failed messages are tappable to retry / surface the reason.
     final Widget bubbleWrapped = msg.failed
-        ? GestureDetector(
-            onTap: () => _onFailedTap(msg),
-            child: bubble,
-          )
+        ? GestureDetector(onTap: () => _onFailedTap(msg), child: bubble)
         : bubble;
 
     // Received messages carry the sender avatar, but only on the bottom-most
     // bubble of a group; a spacer keeps earlier bubbles aligned.
     final Widget row = Row(
-      mainAxisAlignment:
-          isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         if (!isMe) ...[
@@ -523,8 +537,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       return const Icon(LucideIcons.clock, size: 11, color: Colors.white70);
     }
     if (msg.failed) {
-      return const Icon(LucideIcons.circle_alert,
-          size: 12, color: Color(0xFFFFC1B6));
+      return const Icon(
+        LucideIcons.circle_alert,
+        size: 12,
+        color: Color(0xFFFFC1B6),
+      );
     }
     return Icon(
       msg.read ? LucideIcons.circle_check : LucideIcons.check,
@@ -540,9 +557,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         behavior: SnackBarBehavior.floating,
         action: SnackBarAction(
           label: "Retry",
-          onPressed: () => context
-              .read<ChatProvider>()
-              .retryMessage(widget.threadId, msg.id),
+          onPressed: () => context.read<ChatProvider>().retryMessage(
+            widget.threadId,
+            msg.id,
+          ),
         ),
       ),
     );
@@ -585,13 +603,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                  color: isDark ? AppColors.darkLine : AppColors.line),
+                color: isDark ? AppColors.darkLine : AppColors.line,
+              ),
             ),
           ),
           child: Row(
             children: [
-              const Icon(LucideIcons.building_2,
-                  size: 18, color: AppColors.forest),
+              const Icon(
+                LucideIcons.building_2,
+                size: 18,
+                color: AppColors.forest,
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
@@ -626,7 +648,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     )
                   : Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.forest,
                         borderRadius: BorderRadius.circular(20),
@@ -643,8 +667,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             ),
                           ),
                           SizedBox(width: 4),
-                          Icon(LucideIcons.arrow_right,
-                              size: 14, color: Colors.white),
+                          Icon(
+                            LucideIcons.arrow_right,
+                            size: 14,
+                            color: Colors.white,
+                          ),
                         ],
                       ),
                     ),
@@ -661,7 +688,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurface : AppColors.surface,
         border: Border(
-            top: BorderSide(color: isDark ? AppColors.darkLine : AppColors.line)),
+          top: BorderSide(color: isDark ? AppColors.darkLine : AppColors.line),
+        ),
       ),
       child: ChatInputField(
         controller: _msgController,
@@ -686,9 +714,7 @@ class _Avatar extends StatelessWidget {
     return CircleAvatar(
       radius: radius,
       backgroundImage: url.isNotEmpty ? NetworkImage(url) : null,
-      child: url.isEmpty
-          ? Icon(LucideIcons.user, size: radius)
-          : null,
+      child: url.isEmpty ? Icon(LucideIcons.user, size: radius) : null,
     );
   }
 }

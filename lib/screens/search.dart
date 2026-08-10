@@ -7,7 +7,7 @@ import '../providers/property_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/inputs/search_input_field.dart';
 import '../widgets/property_card.dart';
-import 'property_detail_screen.dart';
+import 'property/property_view.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

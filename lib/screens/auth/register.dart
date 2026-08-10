@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/user_provider.dart';
-import '../theme/app_theme.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/otp_verification_modal.dart';
-import '../widgets/inputs/form_input_field.dart';
-import '../widgets/inputs/validation_status_message.dart';
-import 'main_navigation_screen.dart';
-import 'login_screen.dart';
+import '../../providers/user_provider.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/otp_verification_modal.dart';
+import '../../widgets/inputs/form_input_field.dart';
+import '../../widgets/inputs/validation_status_message.dart';
+import '../navbar.dart';
+import 'login.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

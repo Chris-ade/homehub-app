@@ -6,12 +6,12 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:latlong2/latlong.dart';
 
-import '../models/property_model.dart';
-import '../providers/property_provider.dart';
-import '../providers/chat_provider.dart';
-import '../theme/app_theme.dart';
-import '../widgets/badge_chip.dart';
-import 'chat_detail_screen.dart';
+import '../../models/property_model.dart';
+import '../../providers/property_provider.dart';
+import '../../providers/chat_provider.dart';
+import '../../theme/app_theme.dart';
+import '../../widgets/badge_chip.dart';
+import '../messages/message_view.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
   final Property property;

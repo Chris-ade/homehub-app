@@ -4,12 +4,12 @@ import 'package:provider/provider.dart';
 
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
-import 'home_screen.dart';
-import 'search_screen.dart';
-import 'bookings_screen.dart';
-import 'favorites_screen.dart';
-import 'profile_screen.dart';
-import 'login_screen.dart';
+import 'home.dart';
+import 'search.dart';
+import 'saved.dart';
+import 'messages/messages.dart';
+import 'profile/profile.dart';
+import 'auth/login.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -41,16 +41,13 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     final pages = [
       HomeScreen(onNavigateTab: _onTabSelected),
       const SearchScreen(),
-      const BookingsScreen(),
       const FavoritesScreen(),
+      const ChatScreen(),
       const ProfileScreen(),
     ];
 
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: pages,
-      ),
+      body: IndexedStack(index: _currentIndex, children: pages),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: isDark ? AppColors.darkSurface : AppColors.surface,
@@ -94,14 +91,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               label: "Explore",
             ),
             BottomNavigationBarItem(
-              icon: Icon(LucideIcons.calendar),
-              activeIcon: Icon(LucideIcons.calendar, color: AppColors.terracotta),
-              label: "My Rentals",
-            ),
-            BottomNavigationBarItem(
               icon: Icon(LucideIcons.heart),
               activeIcon: Icon(LucideIcons.heart, color: AppColors.terracotta),
               label: "Saved",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(LucideIcons.mail),
+              activeIcon: Icon(LucideIcons.mail, color: AppColors.terracotta),
+              label: "Messages",
             ),
             BottomNavigationBarItem(
               icon: Icon(LucideIcons.user),

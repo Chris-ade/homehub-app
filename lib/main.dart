@@ -8,7 +8,7 @@ import 'providers/property_provider.dart';
 import 'providers/booking_provider.dart';
 import 'providers/user_provider.dart';
 import 'providers/chat_provider.dart';
-import 'screens/splash_screen.dart';
+import 'screens/splash.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
