@@ -468,14 +468,16 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final propertyProvider = context.watch<PropertyProvider>();
 
-    // Filter listings matching city slug or city name
-    final allCityListings = propertyProvider.properties
-        .where(
-          (p) =>
-              p.citySlug == widget.city.slug ||
-              p.area.toLowerCase().contains(widget.city.name.toLowerCase()),
-        )
-        .toList();
+    // Filter listings matching city slug (or containing slug) or city name
+    final allCityListings = propertyProvider.properties.where((p) {
+      final slugMatch =
+          p.citySlug.contains(widget.city.slug) ||
+          widget.city.slug.contains(p.citySlug);
+      final nameMatch =
+          p.area.toLowerCase().contains(widget.city.name.toLowerCase()) ||
+          p.city.toLowerCase().contains(widget.city.name.toLowerCase());
+      return slugMatch || nameMatch;
+    }).toList();
 
     // Extract street data
     final Map<String, int> dynamicStreets = {};
@@ -842,7 +844,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                               ? AppColors.darkSurfaceAlt
                               : AppColors.creamAlt,
                           labelStyle: TextStyle(
-                            fontSize: 11,
+                            fontSize: 12.5,
                             fontWeight: FontWeight.bold,
                             color: _activeArea == "all"
                                 ? Colors.white
@@ -864,7 +866,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                   ? AppColors.darkSurfaceAlt
                                   : AppColors.creamAlt,
                               labelStyle: TextStyle(
-                                fontSize: 11,
+                                fontSize: 12.5,
                                 fontWeight: FontWeight.bold,
                                 color:
                                     _activeArea.toLowerCase() ==

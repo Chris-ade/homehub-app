@@ -8,7 +8,9 @@ import '../providers/app_theme_provider.dart';
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/cards/property_card.dart';
+import '../widgets/skeletons/property_card_skeleton.dart';
 import '../widgets/cards/city_card.dart';
+import '../widgets/skeletons/city_card_skeleton.dart';
 import '../widgets/section_header.dart';
 import 'property/property_view.dart';
 import 'city_view.dart';
@@ -237,12 +239,15 @@ class _HomeScreenState extends State<HomeScreen> {
               // Featured carousel
               SliverToBoxAdapter(
                 child: propertyProvider.isLoading
-                    ? const SizedBox(
+                    ? SizedBox(
                         height: 200,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.terracotta,
-                          ),
+                        child: ListView.builder(
+                          padding: const EdgeInsets.only(left: 20, right: 4),
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: 3,
+                          itemBuilder: (context, index) =>
+                              const PropertyCardSkeleton(isHorizontal: true),
                         ),
                       )
                     : featuredList.isEmpty
@@ -296,12 +301,15 @@ class _HomeScreenState extends State<HomeScreen> {
               // City carousel
               SliverToBoxAdapter(
                 child: propertyProvider.isLoading
-                    ? const SizedBox(
+                    ? SizedBox(
                         height: 140,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.terracotta,
-                          ),
+                        child: ListView.builder(
+                          padding: const EdgeInsets.only(left: 20, right: 6),
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: 3,
+                          itemBuilder: (context, index) =>
+                              const CityCardSkeleton(),
                         ),
                       )
                     : cities.isEmpty
