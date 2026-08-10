@@ -3,21 +3,21 @@ import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 
-import '../providers/user_provider.dart';
-import '../theme/app_theme.dart';
-import 'custom_button.dart';
+import '../../providers/user_provider.dart';
+import '../../theme/app_theme.dart';
+import '../custom_button.dart';
 
 class OtpVerificationModal extends StatefulWidget {
   final String email;
   final VoidCallback? onVerified;
 
-  const OtpVerificationModal({
-    super.key,
-    required this.email,
-    this.onVerified,
-  });
+  const OtpVerificationModal({super.key, required this.email, this.onVerified});
 
-  static Future<bool?> show(BuildContext context, {required String email, VoidCallback? onVerified}) {
+  static Future<bool?> show(
+    BuildContext context, {
+    required String email,
+    VoidCallback? onVerified,
+  }) {
     return showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
@@ -36,8 +36,10 @@ class OtpVerificationModal extends StatefulWidget {
 }
 
 class _OtpVerificationModalState extends State<OtpVerificationModal> {
-  final List<TextEditingController> _controllers =
-      List.generate(6, (_) => TextEditingController());
+  final List<TextEditingController> _controllers = List.generate(
+    6,
+    (_) => TextEditingController(),
+  );
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
 
   bool _isSubmitting = false;
@@ -232,12 +234,20 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
               ),
               child: Row(
                 children: [
-                  const Icon(LucideIcons.circle_alert, color: Colors.red, size: 18),
+                  const Icon(
+                    LucideIcons.circle_alert,
+                    color: Colors.red,
+                    size: 18,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       _errorMessage!,
-                      style: const TextStyle(color: Colors.red, fontSize: 12, fontWeight: FontWeight.w600),
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
@@ -252,16 +262,26 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
               decoration: BoxDecoration(
                 color: AppColors.forest.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.forest.withValues(alpha: 0.3)),
+                border: Border.all(
+                  color: AppColors.forest.withValues(alpha: 0.3),
+                ),
               ),
               child: Row(
                 children: [
-                  const Icon(LucideIcons.circle_check, color: AppColors.forest, size: 18),
+                  const Icon(
+                    LucideIcons.circle_check,
+                    color: AppColors.forest,
+                    size: 18,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       _successMessage!,
-                      style: const TextStyle(color: AppColors.forest, fontSize: 12, fontWeight: FontWeight.w600),
+                      style: const TextStyle(
+                        color: AppColors.forest,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
@@ -291,7 +311,9 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
                   decoration: InputDecoration(
                     counterText: "",
                     filled: true,
-                    fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+                    fillColor: isDark
+                        ? AppColors.darkSurfaceAlt
+                        : AppColors.creamAlt,
                     contentPadding: EdgeInsets.zero,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -301,7 +323,10 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: AppColors.terracotta, width: 2),
+                      borderSide: const BorderSide(
+                        color: AppColors.terracotta,
+                        width: 2,
+                      ),
                     ),
                   ),
                   onChanged: (val) {

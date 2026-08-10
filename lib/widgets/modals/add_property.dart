@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 
-import '../models/property_model.dart';
-import '../providers/property_provider.dart';
-import '../providers/user_provider.dart';
-import '../theme/app_theme.dart';
-import 'custom_button.dart';
+import '../../models/property_model.dart';
+import '../../providers/property_provider.dart';
+import '../../providers/user_provider.dart';
+import '../../theme/app_theme.dart';
+import '../custom_button.dart';
 
 class AddPropertyModal extends StatefulWidget {
   const AddPropertyModal({super.key});
@@ -28,10 +28,25 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
   String _type = "Apartment";
   final String _status = "Verified";
   String _description = "";
-  final String _imageUrl = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80";
+  final String _imageUrl =
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80";
 
-  final List<String> _cities = ["ado-ekiti", "ikere-ekiti", "iworoko-ekiti", "ikole-ekiti"];
-  final List<String> _types = ["Flat", "Apartment", "Self-contained", "Hostel", "Single Room", "Duplex", "Mini Flat", "Bungalow"];
+  final List<String> _cities = [
+    "ado-ekiti",
+    "ikere-ekiti",
+    "iworoko-ekiti",
+    "ikole-ekiti",
+  ];
+  final List<String> _types = [
+    "Flat",
+    "Apartment",
+    "Self-contained",
+    "Hostel",
+    "Single Room",
+    "Duplex",
+    "Mini Flat",
+    "Bungalow",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +91,11 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
                       color: AppColors.forest.withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(LucideIcons.circle_plus, color: AppColors.forest, size: 22),
+                    child: Icon(
+                      LucideIcons.circle_plus,
+                      color: AppColors.forest,
+                      size: 22,
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Column(
@@ -108,8 +127,12 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
 
               // Title
               TextFormField(
-                decoration: _inputDecoration("Property Title (e.g. Modern 2-Bed Flat)", isDark),
-                validator: (v) => v == null || v.isEmpty ? "Please enter a title" : null,
+                decoration: _inputDecoration(
+                  "Property Title (e.g. Modern 2-Bed Flat)",
+                  isDark,
+                ),
+                validator: (v) =>
+                    v == null || v.isEmpty ? "Please enter a title" : null,
                 onSaved: (v) => _title = v ?? "",
               ),
               const SizedBox(height: 12),
@@ -117,8 +140,12 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
               // Area / Neighborhood
               TextFormField(
                 initialValue: _area,
-                decoration: _inputDecoration("Area / Address (e.g. Adebayo, Ado-Ekiti)", isDark),
-                validator: (v) => v == null || v.isEmpty ? "Please enter address" : null,
+                decoration: _inputDecoration(
+                  "Area / Address (e.g. Adebayo, Ado-Ekiti)",
+                  isDark,
+                ),
+                validator: (v) =>
+                    v == null || v.isEmpty ? "Please enter address" : null,
                 onSaved: (v) => _area = v ?? "",
               ),
               const SizedBox(height: 12),
@@ -131,7 +158,12 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
                       initialValue: _citySlug,
                       decoration: _inputDecoration("City", isDark),
                       items: _cities
-                          .map((c) => DropdownMenuItem(value: c, child: Text(c.toUpperCase())))
+                          .map(
+                            (c) => DropdownMenuItem(
+                              value: c,
+                              child: Text(c.toUpperCase()),
+                            ),
+                          )
                           .toList(),
                       onChanged: (v) => setState(() => _citySlug = v!),
                     ),
@@ -142,7 +174,9 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
                       initialValue: _type,
                       decoration: _inputDecoration("Property Type", isDark),
                       items: _types
-                          .map((t) => DropdownMenuItem(value: t, child: Text(t)))
+                          .map(
+                            (t) => DropdownMenuItem(value: t, child: Text(t)),
+                          )
                           .toList(),
                       onChanged: (v) => setState(() => _type = v!),
                     ),
@@ -159,8 +193,10 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
                       initialValue: "850000",
                       keyboardType: TextInputType.number,
                       decoration: _inputDecoration("Annual Rent (₦)", isDark),
-                      validator: (v) => v == null || v.isEmpty ? "Required" : null,
-                      onSaved: (v) => _price = double.tryParse(v ?? "0") ?? 850000,
+                      validator: (v) =>
+                          v == null || v.isEmpty ? "Required" : null,
+                      onSaved: (v) =>
+                          _price = double.tryParse(v ?? "0") ?? 850000,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -202,7 +238,10 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
 
               // Description
               TextFormField(
-                decoration: _inputDecoration("Property Description & Features", isDark),
+                decoration: _inputDecoration(
+                  "Property Description & Features",
+                  isDark,
+                ),
                 maxLines: 2,
                 onSaved: (v) => _description = v ?? "",
               ),
@@ -248,7 +287,10 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
                         backgroundColor: AppColors.forest,
                         content: const Text(
                           "Property listed successfully!",
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         behavior: SnackBarBehavior.floating,
                       ),
@@ -275,11 +317,15 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: isDark ? AppColors.darkLine : AppColors.line),
+        borderSide: BorderSide(
+          color: isDark ? AppColors.darkLine : AppColors.line,
+        ),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: isDark ? AppColors.darkLine : AppColors.line),
+        borderSide: BorderSide(
+          color: isDark ? AppColors.darkLine : AppColors.line,
+        ),
       ),
     );
   }

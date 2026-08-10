@@ -3,11 +3,11 @@ import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-import '../models/property_model.dart';
-import '../models/booking_model.dart';
-import '../providers/booking_provider.dart';
-import '../theme/app_theme.dart';
-import 'custom_button.dart';
+import '../../models/property_model.dart';
+import '../../models/booking_model.dart';
+import '../../providers/booking_provider.dart';
+import '../../theme/app_theme.dart';
+import '../custom_button.dart';
 
 class InspectionModal extends StatefulWidget {
   final Property property;
@@ -81,7 +81,11 @@ class _InspectionModalState extends State<InspectionModal> {
                     color: AppColors.terracotta.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(LucideIcons.calendar, color: AppColors.terracotta, size: 22),
+                  child: const Icon(
+                    LucideIcons.calendar,
+                    color: AppColors.terracotta,
+                    size: 22,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -173,7 +177,11 @@ class _InspectionModalState extends State<InspectionModal> {
                       setState(() => _selectedDate = picked);
                     }
                   },
-                  icon: const Icon(LucideIcons.calendar, size: 16, color: AppColors.terracotta),
+                  icon: const Icon(
+                    LucideIcons.calendar,
+                    size: 16,
+                    color: AppColors.terracotta,
+                  ),
                   label: Text(
                     DateFormat('E, MMM d').format(_selectedDate),
                     style: const TextStyle(
@@ -200,11 +208,16 @@ class _InspectionModalState extends State<InspectionModal> {
                     onTap: () => setState(() => _selectedSlot = slot),
                     child: Container(
                       margin: const EdgeInsets.only(right: 10),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: isSelected
                             ? (isDark ? AppColors.terracotta : AppColors.forest)
-                            : (isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt),
+                            : (isDark
+                                  ? AppColors.darkSurfaceAlt
+                                  : AppColors.creamAlt),
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(
                           color: isSelected
@@ -240,14 +253,20 @@ class _InspectionModalState extends State<InspectionModal> {
                   fontSize: 13,
                 ),
                 filled: true,
-                fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+                fillColor: isDark
+                    ? AppColors.darkSurfaceAlt
+                    : AppColors.creamAlt,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide(color: isDark ? AppColors.darkLine : AppColors.line),
+                  borderSide: BorderSide(
+                    color: isDark ? AppColors.darkLine : AppColors.line,
+                  ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide(color: isDark ? AppColors.darkLine : AppColors.line),
+                  borderSide: BorderSide(
+                    color: isDark ? AppColors.darkLine : AppColors.line,
+                  ),
                 ),
               ),
               maxLines: 2,
@@ -284,18 +303,26 @@ class _InspectionModalState extends State<InspectionModal> {
                     backgroundColor: AppColors.forest,
                     content: Row(
                       children: [
-                        const Icon(LucideIcons.circle_check, color: Colors.white),
+                        const Icon(
+                          LucideIcons.circle_check,
+                          color: Colors.white,
+                        ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
                             "Inspection booked for ${DateFormat('MMM d').format(_selectedDate)} at $_selectedSlot!",
-                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 );
               },
@@ -306,7 +333,12 @@ class _InspectionModalState extends State<InspectionModal> {
     );
   }
 
-  Widget _buildTypeOption(String title, IconData icon, bool isSelected, bool isDark) {
+  Widget _buildTypeOption(
+    String title,
+    IconData icon,
+    bool isSelected,
+    bool isDark,
+  ) {
     return GestureDetector(
       onTap: () => setState(() => _inspectionType = title),
       child: Container(
@@ -317,7 +349,9 @@ class _InspectionModalState extends State<InspectionModal> {
               : (isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: isSelected ? AppColors.terracotta : (isDark ? AppColors.darkLine : AppColors.line),
+            color: isSelected
+                ? AppColors.terracotta
+                : (isDark ? AppColors.darkLine : AppColors.line),
             width: 1.5,
           ),
         ),
@@ -327,7 +361,9 @@ class _InspectionModalState extends State<InspectionModal> {
             Icon(
               icon,
               size: 18,
-              color: isSelected ? AppColors.terracotta : (isDark ? AppColors.darkMuted : AppColors.muted),
+              color: isSelected
+                  ? AppColors.terracotta
+                  : (isDark ? AppColors.darkMuted : AppColors.muted),
             ),
             const SizedBox(width: 6),
             Flexible(

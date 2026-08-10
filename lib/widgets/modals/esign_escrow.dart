@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../models/property_model.dart';
-import '../providers/booking_provider.dart';
-import '../providers/user_provider.dart';
-import '../theme/app_theme.dart';
-import 'custom_button.dart';
+import '../../models/property_model.dart';
+import '../../providers/booking_provider.dart';
+import '../../providers/user_provider.dart';
+import '../../theme/app_theme.dart';
+import '../custom_button.dart';
 
 class ESignEscrowModal extends StatefulWidget {
   final Property property;
@@ -100,7 +100,9 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _step == 1 ? "E-Sign Tenancy Agreement" : "Secure Escrow Payment",
+                        _step == 1
+                            ? "E-Sign Tenancy Agreement"
+                            : "Secure Escrow Payment",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
@@ -108,7 +110,9 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                         ),
                       ),
                       Text(
-                        _step == 1 ? "Step 1 of 2: Digital Signature" : "Step 2 of 2: Funds Protection",
+                        _step == 1
+                            ? "Step 1 of 2: Digital Signature"
+                            : "Step 2 of 2: Funds Protection",
                         style: TextStyle(
                           fontSize: 13,
                           color: isDark ? AppColors.darkMuted : AppColors.muted,
@@ -131,7 +135,9 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                 decoration: BoxDecoration(
                   color: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
+                  border: Border.all(
+                    color: isDark ? AppColors.darkLine : AppColors.line,
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,7 +149,9 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                           "Property:",
                           style: TextStyle(
                             fontSize: 12,
-                            color: isDark ? AppColors.darkMuted : AppColors.muted,
+                            color: isDark
+                                ? AppColors.darkMuted
+                                : AppColors.muted,
                           ),
                         ),
                         Text(
@@ -164,7 +172,9 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                           "Annual Rent:",
                           style: TextStyle(
                             fontSize: 12,
-                            color: isDark ? AppColors.darkMuted : AppColors.muted,
+                            color: isDark
+                                ? AppColors.darkMuted
+                                : AppColors.muted,
                           ),
                         ),
                         Text(
@@ -172,7 +182,9 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w800,
-                            color: isDark ? AppColors.terracotta : AppColors.forest,
+                            color: isDark
+                                ? AppColors.terracotta
+                                : AppColors.forest,
                           ),
                         ),
                       ],
@@ -185,7 +197,9 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                           "Agent/Brokerage Fee:",
                           style: TextStyle(
                             fontSize: 12,
-                            color: isDark ? AppColors.darkMuted : AppColors.muted,
+                            color: isDark
+                                ? AppColors.darkMuted
+                                : AppColors.muted,
                           ),
                         ),
                         const Text(
@@ -217,7 +231,10 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
 
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 decoration: BoxDecoration(
                   color: isDark ? AppColors.darkBackground : Colors.white,
                   borderRadius: BorderRadius.circular(16),
@@ -229,7 +246,9 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                 child: Column(
                   children: [
                     Text(
-                      _sigController.text.isEmpty ? "Your Signature Here" : _sigController.text,
+                      _sigController.text.isEmpty
+                          ? "Your Signature Here"
+                          : _sigController.text,
                       style: GoogleFonts.caveat(
                         fontSize: 36,
                         fontWeight: FontWeight.w700,
@@ -263,10 +282,14 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                     fontSize: 13,
                   ),
                   filled: true,
-                  fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+                  fillColor: isDark
+                      ? AppColors.darkSurfaceAlt
+                      : AppColors.creamAlt,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: isDark ? AppColors.darkLine : AppColors.line),
+                    borderSide: BorderSide(
+                      color: isDark ? AppColors.darkLine : AppColors.line,
+                    ),
                   ),
                 ),
               ),
@@ -278,7 +301,8 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                   Checkbox(
                     value: _agreedToTerms,
                     activeColor: AppColors.terracotta,
-                    onChanged: (v) => setState(() => _agreedToTerms = v ?? false),
+                    onChanged: (v) =>
+                        setState(() => _agreedToTerms = v ?? false),
                   ),
                   Expanded(
                     child: Text(
@@ -309,11 +333,17 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                 decoration: BoxDecoration(
                   color: AppColors.forest.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.forest.withValues(alpha: 0.2)),
+                  border: Border.all(
+                    color: AppColors.forest.withValues(alpha: 0.2),
+                  ),
                 ),
                 child: Row(
                   children: [
-                    const Icon(LucideIcons.shield_check, color: AppColors.forest, size: 28),
+                    const Icon(
+                      LucideIcons.shield_check,
+                      color: AppColors.forest,
+                      size: 28,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
@@ -332,7 +362,9 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                             "Your payment is held safely in escrow. Landlord receives funds ONLY after you confirm key handover & inspection.",
                             style: TextStyle(
                               fontSize: 12,
-                              color: isDark ? AppColors.darkMuted : AppColors.muted,
+                              color: isDark
+                                  ? AppColors.darkMuted
+                                  : AppColors.muted,
                             ),
                           ),
                         ],
@@ -345,9 +377,22 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
               const SizedBox(height: 16),
 
               // Itemized Breakdown
-              _buildSummaryRow("Annual Rent", _formatCurrency(widget.property.price), isDark),
-              _buildSummaryRow("Refundable Security Deposit", "₦100,000", isDark),
-              _buildSummaryRow("HomeHub Service Fee", "₦0 (Free)", isDark, isHighlight: true),
+              _buildSummaryRow(
+                "Annual Rent",
+                _formatCurrency(widget.property.price),
+                isDark,
+              ),
+              _buildSummaryRow(
+                "Refundable Security Deposit",
+                "₦100,000",
+                isDark,
+              ),
+              _buildSummaryRow(
+                "HomeHub Service Fee",
+                "₦0 (Free)",
+                isDark,
+                isHighlight: true,
+              ),
               Divider(color: isDark ? AppColors.darkLine : AppColors.line),
               _buildSummaryRow(
                 "Total Escrow Amount",
@@ -359,25 +404,30 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
               const SizedBox(height: 24),
 
               CustomButton(
-                text: "Authorize Escrow Payment (${_formatCurrency(widget.property.price + 100000)})",
+                text:
+                    "Authorize Escrow Payment (${_formatCurrency(widget.property.price + 100000)})",
                 isTerracotta: true,
                 width: double.infinity,
                 onPressed: () {
                   context.read<BookingProvider>().createOrUpdateLease(
-                        propertyId: widget.property.id,
-                        propertyTitle: widget.property.title,
-                        area: widget.property.area,
-                        annualRent: widget.property.price,
-                        signatureText: _sigController.text,
-                      );
+                    propertyId: widget.property.id,
+                    propertyTitle: widget.property.title,
+                    area: widget.property.area,
+                    annualRent: widget.property.price,
+                    signatureText: _sigController.text,
+                  );
 
                   Navigator.pop(context);
 
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      backgroundColor: isDark ? AppColors.darkSurface : AppColors.surface,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                      backgroundColor: isDark
+                          ? AppColors.darkSurface
+                          : AppColors.surface,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
                       title: Column(
                         children: [
                           Container(
@@ -386,7 +436,11 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                               color: Color(0xFFE8F5E9),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(LucideIcons.circle_check, color: Colors.green, size: 48),
+                            child: const Icon(
+                              LucideIcons.circle_check,
+                              color: Colors.green,
+                              size: 48,
+                            ),
                           ),
                           const SizedBox(height: 14),
                           Text(
@@ -442,8 +496,13 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
     );
   }
 
-  Widget _buildSummaryRow(String label, String value, bool isDark,
-      {bool isHighlight = false, bool isTotal = false}) {
+  Widget _buildSummaryRow(
+    String label,
+    String value,
+    bool isDark, {
+    bool isHighlight = false,
+    bool isTotal = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
@@ -461,12 +520,14 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
             value,
             style: TextStyle(
               fontSize: isTotal ? 16 : 13,
-              fontWeight: isTotal || isHighlight ? FontWeight.w800 : FontWeight.w600,
+              fontWeight: isTotal || isHighlight
+                  ? FontWeight.w800
+                  : FontWeight.w600,
               color: isHighlight
                   ? Colors.green
                   : (isTotal
-                      ? (isDark ? AppColors.terracotta : AppColors.forest)
-                      : (isDark ? AppColors.darkInk : AppColors.ink)),
+                        ? (isDark ? AppColors.terracotta : AppColors.forest)
+                        : (isDark ? AppColors.darkInk : AppColors.ink)),
             ),
           ),
         ],

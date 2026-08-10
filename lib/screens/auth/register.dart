@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../providers/user_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/custom_button.dart';
-import '../../widgets/otp_verification_modal.dart';
+import '../../widgets/modals/otp_verification.dart';
 import '../../widgets/inputs/form_input_field.dart';
 import '../../widgets/inputs/validation_status_message.dart';
 import '../navbar.dart';
