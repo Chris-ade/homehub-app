@@ -123,40 +123,42 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                           Wrap(
                             spacing: 8,
                             runSpacing: 8,
-                            children: [
-                              "Any",
-                              "Flat",
-                              "Apartment",
-                              "Self-contained",
-                              "Duplex",
-                              "Single Room",
-                              "Hostel",
-                            ].map((type) {
-                              final isSelected = _selectedPropertyType == type;
-                              return ChoiceChip(
-                                label: Text(type),
-                                selected: isSelected,
-                                selectedColor: AppColors.terracotta,
-                                backgroundColor: isDark
-                                    ? AppColors.darkSurfaceAlt
-                                    : AppColors.creamAlt,
-                                labelStyle: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                  color: isSelected
-                                      ? Colors.white
-                                      : (isDark
-                                            ? AppColors.darkInk
-                                            : AppColors.ink),
-                                ),
-                                onSelected: (_) {
-                                  setModalState(() {
-                                    _selectedPropertyType = type;
-                                  });
-                                  setState(() {});
-                                },
-                              );
-                            }).toList(),
+                            children:
+                                [
+                                  "Any",
+                                  "Flat",
+                                  "Apartment",
+                                  "Self-contained",
+                                  "Duplex",
+                                  "Single Room",
+                                  "Hostel",
+                                ].map((type) {
+                                  final isSelected =
+                                      _selectedPropertyType == type;
+                                  return ChoiceChip(
+                                    label: Text(type),
+                                    selected: isSelected,
+                                    selectedColor: AppColors.terracotta,
+                                    backgroundColor: isDark
+                                        ? AppColors.darkSurfaceAlt
+                                        : AppColors.creamAlt,
+                                    labelStyle: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: isSelected
+                                          ? Colors.white
+                                          : (isDark
+                                                ? AppColors.darkInk
+                                                : AppColors.ink),
+                                    ),
+                                    onSelected: (_) {
+                                      setModalState(() {
+                                        _selectedPropertyType = type;
+                                      });
+                                      setState(() {});
+                                    },
+                                  );
+                                }).toList(),
                           ),
 
                           const SizedBox(height: 24),
@@ -180,26 +182,40 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                 "Minimum Bedrooms",
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: isDark ? AppColors.darkInk : AppColors.ink,
+                                  color: isDark
+                                      ? AppColors.darkInk
+                                      : AppColors.ink,
                                 ),
                               ),
                               Row(
                                 children: [
                                   IconButton(
-                                    icon: const Icon(LucideIcons.circle_minus, size: 20),
+                                    icon: const Icon(
+                                      LucideIcons.circle_minus,
+                                      size: 20,
+                                    ),
                                     onPressed: _selectedBeds > 0
                                         ? () {
-                                            setModalState(() => _selectedBeds--);
+                                            setModalState(
+                                              () => _selectedBeds--,
+                                            );
                                             setState(() {});
                                           }
                                         : null,
                                   ),
                                   Text(
-                                    _selectedBeds == 0 ? "Any" : "$_selectedBeds+",
-                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                    _selectedBeds == 0
+                                        ? "Any"
+                                        : "$_selectedBeds+",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   IconButton(
-                                    icon: const Icon(LucideIcons.circle_plus, size: 20),
+                                    icon: const Icon(
+                                      LucideIcons.circle_plus,
+                                      size: 20,
+                                    ),
                                     onPressed: () {
                                       setModalState(() => _selectedBeds++);
                                       setState(() {});
@@ -216,26 +232,40 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                 "Minimum Bathrooms",
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: isDark ? AppColors.darkInk : AppColors.ink,
+                                  color: isDark
+                                      ? AppColors.darkInk
+                                      : AppColors.ink,
                                 ),
                               ),
                               Row(
                                 children: [
                                   IconButton(
-                                    icon: const Icon(LucideIcons.circle_minus, size: 20),
+                                    icon: const Icon(
+                                      LucideIcons.circle_minus,
+                                      size: 20,
+                                    ),
                                     onPressed: _selectedBaths > 0
                                         ? () {
-                                            setModalState(() => _selectedBaths--);
+                                            setModalState(
+                                              () => _selectedBaths--,
+                                            );
                                             setState(() {});
                                           }
                                         : null,
                                   ),
                                   Text(
-                                    _selectedBaths == 0 ? "Any" : "$_selectedBaths+",
-                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                    _selectedBaths == 0
+                                        ? "Any"
+                                        : "$_selectedBaths+",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   IconButton(
-                                    icon: const Icon(LucideIcons.circle_plus, size: 20),
+                                    icon: const Icon(
+                                      LucideIcons.circle_plus,
+                                      size: 20,
+                                    ),
                                     onPressed: () {
                                       setModalState(() => _selectedBaths++);
                                       setState(() {});
@@ -264,7 +294,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             "Annual or total rental cost in ${widget.city.name}",
                             style: TextStyle(
                               fontSize: 13,
-                              color: isDark ? AppColors.darkMuted : AppColors.muted,
+                              color: isDark
+                                  ? AppColors.darkMuted
+                                  : AppColors.muted,
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -296,7 +328,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
-                                  color: isDark ? AppColors.darkInk : AppColors.ink,
+                                  color: isDark
+                                      ? AppColors.darkInk
+                                      : AppColors.ink,
                                 ),
                               ),
                               Text(
@@ -304,7 +338,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
-                                  color: isDark ? AppColors.darkInk : AppColors.ink,
+                                  color: isDark
+                                      ? AppColors.darkInk
+                                      : AppColors.ink,
                                 ),
                               ),
                             ],
@@ -325,8 +361,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                           ),
                           const SizedBox(height: 12),
                           ..._quickAmenityList.map((amenity) {
-                            final isChecked =
-                                _selectedAmenityFilters.contains(amenity);
+                            final isChecked = _selectedAmenityFilters.contains(
+                              amenity,
+                            );
                             return CheckboxListTile(
                               value: isChecked,
                               activeColor: AppColors.terracotta,
@@ -360,7 +397,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: isDark ? AppColors.darkSurface : AppColors.surface,
+                        color: isDark
+                            ? AppColors.darkSurface
+                            : AppColors.surface,
                         border: Border(
                           top: BorderSide(
                             color: isDark ? AppColors.darkLine : AppColors.line,
@@ -389,10 +428,12 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  isDark ? AppColors.darkInk : AppColors.ink,
-                              foregroundColor:
-                                  isDark ? AppColors.ink : Colors.white,
+                              backgroundColor: isDark
+                                  ? AppColors.darkInk
+                                  : AppColors.ink,
+                              foregroundColor: isDark
+                                  ? AppColors.ink
+                                  : Colors.white,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 24,
                                 vertical: 14,
@@ -404,7 +445,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             onPressed: () => Navigator.pop(context),
                             child: Text(
                               "Show $totalCount properties",
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -434,7 +477,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
         )
         .toList();
 
-    // Dynamically extract real street_name data ONLY from API payload
+    // Extract street data
     final Map<String, int> dynamicStreets = {};
     for (var prop in allCityListings) {
       final sName = prop.streetName.trim().isNotEmpty
@@ -462,16 +505,24 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
     // Filter by property type
     if (_selectedPropertyType != "Any") {
       filteredListings = filteredListings
-          .where((p) => p.type.toLowerCase().contains(_selectedPropertyType.toLowerCase()))
+          .where(
+            (p) => p.type.toLowerCase().contains(
+              _selectedPropertyType.toLowerCase(),
+            ),
+          )
           .toList();
     }
 
     // Filter by min beds & baths
     if (_selectedBeds > 0) {
-      filteredListings = filteredListings.where((p) => p.beds >= _selectedBeds).toList();
+      filteredListings = filteredListings
+          .where((p) => p.beds >= _selectedBeds)
+          .toList();
     }
     if (_selectedBaths > 0) {
-      filteredListings = filteredListings.where((p) => p.baths >= _selectedBaths).toList();
+      filteredListings = filteredListings
+          .where((p) => p.baths >= _selectedBaths)
+          .toList();
     }
 
     // Filter by price range
@@ -494,7 +545,10 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
 
     // Center LatLng for Map View
     final LatLng centerLatLng = filteredListings.isNotEmpty
-        ? LatLng(filteredListings.first.latitude, filteredListings.first.longitude)
+        ? LatLng(
+            filteredListings.first.latitude,
+            filteredListings.first.longitude,
+          )
         : const LatLng(7.6231, 5.2188);
 
     return Scaffold(
@@ -506,7 +560,10 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
               children: [
                 // Top Header Navigation Bar
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
                     color: isDark ? AppColors.darkSurface : AppColors.surface,
                     border: Border(
@@ -555,7 +612,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                               Icon(
                                 LucideIcons.search,
                                 size: 16,
-                                color: isDark ? AppColors.darkInk : AppColors.forest,
+                                color: isDark
+                                    ? AppColors.darkInk
+                                    : AppColors.forest,
                               ),
                               const SizedBox(width: 8),
                               Expanded(
@@ -660,9 +719,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                     size: 18,
                   ),
                   label: Text(
-                    _isMapView
-                        ? "List"
-                        : "Map (${filteredListings.length})",
+                    _isMapView ? "List" : "Map (${filteredListings.length})",
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
@@ -721,8 +778,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                   physics: const BouncingScrollPhysics(),
                   child: Row(
                     children: _quickAmenityList.map((amenity) {
-                      final isSelected =
-                          _selectedAmenityFilters.contains(amenity);
+                      final isSelected = _selectedAmenityFilters.contains(
+                        amenity,
+                      );
                       return Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: ChoiceChip(
@@ -737,9 +795,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             fontWeight: FontWeight.bold,
                             color: isSelected
                                 ? Colors.white
-                                : (isDark
-                                      ? AppColors.darkInk
-                                      : AppColors.ink),
+                                : (isDark ? AppColors.darkInk : AppColors.ink),
                           ),
                           onSelected: (val) {
                             setState(() {
@@ -790,9 +846,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             fontWeight: FontWeight.bold,
                             color: _activeArea == "all"
                                 ? Colors.white
-                                : (isDark
-                                      ? AppColors.darkInk
-                                      : AppColors.ink),
+                                : (isDark ? AppColors.darkInk : AppColors.ink),
                           ),
                           onSelected: (_) =>
                               setState(() => _activeArea = "all"),
@@ -879,13 +933,8 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
         Container(
           width: double.infinity,
           height: 190,
-          margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: isDark ? AppColors.darkLine : AppColors.line,
-            ),
             boxShadow: [
               BoxShadow(
                 color: isDark
@@ -905,51 +954,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                 ),
                 children: [
                   TileLayer(
-                    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                     userAgentPackageName: 'com.homehub.app',
-                  ),
-                  MarkerLayer(
-                    markers: [
-                      Marker(
-                        point: centerLatLng,
-                        width: 170,
-                        height: 42,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: AppColors.terracotta,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.3),
-                                blurRadius: 6,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(LucideIcons.map_pin, size: 14, color: Colors.white),
-                              const SizedBox(width: 4),
-                              Flexible(
-                                child: Text(
-                                  "${widget.city.name}, ${widget.city.state}",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 11,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               ),
@@ -959,7 +966,10 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                 top: 12,
                 left: 12,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: (isDark ? AppColors.darkSurface : Colors.white)
                         .withValues(alpha: 0.9),
@@ -977,7 +987,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        "${widget.city.name} Map",
+                        "${widget.city.name}, ${widget.city.state}",
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
@@ -1010,9 +1020,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurfaceAlt : AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.darkLine : AppColors.line,
-        ),
+        border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
       ),
       child: Row(
         children: List.generate(stats.length, (index) {
@@ -1071,10 +1079,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
     LatLng centerLatLng,
   ) {
     return FlutterMap(
-      options: MapOptions(
-        initialCenter: centerLatLng,
-        initialZoom: 13.0,
-      ),
+      options: MapOptions(initialCenter: centerLatLng, initialZoom: 13.0),
       children: [
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -1091,12 +1096,16 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PropertyDetailScreen(property: prop),
+                      builder: (context) =>
+                          PropertyDetailScreen(property: prop),
                     ),
                   );
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.terracotta,
                     borderRadius: BorderRadius.circular(16),
