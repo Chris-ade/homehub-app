@@ -62,6 +62,10 @@ class AppTheme {
     useMaterial3: true,
     brightness: Brightness.light,
     fontFamily: 'Satoshi',
+    // Remove the spreading ink ripple on taps (buttons, nav bar, cards).
+    splashFactory: NoSplash.splashFactory,
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
     scaffoldBackgroundColor: AppColors.warmCream,
     colorScheme: const ColorScheme.light(
       primary: AppColors.forest,
@@ -204,6 +208,10 @@ class AppTheme {
     useMaterial3: true,
     brightness: Brightness.dark,
     fontFamily: 'Satoshi',
+    // Remove the spreading ink ripple on taps (buttons, nav bar, cards).
+    splashFactory: NoSplash.splashFactory,
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
     scaffoldBackgroundColor: AppColors.darkBackground,
     colorScheme: const ColorScheme.dark(
       primary: AppColors.darkAccent,
