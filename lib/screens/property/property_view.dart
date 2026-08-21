@@ -380,39 +380,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
                       const SizedBox(height: 20),
 
-                      // Property Spec Pills (Beds, Baths, Sqft, Type)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _buildSpecPill(
-                              LucideIcons.bed_double,
-                              "${prop.beds} Bedrooms",
-                              isDark,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: _buildSpecPill(
-                              LucideIcons.bath,
-                              "${prop.baths} Baths",
-                              isDark,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: _buildSpecPill(
-                              LucideIcons.maximize,
-                              "${prop.sqft} sqft",
-                              isDark,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-
                       // Description Section
                       Text(
-                        "About this home",
+                        "About this place",
                         style: TextStyle(
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: AppFontSizes.headlineLarge,
@@ -429,7 +399,6 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           color: isDark ? AppColors.darkMuted : AppColors.muted,
                         ),
                       ),
-
                       const SizedBox(height: 28),
 
                       // AMENITIES & FEATURES WITH RESPECTIVE ICONS
@@ -442,6 +411,36 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           color: isDark ? AppColors.darkInk : AppColors.teal,
                         ),
                       ),
+                      const SizedBox(height: 14),
+                      // Property Spec Pills (Beds, Baths, Sqft, Type)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildSpecPill(
+                              LucideIcons.bed_double,
+                              "${prop.beds} Bedrooms",
+                              isDark,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: _buildSpecPill(
+                              LucideIcons.bath,
+                              "${prop.baths} Bathrooms",
+                              isDark,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: _buildSpecPill(
+                              LucideIcons.maximize,
+                              "${(prop.sqft * 0.092903).toInt()} m²",
+                              isDark,
+                            ),
+                          ),
+                        ],
+                      ),
+
                       prop.amenities.isEmpty
                           ? Text(
                               "No amenities listed for this property.",
@@ -458,7 +457,6 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
-                                    childAspectRatio: 3.7,
                                   ),
                               itemCount: prop.amenities.length,
                               itemBuilder: (context, index) {
