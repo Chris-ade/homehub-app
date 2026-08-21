@@ -357,7 +357,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           Icon(
                             LucideIcons.map_pin,
                             size: 15,
-                            color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                            color: isDark
+                                ? AppColors.darkAccent
+                                : AppColors.amberDeep,
                           ),
                           const SizedBox(width: 4),
                           Expanded(
@@ -629,7 +631,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                       isDark: isDark,
                                       icon: LucideIcons.plus,
                                       onTap: () {
-                                        final currentZoom = _mapController.camera.zoom;
+                                        final currentZoom =
+                                            _mapController.camera.zoom;
                                         _mapController.move(
                                           _mapController.camera.center,
                                           currentZoom + 1,
@@ -641,7 +644,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                       isDark: isDark,
                                       icon: LucideIcons.minus,
                                       onTap: () {
-                                        final currentZoom = _mapController.camera.zoom;
+                                        final currentZoom =
+                                            _mapController.camera.zoom;
                                         _mapController.move(
                                           _mapController.camera.center,
                                           currentZoom - 1,
@@ -810,10 +814,6 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.teal,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 20,
-                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -861,7 +861,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Column(
         children: [
-          Icon(icon, size: 22, color: isDark ? AppColors.darkAccent : AppColors.amberDeep),
+          Icon(
+            icon,
+            size: 22,
+            color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+          ),
           const SizedBox(height: 4),
           Text(
             label,
