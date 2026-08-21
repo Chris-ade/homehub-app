@@ -10,6 +10,7 @@ import 'saved.dart';
 import 'messages/messages.dart';
 import 'profile/profile.dart';
 import 'auth/login.dart';
+import 'landlord/dashboard.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -39,7 +40,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final pages = [
-      HomeScreen(onNavigateTab: _onTabSelected),
+      // Landlords land directly on their dashboard as the primary screen;
+      // tenants get the public browse home. Either way the tab stays at index 0.
+      if (userProvider.isLandlord)
+        const LandlordDashboardScreen()
+      else
+        HomeScreen(onNavigateTab: _onTabSelected),
       const SearchScreen(),
       const FavoritesScreen(),
       const ChatScreen(),
@@ -81,9 +87,18 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500),
           items: [
             BottomNavigationBarItem(
-              icon: const Icon(LucideIcons.house),
-              activeIcon: Icon(LucideIcons.house, color: isDark ? AppColors.darkAccent : AppColors.amberDeep),
-              label: "Home",
+              icon: Icon(
+                userProvider.isLandlord
+                    ? LucideIcons.layout_dashboard
+                    : LucideIcons.house,
+              ),
+              activeIcon: Icon(
+                userProvider.isLandlord
+                    ? LucideIcons.layout_dashboard
+                    : LucideIcons.house,
+                color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+              ),
+              label: userProvider.isLandlord ? "Dashboard" : "Home",
             ),
             BottomNavigationBarItem(
               icon: const Icon(LucideIcons.search),
