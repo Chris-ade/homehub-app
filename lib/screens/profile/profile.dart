@@ -6,10 +6,11 @@ import '../../providers/user_provider.dart';
 import '../../providers/app_theme_provider.dart';
 import '../../providers/property_provider.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/modals/add_property.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/modals/otp_verification.dart';
 import '../../widgets/app_toast.dart';
+import '../landlord/dashboard.dart';
+import '../landlord/add_edit_property.dart';
 import 'edit.dart';
 import '../auth/login.dart';
 import '../auth/register.dart';
@@ -266,20 +267,25 @@ class ProfileScreen extends StatelessWidget {
 
               if (userProvider.isLoggedIn && userProvider.isLandlord) ...[
                 const SizedBox(height: 16),
+                _buildLandlordDashboardCard(isDark, context),
+                const SizedBox(height: 12),
                 CustomButton(
                   text: "List a New Property",
                   isAmber: true,
                   icon: LucideIcons.plus,
                   width: double.infinity,
                   onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (context) => const AddPropertyModal(),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AddEditPropertyScreen(),
+                      ),
                     );
                   },
                 ),
+              ] else if (userProvider.isLoggedIn) ...[
+                const SizedBox(height: 16),
+                _buildTenantListingCard(isDark, context),
               ],
 
               const SizedBox(height: 24),
@@ -399,6 +405,150 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 24),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  // --- LANDLORD / TENANT ENTRY CARDS ---
+
+  /// Prominent card on the profile for landlord/agent accounts, leading into
+  /// the landlord dashboard.
+  Widget _buildLandlordDashboardCard(bool isDark, BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LandlordDashboardScreen(),
+          ),
+        );
+      },
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isDark ? AppColors.darkSurface : AppColors.surface,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isDark ? AppColors.darkLine : AppColors.line,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.teal.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: const Icon(
+                LucideIcons.layout_dashboard,
+                color: AppColors.teal,
+                size: 22,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Landlord Dashboard",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    "Manage listings & track performance",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              LucideIcons.chevron_right,
+              size: 18,
+              color: isDark ? AppColors.darkMuted : AppColors.muted,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Shown to tenant accounts in place of the landlord dashboard. Listing
+  /// requires an agent account, which is chosen at registration (no in-app
+  /// role upgrade), so this card explains that path.
+  Widget _buildTenantListingCard(bool isDark, BuildContext context) {
+    return InkWell(
+      onTap: () {
+        AppToast.showInfo(
+          context,
+          message:
+              "Publishing listings requires a landlord/agent account, which is selected at sign-up.",
+        );
+      },
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isDark ? AppColors.darkSurface : AppColors.surface,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isDark ? AppColors.darkLine : AppColors.line,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.amber.withValues(alpha: 0.14),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Icon(
+                LucideIcons.building,
+                color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                size: 22,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Are you a landlord?",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    "List your property on HomeHub",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              LucideIcons.info,
+              size: 18,
+              color: isDark ? AppColors.darkMuted : AppColors.muted,
+            ),
+          ],
         ),
       ),
     );

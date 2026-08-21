@@ -8,6 +8,7 @@ import 'providers/property_provider.dart';
 import 'providers/booking_provider.dart';
 import 'providers/user_provider.dart';
 import 'providers/chat_provider.dart';
+import 'providers/landlord_provider.dart';
 import 'screens/splash.dart';
 
 void main() {
@@ -30,6 +31,9 @@ void main() {
         ChangeNotifierProvider(create: (_) => UserProvider(apiClient)),
         ChangeNotifierProvider(create: (_) => PropertyProvider(apiClient)),
         ChangeNotifierProvider(create: (_) => BookingProvider()),
+        // Landlord dashboard data: the agent's own listings + stats. Empty for
+        // non-agent accounts; the UI only surfaces it via UserProvider.isLandlord.
+        ChangeNotifierProvider(create: (_) => LandlordProvider(apiClient)),
         // Chat reacts to auth: bindUser connects the socket + loads
         // conversations on login and tears everything down on logout.
         ChangeNotifierProxyProvider<UserProvider, ChatProvider>(
