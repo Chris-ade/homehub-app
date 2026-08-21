@@ -34,6 +34,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   int _lastMessageCount = 0;
   bool _lastTyping = false;
   bool _openingProperty = false;
+  bool _loadingMessages = true; // true while conversation history is fetching
   late ChatProvider _chatProvider;
 
   @override
@@ -42,7 +43,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final chat = context.read<ChatProvider>();
       chat.setActiveConversation(widget.threadId);
-      chat.openConversation(widget.threadId).then((_) => _scrollToBottom());
+      chat.openConversation(widget.threadId).whenComplete(() {
+        if (mounted) setState(() => _loadingMessages = false);
+        _scrollToBottom();
+      });
     });
   }
 
@@ -64,7 +68,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   }
 
   void _scrollToBottom() {
-    if (!_scrollController.hasClients) return;
+    // Defer to after this frame: the list may not be attached yet (e.g. on the
+    // first build while messages are still loading, hasClients is false and
+    // maxScrollExtent is only valid once layout has run).
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_scrollController.hasClients) return;
       _scrollController.animateTo(
@@ -365,40 +371,49 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
           // Messages Feed
           Expanded(
-            child: (messages.isEmpty && !isTyping)
+            child: _loadingMessages && messages.isEmpty
+                // History is still fetching and there's nothing to show yet.
                 ? Center(
-                    child: Text(
-                      "No messages yet. Say hello 👋",
-                      style: TextStyle(
-                        color: isDark ? AppColors.darkMuted : AppColors.muted,
-                        fontSize: 13,
-                      ),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      color: isDark ? AppColors.darkAccent : AppColors.teal,
                     ),
                   )
-                : ListView.builder(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 12,
-                    ),
-                    // One extra slot for the typing bubble at the bottom.
-                    itemCount: messages.length + (isTyping ? 1 : 0),
-                    itemBuilder: (context, index) {
-                      if (index >= messages.length) {
-                        return _TypingBubble(
-                          avatarUrl: thread.agentAvatar,
-                          isDark: isDark,
-                        );
-                      }
-                      return _buildMessageRow(
-                        context,
-                        isDark,
-                        thread,
-                        messages,
-                        index,
-                      );
-                    },
-                  ),
+                : (messages.isEmpty && !isTyping)
+                    ? Center(
+                        child: Text(
+                          "No messages yet. Say hello 👋",
+                          style: TextStyle(
+                            color:
+                                isDark ? AppColors.darkMuted : AppColors.muted,
+                            fontSize: 13,
+                          ),
+                        ),
+                      )
+                    : ListView.builder(
+                        controller: _scrollController,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 12,
+                        ),
+                        // One extra slot for the typing bubble at the bottom.
+                        itemCount: messages.length + (isTyping ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (index >= messages.length) {
+                            return _TypingBubble(
+                              avatarUrl: thread.agentAvatar,
+                              isDark: isDark,
+                            );
+                          }
+                          return _buildMessageRow(
+                            context,
+                            isDark,
+                            thread,
+                            messages,
+                            index,
+                          );
+                        },
+                      ),
           ),
 
           _buildInputBar(isDark),

@@ -457,6 +457,13 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
+                                    // Rows are a single icon + text line tall;
+                                    // without this the cells default to a square
+                                    // (aspect 1.0) and amenities end up with huge
+                                    // vertical gaps between them.
+                                    mainAxisExtent: 32,
+                                    mainAxisSpacing: 4,
+                                    crossAxisSpacing: 12,
                                   ),
                               itemCount: prop.amenities.length,
                               itemBuilder: (context, index) {
