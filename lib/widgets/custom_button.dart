@@ -5,7 +5,7 @@ class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final bool isPrimary;
-  final bool isTerracotta;
+  final bool isAmber;
   final bool isOutline;
   final IconData? icon;
   final double height;
@@ -17,7 +17,7 @@ class CustomButton extends StatelessWidget {
     required this.text,
     required this.onPressed,
     this.isPrimary = true,
-    this.isTerracotta = false,
+    this.isAmber = false,
     this.isOutline = false,
     this.icon,
     this.height = 48,
@@ -34,17 +34,18 @@ class CustomButton extends StatelessWidget {
 
     if (isOutline) {
       bg = Colors.transparent;
-      fg = isTerracotta
-          ? AppColors.terracotta
-          : (isDark ? AppColors.darkInk : AppColors.forest);
-    } else if (isTerracotta) {
-      bg = AppColors.terracotta;
-      fg = Colors.white;
+      fg = isAmber
+          ? (isDark ? AppColors.darkAccent : AppColors.amberDeep)
+          : (isDark ? AppColors.darkInk : AppColors.teal);
+    } else if (isAmber) {
+      // Amber/gold fills need dark text for adequate contrast.
+      bg = isDark ? AppColors.darkAccent : AppColors.amber;
+      fg = AppColors.ink;
     } else if (isPrimary) {
-      bg = isDark ? AppColors.terracotta : AppColors.forest;
-      fg = Colors.white;
+      bg = isDark ? AppColors.darkAccent : AppColors.teal;
+      fg = isDark ? AppColors.ink : Colors.white;
     } else {
-      bg = isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt;
+      bg = isDark ? AppColors.darkSurfaceAlt : AppColors.mist;
       fg = isDark ? AppColors.darkInk : AppColors.ink;
     }
 
@@ -65,9 +66,9 @@ class CustomButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
             side: isOutline
                 ? BorderSide(
-                    color: isTerracotta
-                        ? AppColors.terracotta
-                        : (isDark ? AppColors.darkLine : AppColors.forest),
+                    color: isAmber
+                        ? (isDark ? AppColors.darkAccent : AppColors.amberDeep)
+                        : (isDark ? AppColors.darkLine : AppColors.teal),
                     width: 1.5,
                   )
                 : BorderSide.none,

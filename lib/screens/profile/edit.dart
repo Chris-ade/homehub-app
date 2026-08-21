@@ -196,12 +196,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 leading: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: AppColors.terracotta.withValues(alpha: 0.12),
+                    color: AppColors.amber.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
                     LucideIcons.camera,
-                    color: AppColors.terracotta,
+                    color: AppColors.amber,
                     size: 22,
                   ),
                 ),
@@ -244,12 +244,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 leading: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: AppColors.forest.withValues(alpha: 0.12),
+                    color: AppColors.teal.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
                     LucideIcons.image,
-                    color: AppColors.forest,
+                    color: AppColors.teal,
                     size: 22,
                   ),
                 ),
@@ -347,10 +347,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 width: 180,
                                 color: isDark
                                     ? AppColors.darkSurfaceAlt
-                                    : AppColors.creamAlt,
+                                    : AppColors.mist,
                                 child: const Center(
                                   child: CircularProgressIndicator(
-                                    color: AppColors.terracotta,
+                                    color: AppColors.amber,
                                   ),
                                 ),
                               );
@@ -366,7 +366,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         decoration: BoxDecoration(
                           color: isDark
                               ? AppColors.darkSurfaceAlt
-                              : AppColors.creamAlt,
+                              : AppColors.mist,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: isDark ? AppColors.darkLine : AppColors.line,
@@ -379,7 +379,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               children: [
                                 Icon(
                                   LucideIcons.info,
-                                  color: AppColors.forest,
+                                  color: AppColors.teal,
                                   size: 18,
                                 ),
                                 SizedBox(width: 6),
@@ -484,14 +484,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             ],
                                           ),
                                           backgroundColor: res.success
-                                              ? AppColors.forest
+                                              ? AppColors.teal
                                               : Colors.red,
                                           behavior: SnackBarBehavior.floating,
                                         ),
                                       );
                                     },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.terracotta,
+                                backgroundColor: AppColors.amber,
                                 foregroundColor: Colors.white,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
@@ -596,7 +596,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
             ],
           ),
-          backgroundColor: AppColors.forest,
+          backgroundColor: AppColors.teal,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -713,7 +713,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               onPressed: _isSaving ? null : onSave,
               style: ElevatedButton.styleFrom(
                 backgroundColor: isDark
-                    ? AppColors.terracotta
+                    ? AppColors.amber
                     : const Color(0xFF222222),
                 foregroundColor: Colors.white,
                 elevation: 0,
@@ -776,7 +776,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ? const PreferredSize(
                 preferredSize: Size.fromHeight(3),
                 child: LinearProgressIndicator(
-                  color: AppColors.terracotta,
+                  color: AppColors.amber,
                   backgroundColor: Colors.transparent,
                 ),
               )
@@ -785,7 +785,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _fetchFreshBackendProfile,
-          color: AppColors.terracotta,
+          color: AppColors.amber,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -803,7 +803,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: AppColors.terracotta.withValues(
+                              color: AppColors.amber.withValues(
                                 alpha: 0.3,
                               ),
                               width: 3,
@@ -846,11 +846,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             child: Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: AppColors.terracotta,
+                                color: AppColors.amber,
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.terracotta.withValues(
+                                    color: AppColors.amber.withValues(
                                       alpha: 0.4,
                                     ),
                                     blurRadius: 8,
@@ -1167,10 +1167,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: AppColors.terracotta.withValues(alpha: 0.12),
+                  color: AppColors.amber.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(icon, color: AppColors.terracotta, size: 18),
+                child: Icon(icon, color: AppColors.amber, size: 18),
               ),
               const SizedBox(width: 10),
               Text(
@@ -1244,7 +1244,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide(
-          color: isDark ? AppColors.terracotta : const Color(0xFF222222),
+          color: isDark ? AppColors.amber : const Color(0xFF222222),
           width: 1.8,
         ),
       ),

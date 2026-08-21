@@ -75,18 +75,18 @@ class PropertyCard extends StatelessWidget {
                       placeholder: (context, url) => Container(
                         color: isDark
                             ? AppColors.darkSurfaceAlt
-                            : AppColors.creamAlt,
+                            : AppColors.mist,
                         child: const Center(
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: AppColors.terracotta,
+                            color: AppColors.amber,
                           ),
                         ),
                       ),
                       errorWidget: (context, url, error) => Container(
                         color: isDark
                             ? AppColors.darkSurfaceAlt
-                            : AppColors.creamAlt,
+                            : AppColors.mist,
                         child: const Icon(
                           LucideIcons.building_2,
                           size: 40,
@@ -108,14 +108,14 @@ class PropertyCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isDark
                             ? AppColors.darkSurfaceAlt
-                            : AppColors.creamAlt,
+                            : AppColors.mist,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         LucideIcons.heart,
                         color: property.isFavorite
-                            ? AppColors.terracotta
-                            : (isDark ? AppColors.darkInk : AppColors.forest),
+                            ? AppColors.amber
+                            : (isDark ? AppColors.darkInk : AppColors.teal),
                         size: 16,
                       ),
                     ),
@@ -199,7 +199,7 @@ class PropertyCard extends StatelessWidget {
                       fontFamily: 'Cabinet Grotesk',
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
-                      color: isDark ? AppColors.darkInk : AppColors.forest,
+                      color: isDark ? AppColors.darkInk : AppColors.teal,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -214,8 +214,8 @@ class PropertyCard extends StatelessWidget {
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: isDark
-                              ? AppColors.terracotta
-                              : AppColors.forest,
+                              ? AppColors.amber
+                              : AppColors.teal,
                         ),
                       ),
                       Text(

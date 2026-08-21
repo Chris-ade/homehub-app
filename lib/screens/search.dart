@@ -87,14 +87,14 @@ class _SearchScreenState extends State<SearchScreen> {
                         style: IconButton.styleFrom(
                           backgroundColor: isDark
                               ? AppColors.darkSurfaceAlt
-                              : AppColors.creamAlt,
+                              : AppColors.mist,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        icon: const Icon(
+                        icon: Icon(
                           LucideIcons.sliders_horizontal,
-                          color: AppColors.terracotta,
+                          color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                           size: 20,
                         ),
                         onPressed: () =>
@@ -107,10 +107,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       IconButton(
                         style: IconButton.styleFrom(
                           backgroundColor: _isMapView
-                              ? AppColors.terracotta
+                              ? AppColors.amber
                               : (isDark
                                     ? AppColors.darkSurfaceAlt
-                                    : AppColors.creamAlt),
+                                    : AppColors.mist),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -153,10 +153,10 @@ class _SearchScreenState extends State<SearchScreen> {
                               child: ChoiceChip(
                                 label: Text(type),
                                 selected: isSelected,
-                                selectedColor: AppColors.terracotta,
+                                selectedColor: AppColors.amber,
                                 backgroundColor: isDark
                                     ? AppColors.darkSurfaceAlt
-                                    : AppColors.creamAlt,
+                                    : AppColors.mist,
                                 labelStyle: TextStyle(
                                   fontFamily: 'Satoshi',
                                   color: isSelected
@@ -195,7 +195,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
-                      color: isDark ? AppColors.darkInk : AppColors.forest,
+                      color: isDark ? AppColors.darkInk : AppColors.teal,
                     ),
                   ),
                   if (propertyProvider.selectedCitySlug != "all" ||
@@ -206,11 +206,11 @@ class _SearchScreenState extends State<SearchScreen> {
                         _searchController.clear();
                         propertyProvider.resetFilters();
                       },
-                      child: const Text(
+                      child: Text(
                         "Reset Filters",
                         style: TextStyle(
                           fontSize: 12,
-                          color: AppColors.terracotta,
+                          color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -256,7 +256,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget _buildMapView(List properties, bool isDark) {
     return Container(
-      color: isDark ? AppColors.darkBackground : AppColors.creamAlt,
+      color: isDark ? AppColors.darkBackground : AppColors.mist,
       child: Stack(
         children: [
           // Visual Map Representation
@@ -264,10 +264,10 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
+                Icon(
                   LucideIcons.map_pin,
                   size: 48,
-                  color: AppColors.terracotta,
+                  color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                 ),
                 const SizedBox(height: 12),
                 Text(
@@ -357,10 +357,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                 const SizedBox(height: 4),
                                 Text(
                                   _formatCurrency(prop.price),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w800,
-                                    color: AppColors.terracotta,
+                                    color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
@@ -502,7 +502,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     min: 0,
                     max: 5000000,
                     divisions: 50,
-                    activeColor: AppColors.terracotta,
+                    activeColor: AppColors.amber,
                     onChanged: (values) {
                       setSheetState(() {
                         provider.setPriceRange(values);
@@ -514,7 +514,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.terracotta,
+                      backgroundColor: AppColors.amber,
                       minimumSize: const Size(double.infinity, 48),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
@@ -549,8 +549,8 @@ class _SearchScreenState extends State<SearchScreen> {
     return ChoiceChip(
       label: Text(label),
       selected: isSelected,
-      selectedColor: AppColors.terracotta,
-      backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+      selectedColor: AppColors.amber,
+      backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
       labelStyle: TextStyle(
         color: isSelected
             ? Colors.white

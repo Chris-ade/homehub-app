@@ -252,7 +252,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       return CheckboxListTile(
                         value: isSelected,
                         activeColor: isDark
-                            ? AppColors.creamAlt
+                            ? AppColors.mist
                             : AppColors.ink,
                         checkColor: isDark ? AppColors.ink : Colors.white,
                         title: Text(
@@ -473,7 +473,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+                  color: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
                 ),
                 child: Icon(
                   LucideIcons.arrow_left,
@@ -517,7 +517,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       ? (isDark ? AppColors.darkInk : AppColors.ink)
                       : (isDark
                             ? AppColors.darkSurfaceAlt
-                            : AppColors.creamAlt),
+                            : AppColors.mist),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -605,8 +605,8 @@ class _ChatScreenState extends State<ChatScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? (isDark ? AppColors.terracotta : AppColors.forest)
-              : (isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt),
+              ? (isDark ? AppColors.amber : AppColors.teal)
+              : (isDark ? AppColors.darkSurfaceAlt : AppColors.mist),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
@@ -657,7 +657,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       decoration: BoxDecoration(
                         color: isDark
                             ? AppColors.darkSurfaceAlt
-                            : AppColors.creamAlt,
+                            : AppColors.mist,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -793,10 +793,10 @@ class _ChatScreenState extends State<ChatScreen> {
               const SizedBox(height: 2),
               Text(
                 "Re: ${thread.propertyTitle}",
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppFontSizes.labelMedium,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.terracotta,
+                  color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                 ),
               ),
               const SizedBox(height: 2),
@@ -827,7 +827,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       constraints: const BoxConstraints(minWidth: 20),
                       decoration: const BoxDecoration(
-                        color: AppColors.terracotta,
+                        color: AppColors.amber,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       child: Text(

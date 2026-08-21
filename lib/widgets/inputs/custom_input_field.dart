@@ -103,16 +103,16 @@ class CustomInputField extends StatelessWidget {
             ? Icon(
                 prefixIcon,
                 size: 20,
-                color: isDark ? AppColors.creamAlt : AppColors.forest,
+                color: isDark ? AppColors.mist : AppColors.teal,
               )
             : const Icon(
                 LucideIcons.search,
                 size: 20,
-                color: AppColors.forest,
+                color: AppColors.teal,
               ),
         suffixIcon: suffix,
         filled: true,
-        fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+        fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 14,
@@ -124,7 +124,7 @@ class CustomInputField extends StatelessWidget {
           borderSide: hideBorder
               ? BorderSide.none
               : BorderSide(
-                  color: isDark ? AppColors.terracotta : AppColors.forest,
+                  color: isDark ? AppColors.amber : AppColors.teal,
                   width: 1.5,
                 ),
         ),

@@ -1,37 +1,41 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Primary Palette
-  static const Color forest = Color(0xFF0F3820);
-  static const Color forestHover = Color(0xFF16502E);
-  static const Color forestLight = Color(0xFF1E5233);
+  // Primary Palette — Deep Teal (premium, calming, property-appropriate)
+  static const Color teal = Color(0xFF134E4A);
+  static const Color tealHover = Color(0xFF0E3F3C);
+  static const Color tealLight = Color(0xFF3D8F89);
 
-  // Action / Accent
-  static const Color terracotta = Color(0xFFD36B46);
-  static const Color terracottaHover = Color(0xFFBF5D3B);
-  static const Color terracottaLight = Color(0xFFF9EAE5);
+  // Action / Accent — Amber (gold). One accent, one primary: amber is used
+  // for highlights & CTAs, teal carries the identity.
+  static const Color amber = Color(0xFFE0A63B);
+  static const Color amberHover = Color(0xFFC98F2A);
+  static const Color amberLight = Color(0xFFFBF3DF);
+  // Deeper gold for amber text/icons on light surfaces (amber itself is too
+  // pale for small text on white — this keeps WCAG 4.5:1 contrast).
+  static const Color amberDeep = Color(0xFF9A6B14);
 
   // Background / Surface (Light Mode)
-  static const Color warmCream = Color(0xFFF9F8F5);
-  static const Color creamAlt = Color(0xFFF0EFEA);
+  static const Color offWhite = Color(0xFFF7F8F6);
+  static const Color mist = Color(0xFFECEFEB);
   static const Color surface = Color(0xFFFFFFFF);
 
   // Typography & Lines
-  static const Color ink = Color(0xFF0A170F);
-  static const Color muted = Color(0xFF4A5B50);
-  static const Color line = Color(0xFFE5E3DB);
+  static const Color ink = Color(0xFF0B1715);
+  static const Color muted = Color(0xFF4C5C59);
+  static const Color line = Color(0xFFE3E8E6);
 
-  // Dark Mode Palette — warm neutral charcoal with a whisper of green,
-  // so the brand reads through without bathing every surface in green.
-  static const Color darkBackground = Color(0xFF12110F);
-  static const Color darkSurface = Color(0xFF1A1815);
-  static const Color darkSurfaceAlt = Color(0xFF232019);
-  static const Color darkLine = Color(0xFF322D25);
-  static const Color darkInk = Color(0xFFF4F1EB);
-  static const Color darkMuted = Color(0xFFA8A092);
-  // Brightened terracotta for dark surfaces (the light-mode terracotta is too
-  // dim against charcoal). Used as the dark accent/primary.
-  static const Color darkAccent = Color(0xFFE07A54);
+  // Dark Mode Palette — cool charcoal with a whisper of teal, so the brand
+  // reads through without bathing every surface in teal.
+  static const Color darkBackground = Color(0xFF0F1414);
+  static const Color darkSurface = Color(0xFF17201F);
+  static const Color darkSurfaceAlt = Color(0xFF1F2B2A);
+  static const Color darkLine = Color(0xFF2C3A38);
+  static const Color darkInk = Color(0xFFF0F4F3);
+  static const Color darkMuted = Color(0xFF9DAEAB);
+  // Brightened amber for dark surfaces (the light-mode amber is too dim
+  // against charcoal). Used as the dark accent/primary.
+  static const Color darkAccent = Color(0xFFE8B84B);
 
   // Status & Utility
   static const Color success = Color(0xFF2E7D32);
@@ -66,14 +70,14 @@ class AppTheme {
     splashFactory: NoSplash.splashFactory,
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
-    scaffoldBackgroundColor: AppColors.warmCream,
+    scaffoldBackgroundColor: AppColors.offWhite,
     colorScheme: const ColorScheme.light(
-      primary: AppColors.forest,
-      secondary: AppColors.terracotta,
+      primary: AppColors.teal,
+      secondary: AppColors.amber,
       surface: AppColors.surface,
       error: AppColors.error,
       onPrimary: Colors.white,
-      onSecondary: Colors.white,
+      onSecondary: AppColors.ink,
       onSurface: AppColors.ink,
     ),
     appBarTheme: const AppBarTheme(
@@ -81,13 +85,13 @@ class AppTheme {
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: false,
-      iconTheme: IconThemeData(color: AppColors.forest),
-      actionsIconTheme: IconThemeData(color: AppColors.forest),
+      iconTheme: IconThemeData(color: AppColors.teal),
+      actionsIconTheme: IconThemeData(color: AppColors.teal),
       titleTextStyle: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         fontSize: 25,
         fontWeight: FontWeight.w800,
-        color: AppColors.forest,
+        color: AppColors.teal,
       ),
     ),
     cardTheme: CardThemeData(
@@ -99,8 +103,8 @@ class AppTheme {
       ),
     ),
     chipTheme: ChipThemeData(
-      backgroundColor: AppColors.creamAlt,
-      selectedColor: AppColors.terracotta,
+      backgroundColor: AppColors.mist,
+      selectedColor: AppColors.amber,
       disabledColor: AppColors.line,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
@@ -191,7 +195,7 @@ class AppTheme {
       ),
       labelLarge: TextStyle(
         fontFamily: 'Satoshi',
-        color: AppColors.forest,
+        color: AppColors.teal,
         fontSize: AppFontSizes.labelLarge,
         fontWeight: FontWeight.bold,
       ),
@@ -215,10 +219,10 @@ class AppTheme {
     scaffoldBackgroundColor: AppColors.darkBackground,
     colorScheme: const ColorScheme.dark(
       primary: AppColors.darkAccent,
-      secondary: AppColors.forestLight,
+      secondary: AppColors.tealLight,
       surface: AppColors.darkSurface,
       error: AppColors.error,
-      onPrimary: Colors.white,
+      onPrimary: AppColors.ink,
       onSecondary: Colors.white,
       onSurface: AppColors.darkInk,
     ),
@@ -389,7 +393,7 @@ class HeadingText extends StatelessWidget {
         fontFamily: 'Cabinet Grotesk',
         fontSize: fontSize,
         fontWeight: fontWeight,
-        color: color ?? (isDark ? AppColors.darkInk : AppColors.forest),
+        color: color ?? (isDark ? AppColors.darkInk : AppColors.teal),
         letterSpacing: letterSpacing,
       ),
     );

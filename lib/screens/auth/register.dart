@@ -364,9 +364,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 value: progress,
                 backgroundColor: isDark
                     ? AppColors.darkSurfaceAlt
-                    : AppColors.creamAlt,
+                    : AppColors.mist,
                 valueColor: const AlwaysStoppedAnimation<Color>(
-                  AppColors.terracotta,
+                  AppColors.amber,
                 ),
                 minHeight: 4,
               ),
@@ -423,11 +423,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 );
                               }
                             },
-                            child: const Text(
+                            child: Text(
                               "Log in",
                               style: TextStyle(
                                 fontSize: 17,
-                                color: AppColors.terracotta,
+                                color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -772,7 +772,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               Checkbox(
                 value: _agreedToTerms,
-                activeColor: isDark ? AppColors.terracotta : AppColors.forest,
+                activeColor: isDark ? AppColors.amber : AppColors.teal,
                 onChanged: (v) => setState(() => _agreedToTerms = v ?? false),
               ),
               Expanded(
@@ -805,12 +805,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.terracotta.withValues(alpha: 0.12)
+              ? AppColors.amber.withValues(alpha: 0.12)
               : (isDark ? AppColors.darkSurface : AppColors.surface),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
             color: isSelected
-                ? AppColors.terracotta
+                ? AppColors.amber
                 : (isDark ? AppColors.darkLine : AppColors.line),
             width: 1.5,
           ),
@@ -821,15 +821,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? AppColors.terracotta
-                    : (isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt),
+                    ? AppColors.amber
+                    : (isDark ? AppColors.darkSurfaceAlt : AppColors.mist),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 icon,
                 color: isSelected
                     ? Colors.white
-                    : (isDark ? AppColors.darkInk : AppColors.forest),
+                    : (isDark ? AppColors.darkInk : AppColors.teal),
                 size: 24,
               ),
             ),
@@ -844,7 +844,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fontSize: AppFontSizes.bodyLarge,
                       fontWeight: FontWeight.bold,
                       color: isSelected
-                          ? AppColors.terracotta
+                          ? AppColors.amber
                           : (isDark ? AppColors.darkInk : AppColors.ink),
                     ),
                   ),
@@ -861,9 +861,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             if (isSelected)
-              const Icon(
+              Icon(
                 LucideIcons.circle_check,
-                color: AppColors.terracotta,
+                color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                 size: 22,
               ),
           ],

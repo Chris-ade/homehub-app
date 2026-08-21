@@ -55,8 +55,8 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
         ),
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: AppColors.terracotta,
-          labelColor: AppColors.terracotta,
+          indicatorColor: AppColors.amber,
+          labelColor: isDark ? AppColors.darkAccent : AppColors.amberDeep,
           unselectedLabelColor: isDark ? AppColors.darkMuted : AppColors.muted,
           labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
           tabs: const [
@@ -106,13 +106,13 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                                     Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                       decoration: BoxDecoration(
-                                        color: AppColors.forest.withValues(alpha: 0.12),
+                                        color: AppColors.teal.withValues(alpha: 0.12),
                                         borderRadius: BorderRadius.circular(100),
                                       ),
                                       child: Text(
                                         b.inspectionType,
                                         style: const TextStyle(
-                                          color: AppColors.forest,
+                                          color: AppColors.teal,
                                           fontSize: 10,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -150,7 +150,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                             children: [
                               Row(
                                 children: [
-                                  const Icon(LucideIcons.calendar, size: 16, color: AppColors.terracotta),
+                                  Icon(LucideIcons.calendar, size: 16, color: isDark ? AppColors.darkAccent : AppColors.amberDeep),
                                   const SizedBox(width: 6),
                                   Text(
                                     "${DateFormat('EEE, MMM d').format(b.date)} @ ${b.timeSlot}",
@@ -201,7 +201,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                         color: isDark ? AppColors.darkSurface : AppColors.surface,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: AppColors.terracotta.withValues(alpha: 0.5),
+                          color: AppColors.amber.withValues(alpha: 0.5),
                           width: 1.5,
                         ),
                       ),
@@ -214,17 +214,17 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                 decoration: BoxDecoration(
-                                  color: AppColors.terracotta.withValues(alpha: 0.15),
+                                  color: AppColors.amber.withValues(alpha: 0.15),
                                   borderRadius: BorderRadius.circular(100),
                                 ),
-                                child: const Row(
+                                child: Row(
                                   children: [
-                                    Icon(LucideIcons.shield_check, size: 14, color: AppColors.terracotta),
-                                    SizedBox(width: 4),
+                                    Icon(LucideIcons.shield_check, size: 14, color: isDark ? AppColors.darkAccent : AppColors.amberDeep),
+                                    const SizedBox(width: 4),
                                     Text(
                                       "ESCROW PROTECTED",
                                       style: TextStyle(
-                                        color: AppColors.terracotta,
+                                        color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -266,12 +266,12 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: isDark ? AppColors.darkBackground : AppColors.creamAlt,
+                              color: isDark ? AppColors.darkBackground : AppColors.mist,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Row(
                               children: [
-                                const Icon(LucideIcons.file_text, color: AppColors.forest, size: 20),
+                                const Icon(LucideIcons.file_text, color: AppColors.teal, size: 20),
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: Column(
@@ -286,7 +286,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                                         style: GoogleFonts.caveat(
                                           fontSize: 22,
                                           fontWeight: FontWeight.bold,
-                                          color: AppColors.terracotta,
+                                          color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                                         ),
                                       ),
                                     ],

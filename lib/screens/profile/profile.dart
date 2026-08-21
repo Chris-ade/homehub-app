@@ -51,7 +51,7 @@ class ProfileScreen extends StatelessWidget {
         onRefresh: () async {
           await userProvider.fetchMe();
         },
-        color: AppColors.terracotta,
+        color: AppColors.amber,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -75,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       const CircleAvatar(
                         radius: 36,
-                        backgroundColor: AppColors.forest,
+                        backgroundColor: AppColors.teal,
                         child: Icon(
                           LucideIcons.user,
                           color: Colors.white,
@@ -121,7 +121,7 @@ class ProfileScreen extends StatelessWidget {
                           Expanded(
                             child: CustomButton(
                               text: "Register",
-                              isTerracotta: true,
+                              isAmber: true,
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -235,8 +235,8 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.terracotta,
-                          foregroundColor: Colors.white,
+                          backgroundColor: AppColors.amber,
+                          foregroundColor: AppColors.ink,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 10,
                             vertical: 6,
@@ -268,7 +268,7 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 CustomButton(
                   text: "List a New Property",
-                  isTerracotta: true,
+                  isAmber: true,
                   icon: LucideIcons.plus,
                   width: double.infinity,
                   onPressed: () {
@@ -438,12 +438,12 @@ class ProfileScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: AppColors.terracotta.withValues(alpha: 0.12),
+                      color: AppColors.amber.withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
+                    child: Icon(
                       LucideIcons.sparkles,
-                      color: AppColors.terracotta,
+                      color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                       size: 20,
                     ),
                   ),
@@ -532,7 +532,7 @@ class ProfileScreen extends StatelessWidget {
                 context,
                 label: "Top Position Banner Toast",
                 icon: LucideIcons.arrow_up,
-                color: AppColors.forest,
+                color: AppColors.teal,
                 onTap: () {
                   AppToast.show(
                     context,
@@ -581,7 +581,7 @@ class ProfileScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: isDark ? AppColors.darkSurfaceAlt : AppColors.warmCream,
+          color: isDark ? AppColors.darkSurfaceAlt : AppColors.offWhite,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: isDark ? AppColors.darkLine : AppColors.line,
@@ -683,12 +683,12 @@ class ProfileScreen extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: AppColors.forest.withValues(alpha: 0.12),
+                                color: AppColors.teal.withValues(alpha: 0.12),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: const Icon(
                                 LucideIcons.lock,
-                                color: AppColors.forest,
+                                color: AppColors.teal,
                                 size: 22,
                               ),
                             ),
@@ -871,7 +871,7 @@ class ProfileScreen extends StatelessWidget {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(res.message),
-                                        backgroundColor: AppColors.forest,
+                                        backgroundColor: AppColors.teal,
                                       ),
                                     );
                                   } else {
@@ -1000,7 +1000,7 @@ class ProfileScreen extends StatelessWidget {
                           filled: true,
                           fillColor: isDark
                               ? AppColors.darkSurfaceAlt
-                              : AppColors.creamAlt,
+                              : AppColors.mist,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -1117,7 +1117,7 @@ class ProfileScreen extends StatelessWidget {
       onTap: onTap,
       leading: Icon(
         icon,
-        color: iconColor ?? (isDark ? AppColors.darkInk : AppColors.forest),
+        color: iconColor ?? (isDark ? AppColors.darkInk : AppColors.teal),
         size: 20,
       ),
       title: Text(
@@ -1158,7 +1158,7 @@ class ProfileScreen extends StatelessWidget {
   /// Appearance row with a System / Light / Dark segmented control. "System"
   /// follows the device; the choice persists via AppThemeProvider.
   Widget _buildThemeModeTile(AppThemeProvider themeProvider, bool isDark) {
-    final accent = isDark ? AppColors.darkAccent : AppColors.terracotta;
+    final accent = isDark ? AppColors.darkAccent : AppColors.amber;
 
     Widget segment(ThemeMode mode, IconData icon, String label) {
       final selected = themeProvider.themeMode == mode;
@@ -1212,7 +1212,7 @@ class ProfileScreen extends StatelessWidget {
               Icon(
                 themeProvider.isDarkMode ? LucideIcons.moon : LucideIcons.sun,
                 size: 20,
-                color: isDark ? AppColors.darkInk : AppColors.forest,
+                color: isDark ? AppColors.darkInk : AppColors.teal,
               ),
               const SizedBox(width: 16),
               Text(
@@ -1229,7 +1229,7 @@ class ProfileScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+              color: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
@@ -1257,10 +1257,10 @@ class ProfileScreen extends StatelessWidget {
         color: isDark ? AppColors.darkMuted : AppColors.muted,
         fontSize: 13,
       ),
-      prefixIcon: Icon(icon, color: AppColors.forest, size: 20),
+      prefixIcon: Icon(icon, color: AppColors.teal, size: 20),
       suffixIcon: suffixIcon,
       filled: true,
-      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
@@ -1276,7 +1276,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: AppColors.terracotta, width: 1.5),
+        borderSide: const BorderSide(color: AppColors.amber, width: 1.5),
       ),
     );
   }

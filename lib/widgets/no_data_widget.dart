@@ -24,7 +24,7 @@ class NoDataWidget extends StatelessWidget {
         content: Text(
           "We'll notify you the moment $cityName has new properties!",
         ),
-        backgroundColor: AppColors.forest,
+        backgroundColor: AppColors.teal,
         duration: const Duration(seconds: 3),
       ),
     );
@@ -45,11 +45,11 @@ class NoDataWidget extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: isDark
-                  ? AppColors.terracotta.withValues(alpha: 0.15)
-                  : AppColors.creamAlt,
+                  ? AppColors.amber.withValues(alpha: 0.15)
+                  : AppColors.mist,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, size: 36, color: AppColors.terracotta),
+            child: Icon(icon, size: 36, color: isDark ? AppColors.amber : AppColors.amberDeep),
           ),
 
           const SizedBox(height: 16),
@@ -61,7 +61,7 @@ class NoDataWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w800,
-              color: isDark ? AppColors.darkInk : AppColors.forest,
+              color: isDark ? AppColors.darkInk : AppColors.teal,
             ),
           ),
 
@@ -89,8 +89,8 @@ class NoDataWidget extends StatelessWidget {
                 style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.terracotta,
-                foregroundColor: Colors.white,
+                backgroundColor: AppColors.amber,
+                foregroundColor: AppColors.ink,
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,

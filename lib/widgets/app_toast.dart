@@ -267,7 +267,7 @@ class _AppToastOverlayState extends State<_AppToastOverlay>
       case ToastType.warning:
         return AppColors.warning;
       case ToastType.normal:
-        return isDark ? AppColors.darkAccent : AppColors.terracotta;
+        return isDark ? AppColors.darkAccent : AppColors.amber;
     }
   }
 

@@ -78,12 +78,12 @@ class _InspectionModalState extends State<InspectionModal> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: AppColors.terracotta.withValues(alpha: 0.12),
+                    color: AppColors.amber.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     LucideIcons.calendar,
-                    color: AppColors.terracotta,
+                    color: AppColors.amber,
                     size: 22,
                   ),
                 ),
@@ -180,12 +180,12 @@ class _InspectionModalState extends State<InspectionModal> {
                   icon: const Icon(
                     LucideIcons.calendar,
                     size: 16,
-                    color: AppColors.terracotta,
+                    color: AppColors.amberDeep,
                   ),
                   label: Text(
                     DateFormat('E, MMM d').format(_selectedDate),
                     style: const TextStyle(
-                      color: AppColors.terracotta,
+                      color: AppColors.amberDeep,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -214,10 +214,10 @@ class _InspectionModalState extends State<InspectionModal> {
                       ),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? (isDark ? AppColors.terracotta : AppColors.forest)
+                            ? (isDark ? AppColors.amber : AppColors.teal)
                             : (isDark
                                   ? AppColors.darkSurfaceAlt
-                                  : AppColors.creamAlt),
+                                  : AppColors.mist),
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(
                           color: isSelected
@@ -255,7 +255,7 @@ class _InspectionModalState extends State<InspectionModal> {
                 filled: true,
                 fillColor: isDark
                     ? AppColors.darkSurfaceAlt
-                    : AppColors.creamAlt,
+                    : AppColors.mist,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
                   borderSide: BorderSide(
@@ -277,7 +277,7 @@ class _InspectionModalState extends State<InspectionModal> {
             // Confirm Button
             CustomButton(
               text: "Confirm Inspection Booking",
-              isTerracotta: true,
+              isAmber: true,
               width: double.infinity,
               onPressed: () {
                 final newBooking = InspectionBooking(
@@ -300,7 +300,7 @@ class _InspectionModalState extends State<InspectionModal> {
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    backgroundColor: AppColors.forest,
+                    backgroundColor: AppColors.teal,
                     content: Row(
                       children: [
                         const Icon(
@@ -345,12 +345,12 @@ class _InspectionModalState extends State<InspectionModal> {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.terracotta.withValues(alpha: 0.15)
-              : (isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt),
+              ? AppColors.amber.withValues(alpha: 0.15)
+              : (isDark ? AppColors.darkSurfaceAlt : AppColors.mist),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: isSelected
-                ? AppColors.terracotta
+                ? AppColors.amber
                 : (isDark ? AppColors.darkLine : AppColors.line),
             width: 1.5,
           ),
@@ -362,7 +362,7 @@ class _InspectionModalState extends State<InspectionModal> {
               icon,
               size: 18,
               color: isSelected
-                  ? AppColors.terracotta
+                  ? AppColors.amber
                   : (isDark ? AppColors.darkMuted : AppColors.muted),
             ),
             const SizedBox(width: 6),
@@ -373,7 +373,7 @@ class _InspectionModalState extends State<InspectionModal> {
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: isSelected
-                      ? AppColors.terracotta
+                      ? AppColors.amber
                       : (isDark ? AppColors.darkInk : AppColors.ink),
                 ),
                 maxLines: 1,

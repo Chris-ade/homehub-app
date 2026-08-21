@@ -459,8 +459,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       decoration: BoxDecoration(
         color: isMe
-            ? (isDark ? AppColors.terracotta : AppColors.forest)
-            : (isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt),
+            ? (isDark ? AppColors.amber : AppColors.teal)
+            : (isDark ? AppColors.darkSurfaceAlt : AppColors.mist),
         borderRadius: radius,
       ),
       child: Column(
@@ -573,7 +573,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
           decoration: BoxDecoration(
-            color: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+            color: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: isDark ? AppColors.darkLine : AppColors.line,
@@ -612,7 +612,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               const Icon(
                 LucideIcons.building_2,
                 size: 18,
-                color: AppColors.forest,
+                color: AppColors.teal,
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -652,7 +652,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.forest,
+                        color: AppColors.teal,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: const Row(
@@ -757,7 +757,7 @@ class _TypingBubbleState extends State<_TypingBubble>
             decoration: BoxDecoration(
               color: widget.isDark
                   ? AppColors.darkSurfaceAlt
-                  : AppColors.creamAlt,
+                  : AppColors.mist,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),

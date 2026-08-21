@@ -27,7 +27,7 @@ class CityCard extends StatelessWidget {
           BoxShadow(
             color: isDark
                 ? Colors.black.withValues(alpha: 0.2)
-                : AppColors.forest.withValues(alpha: 0.04),
+                : AppColors.teal.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -54,13 +54,13 @@ class CityCard extends StatelessWidget {
                       width: 42,
                       decoration: BoxDecoration(
                         color: isDark
-                            ? AppColors.forest.withValues(alpha: 0.3)
-                            : AppColors.forest.withValues(alpha: 0.1),
+                            ? AppColors.teal.withValues(alpha: 0.3)
+                            : AppColors.teal.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
                         LucideIcons.building_2,
-                        color: isDark ? AppColors.terracotta : AppColors.forest,
+                        color: isDark ? AppColors.amber : AppColors.teal,
                         size: 22,
                       ),
                     ),
@@ -69,13 +69,13 @@ class CityCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isDark
                             ? AppColors.darkSurfaceAlt
-                            : AppColors.creamAlt,
+                            : AppColors.mist,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         LucideIcons.arrow_up_right,
                         size: 16,
-                        color: isDark ? AppColors.darkInk : AppColors.forest,
+                        color: isDark ? AppColors.darkInk : AppColors.teal,
                       ),
                     ),
                   ],
@@ -90,7 +90,7 @@ class CityCard extends StatelessWidget {
                     fontFamily: 'Cabinet Grotesk',
                     fontSize: 11,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.terracotta,
+                    color: AppColors.amberDeep,
                     letterSpacing: 0.8,
                   ),
                   maxLines: 1,
@@ -106,7 +106,7 @@ class CityCard extends StatelessWidget {
                     fontFamily: 'Cabinet Grotesk',
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
-                    color: isDark ? AppColors.darkInk : AppColors.forest,
+                    color: isDark ? AppColors.darkInk : AppColors.teal,
                     letterSpacing: -0.3,
                   ),
                   maxLines: 1,

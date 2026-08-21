@@ -4,7 +4,7 @@ import 'package:flutter_lucide/flutter_lucide.dart';
 import '../theme/app_theme.dart';
 
 /// Consistent section header used across the home screen: an optional small
-/// terracotta "eyebrow" label, a Cabinet Grotesk title, an optional subtitle,
+/// amber "eyebrow" label, a Cabinet Grotesk title, an optional subtitle,
 /// and an optional trailing text action (e.g. "Browse all →").
 class SectionHeader extends StatelessWidget {
   final String title;
@@ -32,11 +32,11 @@ class SectionHeader extends StatelessWidget {
         if (eyebrow != null) ...[
           Text(
             eyebrow!.toUpperCase(),
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: 'Cabinet Grotesk',
               fontSize: 12,
               fontWeight: FontWeight.w800,
-              color: AppColors.terracotta,
+              color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
               letterSpacing: 1.0,
             ),
           ),
@@ -52,7 +52,7 @@ class SectionHeader extends StatelessWidget {
                   fontFamily: 'Cabinet Grotesk',
                   fontSize: 25,
                   fontWeight: FontWeight.w900,
-                  color: isDark ? AppColors.darkInk : AppColors.forest,
+                  color: isDark ? AppColors.darkInk : AppColors.teal,
                   letterSpacing: -0.3,
                 ),
               ),
@@ -72,18 +72,18 @@ class SectionHeader extends StatelessWidget {
                   children: [
                     Text(
                       actionLabel!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontFamily: 'Satoshi',
-                        color: AppColors.terracotta,
+                        color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(width: 4),
-                    const Icon(
+                    Icon(
                       LucideIcons.arrow_up_right,
                       size: 16,
-                      color: AppColors.terracotta,
+                      color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                     ),
                   ],
                 ),

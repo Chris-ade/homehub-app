@@ -183,12 +183,12 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppColors.terracotta.withValues(alpha: 0.12),
+                  color: AppColors.amber.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
                   LucideIcons.mail_check,
-                  color: AppColors.terracotta,
+                  color: AppColors.amber,
                   size: 24,
                 ),
               ),
@@ -260,17 +260,17 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColors.forest.withValues(alpha: 0.1),
+                color: AppColors.teal.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: AppColors.forest.withValues(alpha: 0.3),
+                  color: AppColors.teal.withValues(alpha: 0.3),
                 ),
               ),
               child: Row(
                 children: [
                   const Icon(
                     LucideIcons.circle_check,
-                    color: AppColors.forest,
+                    color: AppColors.teal,
                     size: 18,
                   ),
                   const SizedBox(width: 8),
@@ -278,7 +278,7 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
                     child: Text(
                       _successMessage!,
                       style: const TextStyle(
-                        color: AppColors.forest,
+                        color: AppColors.teal,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
@@ -313,7 +313,7 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
                     filled: true,
                     fillColor: isDark
                         ? AppColors.darkSurfaceAlt
-                        : AppColors.creamAlt,
+                        : AppColors.mist,
                     contentPadding: EdgeInsets.zero,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -324,7 +324,7 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(
-                        color: AppColors.terracotta,
+                        color: AppColors.amber,
                         width: 2,
                       ),
                     ),
@@ -372,7 +372,7 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
                     child: Text(
                       _isResending ? "Sending..." : "Resend 6-Digit OTP Code",
                       style: const TextStyle(
-                        color: AppColors.terracotta,
+                        color: AppColors.amberDeep,
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
                       ),

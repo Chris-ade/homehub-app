@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   const Icon(
                     LucideIcons.key_round,
-                    color: AppColors.terracotta,
+                    color: AppColors.amberDeep,
                   ),
                   const SizedBox(width: 10),
                   Text(
@@ -138,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       resetStatus!,
                       style: const TextStyle(
                         fontSize: 12,
-                        color: AppColors.forest,
+                        color: AppColors.teal,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -152,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.terracotta,
+                    backgroundColor: AppColors.amber,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -215,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: AppColors.forest,
+                              color: AppColors.teal,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Icon(
@@ -232,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontWeight: FontWeight.w900,
                               color: isDark
                                   ? AppColors.darkInk
-                                  : AppColors.forest,
+                                  : AppColors.teal,
                               letterSpacing: -0.5,
                             ),
                           ),
@@ -299,11 +299,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       GestureDetector(
                         onTap: _showForgotPasswordDialog,
-                        child: const Text(
+                        child: Text(
                           "Forgot Password?",
                           style: TextStyle(
                             fontSize: AppFontSizes.labelMedium,
-                            color: AppColors.terracotta,
+                            color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -371,11 +371,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         },
-                        child: const Text(
+                        child: Text(
                           "Create one",
                           style: TextStyle(
                             fontSize: 17,
-                            color: AppColors.terracotta,
+                            color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

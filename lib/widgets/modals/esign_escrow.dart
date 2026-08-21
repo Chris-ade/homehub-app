@@ -85,12 +85,12 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: AppColors.forest.withValues(alpha: 0.12),
+                    color: AppColors.teal.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     _step == 1 ? LucideIcons.pencil : LucideIcons.shield_check,
-                    color: AppColors.forest,
+                    color: AppColors.teal,
                     size: 22,
                   ),
                 ),
@@ -133,7 +133,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+                  color: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(
                     color: isDark ? AppColors.darkLine : AppColors.line,
@@ -183,8 +183,8 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                             fontSize: 13,
                             fontWeight: FontWeight.w800,
                             color: isDark
-                                ? AppColors.terracotta
-                                : AppColors.forest,
+                                ? AppColors.amber
+                                : AppColors.teal,
                           ),
                         ),
                       ],
@@ -239,7 +239,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                   color: isDark ? AppColors.darkBackground : Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: AppColors.terracotta.withValues(alpha: 0.5),
+                    color: AppColors.amber.withValues(alpha: 0.5),
                     width: 1.5,
                   ),
                 ),
@@ -252,11 +252,11 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                       style: GoogleFonts.caveat(
                         fontSize: 36,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.terracotta,
+                        color: AppColors.amberDeep,
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Divider(color: AppColors.terracotta.withValues(alpha: 0.3)),
+                    Divider(color: AppColors.amber.withValues(alpha: 0.3)),
                     const SizedBox(height: 4),
                     Text(
                       "Legally Binding Electronic Signature",
@@ -284,7 +284,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                   filled: true,
                   fillColor: isDark
                       ? AppColors.darkSurfaceAlt
-                      : AppColors.creamAlt,
+                      : AppColors.mist,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
                     borderSide: BorderSide(
@@ -300,7 +300,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                 children: [
                   Checkbox(
                     value: _agreedToTerms,
-                    activeColor: AppColors.terracotta,
+                    activeColor: AppColors.amber,
                     onChanged: (v) =>
                         setState(() => _agreedToTerms = v ?? false),
                   ),
@@ -320,7 +320,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
 
               CustomButton(
                 text: "Proceed to Escrow Deposit",
-                isTerracotta: true,
+                isAmber: true,
                 width: double.infinity,
                 onPressed: _agreedToTerms && _sigController.text.isNotEmpty
                     ? () => setState(() => _step = 2)
@@ -331,17 +331,17 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppColors.forest.withValues(alpha: 0.08),
+                  color: AppColors.teal.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: AppColors.forest.withValues(alpha: 0.2),
+                    color: AppColors.teal.withValues(alpha: 0.2),
                   ),
                 ),
                 child: Row(
                   children: [
                     const Icon(
                       LucideIcons.shield_check,
-                      color: AppColors.forest,
+                      color: AppColors.teal,
                       size: 28,
                     ),
                     const SizedBox(width: 12),
@@ -354,7 +354,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.forest,
+                              color: AppColors.teal,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -406,7 +406,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
               CustomButton(
                 text:
                     "Authorize Escrow Payment (${_formatCurrency(widget.property.price + 100000)})",
-                isTerracotta: true,
+                isAmber: true,
                 width: double.infinity,
                 onPressed: () {
                   context.read<BookingProvider>().createOrUpdateLease(
@@ -526,7 +526,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
               color: isHighlight
                   ? Colors.green
                   : (isTotal
-                        ? (isDark ? AppColors.terracotta : AppColors.forest)
+                        ? (isDark ? AppColors.amber : AppColors.teal)
                         : (isDark ? AppColors.darkInk : AppColors.ink)),
             ),
           ),

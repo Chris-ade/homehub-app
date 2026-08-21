@@ -63,7 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.warmCream,
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.offWhite,
       body: SafeArea(
         child: Column(
           children: [
@@ -81,7 +81,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: AppColors.forest,
+                          color: AppColors.teal,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Icon(
@@ -97,7 +97,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
-                          color: isDark ? AppColors.darkInk : AppColors.forest,
+                          color: isDark ? AppColors.darkInk : AppColors.teal,
                           letterSpacing: -0.5,
                         ),
                       ),
@@ -159,14 +159,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             vertical: 5,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.terracotta.withValues(alpha: 0.15),
+                            color: AppColors.amber.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: Text(
                             slide["tag"]!,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontFamily: 'Satoshi',
-                              color: AppColors.terracotta,
+                              color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                               fontSize: 10,
                               fontWeight: FontWeight.w800,
                               letterSpacing: 1.0,
@@ -187,7 +187,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             height: 1.15,
                             color: isDark
                                 ? AppColors.darkInk
-                                : AppColors.forest,
+                                : AppColors.teal,
                             letterSpacing: -0.5,
                           ),
                         ),
@@ -231,7 +231,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         height: 8,
                         decoration: BoxDecoration(
                           color: _currentPage == idx
-                              ? AppColors.terracotta
+                              ? AppColors.amber
                               : (isDark ? AppColors.darkLine : AppColors.line),
                           borderRadius: BorderRadius.circular(100),
                         ),
@@ -246,7 +246,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     text: _currentPage == _slides.length - 1
                         ? "Get Started"
                         : "Continue",
-                    isTerracotta: true,
+                    isAmber: true,
                     width: double.infinity,
                     onPressed: () {
                       if (_currentPage < _slides.length - 1) {

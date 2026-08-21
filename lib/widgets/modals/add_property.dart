@@ -88,12 +88,12 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: AppColors.forest.withValues(alpha: 0.12),
+                      color: AppColors.teal.withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       LucideIcons.circle_plus,
-                      color: AppColors.forest,
+                      color: AppColors.teal,
                       size: 22,
                     ),
                   ),
@@ -249,7 +249,7 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
 
               CustomButton(
                 text: "Publish Listing Immediately",
-                isTerracotta: true,
+                isAmber: true,
                 width: double.infinity,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -284,7 +284,7 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        backgroundColor: AppColors.forest,
+                        backgroundColor: AppColors.teal,
                         content: const Text(
                           "Property listed successfully!",
                           style: TextStyle(
@@ -313,7 +313,7 @@ class _AddPropertyModalState extends State<AddPropertyModal> {
         fontSize: 12,
       ),
       filled: true,
-      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.creamAlt,
+      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),

@@ -51,7 +51,7 @@ class GlassContainer extends StatelessWidget {
                 BoxShadow(
                   color: isDark
                       ? Colors.black.withValues(alpha: 0.3)
-                      : AppColors.forest.withValues(alpha: 0.05),
+                      : AppColors.teal.withValues(alpha: 0.05),
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),

@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
-          color: AppColors.terracotta,
+          color: AppColors.amber,
           onRefresh: () async {
             await Future.wait([
               propertyProvider.fetchListingsFromApi(),
@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 letterSpacing: -0.5,
                                 color: isDark
                                     ? AppColors.darkInk
-                                    : AppColors.forest,
+                                    : AppColors.teal,
                               ),
                             ),
                           ],
@@ -120,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: AppColors.terracotta.withValues(
+                              color: AppColors.amber.withValues(
                                 alpha: 0.6,
                               ),
                               width: 2,
@@ -156,22 +156,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 1.1,
                             color: isDark
                                 ? AppColors.darkInk
-                                : AppColors.forest,
+                                : AppColors.teal,
                             letterSpacing: -0.5,
                           ),
-                          children: const [
-                            TextSpan(text: "Houses worth\n"),
+                          children: [
+                            const TextSpan(text: "Houses worth\n"),
                             TextSpan(
                               text: "moving in",
                               style: TextStyle(
                                 fontFamily: 'Cabinet Grotesk',
-                                color: AppColors.terracotta,
+                                color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                                 decoration: TextDecoration.underline,
-                                decorationColor: AppColors.terracotta,
+                                decorationColor: isDark ? AppColors.darkAccent : AppColors.amberDeep,
                                 decorationThickness: 2,
                               ),
                             ),
-                            TextSpan(text: " for."),
+                            const TextSpan(text: " for."),
                           ],
                         ),
                       ),
@@ -379,7 +379,7 @@ class _HomeScreenState extends State<HomeScreen> {
               BoxShadow(
                 color: isDark
                     ? Colors.black.withValues(alpha: 0.2)
-                    : AppColors.forest.withValues(alpha: 0.05),
+                    : AppColors.teal.withValues(alpha: 0.05),
                 blurRadius: 14,
                 offset: const Offset(0, 4),
               ),
@@ -407,13 +407,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppColors.terracotta,
+                  color: AppColors.amber,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
                   LucideIcons.arrow_right,
                   size: 18,
-                  color: Colors.white,
+                  color: AppColors.ink,
                 ),
               ),
             ],
@@ -446,7 +446,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Icon(
             icon,
             size: 19,
-            color: isDark ? AppColors.darkInk : AppColors.forest,
+            color: isDark ? AppColors.darkInk : AppColors.teal,
           ),
         ),
       ),
@@ -458,8 +458,8 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: isDark
-            ? AppColors.forest.withValues(alpha: 0.25)
-            : AppColors.terracottaLight,
+            ? AppColors.teal.withValues(alpha: 0.25)
+            : AppColors.amberLight,
         borderRadius: BorderRadius.circular(100),
       ),
       child: Row(
@@ -468,7 +468,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Icon(
             icon,
             size: 15,
-            color: isDark ? AppColors.darkInk : AppColors.terracotta,
+            color: isDark ? AppColors.darkInk : AppColors.amberDeep,
           ),
           const SizedBox(width: 6),
           Text(
@@ -477,7 +477,7 @@ class _HomeScreenState extends State<HomeScreen> {
               fontFamily: 'Satoshi',
               fontSize: 13,
               fontWeight: FontWeight.w700,
-              color: isDark ? AppColors.darkInk : AppColors.forest,
+              color: isDark ? AppColors.darkInk : AppColors.teal,
             ),
           ),
         ],
@@ -508,7 +508,8 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.terracotta,
+              backgroundColor: AppColors.amber,
+              foregroundColor: AppColors.ink,
             ),
             onPressed: () {
               Navigator.pop(context);
