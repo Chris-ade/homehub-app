@@ -12,8 +12,6 @@ import '../../theme/app_theme.dart';
 import '../../widgets/inputs/chat_input_field.dart';
 import '../property/property_view.dart';
 
-/// Messages from the same sender within this window are visually grouped
-/// (tighter spacing, shared bubble corners, avatar only on the last one).
 const Duration _kGroupWindow = Duration(minutes: 10);
 
 class ChatDetailScreen extends StatefulWidget {
@@ -283,7 +281,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -380,40 +380,41 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     ),
                   )
                 : (messages.isEmpty && !isTyping)
-                    ? Center(
-                        child: Text(
-                          "No messages yet. Say hello 👋",
-                          style: TextStyle(
-                            color:
-                                isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
-                            fontSize: 13,
-                          ),
-                        ),
-                      )
-                    : ListView.builder(
-                        controller: _scrollController,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 12,
-                        ),
-                        // One extra slot for the typing bubble at the bottom.
-                        itemCount: messages.length + (isTyping ? 1 : 0),
-                        itemBuilder: (context, index) {
-                          if (index >= messages.length) {
-                            return _TypingBubble(
-                              avatarUrl: thread.agentAvatar,
-                              isDark: isDark,
-                            );
-                          }
-                          return _buildMessageRow(
-                            context,
-                            isDark,
-                            thread,
-                            messages,
-                            index,
-                          );
-                        },
+                ? Center(
+                    child: Text(
+                      "No messages yet. Say hello 👋",
+                      style: TextStyle(
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.textSecondary,
+                        fontSize: 13,
                       ),
+                    ),
+                  )
+                : ListView.builder(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 12,
+                    ),
+                    // One extra slot for the typing bubble at the bottom.
+                    itemCount: messages.length + (isTyping ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index >= messages.length) {
+                        return _TypingBubble(
+                          avatarUrl: thread.agentAvatar,
+                          isDark: isDark,
+                        );
+                      }
+                      return _buildMessageRow(
+                        context,
+                        isDark,
+                        thread,
+                        messages,
+                        index,
+                      );
+                    },
+                  ),
           ),
 
           _buildInputBar(isDark),
@@ -474,7 +475,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       decoration: BoxDecoration(
         color: isMe
-            ? (isDark ? AppColors.white : AppColors.primary)
+            ? AppColors.primary
             : (isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt),
         borderRadius: radius,
       ),
@@ -488,7 +489,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             style: TextStyle(
               color: isMe
                   ? Colors.white
-                  : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
+                  : (isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary),
               fontSize: 14,
               height: 1.3,
             ),
@@ -502,7 +505,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 style: TextStyle(
                   color: isMe
                       ? Colors.white70
-                      : (isDark ? AppColors.darkTextSecondary : AppColors.textSecondary),
+                      : (isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.textSecondary),
                   fontSize: 10,
                 ),
               ),
@@ -599,7 +604,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.textSecondary,
             ),
           ),
         ),
@@ -638,7 +645,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       "Enquiry about",
                       style: TextStyle(
                         fontSize: 10,
-                        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.textSecondary,
                       ),
                     ),
                     Text(
@@ -646,7 +655,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -703,7 +714,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurface : AppColors.surface,
         border: Border(
-          top: BorderSide(color: isDark ? AppColors.darkBorder : AppColors.border),
+          top: BorderSide(
+            color: isDark ? AppColors.darkBorder : AppColors.border,
+          ),
         ),
       ),
       child: ChatInputField(

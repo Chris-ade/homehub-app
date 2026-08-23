@@ -615,7 +615,7 @@ class _ChatScreenState extends State<ChatScreen> {
             fontSize: AppFontSizes.labelMedium,
             fontWeight: FontWeight.w600,
             color: isSelected
-                ? (isDark ? AppColors.surface : Colors.white)
+                ? (isDark ? AppColors.textPrimary : Colors.white)
                 : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
           ),
         ),
