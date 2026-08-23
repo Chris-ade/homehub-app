@@ -52,7 +52,7 @@ class ChatInputField extends StatelessWidget {
       textInputAction: textInputAction,
       // Use a send icon as the custom suffix.
       customSuffixIcon: IconButton(
-        icon: Icon(LucideIcons.send, size: 20, color: isDark ? AppColors.amber : AppColors.amberDeep),
+        icon: Icon(LucideIcons.send, size: 20, color: isDark ? AppColors.white : AppColors.accent),
         onPressed: onSend,
       ),
     );

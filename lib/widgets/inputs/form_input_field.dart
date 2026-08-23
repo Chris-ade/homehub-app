@@ -56,7 +56,7 @@ class FormInputField extends StatelessWidget {
           style: TextStyle(
             fontSize: AppFontSizes.labelLarge,
             fontWeight: FontWeight.bold,
-            color: isDark ? AppColors.darkInk : AppColors.ink,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
           ),
         ),
         const SizedBox(height: 6),

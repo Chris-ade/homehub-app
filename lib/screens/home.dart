@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
-          color: AppColors.amber,
+          color: AppColors.white,
           onRefresh: () async {
             await Future.wait([
               propertyProvider.fetchListingsFromApi(),
@@ -82,8 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 color: isDark
-                                    ? AppColors.darkMuted
-                                    : AppColors.muted,
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.textSecondary,
                               ),
                             ),
                             const SizedBox(height: 2),
@@ -99,8 +99,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: -0.5,
                                 color: isDark
-                                    ? AppColors.darkInk
-                                    : AppColors.teal,
+                                    ? AppColors.darkTextPrimary
+                                    : AppColors.primary,
                               ),
                             ),
                           ],
@@ -120,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: AppColors.amber.withValues(
+                              color: AppColors.white.withValues(
                                 alpha: 0.6,
                               ),
                               width: 2,
@@ -155,8 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontWeight: FontWeight.w900,
                             height: 1.1,
                             color: isDark
-                                ? AppColors.darkInk
-                                : AppColors.teal,
+                                ? AppColors.darkTextPrimary
+                                : AppColors.primary,
                             letterSpacing: -0.5,
                           ),
                           children: [
@@ -165,9 +165,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               text: "moving in",
                               style: TextStyle(
                                 fontFamily: 'Cabinet Grotesk',
-                                color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                                color: isDark ? AppColors.darkAccent : AppColors.accent,
                                 decoration: TextDecoration.underline,
-                                decorationColor: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                                decorationColor: isDark ? AppColors.darkAccent : AppColors.accent,
                                 decorationThickness: 2,
                               ),
                             ),
@@ -181,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           height: 1.4,
-                          color: isDark ? AppColors.darkMuted : AppColors.muted,
+                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 18),
@@ -373,13 +373,13 @@ class _HomeScreenState extends State<HomeScreen> {
             color: isDark ? AppColors.darkSurface : AppColors.surface,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: isDark ? AppColors.darkLine : AppColors.line,
+              color: isDark ? AppColors.darkBorder : AppColors.border,
             ),
             boxShadow: [
               BoxShadow(
                 color: isDark
                     ? Colors.black.withValues(alpha: 0.2)
-                    : AppColors.teal.withValues(alpha: 0.05),
+                    : AppColors.primary.withValues(alpha: 0.05),
                 blurRadius: 14,
                 offset: const Offset(0, 4),
               ),
@@ -391,7 +391,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icon(
                 LucideIcons.search,
                 size: 20,
-                color: isDark ? AppColors.darkMuted : AppColors.muted,
+                color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -400,20 +400,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                     fontFamily: 'Satoshi',
                     fontSize: 15,
-                    color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                   ),
                 ),
               ),
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppColors.amber,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
                   LucideIcons.arrow_right,
                   size: 18,
-                  color: AppColors.ink,
+                  color: AppColors.textPrimary,
                 ),
               ),
             ],
@@ -440,13 +440,13 @@ class _HomeScreenState extends State<HomeScreen> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              color: isDark ? AppColors.darkLine : AppColors.line,
+              color: isDark ? AppColors.darkBorder : AppColors.border,
             ),
           ),
           child: Icon(
             icon,
             size: 19,
-            color: isDark ? AppColors.darkInk : AppColors.teal,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
           ),
         ),
       ),
@@ -458,8 +458,8 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: isDark
-            ? AppColors.teal.withValues(alpha: 0.25)
-            : AppColors.amberLight,
+            ? AppColors.primary.withValues(alpha: 0.25)
+            : AppColors.accentLight,
         borderRadius: BorderRadius.circular(100),
       ),
       child: Row(
@@ -468,7 +468,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Icon(
             icon,
             size: 15,
-            color: isDark ? AppColors.darkInk : AppColors.amberDeep,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.accent,
           ),
           const SizedBox(width: 6),
           Text(
@@ -477,7 +477,7 @@ class _HomeScreenState extends State<HomeScreen> {
               fontFamily: 'Satoshi',
               fontSize: 13,
               fontWeight: FontWeight.w700,
-              color: isDark ? AppColors.darkInk : AppColors.teal,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
             ),
           ),
         ],
@@ -494,7 +494,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(
           "$cityName Launching Soon!",
           style: TextStyle(
-            color: isDark ? AppColors.darkInk : AppColors.ink,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -502,14 +502,14 @@ class _HomeScreenState extends State<HomeScreen> {
           "We're currently onboarding verified landlords in $cityName for our Q2 2026 expansion. Join the priority waitlist to get early access!",
           style: TextStyle(
             fontSize: 13,
-            color: isDark ? AppColors.darkMuted : AppColors.muted,
+            color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
           ),
         ),
         actions: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.amber,
-              foregroundColor: AppColors.ink,
+              backgroundColor: isDark ? AppColors.darkAccent : AppColors.primary,
+              foregroundColor: Colors.white,
             ),
             onPressed: () {
               Navigator.pop(context);

@@ -1,41 +1,44 @@
 import 'package:flutter/material.dart';
 
+/// Semantic color tokens — named by role, not hue, mirroring the web version
+/// (`--surface`, `--primary`, `--accent`, …). Teal is the brand primary;
+/// terracotta is the accent. Dark surfaces are neutral charcoal (no teal tint)
+/// exactly like the web's dark scheme.
 class AppColors {
-  // Primary Palette — Deep Teal (premium, calming, property-appropriate)
-  static const Color teal = Color(0xFF134E4A);
-  static const Color tealHover = Color(0xFF0E3F3C);
-  static const Color tealLight = Color(0xFF3D8F89);
+  // Primary — Deep Teal (brand identity)
+  static const Color primary = Color(0xFF134E4A);
+  static const Color primaryHover = Color(0xFF0E3F3C);
+  static const Color primaryLight = Color(0xFF3D8F89);
 
-  // Action / Accent — Amber (gold). One accent, one primary: amber is used
-  // for highlights & CTAs, teal carries the identity.
-  static const Color amber = Color(0xFFE0A63B);
-  static const Color amberHover = Color(0xFFC98F2A);
-  static const Color amberLight = Color(0xFFFBF3DF);
-  // Deeper gold for amber text/icons on light surfaces (amber itself is too
-  // pale for small text on white — this keeps WCAG 4.5:1 contrast).
-  static const Color amberDeep = Color(0xFF9A6B14);
+  // Accent — Terracotta (highlights & CTAs). The web brightens it for dark.
+  static const Color accent = Color(0xFFdb6143);
+  static const Color accentHover = Color(0xFFdb6143);
+  static const Color accentLight = Color(0xFFFBF3DF);
 
-  // Background / Surface (Light Mode)
-  static const Color offWhite = Color(0xFFF7F8F6);
-  static const Color mist = Color(0xFFECEFEB);
+  // Background / Surface (Light)
+  static const Color background = Color(0xFFF7F8F6);
   static const Color surface = Color(0xFFFFFFFF);
+  static const Color surfaceAlt = Color(0xFFECEFEB);
 
-  // Typography & Lines
-  static const Color ink = Color(0xFF0B1715);
-  static const Color muted = Color(0xFF4C5C59);
-  static const Color line = Color(0xFFE3E8E6);
+  // Typography & Borders (Light)
+  static const Color textPrimary = Color(0xFF0B1715);
+  static const Color textSecondary = Color(0xFF4C5C59);
+  static const Color border = Color(0xFFE3E8E6);
 
-  // Dark Mode Palette — cool charcoal with a whisper of teal, so the brand
-  // reads through without bathing every surface in teal.
-  static const Color darkBackground = Color(0xFF0F1414);
-  static const Color darkSurface = Color(0xFF17201F);
-  static const Color darkSurfaceAlt = Color(0xFF1F2B2A);
-  static const Color darkLine = Color(0xFF2C3A38);
-  static const Color darkInk = Color(0xFFF0F4F3);
-  static const Color darkMuted = Color(0xFF9DAEAB);
-  // Brightened amber for dark surfaces (the light-mode amber is too dim
-  // against charcoal). Used as the dark accent/primary.
-  static const Color darkAccent = Color(0xFFE8B84B);
+  // Utility white (was misleadingly called "amber" — it's plain white).
+  static const Color white = Color(0xFFFFFFFF);
+
+  // Dark Mode — neutral charcoal, matching the web's dark scheme. Surfaces
+  // carry no teal tint; teal survives only as the brand primary (darkPrimary).
+  static const Color darkBackground = Color(0xFF1B1B1B);
+  static const Color darkSurface = Color(0xFF252525);
+  static const Color darkSurfaceAlt = Color(0xFF2B2B2B);
+  static const Color darkBorder = Color(0xFF363636);
+  static const Color darkTextPrimary = Color(0xFFEDEDED);
+  static const Color darkTextSecondary = Color(0xFF999999);
+  static const Color darkAccent = Color(0xFFE0845C);
+  static const Color darkAccentHover = Color(0xFFCC7048);
+  static const Color darkPrimary = Color(0xFF134E4A);
 
   // Status & Utility
   static const Color success = Color(0xFF2E7D32);
@@ -70,28 +73,28 @@ class AppTheme {
     splashFactory: NoSplash.splashFactory,
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
-    scaffoldBackgroundColor: AppColors.offWhite,
+    scaffoldBackgroundColor: AppColors.background,
     colorScheme: const ColorScheme.light(
-      primary: AppColors.teal,
-      secondary: AppColors.amber,
+      primary: AppColors.primary,
+      secondary: AppColors.white,
       surface: AppColors.surface,
       error: AppColors.error,
       onPrimary: Colors.white,
-      onSecondary: AppColors.ink,
-      onSurface: AppColors.ink,
+      onSecondary: AppColors.textPrimary,
+      onSurface: AppColors.textPrimary,
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: false,
-      iconTheme: IconThemeData(color: AppColors.teal),
-      actionsIconTheme: IconThemeData(color: AppColors.teal),
+      iconTheme: IconThemeData(color: AppColors.primary),
+      actionsIconTheme: IconThemeData(color: AppColors.primary),
       titleTextStyle: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         fontSize: 25,
         fontWeight: FontWeight.w800,
-        color: AppColors.teal,
+        color: AppColors.primary,
       ),
     ),
     cardTheme: CardThemeData(
@@ -99,109 +102,109 @@ class AppTheme {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: AppColors.line, width: 1),
+        side: const BorderSide(color: AppColors.border, width: 1),
       ),
     ),
     chipTheme: ChipThemeData(
-      backgroundColor: AppColors.mist,
-      selectedColor: AppColors.amber,
-      disabledColor: AppColors.line,
+      backgroundColor: AppColors.surfaceAlt,
+      selectedColor: AppColors.white,
+      disabledColor: AppColors.border,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-      side: const BorderSide(color: AppColors.line),
+      side: const BorderSide(color: AppColors.border),
       labelStyle: const TextStyle(
         fontFamily: 'Satoshi',
         fontSize: 14,
         fontWeight: FontWeight.bold,
       ),
     ),
-    dividerTheme: const DividerThemeData(color: AppColors.line, thickness: 1),
+    dividerTheme: const DividerThemeData(color: AppColors.border, thickness: 1),
     textTheme: const TextTheme(
       displayLarge: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.ink,
+        color: AppColors.textPrimary,
         fontSize: AppFontSizes.displayLarge,
         fontWeight: FontWeight.w900,
         height: 1.1,
       ),
       displayMedium: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.ink,
+        color: AppColors.textPrimary,
         fontSize: AppFontSizes.displayMedium,
         fontWeight: FontWeight.w800,
         height: 1.15,
       ),
       displaySmall: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.ink,
+        color: AppColors.textPrimary,
         fontSize: AppFontSizes.displaySmall,
         fontWeight: FontWeight.w800,
       ),
       headlineLarge: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.ink,
+        color: AppColors.textPrimary,
         fontSize: AppFontSizes.headlineLarge,
         fontWeight: FontWeight.w800,
       ),
       headlineMedium: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.ink,
+        color: AppColors.textPrimary,
         fontSize: AppFontSizes.headlineMedium,
         fontWeight: FontWeight.w700,
       ),
       headlineSmall: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.ink,
+        color: AppColors.textPrimary,
         fontSize: AppFontSizes.headlineSmall,
         fontWeight: FontWeight.w700,
       ),
       titleLarge: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.ink,
+        color: AppColors.textPrimary,
         fontSize: 20,
         fontWeight: FontWeight.w700,
       ),
       titleMedium: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.ink,
+        color: AppColors.textPrimary,
         fontSize: 18,
         fontWeight: FontWeight.w700,
       ),
       titleSmall: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.ink,
+        color: AppColors.textPrimary,
         fontSize: 16,
         fontWeight: FontWeight.w700,
       ),
       bodyLarge: TextStyle(
         fontFamily: 'Satoshi',
-        color: AppColors.ink,
+        color: AppColors.textPrimary,
         fontSize: 18,
         fontWeight: FontWeight.w400,
         height: 1.45,
       ),
       bodyMedium: TextStyle(
         fontFamily: 'Satoshi',
-        color: AppColors.muted,
+        color: AppColors.textSecondary,
         fontSize: 16,
         fontWeight: FontWeight.w400,
         height: 1.4,
       ),
       bodySmall: TextStyle(
         fontFamily: 'Satoshi',
-        color: AppColors.muted,
+        color: AppColors.textSecondary,
         fontSize: AppFontSizes.bodySmall,
         fontWeight: FontWeight.w400,
       ),
       labelLarge: TextStyle(
         fontFamily: 'Satoshi',
-        color: AppColors.teal,
+        color: AppColors.primary,
         fontSize: AppFontSizes.labelLarge,
         fontWeight: FontWeight.bold,
       ),
       labelMedium: TextStyle(
         fontFamily: 'Satoshi',
-        color: AppColors.muted,
+        color: AppColors.textSecondary,
         fontSize: AppFontSizes.labelMedium,
         fontWeight: FontWeight.w600,
       ),
@@ -219,25 +222,25 @@ class AppTheme {
     scaffoldBackgroundColor: AppColors.darkBackground,
     colorScheme: const ColorScheme.dark(
       primary: AppColors.darkAccent,
-      secondary: AppColors.tealLight,
+      secondary: AppColors.primaryLight,
       surface: AppColors.darkSurface,
       error: AppColors.error,
-      onPrimary: AppColors.ink,
+      onPrimary: AppColors.textPrimary,
       onSecondary: Colors.white,
-      onSurface: AppColors.darkInk,
+      onSurface: AppColors.darkTextPrimary,
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: false,
-      iconTheme: IconThemeData(color: AppColors.darkInk),
-      actionsIconTheme: IconThemeData(color: AppColors.darkInk),
+      iconTheme: IconThemeData(color: AppColors.darkTextPrimary),
+      actionsIconTheme: IconThemeData(color: AppColors.darkTextPrimary),
       titleTextStyle: TextStyle(
         fontFamily: 'Cabinet Grotesk',
         fontSize: 25,
         fontWeight: FontWeight.w800,
-        color: AppColors.darkInk,
+        color: AppColors.darkTextPrimary,
       ),
     ),
     cardTheme: CardThemeData(
@@ -245,16 +248,16 @@ class AppTheme {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: AppColors.darkLine, width: 1),
+        side: const BorderSide(color: AppColors.darkBorder, width: 1),
       ),
     ),
     chipTheme: ChipThemeData(
       backgroundColor: AppColors.darkSurfaceAlt,
       selectedColor: AppColors.darkAccent,
-      disabledColor: AppColors.darkLine,
+      disabledColor: AppColors.darkBorder,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-      side: const BorderSide(color: AppColors.darkLine),
+      side: const BorderSide(color: AppColors.darkBorder),
       labelStyle: const TextStyle(
         fontFamily: 'Satoshi',
         fontSize: 14,
@@ -262,83 +265,83 @@ class AppTheme {
       ),
     ),
     dividerTheme: const DividerThemeData(
-      color: AppColors.darkLine,
+      color: AppColors.darkBorder,
       thickness: 1,
     ),
     textTheme: const TextTheme(
       displayLarge: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.darkInk,
+        color: AppColors.darkTextPrimary,
         fontSize: 38,
         fontWeight: FontWeight.w900,
         height: 1.1,
       ),
       displayMedium: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.darkInk,
+        color: AppColors.darkTextPrimary,
         fontSize: 32,
         fontWeight: FontWeight.w800,
         height: 1.15,
       ),
       displaySmall: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.darkInk,
+        color: AppColors.darkTextPrimary,
         fontSize: 28,
         fontWeight: FontWeight.w800,
       ),
       headlineLarge: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.darkInk,
+        color: AppColors.darkTextPrimary,
         fontSize: 26,
         fontWeight: FontWeight.w800,
       ),
       headlineMedium: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.darkInk,
+        color: AppColors.darkTextPrimary,
         fontSize: 24,
         fontWeight: FontWeight.w700,
       ),
       headlineSmall: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.darkInk,
+        color: AppColors.darkTextPrimary,
         fontSize: 22,
         fontWeight: FontWeight.w700,
       ),
       titleLarge: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.darkInk,
+        color: AppColors.darkTextPrimary,
         fontSize: 20,
         fontWeight: FontWeight.w700,
       ),
       titleMedium: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.darkInk,
+        color: AppColors.darkTextPrimary,
         fontSize: 18,
         fontWeight: FontWeight.w700,
       ),
       titleSmall: TextStyle(
         fontFamily: 'Cabinet Grotesk',
-        color: AppColors.darkInk,
+        color: AppColors.darkTextPrimary,
         fontSize: 16,
         fontWeight: FontWeight.w700,
       ),
       bodyLarge: TextStyle(
         fontFamily: 'Satoshi',
-        color: AppColors.darkInk,
+        color: AppColors.darkTextPrimary,
         fontSize: 18,
         fontWeight: FontWeight.w400,
         height: 1.45,
       ),
       bodyMedium: TextStyle(
         fontFamily: 'Satoshi',
-        color: AppColors.darkMuted,
+        color: AppColors.darkTextSecondary,
         fontSize: 16,
         fontWeight: FontWeight.w400,
         height: 1.4,
       ),
       bodySmall: TextStyle(
         fontFamily: 'Satoshi',
-        color: AppColors.darkMuted,
+        color: AppColors.darkTextSecondary,
         fontSize: 14,
         fontWeight: FontWeight.w400,
       ),
@@ -350,7 +353,7 @@ class AppTheme {
       ),
       labelMedium: TextStyle(
         fontFamily: 'Satoshi',
-        color: AppColors.darkMuted,
+        color: AppColors.darkTextSecondary,
         fontSize: 14,
         fontWeight: FontWeight.w600,
       ),
@@ -393,7 +396,7 @@ class HeadingText extends StatelessWidget {
         fontFamily: 'Cabinet Grotesk',
         fontSize: fontSize,
         fontWeight: fontWeight,
-        color: color ?? (isDark ? AppColors.darkInk : AppColors.teal),
+        color: color ?? (isDark ? AppColors.darkTextPrimary : AppColors.primary),
         letterSpacing: letterSpacing,
       ),
     );

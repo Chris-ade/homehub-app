@@ -42,7 +42,7 @@ class LandlordPropertyCard extends StatelessWidget {
         color: isDark ? AppColors.darkSurface : AppColors.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isDark ? AppColors.darkLine : AppColors.line,
+          color: isDark ? AppColors.darkBorder : AppColors.border,
           width: 1,
         ),
       ),
@@ -68,22 +68,22 @@ class LandlordPropertyCard extends StatelessWidget {
                       placeholder: (context, url) => Container(
                         color: isDark
                             ? AppColors.darkSurfaceAlt
-                            : AppColors.mist,
+                            : AppColors.surfaceAlt,
                         child: const Center(
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: AppColors.amber,
+                            color: AppColors.white,
                           ),
                         ),
                       ),
                       errorWidget: (context, url, error) => Container(
                         color: isDark
                             ? AppColors.darkSurfaceAlt
-                            : AppColors.mist,
+                            : AppColors.surfaceAlt,
                         child: const Icon(
                           LucideIcons.building_2,
                           size: 28,
-                          color: AppColors.muted,
+                          color: AppColors.textSecondary,
                         ),
                       ),
                     ),
@@ -104,7 +104,7 @@ class LandlordPropertyCard extends StatelessWidget {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
-                          color: isDark ? AppColors.darkInk : AppColors.ink,
+                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 5),
@@ -114,7 +114,7 @@ class LandlordPropertyCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 12,
-                          color: isDark ? AppColors.darkMuted : AppColors.muted,
+                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 7),
@@ -131,7 +131,7 @@ class LandlordPropertyCard extends StatelessWidget {
                                 fontWeight: FontWeight.w800,
                                 color: isDark
                                     ? AppColors.darkAccent
-                                    : AppColors.teal,
+                                    : AppColors.primary,
                               ),
                             ),
                           ),
@@ -140,8 +140,8 @@ class LandlordPropertyCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 12,
                               color: isDark
-                                  ? AppColors.darkMuted
-                                  : AppColors.muted,
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.textSecondary,
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -159,7 +159,7 @@ class LandlordPropertyCard extends StatelessWidget {
                     _iconButton(
                       context,
                       icon: LucideIcons.pencil,
-                      color: isDark ? AppColors.darkAccent : AppColors.teal,
+                      color: isDark ? AppColors.darkAccent : AppColors.primary,
                       onTap: onEdit,
                       tooltip: "Edit",
                     ),
@@ -184,11 +184,11 @@ class LandlordPropertyCard extends StatelessWidget {
   Widget _statusChip(bool isDark) {
     final verified = property.status == "Verified";
     final bg = verified
-        ? (isDark ? AppColors.teal.withValues(alpha: 0.25) : AppColors.teal.withValues(alpha: 0.1))
-        : (isDark ? AppColors.darkSurfaceAlt : AppColors.amberLight);
+        ? (isDark ? AppColors.primary.withValues(alpha: 0.25) : AppColors.primary.withValues(alpha: 0.1))
+        : (isDark ? AppColors.darkSurfaceAlt : AppColors.accentLight);
     final fg = verified
-        ? (isDark ? AppColors.tealLight : AppColors.teal)
-        : (isDark ? AppColors.darkAccent : AppColors.amberDeep);
+        ? (isDark ? AppColors.primaryLight : AppColors.primary)
+        : (isDark ? AppColors.darkAccent : AppColors.accent);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -223,7 +223,7 @@ class LandlordPropertyCard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
+            color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(icon, size: 16, color: color),

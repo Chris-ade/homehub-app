@@ -20,7 +20,7 @@ class CityCardSkeleton extends StatelessWidget {
           color: isDark ? AppColors.darkSurface : AppColors.surface,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isDark ? AppColors.darkLine : AppColors.line,
+            color: isDark ? AppColors.darkBorder : AppColors.border,
           ),
         ),
         child: Padding(

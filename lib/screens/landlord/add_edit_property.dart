@@ -487,13 +487,13 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                       Icon(
                         LucideIcons.calendar,
                         size: 18,
-                        color: isDark ? AppColors.darkMuted : AppColors.teal,
+                        color: isDark ? AppColors.darkTextSecondary : AppColors.primary,
                       ),
                       const SizedBox(width: 10),
                       Text(
                         DateFormat('d MMM yyyy').format(_availableFrom),
                         style: TextStyle(
-                          color: isDark ? AppColors.darkInk : AppColors.ink,
+                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -555,13 +555,13 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                       deleteIcon: const Icon(LucideIcons.x, size: 14),
                       onDeleted: () => setState(() => _amenities.remove(a)),
                       backgroundColor:
-                          isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
+                          isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
                       labelStyle: TextStyle(
                         fontSize: 12,
-                        color: isDark ? AppColors.darkInk : AppColors.ink,
+                        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                       ),
                       side: BorderSide(
-                        color: isDark ? AppColors.darkLine : AppColors.line,
+                        color: isDark ? AppColors.darkBorder : AppColors.border,
                       ),
                     );
                   }).toList(),
@@ -697,7 +697,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           fontSize: 12,
           fontWeight: FontWeight.w800,
           letterSpacing: 1.1,
-          color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+          color: isDark ? AppColors.darkAccent : AppColors.accent,
         ),
       ),
     );
@@ -707,22 +707,22 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
     return InputDecoration(
       labelText: label,
       labelStyle: TextStyle(
-        color: isDark ? AppColors.darkMuted : AppColors.muted,
+        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
         fontSize: 14,
       ),
       filled: true,
-      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
+      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide(
-          color: isDark ? AppColors.darkLine : AppColors.line,
+          color: isDark ? AppColors.darkBorder : AppColors.border,
         ),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide(
-          color: isDark ? AppColors.darkLine : AppColors.line,
+          color: isDark ? AppColors.darkBorder : AppColors.border,
         ),
       ),
     );
@@ -744,7 +744,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: isDark ? AppColors.darkInk : AppColors.ink,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
           ),
         ),
         const SizedBox(height: 6),
@@ -757,24 +757,24 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           expandedInsets: EdgeInsets.zero,
           inputDecorationTheme: InputDecorationTheme(
             filled: true,
-            fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
+            fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: BorderSide(
-                color: isDark ? AppColors.darkLine : AppColors.line,
+                color: isDark ? AppColors.darkBorder : AppColors.border,
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: BorderSide(
-                color: isDark ? AppColors.darkLine : AppColors.line,
+                color: isDark ? AppColors.darkBorder : AppColors.border,
               ),
             ),
           ),
           textStyle: TextStyle(
-            color: isDark ? AppColors.darkInk : AppColors.ink,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             fontSize: 15,
           ),
         ),

@@ -267,7 +267,7 @@ class _AppToastOverlayState extends State<_AppToastOverlay>
       case ToastType.warning:
         return AppColors.warning;
       case ToastType.normal:
-        return isDark ? AppColors.darkAccent : AppColors.amber;
+        return isDark ? AppColors.darkAccent : AppColors.white;
     }
   }
 
@@ -291,9 +291,9 @@ class _AppToastOverlayState extends State<_AppToastOverlay>
     final mediaQuery = MediaQuery.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final backgroundColor = isDark ? AppColors.darkSurface : AppColors.ink;
-    final textColor = isDark ? AppColors.darkInk : Colors.white;
-    final borderColor = isDark ? AppColors.darkLine : AppColors.line;
+    final backgroundColor = isDark ? AppColors.darkSurface : AppColors.textPrimary;
+    final textColor = isDark ? AppColors.darkTextPrimary : Colors.white;
+    final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
     final accentColor = _getTypeAccentColor(isDark);
 
     final topPadding = mediaQuery.padding.top + 12;

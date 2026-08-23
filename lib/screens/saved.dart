@@ -23,7 +23,7 @@ class FavoritesScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w900,
-            color: isDark ? AppColors.darkInk : AppColors.ink,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
           ),
         ),
       ),
@@ -35,7 +35,7 @@ class FavoritesScreen extends StatelessWidget {
                   Icon(
                     LucideIcons.heart,
                     size: 64,
-                    color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -43,7 +43,7 @@ class FavoritesScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -51,7 +51,7 @@ class FavoritesScreen extends StatelessWidget {
                     "Tap the heart icon on any listing to save it for quick access.",
                     style: TextStyle(
                       fontSize: 13,
-                      color: isDark ? AppColors.darkMuted : AppColors.muted,
+                      color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                     ),
                   ),
                 ],

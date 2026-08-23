@@ -35,18 +35,18 @@ class CustomButton extends StatelessWidget {
     if (isOutline) {
       bg = Colors.transparent;
       fg = isAmber
-          ? (isDark ? AppColors.darkAccent : AppColors.amberDeep)
-          : (isDark ? AppColors.darkInk : AppColors.teal);
+          ? (isDark ? AppColors.darkAccent : AppColors.accent)
+          : (isDark ? AppColors.darkTextPrimary : AppColors.primary);
     } else if (isAmber) {
       // Amber/gold fills need dark text for adequate contrast.
-      bg = isDark ? AppColors.darkAccent : AppColors.amber;
-      fg = AppColors.ink;
+      bg = isDark ? AppColors.darkAccent : AppColors.white;
+      fg = AppColors.textPrimary;
     } else if (isPrimary) {
-      bg = isDark ? AppColors.darkAccent : AppColors.teal;
-      fg = isDark ? AppColors.ink : Colors.white;
+      bg = isDark ? AppColors.darkAccent : AppColors.primary;
+      fg = isDark ? AppColors.textPrimary : Colors.white;
     } else {
-      bg = isDark ? AppColors.darkSurfaceAlt : AppColors.mist;
-      fg = isDark ? AppColors.darkInk : AppColors.ink;
+      bg = isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt;
+      fg = isDark ? AppColors.darkTextPrimary : AppColors.textPrimary;
     }
 
     return SizedBox(
@@ -67,8 +67,8 @@ class CustomButton extends StatelessWidget {
             side: isOutline
                 ? BorderSide(
                     color: isAmber
-                        ? (isDark ? AppColors.darkAccent : AppColors.amberDeep)
-                        : (isDark ? AppColors.darkLine : AppColors.teal),
+                        ? (isDark ? AppColors.darkAccent : AppColors.accent)
+                        : (isDark ? AppColors.darkBorder : AppColors.primary),
                     width: 1.5,
                   )
                 : BorderSide.none,

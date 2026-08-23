@@ -72,7 +72,7 @@ class CustomInputField extends StatelessWidget {
       borderSide: hideBorder
           ? BorderSide.none
           : BorderSide(
-              color: isDark ? AppColors.darkLine : AppColors.line,
+              color: isDark ? AppColors.darkBorder : AppColors.border,
             ),
     );
 
@@ -90,29 +90,29 @@ class CustomInputField extends StatelessWidget {
       validator: validator,
       style: TextStyle(
         fontFamily: 'Satoshi',
-        color: isDark ? AppColors.darkInk : AppColors.ink,
+        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
       ),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(
           fontFamily: 'Satoshi',
-          color: isDark ? AppColors.darkMuted : AppColors.muted,
+          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
           fontSize: 15,
         ),
         prefixIcon: prefixIcon != null
             ? Icon(
                 prefixIcon,
                 size: 20,
-                color: isDark ? AppColors.mist : AppColors.teal,
+                color: isDark ? AppColors.surfaceAlt : AppColors.primary,
               )
             : const Icon(
                 LucideIcons.search,
                 size: 20,
-                color: AppColors.teal,
+                color: AppColors.primary,
               ),
         suffixIcon: suffix,
         filled: true,
-        fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
+        fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 14,
@@ -124,7 +124,7 @@ class CustomInputField extends StatelessWidget {
           borderSide: hideBorder
               ? BorderSide.none
               : BorderSide(
-                  color: isDark ? AppColors.amber : AppColors.teal,
+                  color: isDark ? AppColors.white : AppColors.primary,
                   width: 1.5,
                 ),
         ),

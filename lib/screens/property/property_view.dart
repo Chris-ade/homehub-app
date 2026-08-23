@@ -147,7 +147,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     final prop = matches.isNotEmpty ? matches.first : widget.property;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.offWhite,
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.background,
       body: Stack(
         children: [
           CustomScrollView(
@@ -158,7 +158,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                 pinned: true,
                 backgroundColor: isDark
                     ? AppColors.darkBackground
-                    : AppColors.offWhite,
+                    : AppColors.background,
                 leadingWidth: 56,
                 leading: Padding(
                   padding: const EdgeInsets.only(left: 16.0),
@@ -198,7 +198,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               ? Icons.favorite_rounded
                               : Icons.favorite_border_rounded,
                           color: prop.isFavorite
-                              ? AppColors.amber
+                              ? (isDark ? AppColors.darkAccent : AppColors.accent)
                               : Colors.white,
                           size: 20,
                         ),
@@ -326,8 +326,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
                                   color: isDark
-                                      ? AppColors.darkInk
-                                      : AppColors.ink,
+                                      ? AppColors.darkTextPrimary
+                                      : AppColors.textPrimary,
                                 ),
                               ),
                             ],
@@ -344,7 +344,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: AppFontSizes.displaySmall,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkInk : AppColors.teal,
+                          color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
                           letterSpacing: -0.3,
                         ),
                       ),
@@ -359,7 +359,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                             size: 15,
                             color: isDark
                                 ? AppColors.darkAccent
-                                : AppColors.amberDeep,
+                                : AppColors.accent,
                           ),
                           const SizedBox(width: 4),
                           Expanded(
@@ -368,8 +368,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               style: TextStyle(
                                 fontSize: 16,
                                 color: isDark
-                                    ? AppColors.darkMuted
-                                    : AppColors.muted,
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.textSecondary,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -387,7 +387,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: AppFontSizes.headlineLarge,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkInk : AppColors.teal,
+                          color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -396,7 +396,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         style: TextStyle(
                           fontSize: AppFontSizes.bodyLarge,
                           height: 1.5,
-                          color: isDark ? AppColors.darkMuted : AppColors.muted,
+                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 28),
@@ -408,7 +408,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: AppFontSizes.headlineLarge,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkInk : AppColors.teal,
+                          color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
                         ),
                       ),
                       const SizedBox(height: 14),
@@ -446,8 +446,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               "No amenities listed for this property.",
                               style: TextStyle(
                                 color: isDark
-                                    ? AppColors.darkMuted
-                                    : AppColors.muted,
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.textSecondary,
                                 fontSize: 13,
                               ),
                             )
@@ -457,12 +457,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
-                                    // Rows are a single icon + text line tall;
-                                    // without this the cells default to a square
-                                    // (aspect 1.0) and amenities end up with huge
-                                    // vertical gaps between them.
-                                    mainAxisExtent: 32,
-                                    mainAxisSpacing: 4,
+                                    mainAxisExtent: 30,
+                                    mainAxisSpacing: 6,
                                     crossAxisSpacing: 12,
                                   ),
                               itemCount: prop.amenities.length,
@@ -476,7 +472,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                       size: 20,
                                       color: isDark
                                           ? AppColors.darkAccent
-                                          : AppColors.teal,
+                                          : AppColors.primary,
                                     ),
                                     const SizedBox(width: 10),
                                     Expanded(
@@ -485,8 +481,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                         style: TextStyle(
                                           fontSize: 17,
                                           color: isDark
-                                              ? AppColors.darkInk
-                                              : AppColors.ink,
+                                              ? AppColors.darkTextPrimary
+                                              : AppColors.textPrimary,
                                         ),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -506,7 +502,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: AppFontSizes.headlineLarge,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkInk : AppColors.teal,
+                          color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -526,8 +522,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                             style: TextStyle(
                               fontSize: 17,
                               color: isDark
-                                  ? AppColors.darkMuted
-                                  : AppColors.muted,
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.textSecondary,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -543,10 +539,10 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         decoration: BoxDecoration(
                           color: isDark
                               ? AppColors.darkSurfaceAlt
-                              : AppColors.mist,
+                              : AppColors.surfaceAlt,
                           borderRadius: BorderRadius.circular(24),
                           border: Border.all(
-                            color: isDark ? AppColors.darkLine : AppColors.line,
+                            color: isDark ? AppColors.darkBorder : AppColors.border,
                           ),
                         ),
                         child: ClipRRect(
@@ -591,11 +587,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                         height: 44,
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: AppColors.amber,
+                                            color: AppColors.accent,
                                             shape: BoxShape.circle,
                                             boxShadow: [
                                               BoxShadow(
-                                                color: AppColors.amber
+                                                color: AppColors.accent
                                                     .withValues(alpha: 0.4),
                                                 blurRadius: 10,
                                                 spreadRadius: 2,
@@ -687,7 +683,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               : AppColors.surface,
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: isDark ? AppColors.darkLine : AppColors.line,
+                            color: isDark ? AppColors.darkBorder : AppColors.border,
                           ),
                         ),
                         child: Row(
@@ -710,8 +706,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,
                                       color: isDark
-                                          ? AppColors.darkInk
-                                          : AppColors.ink,
+                                          ? AppColors.darkTextPrimary
+                                          : AppColors.textPrimary,
                                     ),
                                   ),
                                   Text(
@@ -719,8 +715,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                     style: TextStyle(
                                       fontSize: 15,
                                       color: isDark
-                                          ? AppColors.darkMuted
-                                          : AppColors.muted,
+                                          ? AppColors.darkTextSecondary
+                                          : AppColors.textSecondary,
                                     ),
                                   ),
                                 ],
@@ -751,7 +747,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                 color: isDark ? AppColors.darkSurface : AppColors.surface,
                 border: Border(
                   top: BorderSide(
-                    color: isDark ? AppColors.darkLine : AppColors.line,
+                    color: isDark ? AppColors.darkBorder : AppColors.border,
                   ),
                 ),
                 boxShadow: [
@@ -782,7 +778,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                   fontWeight: FontWeight.w900,
                                   color: isDark
                                       ? AppColors.darkAccent
-                                      : AppColors.teal,
+                                      : AppColors.primary,
                                 ),
                               ),
                               Text(
@@ -791,8 +787,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: isDark
-                                      ? AppColors.darkMuted
-                                      : AppColors.muted,
+                                      ? AppColors.darkTextSecondary
+                                      : AppColors.textSecondary,
                                 ),
                               ),
                             ],
@@ -804,8 +800,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: isDark
-                                  ? AppColors.darkMuted
-                                  : AppColors.muted,
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.textSecondary,
                             ),
                           ),
                         ],
@@ -817,7 +813,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                     // 2. Message Agent Button
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.teal,
+                        backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -869,7 +865,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
           Icon(
             icon,
             size: 22,
-            color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+            color: isDark ? AppColors.darkAccent : AppColors.accent,
           ),
           const SizedBox(height: 4),
           Text(
@@ -877,7 +873,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              color: isDark ? AppColors.darkInk : AppColors.ink,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -900,15 +896,15 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         height: 34,
         decoration: BoxDecoration(
           color: active
-              ? AppColors.amber
+              ? AppColors.primary
               : (isDark ? AppColors.darkSurface : Colors.white).withValues(
                   alpha: 0.95,
                 ),
           shape: BoxShape.circle,
           border: Border.all(
             color: active
-                ? AppColors.amber
-                : (isDark ? AppColors.darkLine : AppColors.line),
+                ? AppColors.primary
+                : (isDark ? AppColors.darkBorder : AppColors.border),
           ),
           boxShadow: [
             BoxShadow(
@@ -924,7 +920,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             size: 16,
             color: active
                 ? Colors.white
-                : (isDark ? AppColors.darkInk : AppColors.teal),
+                : (isDark ? AppColors.darkTextPrimary : AppColors.primary),
           ),
         ),
       ),

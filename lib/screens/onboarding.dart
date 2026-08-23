@@ -63,7 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.offWhite,
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -81,7 +81,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: AppColors.teal,
+                          color: AppColors.primary,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Icon(
@@ -97,7 +97,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
-                          color: isDark ? AppColors.darkInk : AppColors.teal,
+                          color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
                           letterSpacing: -0.5,
                         ),
                       ),
@@ -112,7 +112,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         fontFamily: 'Satoshi',
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: isDark ? AppColors.darkMuted : AppColors.muted,
+                        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                       ),
                     ),
                   ),
@@ -159,14 +159,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             vertical: 5,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.amber.withValues(alpha: 0.15),
+                            color: AppColors.white.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: Text(
                             slide["tag"]!,
                             style: TextStyle(
                               fontFamily: 'Satoshi',
-                              color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                              color: isDark ? AppColors.darkAccent : AppColors.accent,
                               fontSize: 10,
                               fontWeight: FontWeight.w800,
                               letterSpacing: 1.0,
@@ -186,8 +186,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             fontWeight: FontWeight.w900,
                             height: 1.15,
                             color: isDark
-                                ? AppColors.darkInk
-                                : AppColors.teal,
+                                ? AppColors.darkTextPrimary
+                                : AppColors.primary,
                             letterSpacing: -0.5,
                           ),
                         ),
@@ -203,8 +203,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             fontSize: 13,
                             height: 1.45,
                             color: isDark
-                                ? AppColors.darkMuted
-                                : AppColors.muted,
+                                ? AppColors.darkTextSecondary
+                                : AppColors.textSecondary,
                           ),
                         ),
                       ],
@@ -231,8 +231,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         height: 8,
                         decoration: BoxDecoration(
                           color: _currentPage == idx
-                              ? AppColors.amber
-                              : (isDark ? AppColors.darkLine : AppColors.line),
+                              ? AppColors.white
+                              : (isDark ? AppColors.darkBorder : AppColors.border),
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),

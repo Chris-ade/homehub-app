@@ -59,7 +59,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           color: isDark ? AppColors.darkSurface : AppColors.surface,
           border: Border(
             top: BorderSide(
-              color: isDark ? AppColors.darkLine : AppColors.line,
+              color: isDark ? AppColors.darkBorder : AppColors.border,
               width: 1,
             ),
           ),
@@ -67,7 +67,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             BoxShadow(
               color: isDark
                   ? Colors.black.withValues(alpha: 0.3)
-                  : AppColors.teal.withValues(alpha: 0.05),
+                  : AppColors.primary.withValues(alpha: 0.05),
               blurRadius: 16,
               offset: const Offset(0, -4),
             ),
@@ -79,8 +79,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          selectedItemColor: isDark ? AppColors.darkAccent : AppColors.amberDeep,
-          unselectedItemColor: isDark ? AppColors.darkMuted : AppColors.muted,
+          selectedItemColor: isDark ? AppColors.darkAccent : AppColors.accent,
+          unselectedItemColor: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
           selectedFontSize: 12,
           unselectedFontSize: 11,
           selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
@@ -96,28 +96,28 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 userProvider.isLandlord
                     ? LucideIcons.layout_dashboard
                     : LucideIcons.house,
-                color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                color: isDark ? AppColors.darkAccent : AppColors.accent,
               ),
               label: userProvider.isLandlord ? "Dashboard" : "Home",
             ),
             BottomNavigationBarItem(
               icon: const Icon(LucideIcons.search),
-              activeIcon: Icon(LucideIcons.search, color: isDark ? AppColors.darkAccent : AppColors.amberDeep),
+              activeIcon: Icon(LucideIcons.search, color: isDark ? AppColors.darkAccent : AppColors.accent),
               label: "Explore",
             ),
             BottomNavigationBarItem(
               icon: const Icon(LucideIcons.heart),
-              activeIcon: Icon(LucideIcons.heart, color: isDark ? AppColors.darkAccent : AppColors.amberDeep),
+              activeIcon: Icon(LucideIcons.heart, color: isDark ? AppColors.darkAccent : AppColors.accent),
               label: "Saved",
             ),
             BottomNavigationBarItem(
               icon: const Icon(LucideIcons.mail),
-              activeIcon: Icon(LucideIcons.mail, color: isDark ? AppColors.darkAccent : AppColors.amberDeep),
+              activeIcon: Icon(LucideIcons.mail, color: isDark ? AppColors.darkAccent : AppColors.accent),
               label: "Messages",
             ),
             BottomNavigationBarItem(
               icon: const Icon(LucideIcons.user),
-              activeIcon: Icon(LucideIcons.user, color: isDark ? AppColors.darkAccent : AppColors.amberDeep),
+              activeIcon: Icon(LucideIcons.user, color: isDark ? AppColors.darkAccent : AppColors.accent),
               label: "Profile",
             ),
           ],

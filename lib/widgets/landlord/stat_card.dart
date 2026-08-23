@@ -31,7 +31,7 @@ class StatCard extends StatelessWidget {
         color: isDark ? AppColors.darkSurface : AppColors.surface,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: isDark ? AppColors.darkLine : AppColors.line,
+          color: isDark ? AppColors.darkBorder : AppColors.border,
           width: 1,
         ),
       ),
@@ -48,7 +48,7 @@ class StatCard extends StatelessWidget {
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.8,
-                    color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                   ),
                 ),
               ),
@@ -72,7 +72,7 @@ class StatCard extends StatelessWidget {
               fontFamily: 'Cabinet Grotesk',
               fontSize: 24,
               fontWeight: FontWeight.w800,
-              color: isDark ? AppColors.darkInk : AppColors.ink,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             ),
           ),
           if (subtitle != null) ...[
@@ -84,7 +84,7 @@ class StatCard extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'Satoshi',
                 fontSize: 11,
-                color: isDark ? AppColors.darkMuted : AppColors.muted,
+                color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
               ),
             ),
           ],

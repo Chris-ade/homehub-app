@@ -87,13 +87,13 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
           style: TextStyle(
             fontFamily: 'Cabinet Grotesk',
             fontWeight: FontWeight.w800,
-            color: isDark ? AppColors.darkInk : AppColors.ink,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
           ),
         ),
         content: Text(
           "\"${p.title}\" will be permanently removed. This can't be undone.",
           style: TextStyle(
-            color: isDark ? AppColors.darkMuted : AppColors.muted,
+            color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
           ),
         ),
         actions: [
@@ -137,7 +137,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: _refresh,
-        color: AppColors.amber,
+        color: AppColors.white,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
@@ -148,7 +148,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
                 fontFamily: 'Cabinet Grotesk',
                 fontSize: 26,
                 fontWeight: FontWeight.w800,
-                color: isDark ? AppColors.darkInk : AppColors.ink,
+                color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: 4),
@@ -156,7 +156,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
               "Manage your properties and track performance.",
               style: TextStyle(
                 fontSize: 13,
-                color: isDark ? AppColors.darkMuted : AppColors.muted,
+                color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
               ),
             ),
             const SizedBox(height: 20),
@@ -177,14 +177,14 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
                     label: "Total Properties",
                     value: "${stats.totalProperties}",
                     icon: LucideIcons.house,
-                    accent: AppColors.teal,
+                    accent: AppColors.primary,
                     subtitle: "${stats.newListings} new this month",
                   ),
                   StatCard(
                     label: "Total Revenue",
                     value: _formatNaira(stats.monthlyRevenue),
                     icon: LucideIcons.wallet,
-                    accent: AppColors.amberDeep,
+                    accent: AppColors.accent,
                     subtitle: "Combined rent",
                   ),
                   StatCard(
@@ -227,7 +227,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
                       fontFamily: 'Cabinet Grotesk',
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
-                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                     ),
                   ),
                 ),
@@ -236,7 +236,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -285,7 +285,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
             color: isDark ? AppColors.darkSurface : AppColors.surface,
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
-              color: isDark ? AppColors.darkLine : AppColors.line,
+              color: isDark ? AppColors.darkBorder : AppColors.border,
             ),
           ),
         );

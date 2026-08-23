@@ -29,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
-            color: isDark ? AppColors.darkInk : const Color(0xFF222222),
+            color: isDark ? AppColors.darkTextPrimary : const Color(0xFF222222),
           ),
         ),
         elevation: 0,
@@ -38,7 +38,7 @@ class ProfileScreen extends StatelessWidget {
           IconButton(
             icon: Icon(
               LucideIcons.bell,
-              color: isDark ? AppColors.darkInk : const Color(0xFF222222),
+              color: isDark ? AppColors.darkTextPrimary : const Color(0xFF222222),
               size: 24,
             ),
             onPressed: () {},
@@ -50,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
         onRefresh: () async {
           await userProvider.fetchMe();
         },
-        color: AppColors.amber,
+        color: AppColors.white,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -66,7 +66,7 @@ class ProfileScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
                       color: isDark
-                          ? AppColors.darkLine
+                          ? AppColors.darkBorder
                           : const Color(0xFFEBEBEB),
                     ),
                   ),
@@ -74,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       const CircleAvatar(
                         radius: 36,
-                        backgroundColor: AppColors.teal,
+                        backgroundColor: AppColors.primary,
                         child: Icon(
                           LucideIcons.user,
                           color: Colors.white,
@@ -87,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
-                          color: isDark ? AppColors.darkInk : AppColors.ink,
+                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -96,7 +96,7 @@ class ProfileScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 12,
-                          color: isDark ? AppColors.darkMuted : AppColors.muted,
+                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -158,7 +158,7 @@ class ProfileScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(
                         color: isDark
-                            ? AppColors.darkLine
+                            ? AppColors.darkBorder
                             : const Color(0xFFEBEBEB),
                       ),
                       boxShadow: [
@@ -182,7 +182,7 @@ class ProfileScreen extends StatelessWidget {
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                             color: isDark
-                                ? AppColors.darkInk
+                                ? AppColors.darkTextPrimary
                                 : const Color(0xFF222222),
                           ),
                         ),
@@ -195,7 +195,7 @@ class ProfileScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 13,
                             color: isDark
-                                ? AppColors.darkMuted
+                                ? AppColors.darkTextSecondary
                                 : const Color(0xFF717171),
                           ),
                         ),
@@ -234,8 +234,8 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.amber,
-                          foregroundColor: AppColors.ink,
+                          backgroundColor: AppColors.white,
+                          foregroundColor: AppColors.textPrimary,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 10,
                             vertical: 6,
@@ -408,7 +408,7 @@ class ProfileScreen extends StatelessWidget {
                   width: 36,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkLine : AppColors.line,
+                    color: isDark ? AppColors.darkBorder : AppColors.border,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -419,12 +419,12 @@ class ProfileScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: AppColors.amber.withValues(alpha: 0.12),
+                      color: AppColors.white.withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       LucideIcons.sparkles,
-                      color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                      color: isDark ? AppColors.darkAccent : AppColors.accent,
                       size: 20,
                     ),
                   ),
@@ -435,7 +435,7 @@ class ProfileScreen extends StatelessWidget {
                       fontFamily: 'Cabinet Grotesk',
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                     ),
                   ),
                 ],
@@ -445,7 +445,7 @@ class ProfileScreen extends StatelessWidget {
                 "Tap any toast style below to test the animated, swipeable toast overlay.",
                 style: TextStyle(
                   fontSize: 13,
-                  color: isDark ? AppColors.darkMuted : AppColors.muted,
+                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                 ),
               ),
               const SizedBox(height: 20),
@@ -513,7 +513,7 @@ class ProfileScreen extends StatelessWidget {
                 context,
                 label: "Top Position Banner Toast",
                 icon: LucideIcons.arrow_up,
-                color: AppColors.teal,
+                color: AppColors.primary,
                 onTap: () {
                   AppToast.show(
                     context,
@@ -562,10 +562,10 @@ class ProfileScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: isDark ? AppColors.darkSurfaceAlt : AppColors.offWhite,
+          color: isDark ? AppColors.darkSurfaceAlt : AppColors.background,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: isDark ? AppColors.darkLine : AppColors.line,
+            color: isDark ? AppColors.darkBorder : AppColors.border,
           ),
         ),
         child: Row(
@@ -586,14 +586,14 @@ class ProfileScreen extends StatelessWidget {
                   fontFamily: 'Satoshi',
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: isDark ? AppColors.darkInk : AppColors.ink,
+                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                 ),
               ),
             ),
             Icon(
               LucideIcons.chevron_right,
               size: 16,
-              color: isDark ? AppColors.darkMuted : AppColors.muted,
+              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
             ),
           ],
         ),
@@ -651,8 +651,8 @@ class ProfileScreen extends StatelessWidget {
                             height: 4,
                             decoration: BoxDecoration(
                               color: isDark
-                                  ? AppColors.darkLine
-                                  : AppColors.line,
+                                  ? AppColors.darkBorder
+                                  : AppColors.border,
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
@@ -664,12 +664,12 @@ class ProfileScreen extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: AppColors.teal.withValues(alpha: 0.12),
+                                color: AppColors.primary.withValues(alpha: 0.12),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: const Icon(
                                 LucideIcons.lock,
-                                color: AppColors.teal,
+                                color: AppColors.primary,
                                 size: 22,
                               ),
                             ),
@@ -680,8 +680,8 @@ class ProfileScreen extends StatelessWidget {
                                 fontSize: 20,
                                 fontWeight: FontWeight.w900,
                                 color: isDark
-                                    ? AppColors.darkInk
-                                    : AppColors.ink,
+                                    ? AppColors.darkTextPrimary
+                                    : AppColors.textPrimary,
                               ),
                             ),
                           ],
@@ -716,7 +716,7 @@ class ProfileScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: isDark ? AppColors.darkInk : AppColors.ink,
+                            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -751,7 +751,7 @@ class ProfileScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: isDark ? AppColors.darkInk : AppColors.ink,
+                            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -791,7 +791,7 @@ class ProfileScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: isDark ? AppColors.darkInk : AppColors.ink,
+                            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -852,7 +852,7 @@ class ProfileScreen extends StatelessWidget {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(res.message),
-                                        backgroundColor: AppColors.teal,
+                                        backgroundColor: AppColors.primary,
                                       ),
                                     );
                                   } else {
@@ -913,7 +913,7 @@ class ProfileScreen extends StatelessWidget {
                           width: 40,
                           height: 4,
                           decoration: BoxDecoration(
-                            color: isDark ? AppColors.darkLine : AppColors.line,
+                            color: isDark ? AppColors.darkBorder : AppColors.border,
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
@@ -940,7 +940,7 @@ class ProfileScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w900,
-                              color: isDark ? AppColors.darkInk : AppColors.ink,
+                              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                             ),
                           ),
                         ],
@@ -952,7 +952,7 @@ class ProfileScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 13,
                           height: 1.4,
-                          color: isDark ? AppColors.darkMuted : AppColors.muted,
+                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -962,7 +962,7 @@ class ProfileScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkInk : AppColors.ink,
+                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -975,13 +975,13 @@ class ProfileScreen extends StatelessWidget {
                           hintStyle: TextStyle(
                             fontSize: 12,
                             color: isDark
-                                ? AppColors.darkMuted
-                                : AppColors.muted,
+                                ? AppColors.darkTextSecondary
+                                : AppColors.textSecondary,
                           ),
                           filled: true,
                           fillColor: isDark
                               ? AppColors.darkSurfaceAlt
-                              : AppColors.mist,
+                              : AppColors.surfaceAlt,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -1098,7 +1098,7 @@ class ProfileScreen extends StatelessWidget {
       onTap: onTap,
       leading: Icon(
         icon,
-        color: iconColor ?? (isDark ? AppColors.darkInk : AppColors.teal),
+        color: iconColor ?? (isDark ? AppColors.darkTextPrimary : AppColors.primary),
         size: 20,
       ),
       title: Text(
@@ -1106,7 +1106,7 @@ class ProfileScreen extends StatelessWidget {
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
-          color: titleColor ?? (isDark ? AppColors.darkInk : AppColors.ink),
+          color: titleColor ?? (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
         ),
       ),
       subtitle: subtitle != null
@@ -1114,7 +1114,7 @@ class ProfileScreen extends StatelessWidget {
               subtitle,
               style: TextStyle(
                 fontSize: 11,
-                color: isDark ? AppColors.darkMuted : AppColors.muted,
+                color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
               ),
             )
           : null,
@@ -1123,7 +1123,7 @@ class ProfileScreen extends StatelessWidget {
           Icon(
             LucideIcons.chevron_right,
             size: 18,
-            color: isDark ? AppColors.darkMuted : AppColors.muted,
+            color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
           ),
     );
   }
@@ -1132,14 +1132,14 @@ class ProfileScreen extends StatelessWidget {
     return Divider(
       height: 1,
       indent: 56,
-      color: isDark ? AppColors.darkLine : AppColors.line,
+      color: isDark ? AppColors.darkBorder : AppColors.border,
     );
   }
 
   /// Appearance row with a System / Light / Dark segmented control. "System"
   /// follows the device; the choice persists via AppThemeProvider.
   Widget _buildThemeModeTile(AppThemeProvider themeProvider, bool isDark) {
-    final accent = isDark ? AppColors.darkAccent : AppColors.amber;
+    final accent = isDark ? AppColors.darkAccent : AppColors.primary;
 
     Widget segment(ThemeMode mode, IconData icon, String label) {
       final selected = themeProvider.themeMode == mode;
@@ -1162,7 +1162,7 @@ class ProfileScreen extends StatelessWidget {
                   size: 18,
                   color: selected
                       ? Colors.white
-                      : (isDark ? AppColors.darkMuted : AppColors.muted),
+                      : (isDark ? AppColors.darkTextSecondary : AppColors.textSecondary),
                 ),
                 const SizedBox(height: 3),
                 Text(
@@ -1173,7 +1173,7 @@ class ProfileScreen extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: selected
                         ? Colors.white
-                        : (isDark ? AppColors.darkMuted : AppColors.muted),
+                        : (isDark ? AppColors.darkTextSecondary : AppColors.textSecondary),
                   ),
                 ),
               ],
@@ -1193,7 +1193,7 @@ class ProfileScreen extends StatelessWidget {
               Icon(
                 themeProvider.isDarkMode ? LucideIcons.moon : LucideIcons.sun,
                 size: 20,
-                color: isDark ? AppColors.darkInk : AppColors.teal,
+                color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
               ),
               const SizedBox(width: 16),
               Text(
@@ -1201,7 +1201,7 @@ class ProfileScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: isDark ? AppColors.darkInk : AppColors.ink,
+                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                 ),
               ),
             ],
@@ -1210,7 +1210,7 @@ class ProfileScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
+              color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
@@ -1235,29 +1235,29 @@ class ProfileScreen extends StatelessWidget {
     return InputDecoration(
       hintText: hint,
       hintStyle: TextStyle(
-        color: isDark ? AppColors.darkMuted : AppColors.muted,
+        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
         fontSize: 13,
       ),
-      prefixIcon: Icon(icon, color: AppColors.teal, size: 20),
+      prefixIcon: Icon(icon, color: AppColors.primary, size: 20),
       suffixIcon: suffixIcon,
       filled: true,
-      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
+      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide(
-          color: isDark ? AppColors.darkLine : AppColors.line,
+          color: isDark ? AppColors.darkBorder : AppColors.border,
         ),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide(
-          color: isDark ? AppColors.darkLine : AppColors.line,
+          color: isDark ? AppColors.darkBorder : AppColors.border,
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: AppColors.amber, width: 1.5),
+        borderSide: const BorderSide(color: AppColors.white, width: 1.5),
       ),
     );
   }

@@ -283,7 +283,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -298,8 +298,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           color: thread.online
                               ? Colors.green
                               : (isDark
-                                    ? AppColors.darkMuted
-                                    : AppColors.muted),
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.textSecondary),
                         ),
                       ),
                       const SizedBox(width: 5),
@@ -310,8 +310,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           color: thread.online
                               ? Colors.green
                               : (isDark
-                                    ? AppColors.darkMuted
-                                    : AppColors.muted),
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.textSecondary),
                         ),
                       ),
                     ],
@@ -376,7 +376,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 ? Center(
                     child: CircularProgressIndicator(
                       strokeWidth: 3,
-                      color: isDark ? AppColors.darkAccent : AppColors.teal,
+                      color: isDark ? AppColors.darkAccent : AppColors.primary,
                     ),
                   )
                 : (messages.isEmpty && !isTyping)
@@ -385,7 +385,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           "No messages yet. Say hello 👋",
                           style: TextStyle(
                             color:
-                                isDark ? AppColors.darkMuted : AppColors.muted,
+                                isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                             fontSize: 13,
                           ),
                         ),
@@ -474,8 +474,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       decoration: BoxDecoration(
         color: isMe
-            ? (isDark ? AppColors.amber : AppColors.teal)
-            : (isDark ? AppColors.darkSurfaceAlt : AppColors.mist),
+            ? (isDark ? AppColors.white : AppColors.primary)
+            : (isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt),
         borderRadius: radius,
       ),
       child: Column(
@@ -488,7 +488,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             style: TextStyle(
               color: isMe
                   ? Colors.white
-                  : (isDark ? AppColors.darkInk : AppColors.ink),
+                  : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
               fontSize: 14,
               height: 1.3,
             ),
@@ -502,7 +502,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 style: TextStyle(
                   color: isMe
                       ? Colors.white70
-                      : (isDark ? AppColors.darkMuted : AppColors.muted),
+                      : (isDark ? AppColors.darkTextSecondary : AppColors.textSecondary),
                   fontSize: 10,
                 ),
               ),
@@ -588,10 +588,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
           decoration: BoxDecoration(
-            color: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
+            color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: isDark ? AppColors.darkLine : AppColors.line,
+              color: isDark ? AppColors.darkBorder : AppColors.border,
             ),
           ),
           child: Text(
@@ -599,7 +599,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: isDark ? AppColors.darkMuted : AppColors.muted,
+              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
             ),
           ),
         ),
@@ -618,7 +618,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: isDark ? AppColors.darkLine : AppColors.line,
+                color: isDark ? AppColors.darkBorder : AppColors.border,
               ),
             ),
           ),
@@ -627,7 +627,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               const Icon(
                 LucideIcons.building_2,
                 size: 18,
-                color: AppColors.teal,
+                color: AppColors.primary,
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -638,7 +638,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       "Enquiry about",
                       style: TextStyle(
                         fontSize: 10,
-                        color: isDark ? AppColors.darkMuted : AppColors.muted,
+                        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                       ),
                     ),
                     Text(
@@ -646,7 +646,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: isDark ? AppColors.darkInk : AppColors.ink,
+                        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -667,7 +667,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.teal,
+                        color: AppColors.primary,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: const Row(
@@ -703,7 +703,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurface : AppColors.surface,
         border: Border(
-          top: BorderSide(color: isDark ? AppColors.darkLine : AppColors.line),
+          top: BorderSide(color: isDark ? AppColors.darkBorder : AppColors.border),
         ),
       ),
       child: ChatInputField(
@@ -772,7 +772,7 @@ class _TypingBubbleState extends State<_TypingBubble>
             decoration: BoxDecoration(
               color: widget.isDark
                   ? AppColors.darkSurfaceAlt
-                  : AppColors.mist,
+                  : AppColors.surfaceAlt,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -798,8 +798,8 @@ class _TypingBubbleState extends State<_TypingBubble>
                           height: 7,
                           decoration: BoxDecoration(
                             color: widget.isDark
-                                ? AppColors.darkMuted
-                                : AppColors.muted,
+                                ? AppColors.darkTextSecondary
+                                : AppColors.textSecondary,
                             shape: BoxShape.circle,
                           ),
                         ),

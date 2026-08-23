@@ -64,7 +64,7 @@ class _InspectionModalState extends State<InspectionModal> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkLine : AppColors.line,
+                  color: isDark ? AppColors.darkBorder : AppColors.border,
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -78,12 +78,12 @@ class _InspectionModalState extends State<InspectionModal> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: AppColors.amber.withValues(alpha: 0.12),
+                    color: AppColors.white.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     LucideIcons.calendar,
-                    color: AppColors.amber,
+                    color: AppColors.white,
                     size: 22,
                   ),
                 ),
@@ -97,14 +97,14 @@ class _InspectionModalState extends State<InspectionModal> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
-                          color: isDark ? AppColors.darkInk : AppColors.ink,
+                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                         ),
                       ),
                       Text(
                         widget.property.title,
                         style: TextStyle(
                           fontSize: 13,
-                          color: isDark ? AppColors.darkMuted : AppColors.muted,
+                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -116,7 +116,7 @@ class _InspectionModalState extends State<InspectionModal> {
             ),
 
             const SizedBox(height: 20),
-            Divider(color: isDark ? AppColors.darkLine : AppColors.line),
+            Divider(color: isDark ? AppColors.darkBorder : AppColors.border),
             const SizedBox(height: 16),
 
             // Inspection Type Toggle
@@ -125,7 +125,7 @@ class _InspectionModalState extends State<InspectionModal> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
-                color: isDark ? AppColors.darkInk : AppColors.ink,
+                color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: 8),
@@ -162,7 +162,7 @@ class _InspectionModalState extends State<InspectionModal> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: isDark ? AppColors.darkInk : AppColors.ink,
+                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                   ),
                 ),
                 TextButton.icon(
@@ -180,12 +180,12 @@ class _InspectionModalState extends State<InspectionModal> {
                   icon: const Icon(
                     LucideIcons.calendar,
                     size: 16,
-                    color: AppColors.amberDeep,
+                    color: AppColors.accent,
                   ),
                   label: Text(
                     DateFormat('E, MMM d').format(_selectedDate),
                     style: const TextStyle(
-                      color: AppColors.amberDeep,
+                      color: AppColors.accent,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -214,15 +214,15 @@ class _InspectionModalState extends State<InspectionModal> {
                       ),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? (isDark ? AppColors.amber : AppColors.teal)
+                            ? (isDark ? AppColors.white : AppColors.primary)
                             : (isDark
                                   ? AppColors.darkSurfaceAlt
-                                  : AppColors.mist),
+                                  : AppColors.surfaceAlt),
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(
                           color: isSelected
                               ? Colors.transparent
-                              : (isDark ? AppColors.darkLine : AppColors.line),
+                              : (isDark ? AppColors.darkBorder : AppColors.border),
                         ),
                       ),
                       child: Text(
@@ -232,7 +232,7 @@ class _InspectionModalState extends State<InspectionModal> {
                           fontWeight: FontWeight.w700,
                           color: isSelected
                               ? Colors.white
-                              : (isDark ? AppColors.darkInk : AppColors.ink),
+                              : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
                         ),
                       ),
                     ),
@@ -249,23 +249,23 @@ class _InspectionModalState extends State<InspectionModal> {
               decoration: InputDecoration(
                 hintText: "Add any special request or note for agent...",
                 hintStyle: TextStyle(
-                  color: isDark ? AppColors.darkMuted : AppColors.muted,
+                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                   fontSize: 13,
                 ),
                 filled: true,
                 fillColor: isDark
                     ? AppColors.darkSurfaceAlt
-                    : AppColors.mist,
+                    : AppColors.surfaceAlt,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
                   borderSide: BorderSide(
-                    color: isDark ? AppColors.darkLine : AppColors.line,
+                    color: isDark ? AppColors.darkBorder : AppColors.border,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
                   borderSide: BorderSide(
-                    color: isDark ? AppColors.darkLine : AppColors.line,
+                    color: isDark ? AppColors.darkBorder : AppColors.border,
                   ),
                 ),
               ),
@@ -300,7 +300,7 @@ class _InspectionModalState extends State<InspectionModal> {
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    backgroundColor: AppColors.teal,
+                    backgroundColor: AppColors.primary,
                     content: Row(
                       children: [
                         const Icon(
@@ -345,13 +345,13 @@ class _InspectionModalState extends State<InspectionModal> {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.amber.withValues(alpha: 0.15)
-              : (isDark ? AppColors.darkSurfaceAlt : AppColors.mist),
+              ? AppColors.white.withValues(alpha: 0.15)
+              : (isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: isSelected
-                ? AppColors.amber
-                : (isDark ? AppColors.darkLine : AppColors.line),
+                ? AppColors.white
+                : (isDark ? AppColors.darkBorder : AppColors.border),
             width: 1.5,
           ),
         ),
@@ -362,8 +362,8 @@ class _InspectionModalState extends State<InspectionModal> {
               icon,
               size: 18,
               color: isSelected
-                  ? AppColors.amber
-                  : (isDark ? AppColors.darkMuted : AppColors.muted),
+                  ? AppColors.white
+                  : (isDark ? AppColors.darkTextSecondary : AppColors.textSecondary),
             ),
             const SizedBox(width: 6),
             Flexible(
@@ -373,8 +373,8 @@ class _InspectionModalState extends State<InspectionModal> {
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: isSelected
-                      ? AppColors.amber
-                      : (isDark ? AppColors.darkInk : AppColors.ink),
+                      ? AppColors.white
+                      : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

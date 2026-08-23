@@ -61,7 +61,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 color: isDark ? AppColors.darkSurface : AppColors.surface,
                 border: Border(
                   bottom: BorderSide(
-                    color: isDark ? AppColors.darkLine : AppColors.line,
+                    color: isDark ? AppColors.darkBorder : AppColors.border,
                   ),
                 ),
               ),
@@ -87,14 +87,14 @@ class _SearchScreenState extends State<SearchScreen> {
                         style: IconButton.styleFrom(
                           backgroundColor: isDark
                               ? AppColors.darkSurfaceAlt
-                              : AppColors.mist,
+                              : AppColors.surfaceAlt,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
                         icon: Icon(
                           LucideIcons.sliders_horizontal,
-                          color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                          color: isDark ? AppColors.darkAccent : AppColors.accent,
                           size: 20,
                         ),
                         onPressed: () =>
@@ -107,10 +107,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       IconButton(
                         style: IconButton.styleFrom(
                           backgroundColor: _isMapView
-                              ? AppColors.amber
+                              ? AppColors.primary
                               : (isDark
                                     ? AppColors.darkSurfaceAlt
-                                    : AppColors.mist),
+                                    : AppColors.surfaceAlt),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -119,7 +119,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           _isMapView ? LucideIcons.list : LucideIcons.map,
                           color: _isMapView
                               ? Colors.white
-                              : (isDark ? AppColors.darkInk : AppColors.ink),
+                              : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
                           size: 20,
                         ),
                         onPressed: () =>
@@ -153,17 +153,21 @@ class _SearchScreenState extends State<SearchScreen> {
                               child: ChoiceChip(
                                 label: Text(type),
                                 selected: isSelected,
-                                selectedColor: AppColors.amber,
+                                selectedColor: isSelected
+                                    ? (isDark
+                                          ? AppColors.darkAccent
+                                          : AppColors.primary)
+                                    : AppColors.surfaceAlt,
                                 backgroundColor: isDark
                                     ? AppColors.darkSurfaceAlt
-                                    : AppColors.mist,
+                                    : AppColors.surfaceAlt,
                                 labelStyle: TextStyle(
                                   fontFamily: 'Satoshi',
                                   color: isSelected
                                       ? Colors.white
                                       : (isDark
-                                            ? AppColors.darkInk
-                                            : AppColors.ink),
+                                            ? AppColors.darkTextPrimary
+                                            : AppColors.textPrimary),
                                   fontWeight: FontWeight.w700,
                                   fontSize: 14,
                                 ),
@@ -195,7 +199,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w800,
-                      color: isDark ? AppColors.darkInk : AppColors.teal,
+                      color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
                     ),
                   ),
                   if (propertyProvider.selectedCitySlug != "all" ||
@@ -210,7 +214,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         "Reset Filters",
                         style: TextStyle(
                           fontSize: 12,
-                          color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                          color: isDark ? AppColors.darkAccent : AppColors.accent,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -256,7 +260,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget _buildMapView(List properties, bool isDark) {
     return Container(
-      color: isDark ? AppColors.darkBackground : AppColors.mist,
+      color: isDark ? AppColors.darkBackground : AppColors.surfaceAlt,
       child: Stack(
         children: [
           // Visual Map Representation
@@ -267,7 +271,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 Icon(
                   LucideIcons.map_pin,
                   size: 48,
-                  color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                  color: isDark ? AppColors.darkAccent : AppColors.accent,
                 ),
                 const SizedBox(height: 12),
                 Text(
@@ -275,7 +279,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: isDark ? AppColors.darkInk : AppColors.ink,
+                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -283,7 +287,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   "Showing ${properties.length} pin markers across Nigeria",
                   style: TextStyle(
                     fontSize: 12,
-                    color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -322,7 +326,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             : AppColors.surface,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: isDark ? AppColors.darkLine : AppColors.line,
+                          color: isDark ? AppColors.darkBorder : AppColors.border,
                         ),
                       ),
                       child: Row(
@@ -348,8 +352,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                     fontSize: 13,
                                     fontWeight: FontWeight.bold,
                                     color: isDark
-                                        ? AppColors.darkInk
-                                        : AppColors.ink,
+                                        ? AppColors.darkTextPrimary
+                                        : AppColors.textPrimary,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -360,7 +364,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w800,
-                                    color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                                    color: isDark ? AppColors.darkAccent : AppColors.accent,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
@@ -369,8 +373,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                   style: TextStyle(
                                     fontSize: 11,
                                     color: isDark
-                                        ? AppColors.darkMuted
-                                        : AppColors.muted,
+                                        ? AppColors.darkTextSecondary
+                                        : AppColors.textSecondary,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -398,7 +402,7 @@ class _SearchScreenState extends State<SearchScreen> {
           Icon(
             LucideIcons.building_2,
             size: 60,
-            color: isDark ? AppColors.darkMuted : AppColors.muted,
+            color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
           ),
           const SizedBox(height: 16),
           Text(
@@ -406,7 +410,7 @@ class _SearchScreenState extends State<SearchScreen> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: isDark ? AppColors.darkInk : AppColors.ink,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 6),
@@ -414,7 +418,7 @@ class _SearchScreenState extends State<SearchScreen> {
             "Try broadening your price range or clearing keyword search.",
             style: TextStyle(
               fontSize: 12,
-              color: isDark ? AppColors.darkMuted : AppColors.muted,
+              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
             ),
           ),
         ],
@@ -448,7 +452,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -459,7 +463,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -494,7 +498,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                     ),
                   ),
                   RangeSlider(
@@ -502,7 +506,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     min: 0,
                     max: 5000000,
                     divisions: 50,
-                    activeColor: AppColors.amber,
+                    activeColor: isDark ? AppColors.darkAccent : AppColors.primary,
                     onChanged: (values) {
                       setSheetState(() {
                         provider.setPriceRange(values);
@@ -514,7 +518,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.amber,
+                      backgroundColor: isDark ? AppColors.darkAccent : AppColors.primary,
                       minimumSize: const Size(double.infinity, 48),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
@@ -549,12 +553,14 @@ class _SearchScreenState extends State<SearchScreen> {
     return ChoiceChip(
       label: Text(label),
       selected: isSelected,
-      selectedColor: AppColors.amber,
-      backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.mist,
+      selectedColor: isSelected
+          ? (isDark ? AppColors.darkAccent : AppColors.primary)
+          : AppColors.surfaceAlt,
+      backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
       labelStyle: TextStyle(
         color: isSelected
             ? Colors.white
-            : (isDark ? AppColors.darkInk : AppColors.ink),
+            : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
         fontWeight: FontWeight.bold,
         fontSize: 11,
       ),

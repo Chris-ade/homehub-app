@@ -50,14 +50,14 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w900,
-            color: isDark ? AppColors.darkInk : AppColors.ink,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
           ),
         ),
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: AppColors.amber,
-          labelColor: isDark ? AppColors.darkAccent : AppColors.amberDeep,
-          unselectedLabelColor: isDark ? AppColors.darkMuted : AppColors.muted,
+          indicatorColor: AppColors.white,
+          labelColor: isDark ? AppColors.darkAccent : AppColors.accent,
+          unselectedLabelColor: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
           labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
           tabs: const [
             Tab(text: "Scheduled Inspections"),
@@ -82,7 +82,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                       decoration: BoxDecoration(
                         color: isDark ? AppColors.darkSurface : AppColors.surface,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: isDark ? AppColors.darkLine : AppColors.line),
+                        border: Border.all(color: isDark ? AppColors.darkBorder : AppColors.border),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,13 +106,13 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                                     Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                       decoration: BoxDecoration(
-                                        color: AppColors.teal.withValues(alpha: 0.12),
+                                        color: AppColors.primary.withValues(alpha: 0.12),
                                         borderRadius: BorderRadius.circular(100),
                                       ),
                                       child: Text(
                                         b.inspectionType,
                                         style: const TextStyle(
-                                          color: AppColors.teal,
+                                          color: AppColors.primary,
                                           fontSize: 10,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -124,7 +124,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
-                                        color: isDark ? AppColors.darkInk : AppColors.ink,
+                                        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                                       ),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -133,7 +133,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                                       b.area,
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: isDark ? AppColors.darkMuted : AppColors.muted,
+                                        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                                       ),
                                     ),
                                   ],
@@ -142,7 +142,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                             ],
                           ),
                           const SizedBox(height: 12),
-                          Divider(color: isDark ? AppColors.darkLine : AppColors.line),
+                          Divider(color: isDark ? AppColors.darkBorder : AppColors.border),
                           const SizedBox(height: 8),
 
                           Row(
@@ -150,14 +150,14 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                             children: [
                               Row(
                                 children: [
-                                  Icon(LucideIcons.calendar, size: 16, color: isDark ? AppColors.darkAccent : AppColors.amberDeep),
+                                  Icon(LucideIcons.calendar, size: 16, color: isDark ? AppColors.darkAccent : AppColors.accent),
                                   const SizedBox(width: 6),
                                   Text(
                                     "${DateFormat('EEE, MMM d').format(b.date)} @ ${b.timeSlot}",
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w700,
-                                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                                     ),
                                   ),
                                 ],
@@ -201,7 +201,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                         color: isDark ? AppColors.darkSurface : AppColors.surface,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: AppColors.amber.withValues(alpha: 0.5),
+                          color: AppColors.white.withValues(alpha: 0.5),
                           width: 1.5,
                         ),
                       ),
@@ -214,17 +214,17 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                 decoration: BoxDecoration(
-                                  color: AppColors.amber.withValues(alpha: 0.15),
+                                  color: AppColors.white.withValues(alpha: 0.15),
                                   borderRadius: BorderRadius.circular(100),
                                 ),
                                 child: Row(
                                   children: [
-                                    Icon(LucideIcons.shield_check, size: 14, color: isDark ? AppColors.darkAccent : AppColors.amberDeep),
+                                    Icon(LucideIcons.shield_check, size: 14, color: isDark ? AppColors.darkAccent : AppColors.accent),
                                     const SizedBox(width: 4),
                                     Text(
                                       "ESCROW PROTECTED",
                                       style: TextStyle(
-                                        color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                                        color: isDark ? AppColors.darkAccent : AppColors.accent,
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -236,7 +236,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                                 "Agreement #${l.id.substring(0, 7)}",
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: isDark ? AppColors.darkMuted : AppColors.muted,
+                                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                                 ),
                               ),
                             ],
@@ -249,14 +249,14 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w800,
-                              color: isDark ? AppColors.darkInk : AppColors.ink,
+                              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                             ),
                           ),
                           Text(
                             l.area,
                             style: TextStyle(
                               fontSize: 12,
-                              color: isDark ? AppColors.darkMuted : AppColors.muted,
+                              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                             ),
                           ),
 
@@ -266,12 +266,12 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: isDark ? AppColors.darkBackground : AppColors.mist,
+                              color: isDark ? AppColors.darkBackground : AppColors.surfaceAlt,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Row(
                               children: [
-                                const Icon(LucideIcons.file_text, color: AppColors.teal, size: 20),
+                                const Icon(LucideIcons.file_text, color: AppColors.primary, size: 20),
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: Column(
@@ -279,14 +279,14 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                                     children: [
                                       const Text(
                                         "Digital Signature Verified:",
-                                        style: TextStyle(fontSize: 10, color: AppColors.muted),
+                                        style: TextStyle(fontSize: 10, color: AppColors.textSecondary),
                                       ),
                                       Text(
                                         l.signatureText ?? "Signed User",
                                         style: GoogleFonts.caveat(
                                           fontSize: 22,
                                           fontWeight: FontWeight.bold,
-                                          color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                                          color: isDark ? AppColors.darkAccent : AppColors.accent,
                                         ),
                                       ),
                                     ],
@@ -304,13 +304,13 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("Rent Deposit:", style: TextStyle(fontSize: 11, color: AppColors.muted)),
+                                  const Text("Rent Deposit:", style: TextStyle(fontSize: 11, color: AppColors.textSecondary)),
                                   Text(
                                     _formatCurrency(l.annualRent),
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
-                                      color: isDark ? AppColors.darkInk : AppColors.ink,
+                                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                                     ),
                                   ),
                                 ],
@@ -345,14 +345,14 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(LucideIcons.calendar_x, size: 60, color: isDark ? AppColors.darkMuted : AppColors.muted),
+          Icon(LucideIcons.calendar_x, size: 60, color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary),
           const SizedBox(height: 16),
           Text(
             text,
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
-              color: isDark ? AppColors.darkInk : AppColors.ink,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             ),
           ),
         ],

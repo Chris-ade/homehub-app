@@ -24,8 +24,8 @@ class BadgeChip extends StatelessWidget {
 
     switch (status.toLowerCase()) {
       case 'verified':
-        bg = AppColors.teal.withValues(alpha: 0.12);
-        fg = isDark ? Colors.lightGreenAccent : AppColors.teal;
+        bg = AppColors.primary.withValues(alpha: 0.12);
+        fg = isDark ? Colors.lightGreenAccent : AppColors.primary;
         break;
       case 'premium':
         bg = const Color(0xFFFFF3E0);
@@ -36,12 +36,12 @@ class BadgeChip extends StatelessWidget {
         fg = const Color(0xFF0288D1);
         break;
       case 'new':
-        bg = AppColors.amber.withValues(alpha: 0.15);
-        fg = isDark ? AppColors.darkAccent : AppColors.amberDeep;
+        bg = AppColors.white.withValues(alpha: 0.15);
+        fg = isDark ? AppColors.darkAccent : AppColors.accent;
         break;
       default:
-        bg = AppColors.mist;
-        fg = AppColors.ink;
+        bg = AppColors.surfaceAlt;
+        fg = AppColors.textPrimary;
     }
 
     return BadgeChip(
@@ -54,8 +54,8 @@ class BadgeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bg = backgroundColor ?? AppColors.mist;
-    final fg = textColor ?? AppColors.ink;
+    final bg = backgroundColor ?? AppColors.surfaceAlt;
+    final fg = textColor ?? AppColors.textPrimary;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

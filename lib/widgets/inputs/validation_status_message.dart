@@ -41,20 +41,20 @@ class ValidationStatusMessage extends StatelessWidget {
           height: 16,
           child: CircularProgressIndicator(
             strokeWidth: 2,
-            color: AppColors.amberDeep,
+            color: AppColors.accent,
           ),
         ),
       );
     } else if (isAvailable == true) {
       return Icon(
         LucideIcons.circle_check,
-        color: isDark ? AppColors.mist : AppColors.success,
+        color: isDark ? AppColors.surfaceAlt : AppColors.success,
         size: 20,
       );
     } else if (isAvailable == false) {
       return Icon(
         LucideIcons.circle_alert,
-        color: isDark ? AppColors.mist : AppColors.error,
+        color: isDark ? AppColors.surfaceAlt : AppColors.error,
         size: 20,
       );
     }
@@ -77,7 +77,7 @@ class ValidationStatusMessage extends StatelessWidget {
               height: 14,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: AppColors.amberDeep,
+                color: AppColors.accent,
               ),
             ),
             const SizedBox(width: 8),
@@ -85,13 +85,13 @@ class ValidationStatusMessage extends StatelessWidget {
               loadingText,
               style: TextStyle(
                 fontSize: AppFontSizes.bodySmall,
-                color: isDark ? AppColors.darkMuted : AppColors.muted,
+                color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
               ),
             ),
           ] else if (isAvailable == true) ...[
             Icon(
               LucideIcons.circle_check,
-              color: isDark ? AppColors.mist : AppColors.success,
+              color: isDark ? AppColors.surfaceAlt : AppColors.success,
               size: 16,
             ),
             const SizedBox(width: 6),
@@ -99,14 +99,14 @@ class ValidationStatusMessage extends StatelessWidget {
               customMessage ?? availableText,
               style: TextStyle(
                 fontSize: AppFontSizes.bodySmall,
-                color: isDark ? AppColors.mist : AppColors.success,
+                color: isDark ? AppColors.surfaceAlt : AppColors.success,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ] else if (isAvailable == false) ...[
             Icon(
               LucideIcons.circle_alert,
-              color: isDark ? AppColors.mist : AppColors.error,
+              color: isDark ? AppColors.surfaceAlt : AppColors.error,
               size: 16,
             ),
             const SizedBox(width: 6),
@@ -115,7 +115,7 @@ class ValidationStatusMessage extends StatelessWidget {
                 customMessage ?? unavailableText,
                 style: TextStyle(
                   fontSize: AppFontSizes.bodySmall,
-                  color: isDark ? AppColors.mist : AppColors.error,
+                  color: isDark ? AppColors.surfaceAlt : AppColors.error,
                   fontWeight: FontWeight.w600,
                 ),
               ),

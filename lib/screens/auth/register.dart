@@ -342,7 +342,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           leading: IconButton(
             icon: Icon(
               LucideIcons.arrow_left,
-              color: isDark ? AppColors.darkInk : AppColors.ink,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             ),
             onPressed: _previousStep,
           ),
@@ -351,7 +351,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             style: TextStyle(
               fontSize: AppFontSizes.titleMedium,
               fontWeight: FontWeight.bold,
-              color: isDark ? AppColors.darkMuted : AppColors.muted,
+              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
             ),
           ),
           elevation: 0,
@@ -364,9 +364,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 value: progress,
                 backgroundColor: isDark
                     ? AppColors.darkSurfaceAlt
-                    : AppColors.mist,
-                valueColor: const AlwaysStoppedAnimation<Color>(
-                  AppColors.amber,
+                    : AppColors.surfaceAlt,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  isDark ? AppColors.darkAccent : AppColors.primary,
                 ),
                 minHeight: 4,
               ),
@@ -405,8 +405,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             style: TextStyle(
                               fontSize: 17,
                               color: isDark
-                                  ? AppColors.darkMuted
-                                  : AppColors.muted,
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.textSecondary,
                             ),
                           ),
                           const SizedBox(width: 4),
@@ -427,7 +427,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               "Log in",
                               style: TextStyle(
                                 fontSize: 17,
-                                color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                                color: isDark ? AppColors.darkAccent : AppColors.accent,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -472,7 +472,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           style: TextStyle(
             fontSize: AppFontSizes.displaySmall,
             fontWeight: FontWeight.w900,
-            color: isDark ? AppColors.darkInk : AppColors.ink,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             letterSpacing: -0.5,
           ),
         ),
@@ -481,7 +481,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           "Select how you intend to use HomeHub.",
           style: TextStyle(
             fontSize: AppFontSizes.bodyLarge,
-            color: isDark ? AppColors.darkMuted : AppColors.muted,
+            color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
           ),
         ),
         const SizedBox(height: 24),
@@ -519,7 +519,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             style: TextStyle(
               fontSize: AppFontSizes.displaySmall,
               fontWeight: FontWeight.w900,
-              color: isDark ? AppColors.darkInk : AppColors.ink,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
               letterSpacing: -0.5,
             ),
           ),
@@ -528,7 +528,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             "Enter your full name.",
             style: TextStyle(
               fontSize: AppFontSizes.bodyLarge,
-              color: isDark ? AppColors.darkMuted : AppColors.muted,
+              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
             ),
           ),
           const SizedBox(height: 24),
@@ -575,7 +575,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             style: TextStyle(
               fontSize: AppFontSizes.displaySmall,
               fontWeight: FontWeight.w900,
-              color: isDark ? AppColors.darkInk : AppColors.ink,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
               letterSpacing: -0.5,
             ),
           ),
@@ -584,7 +584,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             "We need your email address to verify your account.",
             style: TextStyle(
               fontSize: AppFontSizes.bodyLarge,
-              color: isDark ? AppColors.darkMuted : AppColors.muted,
+              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
             ),
           ),
 
@@ -637,7 +637,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             style: TextStyle(
               fontSize: AppFontSizes.displaySmall,
               fontWeight: FontWeight.w900,
-              color: isDark ? AppColors.darkInk : AppColors.ink,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
               letterSpacing: -0.5,
             ),
           ),
@@ -646,7 +646,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             "We also need your mobile number to verify your account.",
             style: TextStyle(
               fontSize: AppFontSizes.bodyLarge,
-              color: isDark ? AppColors.darkMuted : AppColors.muted,
+              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
             ),
           ),
 
@@ -703,7 +703,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             style: TextStyle(
               fontSize: AppFontSizes.displaySmall,
               fontWeight: FontWeight.w900,
-              color: isDark ? AppColors.darkInk : AppColors.ink,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
               letterSpacing: -0.5,
             ),
           ),
@@ -712,7 +712,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             "Choose a strong password to secure your account.",
             style: TextStyle(
               fontSize: AppFontSizes.bodyLarge,
-              color: isDark ? AppColors.darkMuted : AppColors.muted,
+              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
             ),
           ),
           const SizedBox(height: 24),
@@ -772,7 +772,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               Checkbox(
                 value: _agreedToTerms,
-                activeColor: isDark ? AppColors.amber : AppColors.teal,
+                activeColor: isDark ? AppColors.white : AppColors.primary,
                 onChanged: (v) => setState(() => _agreedToTerms = v ?? false),
               ),
               Expanded(
@@ -780,7 +780,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   "I agree to the Terms of Service & Privacy Policy.",
                   style: TextStyle(
                     fontSize: AppFontSizes.bodyMedium,
-                    color: isDark ? AppColors.darkMuted : AppColors.muted,
+                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                   ),
                 ),
               ),
@@ -805,13 +805,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.amber.withValues(alpha: 0.12)
+              ? AppColors.white.withValues(alpha: 0.12)
               : (isDark ? AppColors.darkSurface : AppColors.surface),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
             color: isSelected
-                ? AppColors.amber
-                : (isDark ? AppColors.darkLine : AppColors.line),
+                ? AppColors.white
+                : (isDark ? AppColors.darkBorder : AppColors.border),
             width: 1.5,
           ),
         ),
@@ -821,15 +821,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? AppColors.amber
-                    : (isDark ? AppColors.darkSurfaceAlt : AppColors.mist),
+                    ? AppColors.white
+                    : (isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 icon,
                 color: isSelected
                     ? Colors.white
-                    : (isDark ? AppColors.darkInk : AppColors.teal),
+                    : (isDark ? AppColors.darkTextPrimary : AppColors.primary),
                 size: 24,
               ),
             ),
@@ -844,8 +844,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fontSize: AppFontSizes.bodyLarge,
                       fontWeight: FontWeight.bold,
                       color: isSelected
-                          ? AppColors.amber
-                          : (isDark ? AppColors.darkInk : AppColors.ink),
+                          ? AppColors.white
+                          : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -853,7 +853,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     subtitle,
                     style: TextStyle(
                       fontSize: AppFontSizes.bodyMedium,
-                      color: isDark ? AppColors.darkMuted : AppColors.muted,
+                      color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                       height: 1.3,
                     ),
                   ),
@@ -863,7 +863,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             if (isSelected)
               Icon(
                 LucideIcons.circle_check,
-                color: isDark ? AppColors.darkAccent : AppColors.amberDeep,
+                color: isDark ? AppColors.darkAccent : AppColors.accent,
                 size: 22,
               ),
           ],

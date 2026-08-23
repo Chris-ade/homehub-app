@@ -29,8 +29,8 @@ class GlassContainer extends StatelessWidget {
         ? AppColors.darkSurface.withValues(alpha: 0.75)
         : AppColors.surface.withValues(alpha: 0.85);
     final defaultBorder = isDark
-        ? AppColors.darkLine.withValues(alpha: 0.8)
-        : AppColors.line.withValues(alpha: 0.8);
+        ? AppColors.darkBorder.withValues(alpha: 0.8)
+        : AppColors.border.withValues(alpha: 0.8);
 
     return Container(
       margin: margin,
@@ -51,7 +51,7 @@ class GlassContainer extends StatelessWidget {
                 BoxShadow(
                   color: isDark
                       ? Colors.black.withValues(alpha: 0.3)
-                      : AppColors.teal.withValues(alpha: 0.05),
+                      : AppColors.primary.withValues(alpha: 0.05),
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),

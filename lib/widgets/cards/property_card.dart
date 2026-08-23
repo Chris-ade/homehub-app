@@ -75,22 +75,22 @@ class PropertyCard extends StatelessWidget {
                       placeholder: (context, url) => Container(
                         color: isDark
                             ? AppColors.darkSurfaceAlt
-                            : AppColors.mist,
+                            : AppColors.surfaceAlt,
                         child: const Center(
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: AppColors.amber,
+                            color: AppColors.white,
                           ),
                         ),
                       ),
                       errorWidget: (context, url, error) => Container(
                         color: isDark
                             ? AppColors.darkSurfaceAlt
-                            : AppColors.mist,
+                            : AppColors.surfaceAlt,
                         child: const Icon(
                           LucideIcons.building_2,
                           size: 40,
-                          color: AppColors.muted,
+                          color: AppColors.textSecondary,
                         ),
                       ),
                     ),
@@ -108,14 +108,14 @@ class PropertyCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isDark
                             ? AppColors.darkSurfaceAlt
-                            : AppColors.mist,
+                            : AppColors.surfaceAlt,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         LucideIcons.heart,
                         color: property.isFavorite
-                            ? AppColors.amber
-                            : (isDark ? AppColors.darkInk : AppColors.teal),
+                            ? (isDark ? AppColors.darkAccent : AppColors.accent)
+                            : (isDark ? AppColors.darkTextPrimary : AppColors.primary),
                         size: 16,
                       ),
                     ),
@@ -136,13 +136,13 @@ class PropertyCard extends StatelessWidget {
                           .withValues(alpha: 0.95),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: isDark ? AppColors.darkLine : AppColors.line,
+                        color: isDark ? AppColors.darkBorder : AppColors.border,
                       ),
                     ),
                     child: Text(
                       property.type,
                       style: TextStyle(
-                        color: isDark ? AppColors.darkInk : AppColors.ink,
+                        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
                       ),
@@ -199,7 +199,7 @@ class PropertyCard extends StatelessWidget {
                       fontFamily: 'Cabinet Grotesk',
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
-                      color: isDark ? AppColors.darkInk : AppColors.teal,
+                      color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -214,15 +214,15 @@ class PropertyCard extends StatelessWidget {
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: isDark
-                              ? AppColors.amber
-                              : AppColors.teal,
+                              ? AppColors.white
+                              : AppColors.primary,
                         ),
                       ),
                       Text(
                         " / ${property.period}",
                         style: TextStyle(
                           fontSize: 13,
-                          color: isDark ? AppColors.darkMuted : AppColors.muted,
+                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                         ),
                       ),
                     ],

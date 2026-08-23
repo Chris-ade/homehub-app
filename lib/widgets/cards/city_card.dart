@@ -20,14 +20,14 @@ class CityCard extends StatelessWidget {
         color: isDark ? AppColors.darkSurface : AppColors.surface,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: isDark ? AppColors.darkLine : AppColors.line,
+          color: isDark ? AppColors.darkBorder : AppColors.border,
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
             color: isDark
                 ? Colors.black.withValues(alpha: 0.2)
-                : AppColors.teal.withValues(alpha: 0.04),
+                : AppColors.primary.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -54,13 +54,13 @@ class CityCard extends StatelessWidget {
                       width: 42,
                       decoration: BoxDecoration(
                         color: isDark
-                            ? AppColors.teal.withValues(alpha: 0.3)
-                            : AppColors.teal.withValues(alpha: 0.1),
+                            ? AppColors.primary.withValues(alpha: 0.3)
+                            : AppColors.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
                         LucideIcons.building_2,
-                        color: isDark ? AppColors.amber : AppColors.teal,
+                        color: isDark ? AppColors.white : AppColors.primary,
                         size: 22,
                       ),
                     ),
@@ -69,13 +69,13 @@ class CityCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isDark
                             ? AppColors.darkSurfaceAlt
-                            : AppColors.mist,
+                            : AppColors.surfaceAlt,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         LucideIcons.arrow_up_right,
                         size: 16,
-                        color: isDark ? AppColors.darkInk : AppColors.teal,
+                        color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
                       ),
                     ),
                   ],
@@ -90,7 +90,7 @@ class CityCard extends StatelessWidget {
                     fontFamily: 'Cabinet Grotesk',
                     fontSize: 11,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.amberDeep,
+                    color: AppColors.accent,
                     letterSpacing: 0.8,
                   ),
                   maxLines: 1,
@@ -106,7 +106,7 @@ class CityCard extends StatelessWidget {
                     fontFamily: 'Cabinet Grotesk',
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
-                    color: isDark ? AppColors.darkInk : AppColors.teal,
+                    color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
                     letterSpacing: -0.3,
                   ),
                   maxLines: 1,
@@ -121,7 +121,7 @@ class CityCard extends StatelessWidget {
                     Icon(
                       LucideIcons.map_pin,
                       size: 14,
-                      color: isDark ? AppColors.darkMuted : AppColors.muted,
+                      color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                     ),
                     const SizedBox(width: 4),
                     Expanded(
@@ -131,7 +131,7 @@ class CityCard extends StatelessWidget {
                           fontFamily: 'Satoshi',
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: isDark ? AppColors.darkMuted : AppColors.muted,
+                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

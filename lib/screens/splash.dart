@@ -88,7 +88,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.teal,
+      backgroundColor: AppColors.primary,
       body: Stack(
         children: [
           // Background subtle gradient glow
@@ -98,7 +98,7 @@ class _SplashScreenState extends State<SplashScreen>
                 gradient: RadialGradient(
                   center: Alignment(0, -0.2),
                   radius: 1.2,
-                  colors: [AppColors.tealHover, AppColors.teal],
+                  colors: [AppColors.primaryHover, AppColors.primary],
                 ),
               ),
             ),
@@ -116,11 +116,11 @@ class _SplashScreenState extends State<SplashScreen>
                     Container(
                       padding: const EdgeInsets.all(22),
                       decoration: BoxDecoration(
-                        color: AppColors.amber,
+                        color: AppColors.white,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.amber.withValues(alpha: 0.4),
+                            color: AppColors.white.withValues(alpha: 0.4),
                             blurRadius: 30,
                             spreadRadius: 4,
                             offset: const Offset(0, 8),
@@ -129,7 +129,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                       child: const Icon(
                         LucideIcons.building_2,
-                        color: Colors.white,
+                        color: AppColors.primary,
                         size: 48,
                       ),
                     ),
