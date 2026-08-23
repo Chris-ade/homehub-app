@@ -183,12 +183,14 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppColors.white.withValues(alpha: 0.12),
+                  color: isDark
+                      ? AppColors.white.withValues(alpha: 0.12)
+                      : AppColors.primary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
+                child: Icon(
                   LucideIcons.mail_check,
-                  color: AppColors.white,
+                  color: isDark ? AppColors.white : AppColors.primary,
                   size: 24,
                 ),
               ),
@@ -323,8 +325,8 @@ class _OtpVerificationModalState extends State<OtpVerificationModal> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        color: AppColors.white,
+                      borderSide: BorderSide(
+                        color: isDark ? AppColors.white : AppColors.primary,
                         width: 2,
                       ),
                     ),

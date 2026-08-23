@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
-          color: AppColors.white,
+          color: isDark ? AppColors.white : AppColors.primary,
           onRefresh: () async {
             await Future.wait([
               propertyProvider.fetchListingsFromApi(),

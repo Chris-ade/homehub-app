@@ -805,9 +805,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: AppColors.white.withValues(
-                                alpha: 0.3,
-                              ),
+                              color: isDark
+                                  ? AppColors.white.withValues(alpha: 0.3)
+                                  : AppColors.border,
                               width: 3,
                             ),
                           ),
@@ -862,7 +862,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                               child: const Icon(
                                 LucideIcons.camera,
-                                color: Colors.white,
+                                color: AppColors.primary,
                                 size: 16,
                               ),
                             ),
@@ -1169,10 +1169,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: AppColors.white.withValues(alpha: 0.12),
+                  color: isDark
+                      ? AppColors.white.withValues(alpha: 0.12)
+                      : AppColors.primary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(icon, color: AppColors.white, size: 18),
+                child: Icon(
+                  icon,
+                  color: isDark ? AppColors.white : AppColors.primary,
+                  size: 18,
+                ),
               ),
               const SizedBox(width: 10),
               Text(

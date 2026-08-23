@@ -805,12 +805,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.white.withValues(alpha: 0.12)
+              ? (isDark
+                    ? AppColors.white.withValues(alpha: 0.12)
+                    : AppColors.primary.withValues(alpha: 0.12))
               : (isDark ? AppColors.darkSurface : AppColors.surface),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
             color: isSelected
-                ? AppColors.white
+                ? (isDark ? AppColors.white : AppColors.primary)
                 : (isDark ? AppColors.darkBorder : AppColors.border),
             width: 1.5,
           ),
@@ -821,7 +823,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? AppColors.white
+                    ? (isDark ? AppColors.white : AppColors.primary)
                     : (isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt),
                 shape: BoxShape.circle,
               ),
@@ -844,7 +846,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fontSize: AppFontSizes.bodyLarge,
                       fontWeight: FontWeight.bold,
                       color: isSelected
-                          ? AppColors.white
+                          ? (isDark ? AppColors.white : AppColors.primary)
                           : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
                     ),
                   ),

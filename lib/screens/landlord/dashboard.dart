@@ -137,7 +137,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: _refresh,
-        color: AppColors.white,
+        color: isDark ? AppColors.white : AppColors.primary,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),

@@ -239,7 +239,9 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                   color: isDark ? AppColors.darkBackground : Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: AppColors.white.withValues(alpha: 0.5),
+                    color: isDark
+                        ? AppColors.white.withValues(alpha: 0.5)
+                        : AppColors.border,
                     width: 1.5,
                   ),
                 ),
@@ -256,7 +258,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Divider(color: AppColors.white.withValues(alpha: 0.3)),
+                    Divider(color: isDark ? AppColors.white.withValues(alpha: 0.3) : AppColors.border),
                     const SizedBox(height: 4),
                     Text(
                       "Legally Binding Electronic Signature",
@@ -300,7 +302,7 @@ class _ESignEscrowModalState extends State<ESignEscrowModal> {
                 children: [
                   Checkbox(
                     value: _agreedToTerms,
-                    activeColor: AppColors.white,
+                    activeColor: isDark ? AppColors.white : AppColors.primary,
                     onChanged: (v) =>
                         setState(() => _agreedToTerms = v ?? false),
                   ),

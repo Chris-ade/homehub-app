@@ -159,7 +159,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             vertical: 5,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.white.withValues(alpha: 0.15),
+                            color: isDark
+                                ? AppColors.white.withValues(alpha: 0.15)
+                                : AppColors.primary.withValues(alpha: 0.12),
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: Text(
@@ -231,7 +233,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         height: 8,
                         decoration: BoxDecoration(
                           color: _currentPage == idx
-                              ? AppColors.white
+                              ? (isDark ? AppColors.white : AppColors.primary)
                               : (isDark ? AppColors.darkBorder : AppColors.border),
                           borderRadius: BorderRadius.circular(100),
                         ),

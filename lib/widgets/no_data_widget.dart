@@ -89,8 +89,8 @@ class NoDataWidget extends StatelessWidget {
                 style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.white,
-                foregroundColor: AppColors.textPrimary,
+                backgroundColor: isDark ? AppColors.white : AppColors.primary,
+                foregroundColor: isDark ? AppColors.textPrimary : Colors.white,
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,

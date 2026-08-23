@@ -69,10 +69,10 @@ class LandlordPropertyCard extends StatelessWidget {
                         color: isDark
                             ? AppColors.darkSurfaceAlt
                             : AppColors.surfaceAlt,
-                        child: const Center(
+                        child: Center(
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: AppColors.white,
+                            color: isDark ? AppColors.white : AppColors.primary,
                           ),
                         ),
                       ),

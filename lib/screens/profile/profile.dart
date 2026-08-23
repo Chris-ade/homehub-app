@@ -50,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
         onRefresh: () async {
           await userProvider.fetchMe();
         },
-        color: AppColors.white,
+        color: isDark ? AppColors.white : AppColors.primary,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -234,8 +234,8 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.white,
-                          foregroundColor: AppColors.textPrimary,
+                          backgroundColor: isDark ? AppColors.white : AppColors.primary,
+                          foregroundColor: isDark ? AppColors.textPrimary : Colors.white,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 10,
                             vertical: 6,
@@ -419,7 +419,9 @@ class ProfileScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: AppColors.white.withValues(alpha: 0.12),
+                      color: isDark
+                          ? AppColors.white.withValues(alpha: 0.12)
+                          : AppColors.primary.withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
@@ -1257,7 +1259,10 @@ class ProfileScreen extends StatelessWidget {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: AppColors.white, width: 1.5),
+        borderSide: BorderSide(
+          color: isDark ? AppColors.white : AppColors.primary,
+          width: 1.5,
+        ),
       ),
     );
   }

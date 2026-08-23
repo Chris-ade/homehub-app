@@ -201,7 +201,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                         color: isDark ? AppColors.darkSurface : AppColors.surface,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: AppColors.white.withValues(alpha: 0.5),
+                          color: isDark ? AppColors.white.withValues(alpha: 0.5) : AppColors.border,
                           width: 1.5,
                         ),
                       ),
@@ -214,7 +214,9 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                 decoration: BoxDecoration(
-                                  color: AppColors.white.withValues(alpha: 0.15),
+                                  color: isDark
+                                      ? AppColors.white.withValues(alpha: 0.15)
+                                      : AppColors.accent.withValues(alpha: 0.12),
                                   borderRadius: BorderRadius.circular(100),
                                 ),
                                 child: Row(

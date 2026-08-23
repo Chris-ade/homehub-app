@@ -78,12 +78,14 @@ class _InspectionModalState extends State<InspectionModal> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: AppColors.white.withValues(alpha: 0.12),
+                    color: isDark
+                        ? AppColors.white.withValues(alpha: 0.12)
+                        : AppColors.primary.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     LucideIcons.calendar,
-                    color: AppColors.white,
+                    color: isDark ? AppColors.white : AppColors.primary,
                     size: 22,
                   ),
                 ),
@@ -345,12 +347,14 @@ class _InspectionModalState extends State<InspectionModal> {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.white.withValues(alpha: 0.15)
+              ? (isDark
+                    ? AppColors.white.withValues(alpha: 0.15)
+                    : AppColors.primary.withValues(alpha: 0.12))
               : (isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: isSelected
-                ? AppColors.white
+                ? (isDark ? AppColors.white : AppColors.primary)
                 : (isDark ? AppColors.darkBorder : AppColors.border),
             width: 1.5,
           ),
@@ -362,7 +366,7 @@ class _InspectionModalState extends State<InspectionModal> {
               icon,
               size: 18,
               color: isSelected
-                  ? AppColors.white
+                  ? (isDark ? AppColors.white : AppColors.primary)
                   : (isDark ? AppColors.darkTextSecondary : AppColors.textSecondary),
             ),
             const SizedBox(width: 6),
@@ -373,7 +377,7 @@ class _InspectionModalState extends State<InspectionModal> {
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: isSelected
-                      ? AppColors.white
+                      ? (isDark ? AppColors.white : AppColors.primary)
                       : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
                 ),
                 maxLines: 1,

@@ -36,7 +36,9 @@ class BadgeChip extends StatelessWidget {
         fg = const Color(0xFF0288D1);
         break;
       case 'new':
-        bg = AppColors.white.withValues(alpha: 0.15);
+        bg = isDark
+            ? AppColors.white.withValues(alpha: 0.15)
+            : AppColors.primary.withValues(alpha: 0.12);
         fg = isDark ? AppColors.darkAccent : AppColors.accent;
         break;
       default:
