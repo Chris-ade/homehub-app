@@ -120,9 +120,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: AppColors.white.withValues(
-                                alpha: 0.6,
-                              ),
+                              color: isDark
+                                  ? AppColors.white.withValues(alpha: 0.6)
+                                  : AppColors.border,
                               width: 2,
                             ),
                           ),
@@ -407,13 +407,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: isDark ? AppColors.darkAccent : AppColors.primary,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
                   LucideIcons.arrow_right,
                   size: 18,
-                  color: AppColors.textPrimary,
+                  color: Colors.white,
                 ),
               ),
             ],

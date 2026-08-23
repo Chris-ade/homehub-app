@@ -55,7 +55,7 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
         ),
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: AppColors.white,
+          indicatorColor: isDark ? AppColors.darkAccent : AppColors.primary,
           labelColor: isDark ? AppColors.darkAccent : AppColors.accent,
           unselectedLabelColor: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
           labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),

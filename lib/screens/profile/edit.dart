@@ -196,12 +196,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 leading: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: AppColors.white.withValues(alpha: 0.12),
+                    color: isDark
+                        ? AppColors.white.withValues(alpha: 0.12)
+                        : AppColors.surfaceAlt,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     LucideIcons.camera,
-                    color: AppColors.white,
+                    color: isDark ? AppColors.white : AppColors.primary,
                     size: 22,
                   ),
                 ),
@@ -350,7 +352,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     : AppColors.surfaceAlt,
                                 child: const Center(
                                   child: CircularProgressIndicator(
-                                    color: AppColors.white,
+                                    color: AppColors.primary,
                                   ),
                                 ),
                               );
@@ -491,7 +493,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       );
                                     },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.white,
+                                backgroundColor: AppColors.primary,
                                 foregroundColor: Colors.white,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
@@ -713,7 +715,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               onPressed: _isSaving ? null : onSave,
               style: ElevatedButton.styleFrom(
                 backgroundColor: isDark
-                    ? AppColors.white
+                    ? AppColors.darkAccent
                     : const Color(0xFF222222),
                 foregroundColor: Colors.white,
                 elevation: 0,
@@ -773,10 +775,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         elevation: 0,
         backgroundColor: isDark ? AppColors.darkBackground : Colors.white,
         bottom: _isFetchingBackendData
-            ? const PreferredSize(
-                preferredSize: Size.fromHeight(3),
+            ? PreferredSize(
+                preferredSize: const Size.fromHeight(3),
                 child: LinearProgressIndicator(
-                  color: AppColors.white,
+                  color: isDark ? AppColors.darkAccent : AppColors.primary,
                   backgroundColor: Colors.transparent,
                 ),
               )
@@ -785,7 +787,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _fetchFreshBackendProfile,
-          color: AppColors.white,
+          color: isDark ? AppColors.darkAccent : AppColors.primary,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
