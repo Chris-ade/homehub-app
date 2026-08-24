@@ -14,6 +14,32 @@ import '../../widgets/app_toast.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/inputs/form_input_field.dart';
 
+/// Represents a local or remote photo draft with an optional room tag.
+class ListingImageDraft {
+  final XFile? file;
+  String? url;
+  String? tag; // 'living_room', 'bedroom', 'kitchen', 'bathroom', 'exterior', 'balcony'
+  String? caption;
+
+  ListingImageDraft({
+    this.file,
+    this.url,
+    this.tag,
+    this.caption,
+  });
+
+  bool get isLocal => file != null;
+}
+
+const List<Map<String, String>> _kRoomTagOptions = [
+  {"tag": "living_room", "label": "Living Room (Parlour)", "icon": "🛋️"},
+  {"tag": "bedroom", "label": "Bedroom", "icon": "🛏️"},
+  {"tag": "kitchen", "label": "Kitchen", "icon": "🍳"},
+  {"tag": "bathroom", "label": "Bathroom / Toilet", "icon": "🚿"},
+  {"tag": "balcony", "label": "Balcony / Veranda", "icon": "🌅"},
+  {"tag": "exterior", "label": "Compound / Exterior", "icon": "🏡"},
+];
+
 /// Full-screen form for creating or editing a property listing, wired to the
 /// backend's POST/PUT /listings endpoints. In add mode it's blank; in edit mode
 /// it pre-fills from [existing] and PUTs to the same id.
@@ -56,9 +82,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
 
   // Amenities & images
   final List<String> _amenities = [];
-  final List<XFile> _newImages = [];
-  final List<String> _existingImageUrls = [];
-  final List<String> _urlImages = [];
+  final List<ListingImageDraft> _imageDrafts = [];
   bool _uploadingImages = false;
 
   bool get _isEditing => widget.isEditing;
@@ -90,7 +114,26 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           ? "single_room"
           : "self_contained";
       _amenities.addAll(p.amenities);
-      _existingImageUrls.addAll(p.gallery);
+
+      if (p.propertyImages.isNotEmpty) {
+        for (final img in p.propertyImages) {
+          if (img.url.isNotEmpty) {
+            _imageDrafts.add(
+              ListingImageDraft(
+                url: img.url,
+                tag: img.tag,
+                caption: img.caption,
+              ),
+            );
+          }
+        }
+      } else {
+        for (final u in p.gallery) {
+          if (u.isNotEmpty) {
+            _imageDrafts.add(ListingImageDraft(url: u));
+          }
+        }
+      }
     }
   }
 
@@ -122,9 +165,11 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
       final picked = await _picker.pickMultiImage(limit: 10);
       if (picked.isNotEmpty) {
         setState(() {
-          _newImages.addAll(picked);
-          if (_newImages.length > 10) {
-            _newImages.removeRange(10, _newImages.length);
+          for (final f in picked) {
+            _imageDrafts.add(ListingImageDraft(file: f));
+          }
+          if (_imageDrafts.length > 10) {
+            _imageDrafts.removeRange(10, _imageDrafts.length);
           }
         });
       }
@@ -148,7 +193,6 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
   }
 
   void _addUrlImage() {
-    // Simple prompt-style bottom sheet for pasting an image URL.
     final ctrl = TextEditingController();
     showModalBottomSheet(
       context: context,
@@ -191,11 +235,98 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                 onPressed: () {
                   final u = ctrl.text.trim();
                   if (u.isNotEmpty) {
-                    setState(() => _urlImages.add(u));
+                    setState(() => _imageDrafts.add(ListingImageDraft(url: u)));
                   }
                   Navigator.pop(ctx);
                 },
               ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showTagPickerModal(ListingImageDraft draft) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: isDark ? AppColors.darkSurface : Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Tag Room / Space",
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+                  ),
+                  IconButton(
+                    icon: const Icon(LucideIcons.x, size: 20),
+                    onPressed: () => Navigator.pop(ctx),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                "Select what room or area this photo shows so it appears on the listing's Spaces section.",
+                style: TextStyle(
+                  fontSize: 13,
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(height: 14),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  ..._kRoomTagOptions.map((opt) {
+                    final isSelected = draft.tag == opt['tag'];
+                    return ChoiceChip(
+                      label: Text("${opt['icon']}  ${opt['label']}"),
+                      selected: isSelected,
+                      selectedColor: AppColors.accent,
+                      backgroundColor: isDark
+                          ? AppColors.darkSurfaceAlt
+                          : AppColors.surfaceAlt,
+                      labelStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: isSelected
+                            ? Colors.white
+                            : (isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary),
+                      ),
+                      onSelected: (selected) {
+                        setState(() {
+                          draft.tag = selected ? opt['tag'] : null;
+                        });
+                        Navigator.pop(ctx);
+                      },
+                    );
+                  }),
+                  if (draft.tag != null)
+                    ActionChip(
+                      avatar: const Icon(LucideIcons.x, size: 14),
+                      label: const Text("Remove Tag"),
+                      onPressed: () {
+                        setState(() => draft.tag = null);
+                        Navigator.pop(ctx);
+                      },
+                    ),
+                ],
+              ),
+              const SizedBox(height: 16),
             ],
           ),
         );
@@ -209,12 +340,28 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
 
     final landlord = context.read<LandlordProvider>();
 
-    // Upload any newly-picked images first; merge with URL/existing images.
-    List<String> imageUrls = [..._existingImageUrls, ..._urlImages];
-    if (_newImages.isNotEmpty) {
+    final List<Map<String, dynamic>> finalImages = [];
+    if (_imageDrafts.isNotEmpty) {
       setState(() => _uploadingImages = true);
-      final uploaded = await landlord.uploadPropertyImages(_newImages);
-      imageUrls.addAll(uploaded);
+      for (final draft in _imageDrafts) {
+        String? finalUrl = draft.url;
+        if (draft.isLocal && draft.file != null) {
+          final uploaded = await landlord.uploadPropertyImages([draft.file!]);
+          if (uploaded.isNotEmpty) {
+            finalUrl = uploaded.first;
+          }
+        }
+        if (finalUrl != null && finalUrl.isNotEmpty) {
+          final item = <String, dynamic>{'url': finalUrl};
+          if (draft.tag != null && draft.tag!.isNotEmpty) {
+            item['tag'] = draft.tag;
+          }
+          if (draft.caption != null && draft.caption!.isNotEmpty) {
+            item['caption'] = draft.caption;
+          }
+          finalImages.add(item);
+        }
+      }
       if (!mounted) return;
       setState(() => _uploadingImages = false);
     }
@@ -249,7 +396,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
       'contact_phone': _contactPhoneCtrl.text.trim(),
       'listed_by_type': 'direct_landlord',
       'amenities': _amenities,
-      'images': imageUrls,
+      'images': finalImages,
     };
 
     final Property? result = _isEditing
@@ -594,15 +741,14 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                   ),
                 ],
               ),
-              if (imageUrls.isNotEmpty) ...[
+              if (_imageDrafts.isNotEmpty) ...[
                 const SizedBox(height: 12),
                 Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    ..._newImages.map((f) => _localThumb(f, isDark)),
-                    ..._urlImages.map((u) => _urlThumb(u, isDark)),
-                  ],
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: _imageDrafts
+                      .map((draft) => _imageDraftThumb(draft, isDark))
+                      .toList(),
                 ),
               ],
 
@@ -626,65 +772,117 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
     );
   }
 
-  List<String> get imageUrls => [..._existingImageUrls, ..._urlImages];
-
-  Widget _localThumb(XFile f, bool isDark) {
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: SizedBox(
-            width: 88,
-            height: 72,
-            child: Image.file(File(f.path), fit: BoxFit.cover),
-          ),
-        ),
-        Positioned(
-          top: 2,
-          right: 2,
-          child: GestureDetector(
-            onTap: () => setState(() => _newImages.remove(f)),
-            child: Container(
-              padding: const EdgeInsets.all(3),
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.6),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(LucideIcons.x, size: 12, color: Colors.white),
-            ),
-          ),
-        ),
-      ],
+  Widget _imageDraftThumb(ListingImageDraft draft, bool isDark) {
+    final tagInfo = _kRoomTagOptions.firstWhere(
+      (opt) => opt['tag'] == draft.tag,
+      orElse: () => const {},
     );
-  }
+    final hasTag = tagInfo.isNotEmpty;
 
-  Widget _urlThumb(String url, bool isDark) {
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: SizedBox(
-            width: 88,
-            height: 72,
-            child: Image.network(url, fit: BoxFit.cover),
-          ),
+    return Container(
+      width: 105,
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: hasTag
+              ? (isDark ? AppColors.darkAccent : AppColors.accent)
+              : (isDark ? AppColors.darkBorder : AppColors.border),
+          width: hasTag ? 1.5 : 1.0,
         ),
-        Positioned(
-          top: 2,
-          right: 2,
-          child: GestureDetector(
-            onTap: () => setState(() => _urlImages.remove(url)),
-            child: Container(
-              padding: const EdgeInsets.all(3),
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.6),
-                shape: BoxShape.circle,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(11)),
+                child: SizedBox(
+                  width: 105,
+                  height: 75,
+                  child: draft.isLocal
+                      ? Image.file(File(draft.file!.path), fit: BoxFit.cover)
+                      : Image.network(
+                          draft.url ?? '',
+                          fit: BoxFit.cover,
+                          errorBuilder: (ctx, err, stack) =>
+                              const Icon(LucideIcons.image_off),
+                        ),
+                ),
               ),
-              child: const Icon(LucideIcons.x, size: 12, color: Colors.white),
+              Positioned(
+                top: 3,
+                right: 3,
+                child: GestureDetector(
+                  onTap: () => setState(() => _imageDrafts.remove(draft)),
+                  child: Container(
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.65),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      LucideIcons.x,
+                      size: 12,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          InkWell(
+            onTap: () => _showTagPickerModal(draft),
+            borderRadius:
+                const BorderRadius.vertical(bottom: Radius.circular(11)),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 4),
+              decoration: BoxDecoration(
+                color: hasTag
+                    ? (isDark
+                        ? AppColors.darkAccent.withValues(alpha: 0.2)
+                        : AppColors.accent.withValues(alpha: 0.1))
+                    : Colors.transparent,
+                borderRadius:
+                    const BorderRadius.vertical(bottom: Radius.circular(11)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    hasTag ? "${tagInfo['icon']}" : "🏷️",
+                    style: const TextStyle(fontSize: 10),
+                  ),
+                  const SizedBox(width: 3),
+                  Flexible(
+                    child: Text(
+                      hasTag
+                          ? (tagInfo['label'] ?? '').split(' ').first
+                          : "Tag Room",
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                        color: hasTag
+                            ? (isDark
+                                ? AppColors.darkAccent
+                                : AppColors.accent)
+                            : (isDark
+                                ? AppColors.darkTextSecondary
+                                : AppColors.textSecondary),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

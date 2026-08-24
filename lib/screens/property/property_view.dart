@@ -1,18 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_lucide/flutter_lucide.dart';
-import 'package:latlong2/latlong.dart';
 
 import '../../models/property_model.dart';
 import '../../providers/property_provider.dart';
 import '../../providers/chat_provider.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/badge_chip.dart';
 import '../../widgets/app_toast.dart';
+import '../../widgets/modals/inspection.dart';
 import '../messages/message_view.dart';
+
+// Modular Widgets
+import 'widgets/property_photo_app_bar.dart';
+import 'widgets/property_rating_summary_row.dart';
+import 'widgets/property_highlights_section.dart';
+import 'widgets/property_about_section.dart';
+import 'widgets/property_reviews_section.dart';
+import 'widgets/property_spaces_section.dart';
+import 'widgets/property_amenities_section.dart';
+import 'widgets/property_map_section.dart';
+import 'widgets/property_host_card.dart';
+import 'widgets/property_availability_section.dart';
+import 'widgets/property_things_to_know_section.dart';
+import 'widgets/property_bottom_bar.dart';
+
+// Modular Modals
+import 'modals/about_space_modal.dart';
+import 'modals/amenities_modal.dart';
+import 'modals/all_reviews_modal.dart';
+import 'modals/lease_terms_modal.dart';
+import 'modals/tenancy_rules_modal.dart';
+import 'modals/utilities_modal.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
   final Property property;
@@ -29,12 +48,93 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   bool _isSatelliteMode = false;
   final MapController _mapController = MapController();
 
+  String _selectedReviewFilter = "All";
+
+  final List<Map<String, dynamic>> _mockReviews = [
+    {
+      "name": "Samantha",
+      "tenure": "8 years on HomeHub",
+      "avatar":
+          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "rating": 5,
+      "date": "2 weeks ago",
+      "stay": "Stayed a few nights",
+      "comment":
+          "Second time staying here and had a wonderful stay! The room we originally booked wasn't available, but the host went above and beyond by giving us an even better room instead. The amenities were great and it's located centrally so moving around was good. Everything was comfortable.",
+    },
+    {
+      "name": "Mary",
+      "tenure": "6 years on HomeHub",
+      "avatar":
+          "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80",
+      "rating": 5,
+      "date": "2 weeks ago",
+      "stay": "Stayed a few nights",
+      "comment":
+          "The location is easy to find, staff were friendly and helpful, the host is very responsive and proactive. My husband and I enjoyed our stay.",
+    },
+    {
+      "name": "Tara",
+      "location": "Grass Valley, California",
+      "tenure": "2 years on HomeHub",
+      "avatar":
+          "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
+      "rating": 5,
+      "date": "2 weeks ago",
+      "stay": "Stayed one night",
+      "comment":
+          "Clean, stress free check in, and comfortable stay! After coming in fresh from the airport — it made all the difference to have a stress free welcome.",
+    },
+    {
+      "name": "Bernard",
+      "tenure": "6 years on HomeHub",
+      "avatar":
+          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      "rating": 5,
+      "date": "July 2026",
+      "stay": "Stayed a few nights",
+      "comment": "Was a good one. Clean, secure, and very modern.",
+    },
+    {
+      "name": "Wole",
+      "location": "Lagos, Nigeria",
+      "tenure": "4 years on HomeHub",
+      "avatar":
+          "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+      "rating": 5,
+      "date": "May 2026",
+      "stay": "Stayed one night",
+      "comment": "Clean and homely. Well managed and peaceful compound.",
+    },
+    {
+      "name": "Oluwaseun",
+      "tenure": "5 years on HomeHub",
+      "avatar":
+          "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80",
+      "rating": 5,
+      "date": "April 2026",
+      "stay": "Stayed one night",
+      "comment":
+          "Amazing stay in the heart of the city. Close to major restaurants and activities. Friendly staff.",
+    },
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<PropertyProvider>().fetchPropertyDetailFromApi(
+        widget.property.id,
+      );
+    });
+  }
+
   Future<void> _messageAgent(Property prop) async {
     final agentId = prop.agent.id;
     if (agentId.isEmpty) {
       AppToast.showInfo(
         context,
-        message: "This listing has no contactable agent yet.",
+        message: "This listing has no contactable host yet.",
       );
       return;
     }
@@ -76,65 +176,18 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     ).format(amount);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<PropertyProvider>().fetchPropertyDetailFromApi(
-        widget.property.id,
-      );
-    });
-  }
+  String _periodLabel(String period) =>
+      period.toLowerCase().contains('month') ? 'month' : 'year';
 
-  IconData _getAmenityIcon(String amenity) {
-    final lower = amenity.toLowerCase();
-    if (lower.contains("wifi") || lower.contains("internet")) {
-      return LucideIcons.wifi;
-    } else if (lower.contains("parking") || lower.contains("car")) {
-      return LucideIcons.car_front;
-    } else if (lower.contains("security") && !lower.contains("deposit")) {
-      return LucideIcons.shield_check;
-    } else if (lower.contains("electricity") || lower.contains("generator")) {
-      return LucideIcons.zap;
-    } else if (lower.contains("water")) {
-      return LucideIcons.droplet;
-    } else if (lower.contains("air conditioning") || lower.contains("ac")) {
-      return LucideIcons.air_vent;
-    } else if (lower.contains("pool") || lower.contains("swimming")) {
-      return LucideIcons.waves;
-    } else if (lower.contains("fenced") ||
-        lower.contains("yard") ||
-        lower.contains("gated")) {
-      return LucideIcons.fence;
-    } else if (lower.contains("solar") || lower.contains("solar power")) {
-      return LucideIcons.solar_panel;
-    } else if (lower.contains("garden")) {
-      return LucideIcons.trees;
-    } else if (lower.contains("pet")) {
-      return LucideIcons.paw_print;
-    } else if (lower.contains("waste") ||
-        lower.contains("disposal") ||
-        lower.contains("trash")) {
-      return LucideIcons.trash;
-    } else if (lower.contains("clean")) {
-      return LucideIcons.sparkles;
-    } else if (lower.contains("gym") || lower.contains("fitness")) {
-      return LucideIcons.dumbbell;
-    } else if (lower.contains("laundry") || lower.contains("washing")) {
-      return LucideIcons.washing_machine;
-    } else if (lower.contains("balcony")) {
-      return LucideIcons.house;
-    } else if (lower.contains("cctv") || lower.contains("camera")) {
-      return LucideIcons.cctv;
-    } else if (lower.contains("furnished") || lower.contains("sofa")) {
-      return LucideIcons.sofa;
-    } else if (lower.contains("kitchen") ||
-        lower.contains("appliance") ||
-        lower.contains("cooker")) {
-      return LucideIcons.chef_hat;
-    } else {
-      return LucideIcons.circle_check;
-    }
+  Widget _buildDivider(bool isDark) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 22),
+      child: Divider(
+        color: isDark ? AppColors.darkBorder : AppColors.border,
+        height: 1,
+        thickness: 1,
+      ),
+    );
   }
 
   @override
@@ -146,605 +199,226 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     );
     final prop = matches.isNotEmpty ? matches.first : widget.property;
 
+    final periodLabel = _periodLabel(prop.period);
+    final availableStr = DateFormat('MMMM d, yyyy').format(prop.availableDate);
+
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.background,
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.surface,
       body: Stack(
         children: [
           CustomScrollView(
+            physics: const BouncingScrollPhysics(),
             slivers: [
-              // Photo Gallery Header
-              SliverAppBar(
-                expandedHeight: 300,
-                pinned: true,
-                backgroundColor: isDark
-                    ? AppColors.darkBackground
-                    : AppColors.background,
-                leadingWidth: 56,
-                leading: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Center(
-                    child: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: const BoxDecoration(
-                        color: Colors.black45,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        icon: const Icon(
-                          Icons.arrow_back_rounded,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ),
-                  ),
-                ),
-                actions: [
-                  Center(
-                    child: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: const BoxDecoration(
-                        color: Colors.black45,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        icon: Icon(
-                          prop.isFavorite
-                              ? Icons.favorite_rounded
-                              : Icons.favorite_border_rounded,
-                          color: prop.isFavorite
-                              ? (isDark
-                                    ? AppColors.darkAccent
-                                    : AppColors.accent)
-                              : Colors.white,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          final wasFavorite = prop.isFavorite;
-                          propertyProvider.toggleFavorite(prop.id);
-                          AppToast.showSuccess(
-                            context,
-                            message: !wasFavorite
-                                ? "Saved to your bookmarks"
-                                : "Removed from bookmarks",
-                            actionLabel: !wasFavorite ? "Undo" : null,
-                            onAction: !wasFavorite
-                                ? () => propertyProvider.toggleFavorite(prop.id)
-                                : null,
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Center(
-                    child: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: const BoxDecoration(
-                        color: Colors.black45,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        icon: const Icon(
-                          Icons.share_rounded,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          AppToast.showSuccess(
-                            context,
-                            message: "Listing link copied to clipboard!",
-                            actionLabel: "Share",
-                            onAction: () {},
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                ],
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Stack(
-                    children: [
-                      PageView.builder(
-                        itemCount: prop.gallery.length,
-                        onPageChanged: (idx) =>
-                            setState(() => _activeGalleryIndex = idx),
-                        itemBuilder: (context, index) {
-                          return CachedNetworkImage(
-                            imageUrl: prop.gallery[index],
-                            fit: BoxFit.cover,
-                          );
-                        },
-                      ),
-
-                      // Image counter indicator
-                      Positioned(
-                        bottom: 26,
-                        right: 16,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.7),
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: Text(
-                            "${_activeGalleryIndex + 1} / ${prop.gallery.length}",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              // ── 1. PHOTO CAROUSEL APP BAR ──
+              PropertyPhotoAppBar(
+                property: prop,
+                activeIndex: _activeGalleryIndex,
+                onPageChanged: (idx) =>
+                    setState(() => _activeGalleryIndex = idx),
+                onBack: () => Navigator.pop(context),
+                onShare: () {
+                  AppToast.showSuccess(
+                    context,
+                    message: "Listing link copied to clipboard!",
+                    actionLabel: "Share",
+                    onAction: () {},
+                  );
+                },
+                onToggleFavorite: () {
+                  final wasFavorite = prop.isFavorite;
+                  propertyProvider.toggleFavorite(prop.id);
+                  AppToast.showSuccess(
+                    context,
+                    message: !wasFavorite
+                        ? "Saved to your favorites"
+                        : "Removed from favorites",
+                    actionLabel: !wasFavorite ? "Undo" : null,
+                    onAction: !wasFavorite
+                        ? () => propertyProvider.toggleFavorite(prop.id)
+                        : null,
+                  );
+                },
+                isDark: isDark,
               ),
 
-              // Property Content Details
+              // ── 2. PROPERTY DETAILS CONTENT ──
               SliverToBoxAdapter(
                 child: Container(
+                  color: isDark ? AppColors.darkBackground : AppColors.surface,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
-                    vertical: 24,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkSurface : AppColors.surface,
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(24),
-                    ),
+                    vertical: 20,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Badge & Rating Row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          BadgeChip.status(prop.status, isDark: isDark),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.star_rounded,
-                                size: 18,
-                                color: Colors.amber,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                "${prop.rating} (${prop.reviewCount} reviews)",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                  color: isDark
-                                      ? AppColors.darkTextPrimary
-                                      : AppColors.textPrimary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      // Title
+                      // Property Title
                       Text(
                         prop.title,
                         style: TextStyle(
                           fontFamily: 'Cabinet Grotesk',
-                          fontSize: AppFontSizes.displaySmall,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w900,
                           color: isDark
                               ? AppColors.darkTextPrimary
-                              : AppColors.primary,
-                          letterSpacing: -0.3,
+                              : AppColors.textPrimary,
+                          letterSpacing: -0.4,
                         ),
                       ),
-
                       const SizedBox(height: 6),
 
-                      // Location Row
-                      Row(
-                        children: [
-                          Icon(
-                            LucideIcons.map_pin,
-                            size: 15,
-                            color: isDark
-                                ? AppColors.darkAccent
-                                : AppColors.accent,
-                          ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              "${prop.area}, ${prop.city}, ${prop.state} State",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: isDark
-                                    ? AppColors.darkTextSecondary
-                                    : AppColors.textSecondary,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 28),
-
-                      // Description Section
+                      // Subtitle Line 1: Type in Location
                       Text(
-                        "About this place",
+                        "${prop.type} in ${prop.city}, ${prop.state}, Nigeria",
                         style: TextStyle(
-                          fontFamily: 'Cabinet Grotesk',
-                          fontSize: AppFontSizes.headlineMedium,
-                          fontWeight: FontWeight.bold,
-                          color: isDark
-                              ? AppColors.darkTextPrimary
-                              : AppColors.primary,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        prop.description,
-                        style: TextStyle(
-                          fontSize: AppFontSizes.bodyLarge,
-                          height: 1.5,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
                           color: isDark
                               ? AppColors.darkTextSecondary
                               : AppColors.textSecondary,
                         ),
                       ),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 3),
 
-                      // AMENITIES & FEATURES WITH RESPECTIVE ICONS
+                      // Subtitle Line 2: Specs
                       Text(
-                        "What this place offers",
+                        "${prop.beds * 2} guests · ${prop.beds} bedroom · ${prop.beds} bed · ${prop.baths} bath",
                         style: TextStyle(
-                          fontFamily: 'Cabinet Grotesk',
-                          fontSize: AppFontSizes.headlineMedium,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
                           color: isDark
-                              ? AppColors.darkTextPrimary
-                              : AppColors.primary,
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
                         ),
                       ),
-                      const SizedBox(height: 14),
-                      // Property Spec Pills (Beds, Baths, Sqft, Type)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _buildSpecPill(
-                              LucideIcons.bed_double,
-                              "${prop.beds} Bedrooms",
-                              isDark,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: _buildSpecPill(
-                              LucideIcons.bath,
-                              "${prop.baths} Bathrooms",
-                              isDark,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: _buildSpecPill(
-                              LucideIcons.maximize,
-                              "${(prop.sqft * 0.092903).toInt()} m²",
-                              isDark,
-                            ),
-                          ),
-                        ],
-                      ),
 
-                      prop.amenities.isEmpty
-                          ? Text(
-                              "No amenities listed for this property.",
-                              style: TextStyle(
-                                color: isDark
-                                    ? AppColors.darkTextSecondary
-                                    : AppColors.textSecondary,
-                                fontSize: 13,
-                              ),
-                            )
-                          : GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    mainAxisExtent: 48,
-                                    mainAxisSpacing: 6,
-                                    crossAxisSpacing: 12,
-                                  ),
-                              itemCount: prop.amenities.length,
-                              itemBuilder: (context, index) {
-                                final amenity = prop.amenities[index];
-                                final iconData = _getAmenityIcon(amenity);
-                                return Row(
-                                  children: [
-                                    Icon(
-                                      iconData,
-                                      size: 20,
-                                      color: isDark
-                                          ? AppColors.darkAccent
-                                          : AppColors.primary,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Expanded(
-                                      child: Text(
-                                        amenity,
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          color: isDark
-                                              ? AppColors.darkTextPrimary
-                                              : AppColors.textPrimary,
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
+                      const SizedBox(height: 18),
 
-                      const SizedBox(height: 28),
-
-                      // LOCATION ON THE MAP SECTION
-                      Text(
-                        "Where this place is",
-                        style: TextStyle(
-                          fontFamily: 'Cabinet Grotesk',
-                          fontSize: AppFontSizes.headlineMedium,
-                          fontWeight: FontWeight.bold,
-                          color: isDark
-                              ? AppColors.darkTextPrimary
-                              : AppColors.primary,
+                      // Rating / Laurel Wreath / Reviews 3-Part Summary Bar
+                      if (prop.reviewCount > 0) ...[
+                        PropertyRatingSummaryRow(
+                          property: prop,
+                          isDark: isDark,
+                          onShowAllReviews: () => showAllReviewsModal(
+                            context,
+                            prop,
+                            _mockReviews,
+                            isDark,
+                          ),
                         ),
+                        _buildDivider(isDark),
+                      ] else
+                        _buildDivider(isDark),
+
+                      _buildDivider(isDark),
+
+                      // ── 4. KEY HIGHLIGHTS LIST ──
+                      PropertyHighlightsSection(property: prop, isDark: isDark),
+
+                      _buildDivider(isDark),
+
+                      // ── 5. ABOUT THIS SPACE ──
+                      PropertyAboutSection(
+                        property: prop,
+                        isDark: isDark,
+                        onShowMore: () =>
+                            showAboutSpaceModal(context, prop, isDark),
                       ),
-                      const SizedBox(height: 6),
-                      Builder(
-                        builder: (context) {
-                          final cityText = (prop.city.isNotEmpty)
-                              ? prop.city
-                              : "Ado Ekiti";
-                          final stateText = (prop.state.isNotEmpty)
-                              ? prop.state
-                              : "Ekiti";
-                          final formattedState = stateText.endsWith("State")
-                              ? stateText
-                              : "$stateText State";
-                          return Text(
-                            "${prop.area}, $cityText, $formattedState",
-                            style: TextStyle(
-                              fontSize: 17,
-                              color: isDark
-                                  ? AppColors.darkTextSecondary
-                                  : AppColors.textSecondary,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+
+                      _buildDivider(isDark),
+
+                      // ── 6. RATINGS & REVIEWS ──
+                      PropertyReviewsSection(
+                        property: prop,
+                        mockReviews: _mockReviews,
+                        selectedFilter: _selectedReviewFilter,
+                        onFilterSelected: (val) =>
+                            setState(() => _selectedReviewFilter = val),
+                        onShowAllReviews: () => showAllReviewsModal(
+                          context,
+                          prop,
+                          _mockReviews,
+                          isDark,
+                        ),
+                        isDark: isDark,
+                      ),
+
+                      _buildDivider(isDark),
+
+                      // ── 7. SPACES IN THIS HOME (Only shown when tagged room images exist) ──
+                      if (prop.taggedRoomImages.isNotEmpty) ...[
+                        PropertySpacesSection(property: prop, isDark: isDark),
+                        _buildDivider(isDark),
+                      ],
+
+                      // ── 8. WHAT THIS PLACE OFFERS ──
+                      PropertyAmenitiesSection(
+                        property: prop,
+                        isDark: isDark,
+                        onShowAll: () =>
+                            showAllAmenitiesModal(context, prop, isDark),
+                      ),
+
+                      _buildDivider(isDark),
+
+                      // ── 9. WHERE YOU'LL BE (LOCATION & MAP) ──
+                      PropertyMapSection(
+                        property: prop,
+                        mapController: _mapController,
+                        isSatelliteMode: _isSatelliteMode,
+                        onToggleSatellite: () {
+                          setState(() {
+                            _isSatelliteMode = !_isSatelliteMode;
+                          });
+                        },
+                        isDark: isDark,
+                      ),
+
+                      _buildDivider(isDark),
+
+                      // ── 10. AVAILABILITY ──
+                      PropertyAvailabilitySection(
+                        availableStr: availableStr,
+                        isDark: isDark,
+                      ),
+
+                      _buildDivider(isDark),
+
+                      // ── 3. HOST ROW ──
+                      PropertyHostCard(
+                        property: prop,
+                        isStartingChat: _startingChat,
+                        onCallAgent: () {
+                          AppToast.showInfo(
+                            context,
+                            message: "Agent phone: ${prop.agent.phone}",
+                            actionLabel: "Copy",
+                            onAction: () {},
                           );
                         },
-                      ),
-                      const SizedBox(height: 12),
-
-                      // Interactive Real FlutterMap Box Container
-                      Container(
-                        width: double.infinity,
-                        height: 220,
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? AppColors.darkSurfaceAlt
-                              : AppColors.surfaceAlt,
-                          borderRadius: BorderRadius.circular(24),
-                          border: Border.all(
-                            color: isDark
-                                ? AppColors.darkBorder
-                                : AppColors.border,
-                          ),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(24),
-                          child: Stack(
-                            children: [
-                              FlutterMap(
-                                mapController: _mapController,
-                                options: MapOptions(
-                                  initialCenter: LatLng(
-                                    prop.latitude,
-                                    prop.longitude,
-                                  ),
-                                  initialZoom: 15.0,
-                                  interactionOptions: const InteractionOptions(
-                                    flags:
-                                        InteractiveFlag.all &
-                                        ~InteractiveFlag.rotate,
-                                  ),
-                                ),
-                                children: [
-                                  TileLayer(
-                                    urlTemplate: _isSatelliteMode
-                                        ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-                                        : 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-                                    userAgentPackageName: 'com.homehub.app',
-                                  ),
-                                  if (_isSatelliteMode)
-                                    TileLayer(
-                                      urlTemplate:
-                                          'https://basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}@2x.png',
-                                      userAgentPackageName: 'com.homehub.app',
-                                    ),
-                                  MarkerLayer(
-                                    markers: [
-                                      Marker(
-                                        point: LatLng(
-                                          prop.latitude,
-                                          prop.longitude,
-                                        ),
-                                        width: 44,
-                                        height: 44,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: AppColors.accent,
-                                            shape: BoxShape.circle,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: AppColors.accent
-                                                    .withValues(alpha: 0.4),
-                                                blurRadius: 10,
-                                                spreadRadius: 2,
-                                              ),
-                                            ],
-                                          ),
-                                          child: const Icon(
-                                            Icons.location_on_rounded,
-                                            color: Colors.white,
-                                            size: 24,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-
-                              // On-Screen Map Control Buttons (Layer Toggle, Zoom In, Zoom Out, Re-Center)
-                              Positioned(
-                                bottom: 12,
-                                right: 12,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    _buildMapControlButton(
-                                      isDark: isDark,
-                                      icon: LucideIcons.layers,
-                                      active: _isSatelliteMode,
-                                      onTap: () {
-                                        setState(() {
-                                          _isSatelliteMode = !_isSatelliteMode;
-                                        });
-                                      },
-                                    ),
-                                    const SizedBox(height: 6),
-                                    _buildMapControlButton(
-                                      isDark: isDark,
-                                      icon: LucideIcons.plus,
-                                      onTap: () {
-                                        final currentZoom =
-                                            _mapController.camera.zoom;
-                                        _mapController.move(
-                                          _mapController.camera.center,
-                                          currentZoom + 1,
-                                        );
-                                      },
-                                    ),
-                                    const SizedBox(height: 6),
-                                    _buildMapControlButton(
-                                      isDark: isDark,
-                                      icon: LucideIcons.minus,
-                                      onTap: () {
-                                        final currentZoom =
-                                            _mapController.camera.zoom;
-                                        _mapController.move(
-                                          _mapController.camera.center,
-                                          currentZoom - 1,
-                                        );
-                                      },
-                                    ),
-                                    const SizedBox(height: 6),
-                                    _buildMapControlButton(
-                                      isDark: isDark,
-                                      icon: LucideIcons.locate_fixed,
-                                      onTap: () {
-                                        _mapController.move(
-                                          LatLng(prop.latitude, prop.longitude),
-                                          15.0,
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        onMessageAgent: () => _messageAgent(prop),
+                        isDark: isDark,
                       ),
 
-                      const SizedBox(height: 28),
+                      _buildDivider(isDark),
 
-                      // Landlord / Agent Info Card with Direct WhatsApp Chat Button
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? AppColors.darkSurface
-                              : AppColors.surface,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: isDark
-                                ? AppColors.darkBorder
-                                : AppColors.border,
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 24,
-                              backgroundImage: NetworkImage(
-                                prop.agent.avatarUrl,
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    prop.agent.name,
-                                    style: TextStyle(
-                                      fontFamily: 'Cabinet Grotesk',
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                      color: isDark
-                                          ? AppColors.darkTextPrimary
-                                          : AppColors.textPrimary,
-                                    ),
-                                  ),
-                                  Text(
-                                    prop.agent.role,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: isDark
-                                          ? AppColors.darkTextSecondary
-                                          : AppColors.textSecondary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                      // ── 11. THINGS TO KNOW ──
+                      PropertyThingsToKnowSection(
+                        onLeaseTerms: () =>
+                            showLeaseTermsModal(context, isDark),
+                        onTenancyRules: () =>
+                            showTenancyRulesModal(context, isDark),
+                        onUtilities: () => showUtilitiesModal(context, isDark),
+                        onReportListing: () {
+                          AppToast.showInfo(
+                            context,
+                            message: "Listing reported for review. Thank you!",
+                          );
+                        },
+                        isDark: isDark,
                       ),
 
-                      const SizedBox(
-                        height: 110,
-                      ), // Space for sticky bottom action bar
+                      const SizedBox(height: 100),
                     ],
                   ),
                 ),
@@ -752,190 +426,24 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             ],
           ),
 
-          // FLOATING BOTTOM ACTION BAR (Price, Deposit & Agent Actions)
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              decoration: BoxDecoration(
-                color: isDark ? AppColors.darkSurface : AppColors.surface,
-                border: Border(
-                  top: BorderSide(
-                    color: isDark ? AppColors.darkBorder : AppColors.border,
-                  ),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.12),
-                    blurRadius: 14,
-                    offset: const Offset(0, -4),
-                  ),
-                ],
-              ),
-              child: SafeArea(
-                top: false,
-                child: Row(
-                  children: [
-                    // Price & Deposit Box
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                _formatCurrency(prop.price),
-                                style: TextStyle(
-                                  fontFamily: 'Cabinet Grotesk',
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w900,
-                                  color: isDark
-                                      ? AppColors.darkAccent
-                                      : AppColors.primary,
-                                ),
-                              ),
-                              Text(
-                                " / ${prop.period}",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: isDark
-                                      ? AppColors.darkTextSecondary
-                                      : AppColors.textSecondary,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            "Deposit: ${_formatCurrency(prop.securityDeposit)} (Refundable)",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: isDark
-                                  ? AppColors.darkTextSecondary
-                                  : AppColors.textSecondary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(width: 12),
-
-                    // 2. Message Agent Button
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        elevation: 0,
-                      ),
-                      icon: _startingChat
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.white,
-                                ),
-                              ),
-                            )
-                          : const Icon(
-                              LucideIcons.mail,
-                              color: Colors.white,
-                              size: 18,
-                            ),
-                      label: const Text(
-                        "Message Agent",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onPressed: _startingChat
-                          ? null
-                          : () => _messageAgent(prop),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          // ── 12. FIXED BOTTOM ACTION BAR ──
+          PropertyBottomBar(
+            property: prop,
+            formattedPrice: _formatCurrency(prop.price),
+            periodLabel: periodLabel,
+            formattedDeposit: _formatCurrency(prop.securityDeposit),
+            availableStr: availableStr,
+            onBookInspection: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => InspectionModal(property: prop),
+              );
+            },
+            isDark: isDark,
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSpecPill(IconData icon, String label, bool isDark) {
-    return Column(
-      children: [
-        Icon(
-          icon,
-          size: 22,
-          color: isDark ? AppColors.darkAccent : AppColors.accent,
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
-          ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMapControlButton({
-    required bool isDark,
-    required IconData icon,
-    bool active = false,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 34,
-        height: 34,
-        decoration: BoxDecoration(
-          color: active
-              ? AppColors.primary
-              : (isDark ? AppColors.darkSurface : Colors.white).withValues(
-                  alpha: 0.95,
-                ),
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: active
-                ? AppColors.primary
-                : (isDark ? AppColors.darkBorder : AppColors.border),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.15),
-              blurRadius: 6,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Center(
-          child: Icon(
-            icon,
-            size: 16,
-            color: active
-                ? Colors.white
-                : (isDark ? AppColors.darkTextPrimary : AppColors.primary),
-          ),
-        ),
       ),
     );
   }

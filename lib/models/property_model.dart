@@ -44,6 +44,40 @@ class Agent {
   }
 }
 
+class PropertyImage {
+  final String id;
+  final String url;
+  final String? tag; // "bedroom", "living_room", "kitchen", "bathroom", "exterior", "compound", "balcony"
+  final String? caption;
+
+  const PropertyImage({
+    this.id = "",
+    required this.url,
+    this.tag,
+    this.caption,
+  });
+
+  factory PropertyImage.fromJson(dynamic json) {
+    if (json == null) return const PropertyImage(url: "");
+    if (json is String) {
+      String u = json;
+      if (u.startsWith('/')) u = "${AppConfig.apiHost}$u";
+      return PropertyImage(url: u);
+    }
+    if (json is Map) {
+      String u = json['url']?.toString() ?? "";
+      if (u.startsWith('/')) u = "${AppConfig.apiHost}$u";
+      return PropertyImage(
+        id: json['id']?.toString() ?? "",
+        url: u,
+        tag: json['tag']?.toString(),
+        caption: json['caption']?.toString(),
+      );
+    }
+    return const PropertyImage(url: "");
+  }
+}
+
 class Property {
   final String id;
   final String title;
@@ -63,6 +97,7 @@ class Property {
   final Agent agent;
   final String image;
   final List<String> gallery;
+  final List<PropertyImage> propertyImages;
   final String description;
   final List<String> amenities;
   final double rating;
@@ -77,6 +112,16 @@ class Property {
   String get city => _city.isNotEmpty ? _city : "Ado Ekiti";
   String get state => _state.isNotEmpty ? _state : "Ekiti";
   DateTime get availableDate => availableFrom ?? DateTime.now();
+
+  /// Returns only images that have a room tag assigned (e.g. bedroom, kitchen, living_room, bathroom)
+  List<PropertyImage> get taggedRoomImages => propertyImages
+      .where((img) =>
+          img.tag != null &&
+          img.tag!.trim().isNotEmpty &&
+          img.tag!.toLowerCase() != "exterior" &&
+          img.tag!.toLowerCase() != "compound" &&
+          img.url.isNotEmpty)
+      .toList();
 
   Property({
     required this.id,
@@ -97,6 +142,7 @@ class Property {
     required this.agent,
     required this.image,
     List<String>? gallery,
+    List<PropertyImage>? propertyImages,
     String? description,
     List<String>? amenities,
     this.rating = 4.8,
@@ -110,6 +156,10 @@ class Property {
   })  : _city = city ?? "Ado Ekiti",
         _state = state ?? "Ekiti",
         gallery = gallery ?? [image],
+        propertyImages = propertyImages ??
+            (gallery != null
+                ? gallery.map((url) => PropertyImage(url: url)).toList()
+                : [PropertyImage(url: image)]),
         description = description ??
             "A beautifully presented and spacious property located in a secure, serene environment. Features modern finishes, 24/7 power supply options, consistent running water, and gated security.",
         amenities = amenities ?? const [];
@@ -118,43 +168,35 @@ class Property {
     if (json['data'] is Map<String, dynamic>) {
       json = json['data'] as Map<String, dynamic>;
     }
-    const String defaultImg = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop";
+    const String defaultImg =
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop";
+
+    // Extract structured property images safely
+    final parsedImages = <PropertyImage>[];
+    if (json['images'] is List && (json['images'] as List).isNotEmpty) {
+      for (var img in (json['images'] as List)) {
+        final parsed = PropertyImage.fromJson(img);
+        if (parsed.url.isNotEmpty) {
+          parsedImages.add(parsed);
+        }
+      }
+    }
 
     // Extract primary image URL safely
     String mainImage = defaultImg;
-    if (json['images'] is List && (json['images'] as List).isNotEmpty) {
-      final firstImg = (json['images'] as List).first;
-      if (firstImg is Map && firstImg['url'] != null && firstImg['url'].toString().isNotEmpty) {
-        mainImage = firstImg['url'].toString();
-      } else if (firstImg is String && firstImg.isNotEmpty) {
-        mainImage = firstImg;
-      }
+    if (parsedImages.isNotEmpty) {
+      mainImage = parsedImages.first.url;
     } else if (json['image'] != null && json['image'].toString().isNotEmpty) {
       mainImage = json['image'].toString();
-    }
-
-    if (mainImage.startsWith('/')) {
-      mainImage = "${AppConfig.apiHost}$mainImage";
+      if (mainImage.startsWith('/')) {
+        mainImage = "${AppConfig.apiHost}$mainImage";
+      }
     }
 
     // Extract gallery URLs safely
-    List<String> galList = [mainImage];
-    if (json['images'] is List && (json['images'] as List).isNotEmpty) {
-      final parsedGallery = <String>[];
-      for (var img in (json['images'] as List)) {
-        String url = "";
-        if (img is Map && img['url'] != null) {
-          url = img['url'].toString();
-        } else if (img is String) {
-          url = img;
-        }
-        if (url.isNotEmpty) {
-          if (url.startsWith('/')) url = "${AppConfig.apiHost}$url";
-          parsedGallery.add(url);
-        }
-      }
-      if (parsedGallery.isNotEmpty) galList = parsedGallery;
-    }
+    final List<String> galList = parsedImages.isNotEmpty
+        ? parsedImages.map((e) => e.url).toList()
+        : [mainImage];
 
     // Extract amenities dynamically from API payload
     List<String> parsedAmenities = [];
@@ -265,6 +307,7 @@ class Property {
       agent: Agent.fromJson(json['user'] ?? json['listed_by'] ?? json['listedBy']),
       image: mainImage,
       gallery: galList,
+      propertyImages: parsedImages,
       description: json['description']?.toString(),
       amenities: parsedAmenities,
       rating: double.tryParse(json['rating']?.toString() ?? "4.8") ?? 4.8,
