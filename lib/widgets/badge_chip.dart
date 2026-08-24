@@ -24,16 +24,8 @@ class BadgeChip extends StatelessWidget {
 
     switch (status.toLowerCase()) {
       case 'verified':
-        bg = AppColors.primary.withValues(alpha: 0.12);
-        fg = isDark ? Colors.lightGreenAccent : AppColors.primary;
-        break;
-      case 'premium':
-        bg = const Color(0xFFFFF3E0);
-        fg = const Color(0xFFE65100);
-        break;
-      case 'student-friendly':
-        bg = const Color(0xFFE1F5FE);
-        fg = const Color(0xFF0288D1);
+        bg = Colors.transparent;
+        fg = isDark ? AppColors.darkTextPrimary : AppColors.primary;
         break;
       case 'new':
         bg = isDark
@@ -60,7 +52,7 @@ class BadgeChip extends StatelessWidget {
     final fg = textColor ?? AppColors.textPrimary;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
         color: isOutline ? Colors.transparent : bg,
         borderRadius: BorderRadius.circular(100),
@@ -77,12 +69,12 @@ class BadgeChip extends StatelessWidget {
             const SizedBox(width: 8),
           ],
           Text(
-            label,
+            label.toUpperCase(),
             style: TextStyle(
               color: fg,
-              fontSize: 13,
+              fontSize: AppFontSizes.bodySmall,
               fontWeight: FontWeight.w700,
-              letterSpacing: 0.2,
+              letterSpacing: 1.2,
             ),
           ),
         ],

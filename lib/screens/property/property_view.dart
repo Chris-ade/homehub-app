@@ -198,7 +198,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               ? Icons.favorite_rounded
                               : Icons.favorite_border_rounded,
                           color: prop.isFavorite
-                              ? (isDark ? AppColors.darkAccent : AppColors.accent)
+                              ? (isDark
+                                    ? AppColors.darkAccent
+                                    : AppColors.accent)
                               : Colors.white,
                           size: 20,
                         ),
@@ -344,7 +346,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: AppFontSizes.displaySmall,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.primary,
                           letterSpacing: -0.3,
                         ),
                       ),
@@ -378,16 +382,18 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         ],
                       ),
 
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 28),
 
                       // Description Section
                       Text(
                         "About this place",
                         style: TextStyle(
                           fontFamily: 'Cabinet Grotesk',
-                          fontSize: AppFontSizes.headlineLarge,
+                          fontSize: AppFontSizes.headlineMedium,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.primary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -396,7 +402,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         style: TextStyle(
                           fontSize: AppFontSizes.bodyLarge,
                           height: 1.5,
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 28),
@@ -406,9 +414,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         "What this place offers",
                         style: TextStyle(
                           fontFamily: 'Cabinet Grotesk',
-                          fontSize: AppFontSizes.headlineLarge,
+                          fontSize: AppFontSizes.headlineMedium,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.primary,
                         ),
                       ),
                       const SizedBox(height: 14),
@@ -457,7 +467,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
-                                    mainAxisExtent: 30,
+                                    mainAxisExtent: 48,
                                     mainAxisSpacing: 6,
                                     crossAxisSpacing: 12,
                                   ),
@@ -500,9 +510,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         "Where this place is",
                         style: TextStyle(
                           fontFamily: 'Cabinet Grotesk',
-                          fontSize: AppFontSizes.headlineLarge,
+                          fontSize: AppFontSizes.headlineMedium,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.primary,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -542,7 +554,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               : AppColors.surfaceAlt,
                           borderRadius: BorderRadius.circular(24),
                           border: Border.all(
-                            color: isDark ? AppColors.darkBorder : AppColors.border,
+                            color: isDark
+                                ? AppColors.darkBorder
+                                : AppColors.border,
                           ),
                         ),
                         child: ClipRRect(
@@ -683,7 +697,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                               : AppColors.surface,
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: isDark ? AppColors.darkBorder : AppColors.border,
+                            color: isDark
+                                ? AppColors.darkBorder
+                                : AppColors.border,
                           ),
                         ),
                         child: Row(
@@ -858,28 +874,25 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   }
 
   Widget _buildSpecPill(IconData icon, String label, bool isDark) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: Column(
-        children: [
-          Icon(
-            icon,
-            size: 22,
-            color: isDark ? AppColors.darkAccent : AppColors.accent,
+    return Column(
+      children: [
+        Icon(
+          icon,
+          size: 22,
+          color: isDark ? AppColors.darkAccent : AppColors.accent,
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
           ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
     );
   }
 
