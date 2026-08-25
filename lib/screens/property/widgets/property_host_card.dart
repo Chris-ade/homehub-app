@@ -157,8 +157,8 @@ class PropertyHostCard extends StatelessWidget {
                   ],
                   Text(
                     agent.isVerified
-                        ? "Verified ${_getAgentRoleLabel(agent.role)}"
-                        : _getAgentRoleLabel(agent.role),
+                        ? "VERIFIED ${_getAgentRoleLabel(agent.role)}"
+                        : "UNVERIFIED ${_getAgentRoleLabel(agent.role).toUpperCase()}",
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,

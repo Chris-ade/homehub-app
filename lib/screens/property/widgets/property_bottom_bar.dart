@@ -108,26 +108,6 @@ class PropertyBottomBar extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 2),
-                    // Available from date
-                    Row(
-                      children: [
-                        const Icon(
-                          LucideIcons.calendar_check,
-                          size: 11,
-                          color: AppColors.success,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          "Available $availableStr",
-                          style: const TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.success,
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
@@ -150,10 +130,7 @@ class PropertyBottomBar extends StatelessWidget {
                   onPressed: onBookInspection,
                   child: const Text(
                     "Book Inspection",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w900,
-                    ),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900),
                   ),
                 ),
               ),
