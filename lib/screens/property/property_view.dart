@@ -207,7 +207,6 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       body: Stack(
         children: [
           CustomScrollView(
-            physics: const BouncingScrollPhysics(),
             slivers: [
               // ── 1. PHOTO CAROUSEL APP BAR ──
               PropertyPhotoAppBar(
@@ -282,7 +281,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
                       // Subtitle Line 2: Specs
                       Text(
-                        "${prop.beds * 2} guests · ${prop.beds} bedroom · ${prop.beds} bed · ${prop.baths} bath",
+                        "${prop.beds} ${prop.beds > 1 ? 'bedrooms' : 'bedroom'} · ${prop.baths} ${prop.baths > 1 ? 'bathrooms' : 'bathroom'} · ${prop.sqft} sqft",
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,

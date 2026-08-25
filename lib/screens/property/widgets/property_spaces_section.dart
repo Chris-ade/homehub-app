@@ -17,7 +17,10 @@ class PropertySpacesSection extends StatelessWidget {
   String _formatRoomTag(String? rawTag) {
     if (rawTag == null || rawTag.isEmpty) return "Room / Space";
     final t = rawTag.toLowerCase().replaceAll('_', ' ').replaceAll('-', ' ');
-    if (t.contains('living') || t.contains('parlour') || t.contains('parlor') || t.contains('sitting')) {
+    if (t.contains('living') ||
+        t.contains('parlour') ||
+        t.contains('parlor') ||
+        t.contains('sitting')) {
       return "Living Room (Parlour)";
     }
     if (t.contains('bedroom') || t.contains('bed')) {
@@ -26,7 +29,9 @@ class PropertySpacesSection extends StatelessWidget {
     if (t.contains('kitchen')) {
       return "Kitchen";
     }
-    if (t.contains('bathroom') || t.contains('toilet') || t.contains('restroom')) {
+    if (t.contains('bathroom') ||
+        t.contains('toilet') ||
+        t.contains('restroom')) {
       return "Bathroom";
     }
     if (t.contains('balcony') || t.contains('terrace')) {
@@ -35,14 +40,24 @@ class PropertySpacesSection extends StatelessWidget {
     if (t.contains('dining')) {
       return "Dining Area";
     }
-    return t.split(' ').map((w) => w.isNotEmpty ? '${w[0].toUpperCase()}${w.substring(1)}' : '').join(' ');
+    return t
+        .split(' ')
+        .map(
+          (w) => w.isNotEmpty ? '${w[0].toUpperCase()}${w.substring(1)}' : '',
+        )
+        .join(' ');
   }
 
   IconData _getRoomIcon(String? rawTag) {
     if (rawTag == null) return LucideIcons.door_open;
     final t = rawTag.toLowerCase();
-    if (t.contains('bedroom') || t.contains('bed')) return LucideIcons.bed_double;
-    if (t.contains('living') || t.contains('parlour') || t.contains('parlor') || t.contains('sitting')) {
+    if (t.contains('bedroom') || t.contains('bed')) {
+      return LucideIcons.bed_double;
+    }
+    if (t.contains('living') ||
+        t.contains('parlour') ||
+        t.contains('parlor') ||
+        t.contains('sitting')) {
       return LucideIcons.sofa;
     }
     if (t.contains('kitchen')) return LucideIcons.utensils;
@@ -72,7 +87,7 @@ class PropertySpacesSection extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         SizedBox(
-          height: 205,
+          height: 180,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
@@ -86,14 +101,10 @@ class PropertySpacesSection extends StatelessWidget {
               return Container(
                 width: 220,
                 decoration: BoxDecoration(
-                  color: isDark
-                      ? AppColors.darkSurfaceAlt
-                      : AppColors.surface,
+                  color: isDark ? AppColors.darkSurfaceAlt : AppColors.surface,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: isDark
-                        ? AppColors.darkBorder
-                        : AppColors.border,
+                    color: isDark ? AppColors.darkBorder : AppColors.border,
                   ),
                 ),
                 child: Column(
@@ -142,10 +153,10 @@ class PropertySpacesSection extends StatelessWidget {
                                 roomIcon,
                                 size: 14,
                                 color: isDark
-                                    ? AppColors.darkAccent
+                                    ? AppColors.darkTextPrimary
                                     : AppColors.primary,
                               ),
-                              const SizedBox(width: 6),
+                              const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
                                   roomTitle,
@@ -163,19 +174,18 @@ class PropertySpacesSection extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 2),
-                          Text(
-                            img.caption != null && img.caption!.isNotEmpty
-                                ? img.caption!
-                                : "Tagged room photo",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: isDark
-                                  ? AppColors.darkTextSecondary
-                                  : AppColors.textSecondary,
+                          if (img.caption != null && img.caption!.isNotEmpty)
+                            Text(
+                              img.caption!,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: isDark
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.textSecondary,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
                         ],
                       ),
                     ),

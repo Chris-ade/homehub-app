@@ -38,10 +38,12 @@ class PropertyRatingSummaryRow extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
                   5,
-                  (index) => const Icon(
+                  (index) => Icon(
                     Icons.star_rounded,
                     size: 13,
-                    color: Colors.black87,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.primary,
                   ),
                 ),
               ),

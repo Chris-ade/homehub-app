@@ -7,8 +7,7 @@ IconData getAmenityIcon(String amenity) {
   if (a.contains('wifi') || a.contains('internet') || a.contains('broadband')) {
     return LucideIcons.wifi;
   }
-  if (a.contains('power') ||
-      a.contains('generator') ||
+  if (a.contains('generator') ||
       a.contains('nepa') ||
       a.contains('electricity') ||
       a.contains('prepaid')) {
@@ -70,6 +69,7 @@ IconData getAmenityIcon(String amenity) {
       a.contains('compound')) {
     return LucideIcons.tree_pine;
   }
+  if (a.contains('fence') || a.contains('gate')) return LucideIcons.fence;
   if (a.contains('gym') || a.contains('pool') || a.contains('swimming')) {
     return LucideIcons.dumbbell;
   }
@@ -84,6 +84,15 @@ IconData getAmenityIcon(String amenity) {
   }
   if (a.contains('smoke') || a.contains('alarm') || a.contains('fire')) {
     return LucideIcons.flame;
+  }
+  if (a.contains('solar') || a.contains('inverter')) {
+    return LucideIcons.solar_panel;
+  }
+  if (a.contains('waste') || a.contains('garbage') || a.contains('trash')) {
+    return LucideIcons.trash;
+  }
+  if (a.contains('cleaning')) {
+    return LucideIcons.sparkles;
   }
   return LucideIcons.circle_check; // Generic fallback
 }

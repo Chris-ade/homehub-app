@@ -111,9 +111,7 @@ class PropertyReviewsSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
-              color: isDark
-                  ? AppColors.darkTextPrimary
-                  : AppColors.textPrimary,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             ),
           ),
         ),
@@ -214,11 +212,11 @@ class PropertyReviewsSection extends StatelessWidget {
 
   Widget _buildReviewMentionChips() {
     final chips = [
-      {"icon": "🎁", "label": "Hospitality", "count": 15},
-      {"icon": "✨", "label": "Cleanliness", "count": 8},
-      {"icon": "📍", "label": "Location", "count": 7},
-      {"icon": "🛋️", "label": "Comfort", "count": 5},
-      {"icon": "🔑", "label": "Check-in", "count": 9},
+      {"icon": LucideIcons.accessibility, "label": "Hospitality", "count": 15},
+      {"icon": LucideIcons.star, "label": "Cleanliness", "count": 8},
+      {"icon": LucideIcons.map_pin, "label": "Location", "count": 7},
+      {"icon": LucideIcons.sofa, "label": "Comfort", "count": 5},
+      {"icon": LucideIcons.key, "label": "Check-in", "count": 9},
     ];
 
     return Column(
@@ -245,11 +243,14 @@ class PropertyReviewsSection extends StatelessWidget {
                   label: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        chip['icon'] as String,
-                        style: const TextStyle(fontSize: 13),
+                      Icon(
+                        chip['icon'] as IconData,
+                        size: 16,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary,
                       ),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: 8),
                       Text(
                         "${chip['label']}  ${chip['count']}",
                         style: TextStyle(
@@ -338,10 +339,12 @@ class PropertyReviewsSection extends StatelessWidget {
               Row(
                 children: List.generate(
                   review['rating'] as int,
-                  (i) => const Icon(
+                  (i) => Icon(
                     Icons.star_rounded,
                     size: 13,
-                    color: Colors.black87,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.primary,
                   ),
                 ),
               ),
