@@ -259,11 +259,11 @@ class _AppToastOverlayState extends State<_AppToastOverlay>
   Color _getTypeAccentColor(bool isDark) {
     switch (widget.type) {
       case ToastType.success:
-        return AppColors.success;
+        return isDark ? AppColors.darkTextPrimary : AppColors.success;
       case ToastType.error:
         return AppColors.error;
       case ToastType.info:
-        return AppColors.info;
+        return isDark ? AppColors.darkTextPrimary : AppColors.info;
       case ToastType.warning:
         return AppColors.warning;
       case ToastType.normal:
@@ -291,8 +291,10 @@ class _AppToastOverlayState extends State<_AppToastOverlay>
     final mediaQuery = MediaQuery.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final backgroundColor = isDark ? AppColors.darkSurface : AppColors.textPrimary;
-    final textColor = isDark ? AppColors.darkTextPrimary : Colors.white;
+    final backgroundColor = isDark ? AppColors.darkSurface : AppColors.surface;
+    final textColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.textPrimary;
     final borderColor = isDark ? AppColors.darkBorder : AppColors.border;
     final accentColor = _getTypeAccentColor(isDark);
 
@@ -355,7 +357,7 @@ class _AppToastOverlayState extends State<_AppToastOverlay>
                               // Leading Icon / Avatar
                               _buildLeadingIcon(accentColor),
 
-                              const SizedBox(width: 12),
+                              const SizedBox(width: 8),
 
                               // Message Text
                               Flexible(
@@ -459,14 +461,10 @@ class _AppToastOverlayState extends State<_AppToastOverlay>
 
     final iconData = widget.icon ?? _getDefaultIcon();
 
-    return Container(
+    return SizedBox(
       width: 28,
       height: 28,
-      decoration: BoxDecoration(
-        color: accentColor.withValues(alpha: 0.16),
-        shape: BoxShape.circle,
-      ),
-      child: Center(child: Icon(iconData, size: 16, color: accentColor)),
+      child: Center(child: Icon(iconData, size: 20, color: accentColor)),
     );
   }
 }
