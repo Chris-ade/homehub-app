@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:homehub_app/widgets/app_toast.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -222,12 +223,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     if (!mounted) return;
     if (ok) {
       navigator.pop();
-      messenger.showSnackBar(
-        const SnackBar(
-          content: Text("Conversation deleted"),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+      AppToast.showSuccess(context, message: "Conversation deleted");
     } else {
       messenger.showSnackBar(
         const SnackBar(
