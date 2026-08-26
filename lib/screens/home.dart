@@ -165,9 +165,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               text: "moving in",
                               style: TextStyle(
                                 fontFamily: 'Cabinet Grotesk',
-                                color: isDark ? AppColors.darkAccent : AppColors.accent,
+                                color: isDark
+                                    ? AppColors.darkAccent
+                                    : AppColors.accent,
                                 decoration: TextDecoration.underline,
-                                decorationColor: isDark ? AppColors.darkAccent : AppColors.accent,
+                                decorationColor: isDark
+                                    ? AppColors.darkAccent
+                                    : AppColors.accent,
                                 decorationThickness: 2,
                               ),
                             ),
@@ -181,7 +185,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           height: 1.4,
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 18),
@@ -391,7 +397,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Icon(
                 LucideIcons.search,
                 size: 20,
-                color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                color: isDark
+                    ? AppColors.darkTextSecondary
+                    : AppColors.textSecondary,
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -400,7 +408,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                     fontFamily: 'Satoshi',
                     fontSize: 15,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
                   ),
                 ),
               ),
@@ -410,10 +420,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: isDark ? AppColors.darkAccent : AppColors.primary,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
+                child: Icon(
                   LucideIcons.arrow_right,
                   size: 18,
-                  color: Colors.white,
+                  color: isDark
+                      ? AppColors.darkButtonText
+                      : AppColors.buttonText,
                 ),
               ),
             ],
@@ -502,13 +514,17 @@ class _HomeScreenState extends State<HomeScreen> {
           "We're currently onboarding verified landlords in $cityName for our Q2 2026 expansion. Join the priority waitlist to get early access!",
           style: TextStyle(
             fontSize: 13,
-            color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+            color: isDark
+                ? AppColors.darkTextSecondary
+                : AppColors.textSecondary,
           ),
         ),
         actions: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: isDark ? AppColors.darkAccent : AppColors.primary,
+              backgroundColor: isDark
+                  ? AppColors.darkAccent
+                  : AppColors.primary,
               foregroundColor: Colors.white,
             ),
             onPressed: () {

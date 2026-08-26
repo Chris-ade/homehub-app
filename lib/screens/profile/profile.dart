@@ -38,7 +38,9 @@ class ProfileScreen extends StatelessWidget {
           IconButton(
             icon: Icon(
               LucideIcons.bell,
-              color: isDark ? AppColors.darkTextPrimary : const Color(0xFF222222),
+              color: isDark
+                  ? AppColors.darkTextPrimary
+                  : const Color(0xFF222222),
               size: 24,
             ),
             onPressed: () {},
@@ -87,7 +89,9 @@ class ProfileScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -96,7 +100,9 @@ class ProfileScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 12,
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -234,8 +240,12 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isDark ? AppColors.white : AppColors.primary,
-                          foregroundColor: isDark ? AppColors.textPrimary : Colors.white,
+                          backgroundColor: isDark
+                              ? AppColors.white
+                              : AppColors.primary,
+                          foregroundColor: isDark
+                              ? AppColors.textPrimary
+                              : Colors.white,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 10,
                             vertical: 6,
@@ -354,7 +364,10 @@ class ProfileScreen extends StatelessWidget {
                     onPressed: () {
                       userProvider.logout();
                       context.read<PropertyProvider>().clearFavorites();
-                      AppToast.showInfo(context, message: "Signed out of account.");
+                      AppToast.showInfo(
+                        context,
+                        message: "Signed out of account.",
+                      );
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
                           builder: (context) => const LoginScreen(),
@@ -437,7 +450,9 @@ class ProfileScreen extends StatelessWidget {
                       fontFamily: 'Cabinet Grotesk',
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
                     ),
                   ),
                 ],
@@ -447,7 +462,9 @@ class ProfileScreen extends StatelessWidget {
                 "Tap any toast style below to test the animated, swipeable toast overlay.",
                 style: TextStyle(
                   fontSize: 13,
-                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary,
                 ),
               ),
               const SizedBox(height: 20),
@@ -588,14 +605,18 @@ class ProfileScreen extends StatelessWidget {
                   fontFamily: 'Satoshi',
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                 ),
               ),
             ),
             Icon(
               LucideIcons.chevron_right,
               size: 16,
-              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.textSecondary,
             ),
           ],
         ),
@@ -666,7 +687,9 @@ class ProfileScreen extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: AppColors.primary.withValues(alpha: 0.12),
+                                color: AppColors.primary.withValues(
+                                  alpha: 0.12,
+                                ),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: const Icon(
@@ -718,7 +741,9 @@ class ProfileScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -753,7 +778,9 @@ class ProfileScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -793,7 +820,9 @@ class ProfileScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -915,7 +944,9 @@ class ProfileScreen extends StatelessWidget {
                           width: 40,
                           height: 4,
                           decoration: BoxDecoration(
-                            color: isDark ? AppColors.darkBorder : AppColors.border,
+                            color: isDark
+                                ? AppColors.darkBorder
+                                : AppColors.border,
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
@@ -942,7 +973,9 @@ class ProfileScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w900,
-                              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                              color: isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.textPrimary,
                             ),
                           ),
                         ],
@@ -954,7 +987,9 @@ class ProfileScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 13,
                           height: 1.4,
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -964,7 +999,9 @@ class ProfileScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -1100,7 +1137,9 @@ class ProfileScreen extends StatelessWidget {
       onTap: onTap,
       leading: Icon(
         icon,
-        color: iconColor ?? (isDark ? AppColors.darkTextPrimary : AppColors.primary),
+        color:
+            iconColor ??
+            (isDark ? AppColors.darkTextPrimary : AppColors.primary),
         size: 20,
       ),
       title: Text(
@@ -1108,7 +1147,9 @@ class ProfileScreen extends StatelessWidget {
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
-          color: titleColor ?? (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
+          color:
+              titleColor ??
+              (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
         ),
       ),
       subtitle: subtitle != null
@@ -1116,7 +1157,9 @@ class ProfileScreen extends StatelessWidget {
               subtitle,
               style: TextStyle(
                 fontSize: 11,
-                color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                color: isDark
+                    ? AppColors.darkTextSecondary
+                    : AppColors.textSecondary,
               ),
             )
           : null,
@@ -1125,7 +1168,9 @@ class ProfileScreen extends StatelessWidget {
           Icon(
             LucideIcons.chevron_right,
             size: 18,
-            color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+            color: isDark
+                ? AppColors.darkTextSecondary
+                : AppColors.textSecondary,
           ),
     );
   }
@@ -1163,8 +1208,12 @@ class ProfileScreen extends StatelessWidget {
                   icon,
                   size: 18,
                   color: selected
-                      ? Colors.white
-                      : (isDark ? AppColors.darkTextSecondary : AppColors.textSecondary),
+                      ? (isDark
+                            ? AppColors.textPrimary
+                            : AppColors.darkTextPrimary)
+                      : (isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.textSecondary),
                 ),
                 const SizedBox(height: 3),
                 Text(
@@ -1174,8 +1223,12 @@ class ProfileScreen extends StatelessWidget {
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
                     color: selected
-                        ? Colors.white
-                        : (isDark ? AppColors.darkTextSecondary : AppColors.textSecondary),
+                        ? (isDark
+                              ? AppColors.textPrimary
+                              : AppColors.darkTextPrimary)
+                        : (isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary),
                   ),
                 ),
               ],
@@ -1203,7 +1256,9 @@ class ProfileScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                 ),
               ),
             ],

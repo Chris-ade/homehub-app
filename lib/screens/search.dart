@@ -95,8 +95,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         icon: Icon(
                           LucideIcons.sliders_horizontal,
                           color: isDark
-                              ? AppColors.darkAccent
-                              : AppColors.accent,
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                           size: 20,
                         ),
                         onPressed: () =>
@@ -109,7 +109,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       IconButton(
                         style: IconButton.styleFrom(
                           backgroundColor: _isMapView
-                              ? AppColors.primary
+                              ? isDark
+                                    ? AppColors.darkAccent
+                                    : AppColors.primary
                               : (isDark
                                     ? AppColors.darkSurfaceAlt
                                     : AppColors.surfaceAlt),
@@ -120,7 +122,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         icon: Icon(
                           _isMapView ? LucideIcons.list : LucideIcons.map,
                           color: _isMapView
-                              ? Colors.white
+                              ? isDark
+                                    ? AppColors.darkButtonText
+                                    : AppColors.buttonText
                               : (isDark
                                     ? AppColors.darkTextPrimary
                                     : AppColors.textPrimary),
@@ -155,7 +159,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             return Padding(
                               padding: const EdgeInsets.only(right: 8.0),
                               child: ChoiceChip(
-                                checkmarkColor: AppColors.textPrimary,
+                                checkmarkColor: isDark
+                                    ? AppColors.darkButtonText
+                                    : AppColors.buttonText,
                                 label: Text(type),
                                 selected: isSelected,
                                 selectedColor: isSelected
@@ -169,7 +175,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                 labelStyle: TextStyle(
                                   fontFamily: 'Satoshi',
                                   color: isSelected
-                                      ? AppColors.textPrimary
+                                      ? (isDark
+                                            ? AppColors.darkButtonText
+                                            : AppColors.buttonText)
                                       : (isDark
                                             ? AppColors.darkTextPrimary
                                             : AppColors.textPrimary),
@@ -482,7 +490,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                   // City selector
                   Text(
-                    "Select City / Market",
+                    "Select City",
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
@@ -556,10 +564,12 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                     onPressed: () => Navigator.pop(context),
-                    child: const Text(
+                    child: Text(
                       "Apply Filters",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: isDark
+                            ? AppColors.darkButtonText
+                            : AppColors.buttonText,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -582,6 +592,7 @@ class _SearchScreenState extends State<SearchScreen> {
   ) {
     final isSelected = provider.selectedCitySlug == slug;
     return ChoiceChip(
+      checkmarkColor: isDark ? AppColors.darkButtonText : AppColors.buttonText,
       label: Text(label),
       selected: isSelected,
       selectedColor: isSelected
@@ -590,7 +601,9 @@ class _SearchScreenState extends State<SearchScreen> {
       backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
       labelStyle: TextStyle(
         color: isSelected
-            ? Colors.white
+            ? isDark
+                  ? AppColors.darkButtonText
+                  : AppColors.buttonText
             : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
         fontWeight: FontWeight.bold,
         fontSize: 11,

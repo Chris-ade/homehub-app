@@ -22,6 +22,7 @@ class AppColors {
 
   // Typography & Borders (Light)
   static const Color textPrimary = Color(0xFF0B1715);
+  static const Color buttonText = Color(0xFFEDEDED);
   static const Color textSecondary = Color(0xFF4C5C59);
   static const Color border = Color(0xFFE3E8E6);
 
@@ -35,6 +36,7 @@ class AppColors {
   static const Color darkSurfaceAlt = Color(0xFF2B2B2B);
   static const Color darkBorder = Color(0xFF363636);
   static const Color darkTextPrimary = Color(0xFFEDEDED);
+  static const Color darkButtonText = Color(0xFF0B1715);
   static const Color darkTextSecondary = Color(0xFF999999);
   static const Color darkAccent = Color(0xFFFFFFFF);
   static const Color darkAccentHover = Color(0xFFCC7048);
