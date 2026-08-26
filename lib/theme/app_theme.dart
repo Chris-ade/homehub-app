@@ -36,7 +36,7 @@ class AppColors {
   static const Color darkBorder = Color(0xFF363636);
   static const Color darkTextPrimary = Color(0xFFEDEDED);
   static const Color darkTextSecondary = Color(0xFF999999);
-  static const Color darkAccent = Color(0xFFE0845C);
+  static const Color darkAccent = Color(0xFFFFFFFF);
   static const Color darkAccentHover = Color(0xFFCC7048);
   static const Color darkPrimary = Color(0xFF134E4A);
 
@@ -396,7 +396,8 @@ class HeadingText extends StatelessWidget {
         fontFamily: 'Cabinet Grotesk',
         fontSize: fontSize,
         fontWeight: fontWeight,
-        color: color ?? (isDark ? AppColors.darkTextPrimary : AppColors.primary),
+        color:
+            color ?? (isDark ? AppColors.darkTextPrimary : AppColors.primary),
         letterSpacing: letterSpacing,
       ),
     );
