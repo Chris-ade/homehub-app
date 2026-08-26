@@ -106,13 +106,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-                      _circleAction(
-                        isDark: isDark,
-                        icon: themeProvider.isDarkMode
-                            ? LucideIcons.sun
-                            : LucideIcons.moon,
-                        onTap: () => themeProvider.toggleTheme(),
-                      ),
                       const SizedBox(width: 10),
                       GestureDetector(
                         onTap: () => widget.onNavigateTab(4), // Profile
@@ -147,38 +140,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                            fontFamily: 'Cabinet Grotesk',
-                            fontSize: 34,
-                            fontWeight: FontWeight.w900,
-                            height: 1.1,
-                            color: isDark
-                                ? AppColors.darkTextPrimary
-                                : AppColors.primary,
-                            letterSpacing: -0.5,
-                          ),
-                          children: [
-                            const TextSpan(text: "Houses worth\n"),
-                            TextSpan(
-                              text: "moving in",
-                              style: TextStyle(
-                                fontFamily: 'Cabinet Grotesk',
-                                color: isDark
-                                    ? AppColors.darkAccent
-                                    : AppColors.accent,
-                                decoration: TextDecoration.underline,
-                                decorationColor: isDark
-                                    ? AppColors.darkAccent
-                                    : AppColors.accent,
-                                decorationThickness: 2,
-                              ),
-                            ),
-                            const TextSpan(text: " for."),
-                          ],
-                        ),
-                      ),
+                      // Search pill (routes to Search tab, pre-focused)
+                      _buildSearchPill(isDark),
                       const SizedBox(height: 10),
                       Text(
                         "Verified flats, duplexes and student housing across the country straight from the landlord or a vetted agent.",
@@ -190,10 +153,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               : AppColors.textSecondary,
                         ),
                       ),
-                      const SizedBox(height: 18),
-
-                      // Search pill (routes to Search tab, pre-focused)
-                      _buildSearchPill(isDark),
 
                       const SizedBox(height: 14),
 
@@ -298,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: SectionHeader(title: "Explore markets"),
+                  child: SectionHeader(title: "Explore by city"),
                 ),
               ),
 
@@ -429,36 +388,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _circleAction({
-    required bool isDark,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    return Material(
-      color: isDark ? AppColors.darkSurface : AppColors.surface,
-      shape: const CircleBorder(),
-      child: InkWell(
-        onTap: onTap,
-        customBorder: const CircleBorder(),
-        child: Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: isDark ? AppColors.darkBorder : AppColors.border,
-            ),
-          ),
-          child: Icon(
-            icon,
-            size: 19,
-            color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
           ),
         ),
       ),

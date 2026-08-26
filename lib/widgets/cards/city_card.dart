@@ -49,15 +49,9 @@ class CityCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 42,
                       width: 42,
-                      decoration: BoxDecoration(
-                        color: isDark
-                            ? AppColors.primary.withValues(alpha: 0.3)
-                            : AppColors.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
                       child: Icon(
                         LucideIcons.building_2,
                         color: isDark ? AppColors.white : AppColors.primary,
@@ -75,7 +69,9 @@ class CityCard extends StatelessWidget {
                       child: Icon(
                         LucideIcons.arrow_up_right,
                         size: 16,
-                        color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.primary,
                       ),
                     ),
                   ],
@@ -106,7 +102,9 @@ class CityCard extends StatelessWidget {
                     fontFamily: 'Cabinet Grotesk',
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.primary,
                     letterSpacing: -0.3,
                   ),
                   maxLines: 1,
@@ -121,7 +119,9 @@ class CityCard extends StatelessWidget {
                     Icon(
                       LucideIcons.map_pin,
                       size: 14,
-                      color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                      color: isDark
+                          ? AppColors.darkTextSecondary
+                          : AppColors.textSecondary,
                     ),
                     const SizedBox(width: 4),
                     Expanded(
@@ -131,7 +131,9 @@ class CityCard extends StatelessWidget {
                           fontFamily: 'Satoshi',
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
