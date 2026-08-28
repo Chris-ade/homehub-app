@@ -22,12 +22,14 @@ class FavoritesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBackground : AppColors.background,
       appBar: AppBar(
-        backgroundColor:
-            isDark ? AppColors.darkBackground : AppColors.background,
+        backgroundColor: isDark
+            ? AppColors.darkBackground
+            : AppColors.background,
         elevation: 0,
         scrolledUnderElevation: 0,
         titleSpacing: 20,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               "Saved Properties",
@@ -43,17 +45,14 @@ class FavoritesScreen extends StatelessWidget {
             if (favorites.isNotEmpty) ...[
               const SizedBox(width: 8),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   color: isDark
                       ? AppColors.darkSurfaceAlt
                       : AppColors.surfaceAlt,
                   borderRadius: BorderRadius.circular(100),
                   border: Border.all(
-                    color: isDark
-                        ? AppColors.darkBorder
-                        : AppColors.border,
+                    color: isDark ? AppColors.darkBorder : AppColors.border,
                     width: 0.8,
                   ),
                 ),
@@ -62,9 +61,7 @@ class FavoritesScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
-                    color: isDark
-                        ? AppColors.darkAccent
-                        : AppColors.primary,
+                    color: isDark ? AppColors.darkAccent : AppColors.primary,
                   ),
                 ),
               ),
@@ -150,42 +147,23 @@ class FavoritesScreen extends StatelessWidget {
             : ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-                itemCount: favorites.length + 1,
+                itemCount: favorites.length,
                 itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12, top: 4),
-                      child: Text(
-                        "Your saved properties (${favorites.length})",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: isDark
-                              ? AppColors.darkTextSecondary
-                              : AppColors.textSecondary,
+                  final property = favorites[index];
+                  return PropertyCard(
+                    property: property,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PropertyDetailScreen(property: property),
                         ),
-                      ),
-                    );
-                  }
-
-                  final property = favorites[index - 1];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: PropertyCard(
-                      property: property,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                PropertyDetailScreen(property: property),
-                          ),
-                        );
-                      },
-                      onFavoriteToggle: () {
-                        propertyProvider.toggleFavorite(property.id);
-                      },
-                    ),
+                      );
+                    },
+                    onFavoriteToggle: () {
+                      propertyProvider.toggleFavorite(property.id);
+                    },
                   );
                 },
               ),

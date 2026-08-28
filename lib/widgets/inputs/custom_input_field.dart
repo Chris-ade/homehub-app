@@ -51,7 +51,8 @@ class CustomInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final suffix = customSuffixIcon ??
+    final suffix =
+        customSuffixIcon ??
         ValueListenableBuilder<TextEditingValue>(
           valueListenable: controller,
           builder: (context, value, child) {
@@ -71,9 +72,7 @@ class CustomInputField extends StatelessWidget {
       borderRadius: BorderRadius.circular(14),
       borderSide: hideBorder
           ? BorderSide.none
-          : BorderSide(
-              color: isDark ? AppColors.darkBorder : AppColors.border,
-            ),
+          : BorderSide(color: isDark ? AppColors.darkBorder : AppColors.border),
     );
 
     return TextFormField(
@@ -98,6 +97,7 @@ class CustomInputField extends StatelessWidget {
           fontFamily: 'Satoshi',
           color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
           fontSize: 15,
+          overflow: TextOverflow.ellipsis,
         ),
         prefixIcon: prefixIcon != null
             ? Icon(
@@ -128,19 +128,13 @@ class CustomInputField extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           borderSide: hideBorder
               ? BorderSide.none
-              : const BorderSide(
-                  color: Colors.red,
-                  width: 1.0,
-                ),
+              : const BorderSide(color: Colors.red, width: 1.0),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: hideBorder
               ? BorderSide.none
-              : const BorderSide(
-                  color: Colors.red,
-                  width: 1.5,
-                ),
+              : const BorderSide(color: Colors.red, width: 1.5),
         ),
       ),
     );
