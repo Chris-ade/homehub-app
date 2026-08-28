@@ -103,8 +103,10 @@ class LandlordPropertyCard extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: 15,
-                          fontWeight: FontWeight.w800,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 5),
@@ -114,7 +116,9 @@ class LandlordPropertyCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 12,
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 7),
@@ -184,7 +188,9 @@ class LandlordPropertyCard extends StatelessWidget {
   Widget _statusChip(bool isDark) {
     final verified = property.status == "Verified";
     final bg = verified
-        ? (isDark ? AppColors.primary.withValues(alpha: 0.25) : AppColors.primary.withValues(alpha: 0.1))
+        ? (isDark
+              ? AppColors.primary.withValues(alpha: 0.25)
+              : AppColors.primary.withValues(alpha: 0.1))
         : (isDark ? AppColors.darkSurfaceAlt : AppColors.accentLight);
     final fg = verified
         ? (isDark ? AppColors.primaryLight : AppColors.primary)
@@ -198,11 +204,7 @@ class LandlordPropertyCard extends StatelessWidget {
       ),
       child: Text(
         verified ? "Verified" : "New",
-        style: TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.w800,
-          color: fg,
-        ),
+        style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: fg),
       ),
     );
   }

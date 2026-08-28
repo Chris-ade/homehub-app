@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
+import 'package:homehub_app/providers/user_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -42,15 +43,12 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
     ).format(amount);
   }
 
-  Future<void> _refresh() =>
-      context.read<LandlordProvider>().refresh();
+  Future<void> _refresh() => context.read<LandlordProvider>().refresh();
 
   void _openAddProperty() async {
     final result = await Navigator.push<bool>(
       context,
-      MaterialPageRoute(
-        builder: (context) => const AddEditPropertyScreen(),
-      ),
+      MaterialPageRoute(builder: (context) => const AddEditPropertyScreen()),
     );
     if (result == true) await _refresh();
   }
@@ -93,7 +91,9 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
         content: Text(
           "\"${p.title}\" will be permanently removed. This can't be undone.",
           style: TextStyle(
-            color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+            color: isDark
+                ? AppColors.darkTextSecondary
+                : AppColors.textSecondary,
           ),
         ),
         actions: [
@@ -129,12 +129,10 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final landlord = context.watch<LandlordProvider>();
+    final user = context.watch<UserProvider>();
     final stats = landlord.stats;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Dashboard"),
-      ),
       body: RefreshIndicator(
         onRefresh: _refresh,
         color: isDark ? AppColors.white : AppColors.primary,
@@ -142,22 +140,38 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
           children: [
-            Text(
-              "Welcome back",
-              style: TextStyle(
-                fontFamily: 'Cabinet Grotesk',
-                fontSize: 26,
-                fontWeight: FontWeight.w800,
-                color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              "Manage your properties and track performance.",
-              style: TextStyle(
-                fontSize: 13,
-                color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Welcome back",
+                  style: TextStyle(
+                    fontFamily: 'Satoshi',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  user.firstName.isNotEmpty
+                      ? "${user.firstName} 👋"
+                      : "Welcome 👋",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'Cabinet Grotesk',
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: -0.5,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.primary,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
 
@@ -177,28 +191,28 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
                     label: "Total Properties",
                     value: "${stats.totalProperties}",
                     icon: LucideIcons.house,
-                    accent: AppColors.primary,
+                    accent: isDark ? AppColors.darkAccent : AppColors.primary,
                     subtitle: "${stats.newListings} new this month",
                   ),
                   StatCard(
                     label: "Total Revenue",
                     value: _formatNaira(stats.monthlyRevenue),
                     icon: LucideIcons.wallet,
-                    accent: AppColors.accent,
+                    accent: isDark ? AppColors.darkAccent : AppColors.primary,
                     subtitle: "Combined rent",
                   ),
                   StatCard(
                     label: "New Listings",
                     value: "${stats.newListings}",
                     icon: LucideIcons.circle_plus,
-                    accent: AppColors.info,
+                    accent: isDark ? AppColors.darkAccent : AppColors.primary,
                   ),
                   StatCard(
                     label: "Verified",
                     value:
                         "${stats.verifiedProperties} of ${stats.totalProperties}",
                     icon: LucideIcons.badge_check,
-                    accent: AppColors.success,
+                    accent: isDark ? AppColors.darkAccent : AppColors.primary,
                     subtitle: stats.totalProperties > 0
                         ? "${((stats.verifiedProperties / stats.totalProperties) * 100).round()}% of total"
                         : "0% of total",
@@ -210,7 +224,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
 
             // List a property
             CustomButton(
-              text: "List a New Property",
+              text: "List property",
               isAmber: true,
               icon: LucideIcons.plus,
               width: double.infinity,
@@ -226,17 +240,11 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
                     style: TextStyle(
                       fontFamily: 'Cabinet Grotesk',
                       fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
                     ),
-                  ),
-                ),
-                Text(
-                  "${landlord.myProperties.length}",
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -246,10 +254,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
             // My properties list / empty state
             if (landlord.isLoading && landlord.myProperties.isEmpty)
               Column(
-                children: List.generate(
-                  3,
-                  (_) => const PropertyCardSkeleton(),
-                ),
+                children: List.generate(3, (_) => const PropertyCardSkeleton()),
               )
             else if (landlord.myProperties.isEmpty)
               const NoDataWidget(
@@ -259,12 +264,14 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
                     "Tap \"List a New Property\" to publish your first listing.",
               )
             else
-              ...landlord.myProperties.map((p) => LandlordPropertyCard(
-                    property: p,
-                    onTap: () => _openDetail(p),
-                    onEdit: () => _openEditProperty(p),
-                    onDelete: () => _confirmDelete(p),
-                  )),
+              ...landlord.myProperties.map(
+                (p) => LandlordPropertyCard(
+                  property: p,
+                  onTap: () => _openDetail(p),
+                  onEdit: () => _openEditProperty(p),
+                  onDelete: () => _confirmDelete(p),
+                ),
+              ),
           ],
         ),
       ),
