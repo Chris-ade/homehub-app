@@ -173,13 +173,17 @@ class PropertyCard extends StatelessWidget {
                         Icon(
                           LucideIcons.star,
                           size: 12,
-                          color: AppColors.white,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                         ),
                         const SizedBox(width: 6),
                         Text(
                           "${property.rating}",
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary,
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
                           ),

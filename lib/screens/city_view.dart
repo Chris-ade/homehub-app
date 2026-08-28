@@ -144,6 +144,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                   final isSelected =
                                       _selectedPropertyType == type;
                                   return ChoiceChip(
+                                    checkmarkColor: isDark
+                                        ? AppColors.darkButtonText
+                                        : AppColors.buttonText,
                                     label: Text(type),
                                     selected: isSelected,
                                     selectedColor: isSelected
@@ -158,7 +161,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
                                       color: isSelected
-                                          ? Colors.white
+                                          ? (isDark
+                                                ? AppColors.darkButtonText
+                                                : AppColors.buttonText)
                                           : (isDark
                                                 ? AppColors.darkTextPrimary
                                                 : AppColors.textPrimary),
@@ -782,12 +787,11 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
     LatLng centerLatLng,
   ) {
     return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.only(bottom: 80),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── MAP HERO BANNER + 3-COLUMN STATS ROW ──
+          // MAP HERO BANNER
           _buildMapHero(isDark, centerLatLng),
 
           const SizedBox(height: 16),
@@ -801,7 +805,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                 Text(
                   "Filter by feature",
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: isDark
                         ? AppColors.darkTextSecondary
@@ -811,7 +815,6 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                 const SizedBox(height: 8),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
                   child: Row(
                     children: _quickAmenityList.map((amenity) {
                       final isSelected = _selectedAmenityFilters.contains(
@@ -861,16 +864,15 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
 
                 const SizedBox(height: 24),
 
-                // AVAILABLE LISTINGS SECTION HEADER
+                // AVAILABLE STREETS SECTION HEADER
                 Text(
-                  "Listings in ${widget.city.name}",
+                  "Streets with active listings in ${widget.city.name}",
                   style: TextStyle(
-                    fontFamily: "Cabinet Grotesk",
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
                     color: isDark
-                        ? AppColors.darkTextPrimary
-                        : AppColors.primary,
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
                   ),
                 ),
 
@@ -879,16 +881,13 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                   const SizedBox(height: 12),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
                     child: Row(
                       children: [
                         ChoiceChip(
                           checkmarkColor: isDark
                               ? AppColors.darkButtonText
                               : AppColors.buttonText,
-                          label: Text(
-                            "All Streets (${allCityListings.length})",
-                          ),
+                          label: Text("All (${allCityListings.length})"),
                           selected: _activeArea == "all",
                           selectedColor: _activeArea == "all"
                               ? (isDark
