@@ -4,7 +4,6 @@ import 'package:homehub_app/widgets/no_data_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/property_provider.dart';
-import '../providers/app_theme_provider.dart';
 import '../providers/user_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/cards/property_card.dart';
@@ -45,7 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final propertyProvider = context.watch<PropertyProvider>();
-    final themeProvider = context.watch<AppThemeProvider>();
     final userProvider = context.watch<UserProvider>();
 
     final featuredList = propertyProvider.featuredProperties;

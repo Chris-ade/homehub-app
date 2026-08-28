@@ -23,29 +23,55 @@ class ProfileScreen extends StatelessWidget {
     final themeProvider = context.watch<AppThemeProvider>();
 
     return Scaffold(
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.background,
       appBar: AppBar(
+        backgroundColor: isDark
+            ? AppColors.darkBackground
+            : AppColors.background,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        titleSpacing: 20,
         title: Text(
-          "Profile",
+          "Your profile",
           style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: isDark ? AppColors.darkTextPrimary : const Color(0xFF222222),
+            fontSize: AppFontSizes.titleLarge,
+            fontWeight: FontWeight.w700,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+            letterSpacing: -0.5,
           ),
         ),
-        elevation: 0,
-        backgroundColor: isDark ? AppColors.darkBackground : Colors.white,
         actions: [
-          IconButton(
-            icon: Icon(
-              LucideIcons.bell,
-              color: isDark
-                  ? AppColors.darkTextPrimary
-                  : const Color(0xFF222222),
-              size: 24,
+          if (userProvider.isLoggedIn)
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: IconButton(
+                tooltip: "Edit profile",
+                icon: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? AppColors.darkSurfaceAlt
+                        : AppColors.surfaceAlt,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    LucideIcons.user_pen,
+                    size: 18,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EditProfileScreen(),
+                    ),
+                  );
+                },
+              ),
             ),
-            onPressed: () {},
-          ),
-          const SizedBox(width: 8),
         ],
       ),
       body: RefreshIndicator(
@@ -281,6 +307,7 @@ class ProfileScreen extends StatelessWidget {
                   _buildSettingTile(
                     icon: LucideIcons.settings,
                     title: "Account settings",
+                    subtitle: "Personal info, password & account",
                     isDark: isDark,
                     onTap: () => Navigator.push(
                       context,
@@ -306,23 +333,6 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   _buildDivider(isDark),
 
-                  _buildSettingTile(
-                    icon: LucideIcons.sparkles,
-                    title: "Toast Component Demo",
-                    isDark: isDark,
-                    onTap: () => _showToastShowcaseModal(context),
-                  ),
-                  _buildDivider(isDark),
-
-                  _buildSettingTile(
-                    icon: LucideIcons.shield,
-                    title: "Privacy & Password",
-                    isDark: isDark,
-                    onTap: () =>
-                        _showChangePasswordModal(context, userProvider),
-                  ),
-                  _buildDivider(isDark),
-
                   _buildThemeModeTile(themeProvider, isDark),
                   _buildDivider(isDark),
 
@@ -339,19 +349,6 @@ class ProfileScreen extends StatelessWidget {
                       );
                     },
                   ),
-
-                  if (userProvider.isLoggedIn) ...[
-                    _buildDivider(isDark),
-                    _buildSettingTile(
-                      icon: LucideIcons.user_x,
-                      iconColor: Colors.red,
-                      title: "Deactivate account",
-                      titleColor: Colors.red,
-                      isDark: isDark,
-                      onTap: () =>
-                          _showDeactivateAccountDialog(context, userProvider),
-                    ),
-                  ],
                 ],
               ),
 
@@ -398,729 +395,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // --- TOAST SHOWCASE MODAL ---
-  void _showToastShowcaseModal(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: isDark ? AppColors.darkSurface : Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 36,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkBorder : AppColors.border,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: isDark
-                          ? AppColors.white.withValues(alpha: 0.12)
-                          : AppColors.primary.withValues(alpha: 0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      LucideIcons.sparkles,
-                      color: isDark ? AppColors.darkAccent : AppColors.accent,
-                      size: 20,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    "Toast Showcase",
-                    style: TextStyle(
-                      fontFamily: 'Cabinet Grotesk',
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: isDark
-                          ? AppColors.darkTextPrimary
-                          : AppColors.textPrimary,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Tap any toast style below to test the animated, swipeable toast overlay.",
-                style: TextStyle(
-                  fontSize: 13,
-                  color: isDark
-                      ? AppColors.darkTextSecondary
-                      : AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Buttons grid/list
-              _buildDemoButton(
-                context,
-                label: "Success Toast",
-                icon: LucideIcons.circle_check,
-                color: AppColors.success,
-                onTap: () {
-                  AppToast.showSuccess(
-                    context,
-                    message: "Listing saved to your Bookmarks",
-                    actionLabel: "Undo",
-                    onAction: () {},
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              _buildDemoButton(
-                context,
-                label: "Error Toast",
-                icon: LucideIcons.circle_alert,
-                color: AppColors.error,
-                onTap: () {
-                  AppToast.showError(
-                    context,
-                    message: "Unable to sync updates with server",
-                    actionLabel: "Retry",
-                    onAction: () {},
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              _buildDemoButton(
-                context,
-                label: "Info Toast",
-                icon: LucideIcons.info,
-                color: AppColors.info,
-                onTap: () {
-                  AppToast.showInfo(
-                    context,
-                    message: "New verified homes available in Ado-Ekiti!",
-                    actionLabel: "Explore",
-                    onAction: () {},
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              _buildDemoButton(
-                context,
-                label: "Warning Toast",
-                icon: LucideIcons.triangle_alert,
-                color: AppColors.warning,
-                onTap: () {
-                  AppToast.showWarning(
-                    context,
-                    message: "Your host verification is pending approval",
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              _buildDemoButton(
-                context,
-                label: "Top Position Banner Toast",
-                icon: LucideIcons.arrow_up,
-                color: AppColors.primary,
-                onTap: () {
-                  AppToast.show(
-                    context,
-                    message: "Notification preferences updated",
-                    position: ToastPosition.top,
-                    type: ToastType.success,
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              _buildDemoButton(
-                context,
-                label: "Avatar Notification Toast",
-                icon: LucideIcons.user,
-                color: Colors.purple,
-                onTap: () {
-                  AppToast.show(
-                    context,
-                    message: "Agent Alex sent you a new message",
-                    avatarUrl:
-                        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
-                    actionLabel: "View",
-                    onAction: () {},
-                  );
-                },
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildDemoButton(
-    BuildContext context, {
-    required String label,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: isDark ? AppColors.darkSurfaceAlt : AppColors.background,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: isDark ? AppColors.darkBorder : AppColors.border,
-          ),
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.15),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, size: 16, color: color),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontFamily: 'Satoshi',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: isDark
-                      ? AppColors.darkTextPrimary
-                      : AppColors.textPrimary,
-                ),
-              ),
-            ),
-            Icon(
-              LucideIcons.chevron_right,
-              size: 16,
-              color: isDark
-                  ? AppColors.darkTextSecondary
-                  : AppColors.textSecondary,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // --- CHANGE PASSWORD MODAL ---
-  void _showChangePasswordModal(
-    BuildContext context,
-    UserProvider userProvider,
-  ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final currentPasswordController = TextEditingController();
-    final newPasswordController = TextEditingController();
-    final confirmPasswordController = TextEditingController();
-
-    bool obscureCurrent = true;
-    bool obscureNew = true;
-    bool obscureConfirm = true;
-
-    bool isSubmitting = false;
-    String? errorMessage;
-    final formKey = GlobalKey<FormState>();
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setModalState) {
-            return Padding(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-              ),
-              child: Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkSurface : AppColors.surface,
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(28),
-                  ),
-                ),
-                child: Form(
-                  key: formKey,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: Container(
-                            width: 40,
-                            height: 4,
-                            decoration: BoxDecoration(
-                              color: isDark
-                                  ? AppColors.darkBorder
-                                  : AppColors.border,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withValues(
-                                  alpha: 0.12,
-                                ),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Icon(
-                                LucideIcons.lock,
-                                color: AppColors.primary,
-                                size: 22,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Text(
-                              "Change Password",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: isDark
-                                    ? AppColors.darkTextPrimary
-                                    : AppColors.textPrimary,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        if (errorMessage != null) ...[
-                          const SizedBox(height: 16),
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Colors.red.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: Colors.red.withValues(alpha: 0.3),
-                              ),
-                            ),
-                            child: Text(
-                              errorMessage!,
-                              style: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-
-                        const SizedBox(height: 20),
-
-                        Text(
-                          "Current Password",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: isDark
-                                ? AppColors.darkTextPrimary
-                                : AppColors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        TextFormField(
-                          controller: currentPasswordController,
-                          obscureText: obscureCurrent,
-                          decoration: _inputDecoration(
-                            hint: "Enter current password",
-                            icon: LucideIcons.lock,
-                            isDark: isDark,
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                obscureCurrent
-                                    ? LucideIcons.eye_off
-                                    : LucideIcons.eye,
-                                size: 20,
-                              ),
-                              onPressed: () => setModalState(
-                                () => obscureCurrent = !obscureCurrent,
-                              ),
-                            ),
-                          ),
-                          validator: (v) => v == null || v.isEmpty
-                              ? "Current password is required"
-                              : null,
-                        ),
-
-                        const SizedBox(height: 14),
-
-                        Text(
-                          "New Password",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: isDark
-                                ? AppColors.darkTextPrimary
-                                : AppColors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        TextFormField(
-                          controller: newPasswordController,
-                          obscureText: obscureNew,
-                          decoration: _inputDecoration(
-                            hint: "At least 6 characters",
-                            icon: LucideIcons.lock,
-                            isDark: isDark,
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                obscureNew
-                                    ? LucideIcons.eye_off
-                                    : LucideIcons.eye,
-                                size: 20,
-                              ),
-                              onPressed: () =>
-                                  setModalState(() => obscureNew = !obscureNew),
-                            ),
-                          ),
-                          validator: (v) {
-                            if (v == null || v.isEmpty) {
-                              return "New password is required";
-                            }
-                            if (v.length < 4) {
-                              return "Password must be at least 4 characters";
-                            }
-                            return null;
-                          },
-                        ),
-
-                        const SizedBox(height: 14),
-
-                        Text(
-                          "Confirm New Password",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: isDark
-                                ? AppColors.darkTextPrimary
-                                : AppColors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        TextFormField(
-                          controller: confirmPasswordController,
-                          obscureText: obscureConfirm,
-                          decoration: _inputDecoration(
-                            hint: "Re-enter new password",
-                            icon: LucideIcons.lock,
-                            isDark: isDark,
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                obscureConfirm
-                                    ? LucideIcons.eye_off
-                                    : LucideIcons.eye,
-                                size: 20,
-                              ),
-                              onPressed: () => setModalState(
-                                () => obscureConfirm = !obscureConfirm,
-                              ),
-                            ),
-                          ),
-                          validator: (v) {
-                            if (v != newPasswordController.text) {
-                              return "Passwords do not match";
-                            }
-                            return null;
-                          },
-                        ),
-
-                        const SizedBox(height: 24),
-
-                        CustomButton(
-                          text: isSubmitting
-                              ? "Updating Password..."
-                              : "Update Password",
-                          width: double.infinity,
-                          isPrimary: true,
-                          onPressed: isSubmitting
-                              ? null
-                              : () async {
-                                  if (!formKey.currentState!.validate()) return;
-                                  setModalState(() {
-                                    isSubmitting = true;
-                                    errorMessage = null;
-                                  });
-
-                                  final res = await userProvider.changePassword(
-                                    currentPassword:
-                                        currentPasswordController.text,
-                                    newPassword: newPasswordController.text,
-                                  );
-
-                                  if (!context.mounted) return;
-
-                                  if (res.success) {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(res.message),
-                                        backgroundColor: AppColors.primary,
-                                      ),
-                                    );
-                                  } else {
-                                    setModalState(() {
-                                      isSubmitting = false;
-                                      errorMessage = res.message;
-                                    });
-                                  }
-                                },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  // --- DEACTIVATE ACCOUNT DIALOG ---
-  void _showDeactivateAccountDialog(
-    BuildContext context,
-    UserProvider userProvider,
-  ) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final reasonController = TextEditingController();
-    bool isDeactivating = false;
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setDialogState) {
-            return Padding(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-              ),
-              child: Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkSurface : AppColors.surface,
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(28),
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Container(
-                          width: 40,
-                          height: 4,
-                          decoration: BoxDecoration(
-                            color: isDark
-                                ? AppColors.darkBorder
-                                : AppColors.border,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.red.withValues(alpha: 0.12),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(
-                              LucideIcons.triangle_alert,
-                              color: Colors.red,
-                              size: 22,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Text(
-                            "Deactivate Account",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w900,
-                              color: isDark
-                                  ? AppColors.darkTextPrimary
-                                  : AppColors.textPrimary,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-
-                      Text(
-                        "Are you sure you want to deactivate your account? Your profile and active property listings will be hidden, and you will be signed out.",
-                        style: TextStyle(
-                          fontSize: 13,
-                          height: 1.4,
-                          color: isDark
-                              ? AppColors.darkTextSecondary
-                              : AppColors.textSecondary,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-
-                      Text(
-                        "Reason for leaving (Optional):",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: isDark
-                              ? AppColors.darkTextPrimary
-                              : AppColors.textPrimary,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      TextFormField(
-                        controller: reasonController,
-                        maxLines: 2,
-                        decoration: InputDecoration(
-                          hintText:
-                              "e.g. Found a house, no longer need account",
-                          hintStyle: TextStyle(
-                            fontSize: 12,
-                            color: isDark
-                                ? AppColors.darkTextSecondary
-                                : AppColors.textSecondary,
-                          ),
-                          filled: true,
-                          fillColor: isDark
-                              ? AppColors.darkSurfaceAlt
-                              : AppColors.surfaceAlt,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton(
-                              onPressed: isDeactivating
-                                  ? null
-                                  : () => Navigator.pop(context),
-                              style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: const Text("Cancel"),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              onPressed: isDeactivating
-                                  ? null
-                                  : () async {
-                                      setDialogState(
-                                        () => isDeactivating = true,
-                                      );
-
-                                      final res = await userProvider
-                                          .deactivateAccount(
-                                            reason: reasonController.text
-                                                .trim(),
-                                          );
-
-                                      if (!context.mounted) return;
-
-                                      Navigator.pop(context);
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        SnackBar(
-                                          content: Text(res.message),
-                                          backgroundColor: Colors.red,
-                                        ),
-                                      );
-
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginScreen(),
-                                        ),
-                                        (route) => false,
-                                      );
-                                    },
-                              child: isDeactivating
-                                  ? const SizedBox(
-                                      width: 18,
-                                      height: 18,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                        strokeWidth: 2,
-                                      ),
-                                    )
-                                  : const Text(
-                                      "Deactivate",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
 
   Widget _buildSettingTile({
     required IconData icon,
@@ -1279,45 +554,6 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  InputDecoration _inputDecoration({
-    required String hint,
-    required IconData icon,
-    required bool isDark,
-    Widget? suffixIcon,
-  }) {
-    return InputDecoration(
-      hintText: hint,
-      hintStyle: TextStyle(
-        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
-        fontSize: 13,
-      ),
-      prefixIcon: Icon(icon, color: AppColors.primary, size: 20),
-      suffixIcon: suffixIcon,
-      filled: true,
-      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
-          color: isDark ? AppColors.darkBorder : AppColors.border,
-        ),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
-          color: isDark ? AppColors.darkBorder : AppColors.border,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
-          color: isDark ? AppColors.white : AppColors.primary,
-          width: 1.5,
-        ),
       ),
     );
   }

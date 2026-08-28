@@ -6,7 +6,10 @@ import 'package:provider/provider.dart';
 
 import '../../data/nigeria_locations.dart';
 import '../../providers/user_provider.dart';
+import '../../providers/property_provider.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/app_toast.dart';
+import '../auth/login.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -168,7 +171,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 6),
@@ -176,7 +181,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 "Select a photo from your gallery or take a new picture using your camera.",
                 style: TextStyle(
                   fontSize: 12,
-                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary,
                 ),
               ),
               const SizedBox(height: 24),
@@ -212,19 +219,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary,
                   ),
                 ),
                 subtitle: Text(
                   "Use camera to snap a new picture",
                   style: TextStyle(
                     fontSize: 11,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
                   ),
                 ),
                 trailing: Icon(
                   LucideIcons.chevron_right,
-                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary,
                 ),
                 onTap: () => _pickPhoto(ImageSource.camera),
               ),
@@ -260,19 +273,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary,
                   ),
                 ),
                 subtitle: Text(
                   "Select photo from device library",
                   style: TextStyle(
                     fontSize: 11,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
                   ),
                 ),
                 trailing: Icon(
                   LucideIcons.chevron_right,
-                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary,
                 ),
                 onTap: () => _pickPhoto(ImageSource.gallery),
               ),
@@ -316,7 +335,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w900,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -324,7 +345,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         "Review your photo before uploading",
                         style: TextStyle(
                           fontSize: 12,
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -371,7 +394,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               : AppColors.surfaceAlt,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: isDark ? AppColors.darkBorder : AppColors.border,
+                            color: isDark
+                                ? AppColors.darkBorder
+                                : AppColors.border,
                           ),
                         ),
                         child: Column(
@@ -545,7 +570,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               text,
               style: TextStyle(
                 fontSize: 11,
-                color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                color: isDark
+                    ? AppColors.darkTextSecondary
+                    : AppColors.textSecondary,
                 height: 1.4,
               ),
             ),
@@ -682,7 +709,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     decoration: TextDecoration.underline,
-                    color: isDark ? AppColors.darkTextPrimary : const Color(0xFF222222),
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : const Color(0xFF222222),
                   ),
                 ),
               ),
@@ -700,8 +729,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ? FontWeight.normal
                   : FontWeight.w500,
               color: displayValue == "Not provided"
-                  ? (isDark ? AppColors.darkTextSecondary : const Color(0xFF717171))
-                  : (isDark ? AppColors.darkTextPrimary : const Color(0xFF222222)),
+                  ? (isDark
+                        ? AppColors.darkTextSecondary
+                        : const Color(0xFF717171))
+                  : (isDark
+                        ? AppColors.darkTextPrimary
+                        : const Color(0xFF222222)),
             ),
           )
         else ...[
@@ -753,6 +786,67 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
+  Widget _buildAccountInlineSection({
+    required String sectionId,
+    required String title,
+    required String subtext,
+    required String displayValue,
+    required Widget actionContent,
+    required VoidCallback onSave,
+    required bool isDark,
+    bool hideAction = false,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : const Color(0xFF222222),
+                    ),
+                  ),
+                  if (subtext.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      subtext,
+                      style: TextStyle(
+                        fontSize: 13,
+                        height: 1.4,
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : const Color(0xFF717171),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            if (!hideAction) ...[actionContent],
+          ],
+        ),
+        const SizedBox(height: 8),
+        Divider(
+          height: 1,
+          thickness: 1,
+          color: isDark ? AppColors.darkBorder : const Color(0xFFEBEBEB),
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -763,17 +857,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         .trim();
 
     return Scaffold(
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.background,
       appBar: AppBar(
         title: Text(
-          "Personal info",
+          "Account settings",
           style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: isDark ? AppColors.darkTextPrimary : const Color(0xFF222222),
+            fontSize: AppFontSizes.titleLarge,
+            fontWeight: FontWeight.w700,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+            letterSpacing: -0.5,
           ),
         ),
         elevation: 0,
-        backgroundColor: isDark ? AppColors.darkBackground : Colors.white,
+        scrolledUnderElevation: 0,
+        backgroundColor: isDark
+            ? AppColors.darkBackground
+            : AppColors.background,
         bottom: _isFetchingBackendData
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(3),
@@ -796,6 +895,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Privacy Info Card
+                  _buildInfoCard(
+                    icon: LucideIcons.eye,
+                    title: "Privacy Info",
+                    description:
+                        "Only your full name, location, phone number, and occupation are shared with property owners and agents.",
+                    isDark: isDark,
+                  ),
+                  const SizedBox(height: 24),
                   // Profile Photo Header
                   Center(
                     child: Stack(
@@ -890,6 +998,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   const SizedBox(height: 28),
 
+                  // Section Title: Personal Info
+                  Text(
+                    "Personal info",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
                   // 1. Legal Name Section
                   _buildInlineSection(
                     sectionId: "legal_name",
@@ -913,7 +1034,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ? AppColors.darkTextPrimary
                                 : const Color(0xFF222222),
                           ),
-                          decoration: _airbnbInputDecoration(
+                          decoration: _inlineInputDecoration(
                             labelText: "First name on ID",
                             hintText: "First Name",
                             isDark: isDark,
@@ -933,7 +1054,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ? AppColors.darkTextPrimary
                                 : const Color(0xFF222222),
                           ),
-                          decoration: _airbnbInputDecoration(
+                          decoration: _inlineInputDecoration(
                             labelText: "Last name on ID",
                             hintText: "Last Name",
                             isDark: isDark,
@@ -967,7 +1088,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ? AppColors.darkTextPrimary
                             : const Color(0xFF222222),
                       ),
-                      decoration: _airbnbInputDecoration(
+                      decoration: _inlineInputDecoration(
                         labelText: "Phone number",
                         hintText: "Phone Number",
                         isDark: isDark,
@@ -1013,7 +1134,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ? AppColors.darkTextPrimary
                             : const Color(0xFF222222),
                       ),
-                      decoration: _airbnbInputDecoration(
+                      decoration: _inlineInputDecoration(
                         labelText: "Occupation",
                         hintText: "Occupation",
                         isDark: isDark,
@@ -1040,7 +1161,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ? AppColors.darkTextPrimary
                                 : const Color(0xFF222222),
                           ),
-                          decoration: _airbnbInputDecoration(
+                          decoration: _inlineInputDecoration(
                             labelText: "State of Residence",
                             hintText: "Select State",
                             isDark: isDark,
@@ -1085,7 +1206,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ? AppColors.darkTextPrimary
                                 : const Color(0xFF222222),
                           ),
-                          decoration: _airbnbInputDecoration(
+                          decoration: _inlineInputDecoration(
                             labelText: "LGA / City",
                             hintText: "Select LGA",
                             isDark: isDark,
@@ -1120,21 +1241,636 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
 
-                  // Privacy Info Card
-                  _buildInfoCard(
-                    icon: LucideIcons.eye,
-                    title: "Privacy Info",
-                    description:
-                        "Only your full name, location, phone number, and occupation are shared with verified property agents.",
-                    isDark: isDark,
+                  // Section Title: Security & Password
+                  Text(
+                    "Account management",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
+                    ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 14),
+
+                  // 4. Password Section
+                  _buildAccountInlineSection(
+                    sectionId: "password",
+                    title: "Password",
+                    subtext: "Change your password",
+                    displayValue: "",
+                    isDark: isDark,
+                    onSave: () => _handleSaveProfile(sectionId: "password"),
+                    actionContent: InkWell(
+                      onTap: () =>
+                          _showChangePasswordModal(context, userProvider),
+                      child: Text(
+                        "Change",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : const Color(0xFF222222),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  _buildAccountInlineSection(
+                    sectionId: "deactivate_account",
+                    title: "Deactivate Account",
+                    subtext: "Deactivate your account",
+                    displayValue: "",
+                    isDark: isDark,
+                    onSave: () =>
+                        _handleSaveProfile(sectionId: "deactivate_account"),
+                    actionContent: InkWell(
+                      onTap: () =>
+                          _showDeactivateAccountDialog(context, userProvider),
+                      child: Text(
+                        "Deactivate",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : const Color(0xFF222222),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  // CHANGE PASSWORD MODAL
+  void _showChangePasswordModal(
+    BuildContext context,
+    UserProvider userProvider,
+  ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final currentPasswordController = TextEditingController();
+    final newPasswordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+
+    bool obscureCurrent = true;
+    bool obscureNew = true;
+    bool obscureConfirm = true;
+
+    bool isSubmitting = false;
+    String? errorMessage;
+    final formKey = GlobalKey<FormState>();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkSurface : AppColors.surface,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(28),
+                  ),
+                ),
+                child: Form(
+                  key: formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Container(
+                            width: 40,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: isDark
+                                  ? AppColors.darkBorder
+                                  : AppColors.border,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        Row(
+                          children: [
+                            Icon(
+                              LucideIcons.lock,
+                              color: isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.textPrimary,
+                              size: 22,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              "Change Password",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: isDark
+                                    ? AppColors.darkTextPrimary
+                                    : AppColors.textPrimary,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        if (errorMessage != null) ...[
+                          const SizedBox(height: 16),
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.red.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.red.withValues(alpha: 0.3),
+                              ),
+                            ),
+                            child: Text(
+                              errorMessage!,
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+
+                        const SizedBox(height: 20),
+
+                        Text(
+                          "Current Password",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        TextFormField(
+                          controller: currentPasswordController,
+                          obscureText: obscureCurrent,
+                          decoration: _modalInputDecoration(
+                            hint: "Enter current password",
+                            icon: LucideIcons.lock,
+                            isDark: isDark,
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                obscureCurrent
+                                    ? LucideIcons.eye_off
+                                    : LucideIcons.eye,
+                                size: 20,
+                              ),
+                              onPressed: () => setModalState(
+                                () => obscureCurrent = !obscureCurrent,
+                              ),
+                            ),
+                          ),
+                          validator: (v) => v == null || v.isEmpty
+                              ? "Current password is required"
+                              : null,
+                        ),
+
+                        const SizedBox(height: 14),
+
+                        Text(
+                          "New Password",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        TextFormField(
+                          controller: newPasswordController,
+                          obscureText: obscureNew,
+                          decoration: _modalInputDecoration(
+                            hint: "At least 6 characters",
+                            icon: LucideIcons.lock,
+                            isDark: isDark,
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                obscureNew
+                                    ? LucideIcons.eye_off
+                                    : LucideIcons.eye,
+                                size: 20,
+                              ),
+                              onPressed: () =>
+                                  setModalState(() => obscureNew = !obscureNew),
+                            ),
+                          ),
+                          validator: (v) {
+                            if (v == null || v.isEmpty) {
+                              return "New password is required";
+                            }
+                            if (v.length < 6) {
+                              return "Password must be at least 6 characters";
+                            }
+                            return null;
+                          },
+                        ),
+
+                        const SizedBox(height: 14),
+
+                        Text(
+                          "Confirm New Password",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        TextFormField(
+                          controller: confirmPasswordController,
+                          obscureText: obscureConfirm,
+                          decoration: _modalInputDecoration(
+                            hint: "Re-enter new password",
+                            icon: LucideIcons.lock,
+                            isDark: isDark,
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                obscureConfirm
+                                    ? LucideIcons.eye_off
+                                    : LucideIcons.eye,
+                                size: 20,
+                              ),
+                              onPressed: () => setModalState(
+                                () => obscureConfirm = !obscureConfirm,
+                              ),
+                            ),
+                          ),
+                          validator: (v) {
+                            if (v == null || v.isEmpty) {
+                              return "Please confirm password";
+                            }
+                            if (v != newPasswordController.text) {
+                              return "Passwords do not match";
+                            }
+                            return null;
+                          },
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton(
+                                onPressed: isSubmitting
+                                    ? null
+                                    : () => Navigator.pop(context),
+                                style: OutlinedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                child: const Text("Cancel"),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: isDark
+                                      ? AppColors.darkAccent
+                                      : AppColors.primary,
+                                  foregroundColor: isDark
+                                      ? AppColors.textPrimary
+                                      : Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                onPressed: isSubmitting
+                                    ? null
+                                    : () async {
+                                        if (!formKey.currentState!.validate()) {
+                                          return;
+                                        }
+
+                                        setModalState(() {
+                                          isSubmitting = true;
+                                          errorMessage = null;
+                                        });
+
+                                        final res = await userProvider
+                                            .changePassword(
+                                              currentPassword:
+                                                  currentPasswordController
+                                                      .text,
+                                              newPassword:
+                                                  newPasswordController.text,
+                                            );
+
+                                        if (!context.mounted) return;
+
+                                        if (res.success) {
+                                          Navigator.pop(context);
+                                          AppToast.showSuccess(
+                                            context,
+                                            message:
+                                                "Password updated successfully!",
+                                          );
+                                        } else {
+                                          setModalState(() {
+                                            isSubmitting = false;
+                                            errorMessage = res.message;
+                                          });
+                                        }
+                                      },
+                                child: isSubmitting
+                                    ? const SizedBox(
+                                        width: 18,
+                                        height: 18,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : const Text(
+                                        "Save Password",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // DEACTIVATE ACCOUNT DIALOG
+  void _showDeactivateAccountDialog(
+    BuildContext context,
+    UserProvider userProvider,
+  ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final reasonController = TextEditingController();
+    bool isDeactivating = false;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return Dialog(
+              backgroundColor: isDark
+                  ? AppColors.darkSurface
+                  : AppColors.surface,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            LucideIcons.triangle_alert,
+                            color: isDark ? AppColors.darkAccent : Colors.red,
+                            size: 22,
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            "Deactivate Account",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.textPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+
+                      Text(
+                        "Are you sure you want to deactivate your account? Your profile will be hidden, and you will be signed out.",
+                        style: TextStyle(
+                          fontSize: 15,
+                          height: 1.4,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      Text(
+                        "Reason for leaving (Optional):",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      TextFormField(
+                        controller: reasonController,
+                        maxLines: 2,
+                        decoration: InputDecoration(
+                          hintText:
+                              "e.g. Found a house, no longer need account",
+                          hintStyle: TextStyle(
+                            fontSize: 13,
+                            color: isDark
+                                ? AppColors.darkTextSecondary
+                                : AppColors.textSecondary,
+                          ),
+                          filled: true,
+                          fillColor: isDark
+                              ? AppColors.darkSurfaceAlt
+                              : AppColors.surfaceAlt,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: isDeactivating
+                                  ? null
+                                  : () => Navigator.pop(context),
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 18,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Text("Cancel"),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 18,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onPressed: isDeactivating
+                                  ? null
+                                  : () async {
+                                      setDialogState(
+                                        () => isDeactivating = true,
+                                      );
+
+                                      final res = await userProvider
+                                          .deactivateAccount(
+                                            reason: reasonController.text
+                                                .trim(),
+                                          );
+
+                                      if (!context.mounted) return;
+
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(res.message),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+
+                                      context
+                                          .read<PropertyProvider>()
+                                          .clearFavorites();
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginScreen(),
+                                        ),
+                                        (route) => false,
+                                      );
+                                    },
+                              child: isDeactivating
+                                  ? const SizedBox(
+                                      width: 18,
+                                      height: 18,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Text(
+                                      "Deactivate",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  InputDecoration _modalInputDecoration({
+    required String hint,
+    required IconData icon,
+    required bool isDark,
+    Widget? suffixIcon,
+  }) {
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: TextStyle(
+        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+        fontSize: 13,
+      ),
+      prefixIcon: Icon(icon, color: AppColors.primary, size: 20),
+      suffixIcon: suffixIcon,
+      filled: true,
+      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(
+          color: isDark ? AppColors.darkBorder : AppColors.border,
+        ),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(
+          color: isDark ? AppColors.darkBorder : AppColors.border,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(
+          color: isDark ? AppColors.white : AppColors.primary,
+          width: 1.5,
         ),
       ),
     );
@@ -1146,66 +1882,45 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     required String description,
     required bool isDark,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.darkSurface : AppColors.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: isDark ? AppColors.darkBorder : AppColors.border),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: isDark
-                      ? AppColors.white.withValues(alpha: 0.12)
-                      : AppColors.primary.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  icon,
-                  color: isDark ? AppColors.white : AppColors.primary,
-                  size: 18,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            description,
-            style: TextStyle(
-              fontSize: 12,
-              height: 1.5,
-              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(
+              icon,
+              color: isDark ? AppColors.white : AppColors.primary,
+              size: 18,
             ),
+            const SizedBox(width: 10),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                color: isDark
+                    ? AppColors.darkTextPrimary
+                    : AppColors.textPrimary,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Text(
+          description,
+          style: TextStyle(
+            fontSize: 15,
+            height: 1.5,
+            color: isDark
+                ? AppColors.darkTextSecondary
+                : AppColors.textSecondary,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  InputDecoration _airbnbInputDecoration({
+  InputDecoration _inlineInputDecoration({
     required String labelText,
     required String hintText,
     required bool isDark,

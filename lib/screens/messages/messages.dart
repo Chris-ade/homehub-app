@@ -24,7 +24,6 @@ class _ChatScreenState extends State<ChatScreen> {
       "All"; // "All", "Inquiries", "Bookings", "Landlords", "Support"
   bool _isSubFilterActive = false;
   bool _filterUnreadOnly = false;
-  bool _filterStarredOnly = false;
   final Set<String> _selectedTripStages = {};
 
   final List<String> _tripStageOptions = const [
@@ -54,7 +53,6 @@ class _ChatScreenState extends State<ChatScreen> {
       _selectedCategory = "All";
       _isSubFilterActive = false;
       _filterUnreadOnly = false;
-      _filterStarredOnly = false;
       _selectedTripStages.clear();
       _searchController.clear();
     });
@@ -135,7 +133,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                         ),
                       ),
                       IconButton(
@@ -234,7 +234,9 @@ class _ChatScreenState extends State<ChatScreen> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary,
                           ),
                         ),
                         IconButton(
@@ -254,12 +256,16 @@ class _ChatScreenState extends State<ChatScreen> {
                         activeColor: isDark
                             ? AppColors.surfaceAlt
                             : AppColors.textPrimary,
-                        checkColor: isDark ? AppColors.textPrimary : Colors.white,
+                        checkColor: isDark
+                            ? AppColors.textPrimary
+                            : Colors.white,
                         title: Text(
                           stage,
                           style: TextStyle(
                             fontSize: 15,
-                            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary,
                           ),
                         ),
                         controlAffinity: ListTileControlAffinity.trailing,
@@ -386,7 +392,7 @@ class _ChatScreenState extends State<ChatScreen> {
           Text(
             "Messages",
             style: TextStyle(
-              fontSize: AppFontSizes.displaySmall,
+              fontSize: AppFontSizes.titleLarge,
               fontWeight: FontWeight.w700,
               color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
               letterSpacing: -0.5,
@@ -397,7 +403,9 @@ class _ChatScreenState extends State<ChatScreen> {
               IconButton(
                 icon: Icon(
                   LucideIcons.search,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                   size: 22,
                 ),
                 onPressed: () => setState(() => _isSearchActive = true),
@@ -405,7 +413,9 @@ class _ChatScreenState extends State<ChatScreen> {
               IconButton(
                 icon: Icon(
                   LucideIcons.settings,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                   size: 22,
                 ),
                 onPressed: () => _showMessagingSettingsModal(context, isDark),
@@ -442,7 +452,9 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Text(
               "Cancel",
               style: TextStyle(
-                color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                color: isDark
+                    ? AppColors.darkTextPrimary
+                    : AppColors.textPrimary,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -473,12 +485,16 @@ class _ChatScreenState extends State<ChatScreen> {
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                  color: isDark
+                      ? AppColors.darkSurfaceAlt
+                      : AppColors.surfaceAlt,
                 ),
                 child: Icon(
                   LucideIcons.arrow_left,
                   size: 16,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                 ),
               ),
             ),
@@ -514,7 +530,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 decoration: BoxDecoration(
                   color: _selectedTripStages.isNotEmpty
-                      ? (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary)
+                      ? (isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary)
                       : (isDark
                             ? AppColors.darkSurfaceAlt
                             : AppColors.surfaceAlt),
@@ -531,7 +549,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         fontWeight: FontWeight.bold,
                         color: _selectedTripStages.isNotEmpty
                             ? (isDark ? AppColors.textPrimary : Colors.white)
-                            : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
+                            : (isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.textPrimary),
                       ),
                     ),
                     const SizedBox(width: 4),
@@ -540,23 +560,13 @@ class _ChatScreenState extends State<ChatScreen> {
                       size: 16,
                       color: _selectedTripStages.isNotEmpty
                           ? (isDark ? AppColors.textPrimary : Colors.white)
-                          : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
+                          : (isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary),
                     ),
                   ],
                 ),
               ),
-            ),
-
-            // Starred filter pill
-            _buildPill(
-              label: "Starred",
-              isSelected: _filterStarredOnly,
-              isDark: isDark,
-              onTap: () {
-                setState(() {
-                  _filterStarredOnly = !_filterStarredOnly;
-                });
-              },
             ),
           ],
         ),
@@ -564,7 +574,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
 
     // Default primary category pills
-    final categories = ["All", "Inquiries", "Bookings", "Landlords", "Support"];
+    final categories = ["All", "Inquiries", "Bookings"];
     return SizedBox(
       height: 32,
       child: ListView.builder(
@@ -663,7 +673,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: Icon(
                         LucideIcons.mail,
                         size: 40,
-                        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -674,7 +686,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w900,
-                        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -685,7 +699,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14,
-                        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.textSecondary,
                       ),
                     ),
                     if (isFiltered) ...[
@@ -693,14 +709,16 @@ class _ChatScreenState extends State<ChatScreen> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: isDark
-                              ? AppColors.darkTextPrimary
-                              : AppColors.textPrimary,
+                              ? AppColors.darkAccent
+                              : AppColors.primary,
                           foregroundColor: isDark
-                              ? AppColors.textPrimary
-                              : Colors.white,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 12,
+                              ? AppColors.darkButtonText
+                              : AppColors.buttonText,
+                          padding: const EdgeInsets.only(
+                            left: 20,
+                            right: 20,
+                            top: 14,
+                            bottom: 16,
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -711,7 +729,6 @@ class _ChatScreenState extends State<ChatScreen> {
                           hasAnyOverallThreads
                               ? "Clear all filters"
                               : "Show all messages",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -775,14 +792,18 @@ class _ChatScreenState extends State<ChatScreen> {
                 style: TextStyle(
                   fontSize: AppFontSizes.bodyLarge,
                   fontWeight: FontWeight.w600,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                 ),
               ),
               Text(
                 DateFormat('hh:mm a').format(thread.lastMessageTime),
                 style: TextStyle(
                   fontSize: AppFontSizes.labelMedium,
-                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary,
                 ),
               ),
             ],
@@ -811,8 +832,12 @@ class _ChatScreenState extends State<ChatScreen> {
                             ? FontWeight.bold
                             : FontWeight.normal,
                         color: hasUnread
-                            ? (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary)
-                            : (isDark ? AppColors.darkTextSecondary : AppColors.textSecondary),
+                            ? (isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.textPrimary)
+                            : (isDark
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.textSecondary),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

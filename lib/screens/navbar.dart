@@ -47,7 +47,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       else
         HomeScreen(onNavigateTab: _onTabSelected),
       const SearchScreen(),
-      const FavoritesScreen(),
+      FavoritesScreen(onExploreTap: () => _onTabSelected(0)),
       const ChatScreen(),
       const ProfileScreen(),
     ];

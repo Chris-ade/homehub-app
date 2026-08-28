@@ -30,7 +30,10 @@ void main() {
         // UserProvider before PropertyProvider so authProvider is registered first.
         ChangeNotifierProvider(create: (_) => UserProvider(apiClient)),
         ChangeNotifierProvider(create: (_) => PropertyProvider(apiClient)),
-        ChangeNotifierProvider(create: (_) => BookingProvider()),
+        ChangeNotifierProxyProvider<UserProvider, BookingProvider>(
+          create: (_) => BookingProvider(apiClient),
+          update: (_, user, booking) => booking!..bindUser(user),
+        ),
         // Landlord dashboard data: the agent's own listings + stats. Empty for
         // non-agent accounts; the UI only surfaces it via UserProvider.isLandlord.
         ChangeNotifierProvider(create: (_) => LandlordProvider(apiClient)),

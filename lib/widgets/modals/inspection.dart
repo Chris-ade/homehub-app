@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/property_model.dart';
-import '../../models/booking_model.dart';
 import '../../providers/booking_provider.dart';
 import '../../theme/app_theme.dart';
 import '../custom_button.dart';
+import '../app_toast.dart';
 
 class InspectionModal extends StatefulWidget {
   final Property property;
@@ -23,6 +23,7 @@ class _InspectionModalState extends State<InspectionModal> {
   String _selectedSlot = "10:00 AM";
   String _inspectionType = "In-Person Viewing";
   final TextEditingController _noteController = TextEditingController();
+  bool _isSubmitting = false;
 
   final List<String> _timeSlots = [
     "09:00 AM",
@@ -278,55 +279,45 @@ class _InspectionModalState extends State<InspectionModal> {
 
             // Confirm Button
             CustomButton(
-              text: "Confirm Inspection Booking",
+              text: _isSubmitting ? "Requesting Inspection..." : "Confirm Inspection Booking",
               isAmber: true,
               width: double.infinity,
-              onPressed: () {
-                final newBooking = InspectionBooking(
-                  id: "bk-${DateTime.now().millisecondsSinceEpoch}",
+              isDisabled: _isSubmitting,
+              onPressed: () async {
+                setState(() => _isSubmitting = true);
+                final bookingProvider = context.read<BookingProvider>();
+
+                final res = await bookingProvider.bookInspection(
                   propertyId: widget.property.id,
-                  propertyTitle: widget.property.title,
-                  propertyImage: widget.property.image,
-                  area: widget.property.area,
-                  agentName: widget.property.agent.name,
-                  agentPhone: widget.property.agent.phone,
                   date: _selectedDate,
                   timeSlot: _selectedSlot,
-                  inspectionType: _inspectionType,
-                  note: _noteController.text,
+                  type: _inspectionType,
+                  notes: _noteController.text.trim(),
+                  fallbackPropertyTitle: widget.property.title,
+                  fallbackPropertyImage: widget.property.image,
+                  fallbackArea: widget.property.area,
+                  fallbackAgentName: widget.property.agent.name,
+                  fallbackAgentPhone: widget.property.agent.phone,
                 );
 
-                context.read<BookingProvider>().addBooking(newBooking);
+                if (!context.mounted) return;
+                setState(() => _isSubmitting = false);
 
                 Navigator.pop(context);
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: AppColors.primary,
-                    content: Row(
-                      children: [
-                        const Icon(
-                          LucideIcons.circle_check,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            "Inspection booked for ${DateFormat('MMM d').format(_selectedDate)} at $_selectedSlot!",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                );
+                if (res != null) {
+                  AppToast.showSuccess(
+                    context,
+                    message:
+                        "Inspection requested for ${DateFormat('MMM d').format(_selectedDate)} at $_selectedSlot!",
+                  );
+                } else {
+                  AppToast.showError(
+                    context,
+                    message: bookingProvider.error ??
+                        "Failed to request inspection. Please try again.",
+                  );
+                }
               },
             ),
           ],
