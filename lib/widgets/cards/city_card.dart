@@ -49,14 +49,10 @@ class CityCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      height: 42,
-                      width: 42,
-                      child: Icon(
-                        LucideIcons.building_2,
-                        color: isDark ? AppColors.white : AppColors.primary,
-                        size: 22,
-                      ),
+                    Icon(
+                      LucideIcons.map_pin,
+                      color: isDark ? AppColors.white : AppColors.primary,
+                      size: 22,
                     ),
                     Container(
                       padding: const EdgeInsets.all(6),
@@ -79,22 +75,6 @@ class CityCard extends StatelessWidget {
 
                 const SizedBox(height: 12),
 
-                // State Tag
-                Text(
-                  city.state.toUpperCase(),
-                  style: const TextStyle(
-                    fontFamily: 'Cabinet Grotesk',
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.accent,
-                    letterSpacing: 0.8,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-
-                const SizedBox(height: 2),
-
                 // City Name
                 Text(
                   city.name,
@@ -106,6 +86,20 @@ class CityCard extends StatelessWidget {
                         ? AppColors.darkTextPrimary
                         : AppColors.primary,
                     letterSpacing: -0.3,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+
+                // State Tag
+                Text(
+                  city.state.toUpperCase().replaceFirst("STATE", ""),
+                  style: TextStyle(
+                    fontFamily: 'Cabinet Grotesk',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: isDark ? AppColors.darkAccent : AppColors.accent,
+                    letterSpacing: 0.8,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

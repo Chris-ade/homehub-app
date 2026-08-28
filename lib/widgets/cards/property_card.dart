@@ -115,7 +115,9 @@ class PropertyCard extends StatelessWidget {
                         LucideIcons.heart,
                         color: property.isFavorite
                             ? (isDark ? AppColors.darkAccent : AppColors.accent)
-                            : (isDark ? AppColors.darkTextPrimary : AppColors.primary),
+                            : (isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.primary),
                         size: 16,
                       ),
                     ),
@@ -142,7 +144,9 @@ class PropertyCard extends StatelessWidget {
                     child: Text(
                       property.type,
                       style: TextStyle(
-                        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary,
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
                       ),
@@ -160,18 +164,18 @@ class PropertyCard extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.75),
+                      color: isDark ? AppColors.darkBackground : Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
+                        Icon(
                           LucideIcons.star,
-                          size: 14,
-                          color: Colors.amber,
+                          size: 12,
+                          color: AppColors.white,
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: 6),
                         Text(
                           "${property.rating}",
                           style: const TextStyle(
@@ -199,7 +203,9 @@ class PropertyCard extends StatelessWidget {
                       fontFamily: 'Cabinet Grotesk',
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.primary,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -213,16 +219,16 @@ class PropertyCard extends StatelessWidget {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: isDark
-                              ? AppColors.white
-                              : AppColors.primary,
+                          color: isDark ? AppColors.white : AppColors.primary,
                         ),
                       ),
                       Text(
                         " / ${property.period}",
                         style: TextStyle(
                           fontSize: 13,
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
                         ),
                       ),
                     ],

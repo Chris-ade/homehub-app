@@ -98,7 +98,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                              color: isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.textPrimary,
                             ),
                           ),
                           IconButton(
@@ -120,7 +122,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                              color: isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 12),
@@ -179,7 +183,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                              color: isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 12),
@@ -294,7 +300,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                              color: isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 6),
@@ -313,7 +321,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             min: 50000,
                             max: 20000000,
                             divisions: 40,
-                            activeColor: isDark ? AppColors.darkAccent : AppColors.primary,
+                            activeColor: isDark
+                                ? AppColors.darkAccent
+                                : AppColors.primary,
                             inactiveColor: isDark
                                 ? AppColors.darkSurfaceAlt
                                 : AppColors.surfaceAlt,
@@ -364,7 +374,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                              color: isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 12),
@@ -374,7 +386,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             );
                             return CheckboxListTile(
                               value: isChecked,
-                              activeColor: isDark ? AppColors.darkAccent : AppColors.primary,
+                              activeColor: isDark
+                                  ? AppColors.darkAccent
+                                  : AppColors.primary,
                               title: Text(
                                 amenity,
                                 style: TextStyle(
@@ -410,7 +424,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             : AppColors.surface,
                         border: Border(
                           top: BorderSide(
-                            color: isDark ? AppColors.darkBorder : AppColors.border,
+                            color: isDark
+                                ? AppColors.darkBorder
+                                : AppColors.border,
                           ),
                         ),
                       ),
@@ -598,7 +614,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                           child: Icon(
                             LucideIcons.arrow_left,
                             size: 18,
-                            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary,
                           ),
                         ),
                       ),
@@ -633,7 +651,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      "Homes in ${widget.city.name}",
+                                      "Listings in ${widget.city.name}, ${widget.city.state}",
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
@@ -647,7 +665,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                     Text(
                                       "${filteredListings.length} active listings available",
                                       style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         color: isDark
                                             ? AppColors.darkTextSecondary
                                             : AppColors.textSecondary,
@@ -676,7 +694,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                         ),
                         icon: Icon(
                           LucideIcons.sliders_horizontal,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                           size: 20,
                         ),
                         onPressed: () => _showFiltersModal(
@@ -713,8 +733,12 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
               child: Center(
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
-                    foregroundColor: isDark ? AppColors.textPrimary : Colors.white,
+                    backgroundColor: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary,
+                    foregroundColor: isDark
+                        ? AppColors.textPrimary
+                        : Colors.white,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 12,
@@ -773,13 +797,15 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ── QUICK AMENITY CHIPS BAR ──
+                // QUICK AMENITY CHIPS BAR
                 Text(
                   "Filter by feature",
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -794,10 +820,15 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                       return Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: ChoiceChip(
+                          checkmarkColor: isDark
+                              ? AppColors.darkButtonText
+                              : const Color.fromRGBO(237, 237, 237, 1),
                           label: Text(amenity),
                           selected: isSelected,
                           selectedColor: isSelected
-                              ? (isDark ? AppColors.darkAccent : AppColors.primary)
+                              ? (isDark
+                                    ? AppColors.darkAccent
+                                    : AppColors.primary)
                               : AppColors.surfaceAlt,
                           backgroundColor: isDark
                               ? AppColors.darkSurfaceAlt
@@ -806,8 +837,12 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                             color: isSelected
-                                ? Colors.white
-                                : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
+                                ? isDark
+                                      ? AppColors.darkButtonText
+                                      : AppColors.buttonText
+                                : (isDark
+                                      ? AppColors.darkTextPrimary
+                                      : AppColors.textPrimary),
                           ),
                           onSelected: (val) {
                             setState(() {
@@ -824,33 +859,41 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
 
-                // ── AVAILABLE LISTINGS SECTION HEADER ──
+                // AVAILABLE LISTINGS SECTION HEADER
                 Text(
-                  "Available in ${widget.city.name}",
+                  "Listings in ${widget.city.name}",
                   style: TextStyle(
+                    fontFamily: "Cabinet Grotesk",
                     fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                    fontWeight: FontWeight.w800,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.primary,
                   ),
                 ),
 
                 // Dynamic Real Street Filter Chips from API Payload street_name
                 if (dynamicStreets.isNotEmpty) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
                     child: Row(
                       children: [
                         ChoiceChip(
+                          checkmarkColor: isDark
+                              ? AppColors.darkButtonText
+                              : AppColors.buttonText,
                           label: Text(
                             "All Streets (${allCityListings.length})",
                           ),
                           selected: _activeArea == "all",
                           selectedColor: _activeArea == "all"
-                              ? (isDark ? AppColors.darkAccent : AppColors.primary)
+                              ? (isDark
+                                    ? AppColors.darkAccent
+                                    : AppColors.primary)
                               : AppColors.surfaceAlt,
                           backgroundColor: isDark
                               ? AppColors.darkSurfaceAlt
@@ -859,8 +902,12 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             fontSize: 12.5,
                             fontWeight: FontWeight.bold,
                             color: _activeArea == "all"
-                                ? Colors.white
-                                : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
+                                ? (isDark
+                                      ? AppColors.darkButtonText
+                                      : AppColors.buttonText)
+                                : (isDark
+                                      ? AppColors.darkTextPrimary
+                                      : AppColors.textPrimary),
                           ),
                           onSelected: (_) =>
                               setState(() => _activeArea = "all"),
@@ -869,13 +916,19 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                           (entry) => Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: ChoiceChip(
+                              checkmarkColor: isDark
+                                  ? AppColors.darkButtonText
+                                  : AppColors.buttonText,
                               label: Text("${entry.key} (${entry.value})"),
                               selected:
                                   _activeArea.toLowerCase() ==
                                   entry.key.toLowerCase(),
-                              selectedColor: _activeArea.toLowerCase() ==
+                              selectedColor:
+                                  _activeArea.toLowerCase() ==
                                       entry.key.toLowerCase()
-                                  ? (isDark ? AppColors.darkAccent : AppColors.primary)
+                                  ? (isDark
+                                        ? AppColors.darkAccent
+                                        : AppColors.primary)
                                   : AppColors.surfaceAlt,
                               backgroundColor: isDark
                                   ? AppColors.darkSurfaceAlt
@@ -886,7 +939,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                                 color:
                                     _activeArea.toLowerCase() ==
                                         entry.key.toLowerCase()
-                                    ? Colors.white
+                                    ? (isDark
+                                          ? AppColors.darkButtonText
+                                          : AppColors.buttonText)
                                     : (isDark
                                           ? AppColors.darkTextPrimary
                                           : AppColors.textPrimary),
@@ -906,15 +961,15 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                   ),
                 ],
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 30),
 
                 // Render property cards or no data widget based on filtered listings
                 filteredListings.isEmpty
                     ? NoDataWidget(
                         cityName: widget.city.name,
-                        title: "No properties found in ${widget.city.name}",
+                        title: "No listings found in ${widget.city.name}",
                         message:
-                            "We don't have active properties matching your selected filters in this area right now.",
+                            "We don't have active listings matching your selected filters in this area right now.",
                       )
                     : Column(
                         children: filteredListings.map((prop) {
@@ -1008,7 +1063,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                       Icon(
                         LucideIcons.map,
                         size: 13,
-                        color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.primary,
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -1016,7 +1073,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.primary,
                         ),
                       ),
                     ],
@@ -1094,7 +1153,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurfaceAlt : AppColors.surface,
-        border: Border.all(color: isDark ? AppColors.darkBorder : AppColors.border),
+        border: Border.all(
+          color: isDark ? AppColors.darkBorder : AppColors.border,
+        ),
       ),
       child: Row(
         children: List.generate(stats.length, (index) {
@@ -1108,7 +1169,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                     ? null
                     : Border(
                         right: BorderSide(
-                          color: isDark ? AppColors.darkBorder : AppColors.border,
+                          color: isDark
+                              ? AppColors.darkBorder
+                              : AppColors.border,
                           width: 1,
                         ),
                       ),
@@ -1121,7 +1184,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                     style: TextStyle(
                       fontSize: 9,
                       fontWeight: FontWeight.bold,
-                      color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                      color: isDark
+                          ? AppColors.darkTextSecondary
+                          : AppColors.textSecondary,
                       letterSpacing: 0.5,
                     ),
                     maxLines: 1,
@@ -1192,7 +1257,9 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: isDark ? AppColors.darkSurface : AppColors.primary,
+                        color: isDark
+                            ? AppColors.darkSurface
+                            : AppColors.primary,
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(

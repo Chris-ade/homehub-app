@@ -251,13 +251,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
               ),
 
-              const SliverToBoxAdapter(child: SizedBox(height: 8)),
+              const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
               // Explore markets header
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: SectionHeader(title: "Explore by city"),
+                  child: SectionHeader(
+                    title: "Explore by city",
+                    subtitle: "Browse verified listings in your city",
+                  ),
                 ),
               ),
 
