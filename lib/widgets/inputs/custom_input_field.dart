@@ -105,11 +105,7 @@ class CustomInputField extends StatelessWidget {
                 size: 20,
                 color: isDark ? AppColors.surfaceAlt : AppColors.primary,
               )
-            : const Icon(
-                LucideIcons.search,
-                size: 20,
-                color: AppColors.primary,
-              ),
+            : null,
         suffixIcon: suffix,
         filled: true,
         fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,

@@ -9,6 +9,8 @@ import '../../providers/user_provider.dart';
 import '../../providers/property_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/app_toast.dart';
+import '../../widgets/inputs/custom_input_field.dart';
+import '../../widgets/inputs/form_input_field.dart';
 import '../auth/login.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -170,7 +172,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 "Upload Profile Photo",
                 style: TextStyle(
                   fontSize: 20,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w600,
                   color: isDark
                       ? AppColors.darkTextPrimary
                       : AppColors.textPrimary,
@@ -180,7 +182,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               Text(
                 "Select a photo from your gallery or take a new picture using your camera.",
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                   color: isDark
                       ? AppColors.darkTextSecondary
                       : AppColors.textSecondary,
@@ -200,19 +202,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     color: isDark ? AppColors.darkBorder : AppColors.border,
                   ),
                 ),
-                leading: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: isDark
-                        ? AppColors.white.withValues(alpha: 0.12)
-                        : AppColors.surfaceAlt,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    LucideIcons.camera,
-                    color: isDark ? AppColors.white : AppColors.primary,
-                    size: 22,
-                  ),
+                leading: Icon(
+                  LucideIcons.camera,
+                  color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                  size: 22,
                 ),
                 title: Text(
                   "Take Photo",
@@ -256,17 +249,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     color: isDark ? AppColors.darkBorder : AppColors.border,
                   ),
                 ),
-                leading: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    LucideIcons.image,
-                    color: AppColors.primary,
-                    size: 22,
-                  ),
+                leading: Icon(
+                  LucideIcons.image,
+                  color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                  size: 22,
                 ),
                 title: Text(
                   "Choose from Gallery",
@@ -1024,41 +1010,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     onSave: () => _handleSaveProfile(sectionId: "legal_name"),
                     editFormContent: Column(
                       children: [
-                        TextFormField(
+                        CustomInputField(
                           controller: _firstNameController,
+                          hintText: "First Name",
+                          isDark: isDark,
                           textCapitalization: TextCapitalization.words,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: isDark
-                                ? AppColors.darkTextPrimary
-                                : const Color(0xFF222222),
-                          ),
-                          decoration: _inlineInputDecoration(
-                            labelText: "First name on ID",
-                            hintText: "First Name",
-                            isDark: isDark,
-                          ),
                           validator: (v) => v == null || v.trim().isEmpty
                               ? "First name required"
                               : null,
                         ),
                         const SizedBox(height: 12),
-                        TextFormField(
+                        CustomInputField(
                           controller: _lastNameController,
+                          hintText: "Last Name",
+                          isDark: isDark,
                           textCapitalization: TextCapitalization.words,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: isDark
-                                ? AppColors.darkTextPrimary
-                                : const Color(0xFF222222),
-                          ),
-                          decoration: _inlineInputDecoration(
-                            labelText: "Last name on ID",
-                            hintText: "Last Name",
-                            isDark: isDark,
-                          ),
                           validator: (v) => v == null || v.trim().isEmpty
                               ? "Last name required"
                               : null,
@@ -1078,21 +1044,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         : "Not provided",
                     isDark: isDark,
                     onSave: () => _handleSaveProfile(sectionId: "phone"),
-                    editFormContent: TextFormField(
+                    editFormContent: CustomInputField(
                       controller: _phoneController,
+                      hintText: "Phone Number",
+                      isDark: isDark,
                       keyboardType: TextInputType.phone,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? AppColors.darkTextPrimary
-                            : const Color(0xFF222222),
-                      ),
-                      decoration: _inlineInputDecoration(
-                        labelText: "Phone number",
-                        hintText: "Phone Number",
-                        isDark: isDark,
-                      ),
                       validator: (v) => v == null || v.trim().length < 10
                           ? "Valid phone number required"
                           : null,
@@ -1124,21 +1080,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         : "Not provided",
                     isDark: isDark,
                     onSave: () => _handleSaveProfile(sectionId: "occupation"),
-                    editFormContent: TextFormField(
+                    editFormContent: CustomInputField(
                       controller: _occupationController,
+                      hintText: "Occupation",
+                      isDark: isDark,
                       textCapitalization: TextCapitalization.words,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? AppColors.darkTextPrimary
-                            : const Color(0xFF222222),
-                      ),
-                      decoration: _inlineInputDecoration(
-                        labelText: "Occupation",
-                        hintText: "Occupation",
-                        isDark: isDark,
-                      ),
                     ),
                   ),
 
@@ -1155,6 +1101,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         DropdownButtonFormField<String>(
                           initialValue: _selectedState,
                           style: TextStyle(
+                            fontFamily: 'Satoshi',
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                             color: isDark
@@ -1162,7 +1109,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 : const Color(0xFF222222),
                           ),
                           decoration: _inlineInputDecoration(
-                            labelText: "State of Residence",
                             hintText: "Select State",
                             isDark: isDark,
                           ),
@@ -1175,6 +1121,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               child: Text(
                                 st,
                                 style: TextStyle(
+                                  fontFamily: 'Satoshi',
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
                                   color: isDark
@@ -1200,6 +1147,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ? _selectedLga
                               : (lgaList.isNotEmpty ? lgaList.first : null),
                           style: TextStyle(
+                            fontFamily: 'Satoshi',
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                             color: isDark
@@ -1207,7 +1155,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 : const Color(0xFF222222),
                           ),
                           decoration: _inlineInputDecoration(
-                            labelText: "LGA / City",
                             hintText: "Select LGA",
                             isDark: isDark,
                           ),
@@ -1220,6 +1167,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               child: Text(
                                 lg,
                                 style: TextStyle(
+                                  fontFamily: 'Satoshi',
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
                                   color: isDark
@@ -1419,34 +1367,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                         const SizedBox(height: 20),
 
-                        Text(
-                          "Current Password",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: isDark
-                                ? AppColors.darkTextPrimary
-                                : AppColors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        TextFormField(
+                        FormInputField(
                           controller: currentPasswordController,
+                          label: "Current Password",
+                          hintText: "Enter current password",
                           obscureText: obscureCurrent,
-                          decoration: _modalInputDecoration(
-                            hint: "Enter current password",
-                            icon: LucideIcons.lock,
-                            isDark: isDark,
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                obscureCurrent
-                                    ? LucideIcons.eye_off
-                                    : LucideIcons.eye,
-                                size: 20,
-                              ),
-                              onPressed: () => setModalState(
-                                () => obscureCurrent = !obscureCurrent,
-                              ),
+                          isDark: isDark,
+                          prefixIcon: LucideIcons.lock,
+                          customSuffixIcon: IconButton(
+                            icon: Icon(
+                              obscureCurrent
+                                  ? LucideIcons.eye_off
+                                  : LucideIcons.eye,
+                              size: 20,
+                              color: isDark
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.textSecondary,
+                            ),
+                            onPressed: () => setModalState(
+                              () => obscureCurrent = !obscureCurrent,
                             ),
                           ),
                           validator: (v) => v == null || v.isEmpty
@@ -1456,34 +1395,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                         const SizedBox(height: 14),
 
-                        Text(
-                          "New Password",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: isDark
-                                ? AppColors.darkTextPrimary
-                                : AppColors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        TextFormField(
+                        FormInputField(
                           controller: newPasswordController,
+                          label: "New Password",
+                          hintText: "At least 6 characters",
                           obscureText: obscureNew,
-                          decoration: _modalInputDecoration(
-                            hint: "At least 6 characters",
-                            icon: LucideIcons.lock,
-                            isDark: isDark,
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                obscureNew
-                                    ? LucideIcons.eye_off
-                                    : LucideIcons.eye,
-                                size: 20,
-                              ),
-                              onPressed: () =>
-                                  setModalState(() => obscureNew = !obscureNew),
+                          isDark: isDark,
+                          prefixIcon: LucideIcons.lock,
+                          customSuffixIcon: IconButton(
+                            icon: Icon(
+                              obscureNew
+                                  ? LucideIcons.eye_off
+                                  : LucideIcons.eye,
+                              size: 20,
+                              color: isDark
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.textSecondary,
                             ),
+                            onPressed: () =>
+                                setModalState(() => obscureNew = !obscureNew),
                           ),
                           validator: (v) {
                             if (v == null || v.isEmpty) {
@@ -1498,34 +1428,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                         const SizedBox(height: 14),
 
-                        Text(
-                          "Confirm New Password",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: isDark
-                                ? AppColors.darkTextPrimary
-                                : AppColors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        TextFormField(
+                        FormInputField(
                           controller: confirmPasswordController,
+                          label: "Confirm New Password",
+                          hintText: "Re-enter new password",
                           obscureText: obscureConfirm,
-                          decoration: _modalInputDecoration(
-                            hint: "Re-enter new password",
-                            icon: LucideIcons.lock,
-                            isDark: isDark,
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                obscureConfirm
-                                    ? LucideIcons.eye_off
-                                    : LucideIcons.eye,
-                                size: 20,
-                              ),
-                              onPressed: () => setModalState(
-                                () => obscureConfirm = !obscureConfirm,
-                              ),
+                          isDark: isDark,
+                          prefixIcon: LucideIcons.lock,
+                          customSuffixIcon: IconButton(
+                            icon: Icon(
+                              obscureConfirm
+                                  ? LucideIcons.eye_off
+                                  : LucideIcons.eye,
+                              size: 20,
+                              color: isDark
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.textSecondary,
+                            ),
+                            onPressed: () => setModalState(
+                              () => obscureConfirm = !obscureConfirm,
                             ),
                           ),
                           validator: (v) {
@@ -1550,7 +1471,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     : () => Navigator.pop(context),
                                 style: OutlinedButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(
-                                    vertical: 14,
+                                    vertical: 18,
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -1570,7 +1491,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       ? AppColors.textPrimary
                                       : Colors.white,
                                   padding: const EdgeInsets.symmetric(
-                                    vertical: 14,
+                                    vertical: 18,
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -1623,7 +1544,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                         ),
                                       )
                                     : const Text(
-                                        "Save Password",
+                                        "Save",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -1706,37 +1627,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       const SizedBox(height: 16),
 
-                      Text(
-                        "Reason for leaving (Optional):",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: isDark
-                              ? AppColors.darkTextPrimary
-                              : AppColors.textPrimary,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      TextFormField(
+                      FormInputField(
                         controller: reasonController,
+                        label: "Reason for leaving (Optional):",
+                        hintText: "e.g. Found a house, no longer need account",
+                        isDark: isDark,
                         maxLines: 2,
-                        decoration: InputDecoration(
-                          hintText:
-                              "e.g. Found a house, no longer need account",
-                          hintStyle: TextStyle(
-                            fontSize: 13,
-                            color: isDark
-                                ? AppColors.darkTextSecondary
-                                : AppColors.textSecondary,
-                          ),
-                          filled: true,
-                          fillColor: isDark
-                              ? AppColors.darkSurfaceAlt
-                              : AppColors.surfaceAlt,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
                       ),
                       const SizedBox(height: 24),
 
@@ -1837,45 +1733,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  InputDecoration _modalInputDecoration({
-    required String hint,
-    required IconData icon,
-    required bool isDark,
-    Widget? suffixIcon,
-  }) {
-    return InputDecoration(
-      hintText: hint,
-      hintStyle: TextStyle(
-        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
-        fontSize: 13,
-      ),
-      prefixIcon: Icon(icon, color: AppColors.primary, size: 20),
-      suffixIcon: suffixIcon,
-      filled: true,
-      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
-          color: isDark ? AppColors.darkBorder : AppColors.border,
-        ),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
-          color: isDark ? AppColors.darkBorder : AppColors.border,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
-          color: isDark ? AppColors.white : AppColors.primary,
-          width: 1.5,
-        ),
-      ),
-    );
-  }
-
   Widget _buildInfoCard({
     required IconData icon,
     required String title,
@@ -1921,54 +1778,38 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   InputDecoration _inlineInputDecoration({
-    required String labelText,
     required String hintText,
     required bool isDark,
     Widget? suffixIcon,
   }) {
     return InputDecoration(
-      labelText: labelText,
-      alignLabelWithHint: true,
-      labelStyle: TextStyle(
-        fontSize: 13,
-        fontWeight: FontWeight.w500,
-        color: isDark ? AppColors.darkTextSecondary : const Color(0xFF717171),
-      ),
-      floatingLabelStyle: TextStyle(
-        fontSize: 11,
-        fontWeight: FontWeight.w600,
-        color: isDark ? AppColors.darkTextSecondary : const Color(0xFF717171),
-      ),
       hintText: hintText,
       hintStyle: TextStyle(
-        color: isDark
-            ? AppColors.darkTextSecondary.withValues(alpha: 0.5)
-            : const Color(0xFFB0B0B0),
+        fontFamily: 'Satoshi',
+        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
         fontSize: 15,
       ),
       suffixIcon: suffixIcon,
       filled: true,
-      fillColor: isDark ? AppColors.darkSurfaceAlt : Colors.white,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide(
-          color: isDark ? AppColors.darkBorder : const Color(0xFFB0B0B0),
-          width: 1,
+          color: isDark ? AppColors.darkBorder : AppColors.border,
         ),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide(
-          color: isDark ? AppColors.darkBorder : const Color(0xFFB0B0B0),
-          width: 1,
+          color: isDark ? AppColors.darkBorder : AppColors.border,
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide(
-          color: isDark ? AppColors.white : const Color(0xFF222222),
-          width: 1.8,
+          color: isDark ? AppColors.white : AppColors.primary,
+          width: 1.5,
         ),
       ),
     );
