@@ -9,7 +9,6 @@ import '../../providers/landlord_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/app_toast.dart';
 import '../../widgets/cards/landlord_property_card.dart';
-import '../../widgets/custom_button.dart';
 import '../../widgets/landlord/stat_card.dart';
 import '../../widgets/no_data_widget.dart';
 import '../../widgets/skeletons/property_card_skeleton.dart';
@@ -138,44 +137,51 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
         color: isDark ? AppColors.white : AppColors.primary,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            // ── Greeting ──────────────────────────────────────────────────
+            Row(
               children: [
-                Text(
-                  "Welcome back",
-                  style: TextStyle(
-                    fontFamily: 'Satoshi',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: isDark
-                        ? AppColors.darkTextSecondary
-                        : AppColors.textSecondary,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  user.firstName.isNotEmpty
-                      ? "${user.firstName} 👋"
-                      : "Welcome 👋",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: 'Cabinet Grotesk',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: -0.5,
-                    color: isDark
-                        ? AppColors.darkTextPrimary
-                        : AppColors.primary,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Welcome back",
+                        style: TextStyle(
+                          fontFamily: 'Satoshi',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        user.firstName.isNotEmpty
+                            ? "${user.firstName} 👋"
+                            : "Welcome 👋",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: 'Cabinet Grotesk',
+                          fontSize: 26,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: -0.5,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.primary,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
 
-            // Stat cards
+            // ── KPI Stat cards ─────────────────────────────────
             if (landlord.isLoading && landlord.myProperties.isEmpty)
               _statSkeleton(isDark)
             else
@@ -220,48 +226,102 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
                 ],
               ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 28),
 
-            // List a property
-            CustomButton(
-              text: "List property",
-              isAmber: true,
-              icon: LucideIcons.plus,
+            // ── List a property CTA (Airbnb-style black pill) ──────────────
+            SizedBox(
               width: double.infinity,
-              onPressed: _openAddProperty,
-            ),
-
-            const SizedBox(height: 24),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "Your Properties",
-                    style: TextStyle(
-                      fontFamily: 'Cabinet Grotesk',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: isDark
-                          ? AppColors.darkTextPrimary
-                          : AppColors.textPrimary,
-                    ),
+              height: 56,
+              child: ElevatedButton.icon(
+                onPressed: _openAddProperty,
+                icon: Icon(
+                  LucideIcons.plus,
+                  size: 20,
+                  color: isDark ? AppColors.darkBackground : Colors.white,
+                ),
+                label: Text(
+                  "List a property",
+                  style: TextStyle(
+                    fontFamily: 'Cabinet Grotesk',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: isDark ? AppColors.darkBackground : Colors.white,
                   ),
                 ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 32),
+
+            // ── Your Properties section header ─────────────────────────────
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Your Properties",
+                  style: TextStyle(
+                    fontFamily: 'Cabinet Grotesk',
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -0.3,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                if (!landlord.isLoading && landlord.myProperties.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: isDark
+                          ? AppColors.darkSurfaceAlt
+                          : AppColors.surfaceAlt,
+                      borderRadius: BorderRadius.circular(100),
+                      border: Border.all(
+                        color: isDark
+                            ? AppColors.darkBorder
+                            : AppColors.border,
+                      ),
+                    ),
+                    child: Text(
+                      "${landlord.myProperties.length}",
+                      style: TextStyle(
+                        fontFamily: 'Cabinet Grotesk',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.textSecondary,
+                      ),
+                    ),
+                  ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
 
-            // My properties list / empty state
+            // ── Properties list / loading / empty state ────────────────────
             if (landlord.isLoading && landlord.myProperties.isEmpty)
               Column(
-                children: List.generate(3, (_) => const PropertyCardSkeleton()),
+                children: List.generate(
+                    2, (_) => const PropertyCardSkeleton(isLandlord: true)),
               )
             else if (landlord.myProperties.isEmpty)
               const NoDataWidget(
                 icon: LucideIcons.house,
                 title: "No listings yet",
                 message:
-                    "Tap \"List a New Property\" to publish your first listing.",
+                    "Tap \"List a property\" above to publish your first listing.",
               )
             else
               ...landlord.myProperties.map(
