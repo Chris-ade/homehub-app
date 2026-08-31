@@ -40,9 +40,19 @@ const List<Map<String, String>> _kRoomTagOptions = [
   {"tag": "exterior", "label": "Compound / Exterior", "icon": "🏡"},
 ];
 
-/// Full-screen form for creating or editing a property listing, wired to the
-/// backend's POST/PUT /listings endpoints. In add mode it's blank; in edit mode
-/// it pre-fills from [existing] and PUTs to the same id.
+const List<String> _kPresetAmenities = [
+  "Water",
+  "24/7 Power",
+  "Security",
+  "Parking",
+  "Generator",
+  "Wifi",
+  "Borehole",
+  "Pop Ceiling",
+  "Tiled Floor",
+  "Serviced"
+];
+
 class AddEditPropertyScreen extends StatefulWidget {
   final Property? existing;
 
@@ -87,9 +97,17 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
 
   bool get _isEditing => widget.isEditing;
 
+  // Wizard state
+  late PageController _pageController;
+  int _currentStep = 0;
+  final int _totalSteps = 7; // Steps 1 to 7. Step 0 is Intro.
+
   @override
   void initState() {
     super.initState();
+    _currentStep = _isEditing ? 1 : 0;
+    _pageController = PageController(initialPage: _currentStep);
+
     final p = widget.existing;
     if (p != null) {
       _titleCtrl.text = p.title;
@@ -134,11 +152,16 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           }
         }
       }
+    } else {
+      // Default beds/baths if empty
+      _bedroomsCtrl.text = "1";
+      _bathroomsCtrl.text = "1";
     }
   }
 
   @override
   void dispose() {
+    _pageController.dispose();
     for (final c in [
       _titleCtrl, _descCtrl, _streetCtrl, _houseNoCtrl, _cityCtrl,
       _bedroomsCtrl, _bathroomsCtrl, _sqftCtrl, _rentCtrl, _depositCtrl,
@@ -190,6 +213,16 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
       setState(() => _amenities.add(v));
     }
     _amenityCtrl.clear();
+  }
+
+  void _togglePresetAmenity(String amenity) {
+    setState(() {
+      if (_amenities.contains(amenity)) {
+        _amenities.remove(amenity);
+      } else {
+        _amenities.add(amenity);
+      }
+    });
   }
 
   void _addUrlImage() {
@@ -366,6 +399,11 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
       setState(() => _uploadingImages = false);
     }
 
+    // fallback for missing text
+    if (_titleCtrl.text.isEmpty) {
+       _titleCtrl.text = "\${_type[0].toUpperCase()}\${_type.substring(1)} in \${_cityCtrl.text}";
+    }
+
     final body = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
       'description': _descCtrl.text.trim(),
@@ -421,353 +459,762 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final landlord = context.watch<LandlordProvider>();
+  void _nextStep() {
+    if (_currentStep == _totalSteps) {
+      _submit();
+    } else {
+      setState(() {
+        _currentStep++;
+      });
+      _pageController.animateToPage(
+        _currentStep,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_isEditing ? "Edit Property" : "List a New Property"),
-      ),
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+  void _prevStep() {
+    if (_currentStep > 0) {
+      setState(() {
+        _currentStep--;
+      });
+      _pageController.animateToPage(
+        _currentStep,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  Widget _buildTopBar(bool isDark) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _sectionLabel("Basic details", isDark),
-              FormInputField(
-                controller: _titleCtrl,
-                label: "Property title *",
-                hintText: "e.g. Modern 2-Bedroom Flat",
-                isDark: isDark,
-                validator: (v) =>
-                    v == null || v.trim().isEmpty ? "Title is required" : null,
-              ),
-              const SizedBox(height: 14),
-              FormInputField(
-                controller: _descCtrl,
-                label: "Description",
-                hintText: "Describe your property...",
-                isDark: isDark,
-                minLines: 2,
-                maxLines: 5,
-              ),
-
-              const SizedBox(height: 16),
-              _sectionLabel("Type & pricing", isDark),
-              _dropdown<DropdownMenuEntry<String>, String>(
-                label: "Property type *",
-                isDark: isDark,
-                items: [
-                  DropdownMenuEntry(value: 'apartment', label: 'Apartment / Flat'),
-                  DropdownMenuEntry(value: 'house', label: 'House / Duplex'),
-                  DropdownMenuEntry(value: 'hostel', label: 'Hostel / Self-contained'),
-                ],
-                value: _type,
-                onChanged: (v) => setState(() => _type = v),
-              ),
-              if (_type == 'hostel') ...[
-                const SizedBox(height: 12),
-                _dropdown<DropdownMenuEntry<String>, String>(
-                  label: "Hostel type *",
-                  isDark: isDark,
-                  items: [
-                    DropdownMenuEntry(value: 'single_room', label: 'Single Room'),
-                    DropdownMenuEntry(value: 'self_contained', label: 'Self-contained'),
-                  ],
-                  value: _hostelType ?? 'single_room',
-                  onChanged: (v) => setState(() => _hostelType = v),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(
+                      color: isDark ? AppColors.darkBorder : AppColors.border,
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
-              ],
-              const SizedBox(height: 12),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: FormInputField(
-                      controller: _rentCtrl,
-                      label: "Rent (₦) *",
-                      hintText: "e.g. 850000",
-                      isDark: isDark,
-                      keyboardType: TextInputType.number,
-                      validator: (v) => v == null || v.trim().isEmpty
-                          ? "Required"
-                          : null,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: FormInputField(
-                      controller: _depositCtrl,
-                      label: "Security deposit",
-                      hintText: "Optional",
-                      isDark: isDark,
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              _dropdown<DropdownMenuEntry<String>, String>(
-                label: "Rent period *",
-                isDark: isDark,
-                items: [
-                  DropdownMenuEntry(value: 'monthly', label: 'Monthly'),
-                  DropdownMenuEntry(value: 'annually', label: 'Annually'),
-                ],
-                value: _rentPeriod,
-                onChanged: (v) => setState(() => _rentPeriod = v),
-              ),
-
-              const SizedBox(height: 16),
-              _sectionLabel("Property details", isDark),
-              if (_type != 'hostel') ...[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: FormInputField(
-                        controller: _bedroomsCtrl,
-                        label: "Bedrooms *",
-                        hintText: "e.g. 2",
-                        isDark: isDark,
-                        keyboardType: TextInputType.number,
-                        validator: (v) => v == null || v.trim().isEmpty
-                            ? "Required"
-                            : null,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: FormInputField(
-                        controller: _bathroomsCtrl,
-                        label: "Bathrooms *",
-                        hintText: "e.g. 2 or 1.5",
-                        isDark: isDark,
-                        keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true,
-                        ),
-                        validator: (v) => v == null || v.trim().isEmpty
-                            ? "Required"
-                            : null,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-              ],
-              FormInputField(
-                controller: _sqftCtrl,
-                label: "Square footage",
-                hintText: "e.g. 900",
-                isDark: isDark,
-                keyboardType: TextInputType.number,
-              ),
-
-              const SizedBox(height: 16),
-              _sectionLabel("Location", isDark),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: FormInputField(
-                      controller: _cityCtrl,
-                      label: "City *",
-                      hintText: "e.g. Ado-Ekiti",
-                      isDark: isDark,
-                      validator: (v) =>
-                          v == null || v.trim().isEmpty ? "City is required" : null,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    flex: 2,
-                    child: _dropdown<DropdownMenuEntry<String>, String>(
-                      label: "State",
-                      isDark: isDark,
-                      items: NigeriaLocations.states
-                          .map((s) => DropdownMenuEntry(value: s, label: s))
-                          .toList(),
-                      value: _state,
-                      onChanged: (v) => setState(() => _state = v),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              FormInputField(
-                controller: _streetCtrl,
-                label: "Street name",
-                hintText: "e.g. Adebayo Road",
-                isDark: isDark,
-              ),
-              const SizedBox(height: 12),
-              FormInputField(
-                controller: _houseNoCtrl,
-                label: "House number",
-                hintText: "e.g. 12",
-                isDark: isDark,
-              ),
-
-              const SizedBox(height: 16),
-              _sectionLabel("Availability & contact", isDark),
-              InkWell(
-                onTap: () async {
-                  final picked = await showDatePicker(
-                    context: context,
-                    initialDate: _availableFrom,
-                    firstDate: DateTime(2020),
-                    lastDate: DateTime(2035),
-                  );
-                  if (picked != null) {
-                    setState(() => _availableFrom = picked);
-                  }
-                },
-                borderRadius: BorderRadius.circular(14),
-                child: InputDecorator(
-                  decoration: _deco(isDark, "Available from"),
-                  child: Row(
-                    children: [
-                      Icon(
-                        LucideIcons.calendar,
-                        size: 18,
-                        color: isDark ? AppColors.darkTextSecondary : AppColors.primary,
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        DateFormat('d MMM yyyy').format(_availableFrom),
-                        style: TextStyle(
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
+                child: Text(
+                  "Save & exit",
+                  style: TextStyle(
+                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
-              FormInputField(
-                controller: _leaseTermCtrl,
-                label: "Lease term",
-                hintText: "e.g. 12-24 months",
-                isDark: isDark,
-              ),
-              const SizedBox(height: 12),
-              FormInputField(
-                controller: _contactPhoneCtrl,
-                label: "Contact phone *",
-                hintText: "e.g. 0803 123 4567",
-                isDark: isDark,
-                keyboardType: TextInputType.phone,
-                validator: (v) =>
-                    v == null || v.trim().isEmpty ? "Phone is required" : null,
-              ),
-
-              const SizedBox(height: 16),
-              _sectionLabel("Amenities", isDark),
-              Row(
-                children: [
-                  Expanded(
-                    child: FormInputField(
-                      controller: _amenityCtrl,
-                      label: "Add amenity",
-                      hintText: "e.g. Water, Security, Parking",
-                      isDark: isDark,
-                      onSubmitted: (_) => _addAmenity(),
+              TextButton(
+                onPressed: () {}, // Questions hook
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(
+                      color: isDark ? AppColors.darkBorder : AppColors.border,
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 22),
-                    child: CustomButton(
-                      text: "Add",
-                      isAmber: true,
-                      height: 44,
-                      onPressed: _addAmenity,
-                    ),
-                  ),
-                ],
-              ),
-              if (_amenities.isNotEmpty) ...[
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: _amenities.map((a) {
-                    return Chip(
-                      label: Text(a),
-                      deleteIcon: const Icon(LucideIcons.x, size: 14),
-                      onDeleted: () => setState(() => _amenities.remove(a)),
-                      backgroundColor:
-                          isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
-                      labelStyle: TextStyle(
-                        fontSize: 12,
-                        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
-                      ),
-                      side: BorderSide(
-                        color: isDark ? AppColors.darkBorder : AppColors.border,
-                      ),
-                    );
-                  }).toList(),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
-              ],
-
-              const SizedBox(height: 16),
-              _sectionLabel("Photos", isDark),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomButton(
-                      text: "Pick images",
-                      isOutline: true,
-                      icon: LucideIcons.image_plus,
-                      height: 44,
-                      onPressed: _pickImages,
-                    ),
+                child: Text(
+                  "Questions?",
+                  style: TextStyle(
+                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                    fontWeight: FontWeight.w600,
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: CustomButton(
-                      text: "Add URL",
-                      isOutline: true,
-                      isAmber: true,
-                      icon: LucideIcons.link,
-                      height: 44,
-                      onPressed: _addUrlImage,
-                    ),
-                  ),
-                ],
-              ),
-              if (_imageDrafts.isNotEmpty) ...[
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: _imageDrafts
-                      .map((draft) => _imageDraftThumb(draft, isDark))
-                      .toList(),
                 ),
-              ],
-
-              const SizedBox(height: 24),
-              CustomButton(
-                text: _uploadingImages
-                    ? "Uploading images..."
-                    : (_isEditing
-                        ? "Save changes"
-                        : "Publish listing"),
-                isAmber: true,
-                width: double.infinity,
-                isDisabled: landlord.isSubmitting || _uploadingImages,
-                onPressed: _submit,
               ),
-              const SizedBox(height: 16),
             ],
           ),
         ),
+        // Divider underneath
+        Container(
+          height: 1,
+          color: isDark ? AppColors.darkBorder : AppColors.border,
+        ),
+        // Progress bar
+        TweenAnimationBuilder<double>(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeInOut,
+          tween: Tween<double>(
+            begin: 0,
+            end: (_currentStep == 0) ? 0.0 : (_currentStep / _totalSteps),
+          ),
+          builder: (context, value, _) {
+            return LinearProgressIndicator(
+              value: value,
+              backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+              color: AppColors.primary,
+              minHeight: 2,
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBottomBar(bool isDark) {
+    return Container(
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.darkSurface : AppColors.surface,
+        border: Border(
+          top: BorderSide(
+            color: isDark ? AppColors.darkBorder : AppColors.border,
+          ),
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: SafeArea(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (_currentStep > (_isEditing ? 1 : 0))
+              TextButton(
+                onPressed: _prevStep,
+                child: Text(
+                  "Back",
+                  style: TextStyle(
+                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              )
+            else
+              const SizedBox.shrink(),
+            ElevatedButton(
+              onPressed: _uploadingImages ? null : _nextStep,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isDark ? Colors.white : Colors.black,
+                foregroundColor: isDark ? Colors.black : Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                minimumSize: const Size(140, 52),
+              ),
+              child: _uploadingImages
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                    )
+                  : Text(
+                      _currentStep == _totalSteps
+                          ? (_isEditing ? "Save changes" : "Publish listing")
+                          : "Next",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStep0() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 280,
+            width: double.infinity,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Text(
+              "🏠",
+              style: TextStyle(fontSize: 120),
+            ),
+          ),
+          const SizedBox(height: 32),
+          Text(
+            "Step 1",
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textSecondary,
+              letterSpacing: 1.1,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            "Tell us about your place",
+            style: TextStyle(
+              fontFamily: 'Cabinet Grotesk',
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            "In this step, we'll ask you which type of property you have and if guests will book the entire place or just a room.",
+            style: TextStyle(
+              fontFamily: 'Satoshi',
+              fontSize: 16,
+              color: AppColors.textSecondary,
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTypeCard(String value, String label, String icon, bool isDark) {
+    final isSelected = _type == value;
+    return GestureDetector(
+      onTap: () => setState(() => _type = value),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? (isDark
+                  ? AppColors.darkPrimary.withValues(alpha: 0.1)
+                  : AppColors.primary.withValues(alpha: 0.05))
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected
+                ? AppColors.primary
+                : (isDark ? AppColors.darkBorder : AppColors.border),
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(icon, style: const TextStyle(fontSize: 28)),
+            const SizedBox(height: 12),
+            Text(
+              label,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHostelTypeCard(String value, String label, String icon, bool isDark) {
+    final isSelected = _hostelType == value;
+    return GestureDetector(
+      onTap: () => setState(() => _hostelType = value),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? (isDark
+                  ? AppColors.darkPrimary.withValues(alpha: 0.1)
+                  : AppColors.primary.withValues(alpha: 0.05))
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected
+                ? AppColors.primary
+                : (isDark ? AppColors.darkBorder : AppColors.border),
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(icon, style: const TextStyle(fontSize: 28)),
+            const SizedBox(height: 12),
+            Text(
+              label,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStep1(bool isDark) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Which of these best describes your place?",
+            style: TextStyle(
+              fontFamily: 'Cabinet Grotesk',
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+          ),
+          const SizedBox(height: 32),
+          GridView.count(
+            crossAxisCount: 2,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
+            childAspectRatio: 1.1,
+            children: [
+              _buildTypeCard("apartment", "Apartment / Flat", "🏢", isDark),
+              _buildTypeCard("house", "House / Duplex", "🏡", isDark),
+              _buildTypeCard("hostel", "Hostel", "🏨", isDark),
+            ],
+          ),
+          if (_type == 'hostel') ...[
+            const SizedBox(height: 32),
+            const Text(
+              "What type of hostel?",
+              style: TextStyle(
+                fontFamily: 'Cabinet Grotesk',
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              childAspectRatio: 1.1,
+              children: [
+                _buildHostelTypeCard("single_room", "Single Room", "🛏", isDark),
+                _buildHostelTypeCard("self_contained", "Self-contained", "🛋️", isDark),
+              ],
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStepper(String label, TextEditingController ctrl, {double min = 0, double max = 20, double step = 1}) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    double currentVal = double.tryParse(ctrl.text) ?? 1;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+            ),
+          ),
+          Row(
+            children: [
+              IconButton(
+                onPressed: currentVal <= min
+                    ? null
+                    : () {
+                        setState(() {
+                          currentVal -= step;
+                          if (currentVal % 1 == 0) {
+                            ctrl.text = currentVal.toInt().toString();
+                          } else {
+                            ctrl.text = currentVal.toString();
+                          }
+                        });
+                      },
+                icon: const Icon(LucideIcons.minus),
+                style: IconButton.styleFrom(
+                  shape: CircleBorder(
+                    side: BorderSide(
+                      color: isDark ? AppColors.darkBorder : AppColors.border,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              SizedBox(
+                width: 30,
+                child: Text(
+                  (currentVal % 1 == 0) ? currentVal.toInt().toString() : currentVal.toString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(width: 16),
+              IconButton(
+                onPressed: currentVal >= max
+                    ? null
+                    : () {
+                        setState(() {
+                          currentVal += step;
+                          if (currentVal % 1 == 0) {
+                            ctrl.text = currentVal.toInt().toString();
+                          } else {
+                            ctrl.text = currentVal.toString();
+                          }
+                        });
+                      },
+                icon: const Icon(LucideIcons.plus),
+                style: IconButton.styleFrom(
+                  shape: CircleBorder(
+                    side: BorderSide(
+                      color: isDark ? AppColors.darkBorder : AppColors.border,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStep2(bool isDark) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "How many rooms does it have?",
+            style: TextStyle(
+              fontFamily: 'Cabinet Grotesk',
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+          ),
+          const SizedBox(height: 32),
+          if (_type != 'hostel') ...[
+            _buildStepper("Bedrooms", _bedroomsCtrl, max: 20),
+            Divider(color: isDark ? AppColors.darkBorder : AppColors.border),
+          ],
+          _buildStepper("Bathrooms", _bathroomsCtrl, max: 20, step: 0.5),
+          Divider(color: isDark ? AppColors.darkBorder : AppColors.border),
+          const SizedBox(height: 24),
+          FormInputField(
+            controller: _sqftCtrl,
+            label: "Square footage (Optional)",
+            hintText: "e.g. 900",
+            isDark: isDark,
+            keyboardType: TextInputType.number,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStep3(bool isDark) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Where's your place located?",
+            style: TextStyle(
+              fontFamily: 'Cabinet Grotesk',
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+          ),
+          const SizedBox(height: 32),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            decoration: BoxDecoration(
+              color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: isDark ? AppColors.darkBorder : AppColors.border,
+              ),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: _state,
+                isExpanded: true,
+                dropdownColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                items: NigeriaLocations.states
+                    .map((s) => DropdownMenuItem(value: s, child: Text(s)))
+                    .toList(),
+                onChanged: (v) {
+                  if (v != null) setState(() => _state = v);
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          FormInputField(
+            controller: _cityCtrl,
+            label: "City",
+            hintText: "e.g. Ado-Ekiti",
+            isDark: isDark,
+          ),
+          const SizedBox(height: 16),
+          FormInputField(
+            controller: _streetCtrl,
+            label: "Street name",
+            hintText: "e.g. Adebayo Road",
+            isDark: isDark,
+          ),
+          const SizedBox(height: 16),
+          FormInputField(
+            controller: _houseNoCtrl,
+            label: "House number (Optional)",
+            hintText: "e.g. 12",
+            isDark: isDark,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStep4(bool isDark) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Now, set your price",
+            style: TextStyle(
+              fontFamily: 'Cabinet Grotesk',
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+          ),
+          const SizedBox(height: 32),
+          FormInputField(
+            controller: _rentCtrl,
+            label: "Rent (₦)",
+            hintText: "e.g. 850000",
+            isDark: isDark,
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            decoration: BoxDecoration(
+              color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: isDark ? AppColors.darkBorder : AppColors.border,
+              ),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: _rentPeriod,
+                isExpanded: true,
+                dropdownColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                items: const [
+                  DropdownMenuItem(value: 'monthly', child: Text('Monthly')),
+                  DropdownMenuItem(value: 'annually', child: Text('Annually')),
+                ],
+                onChanged: (v) {
+                  if (v != null) setState(() => _rentPeriod = v);
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          FormInputField(
+            controller: _depositCtrl,
+            label: "Security deposit (₦) - Optional",
+            hintText: "e.g. 50000",
+            isDark: isDark,
+            keyboardType: TextInputType.number,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStep5(bool isDark) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "What does your place offer?",
+            style: TextStyle(
+              fontFamily: 'Cabinet Grotesk',
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+          ),
+          const SizedBox(height: 32),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children: _kPresetAmenities.map((amenity) {
+              final isSelected = _amenities.contains(amenity);
+              return FilterChip(
+                label: Text(amenity),
+                selected: isSelected,
+                onSelected: (_) => _togglePresetAmenity(amenity),
+                selectedColor: AppColors.accent,
+                backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                labelStyle: TextStyle(
+                  color: isSelected
+                      ? Colors.white
+                      : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(
+                    color: isSelected
+                        ? Colors.transparent
+                        : (isDark ? AppColors.darkBorder : AppColors.border),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 32),
+          const Text(
+            "Additional amenities",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: FormInputField(
+                  controller: _amenityCtrl,
+                  label: "Custom amenity",
+                  hintText: "e.g. Gym, Pool",
+                  isDark: isDark,
+                  onSubmitted: (_) => _addAmenity(),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Padding(
+                padding: const EdgeInsets.only(top: 22),
+                child: CustomButton(
+                  text: "Add",
+                  isAmber: true,
+                  height: 48,
+                  onPressed: _addAmenity,
+                ),
+              ),
+            ],
+          ),
+          if (_amenities.where((a) => !_kPresetAmenities.contains(a)).isNotEmpty) ...[
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: _amenities
+                  .where((a) => !_kPresetAmenities.contains(a))
+                  .map((a) {
+                return Chip(
+                  label: Text(a),
+                  deleteIcon: const Icon(LucideIcons.x, size: 14),
+                  onDeleted: () => setState(() => _amenities.remove(a)),
+                  backgroundColor:
+                      isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                  labelStyle: TextStyle(
+                    fontSize: 12,
+                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  ),
+                  side: BorderSide(
+                    color: isDark ? AppColors.darkBorder : AppColors.border,
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStep6(bool isDark) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Add some photos of your place",
+            style: TextStyle(
+              fontFamily: 'Cabinet Grotesk',
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+          ),
+          const SizedBox(height: 32),
+          Row(
+            children: [
+              Expanded(
+                child: CustomButton(
+                  text: "Pick images",
+                  isOutline: true,
+                  icon: LucideIcons.image_plus,
+                  height: 52,
+                  onPressed: _pickImages,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: CustomButton(
+                  text: "Add URL",
+                  isOutline: true,
+                  isAmber: true,
+                  icon: LucideIcons.link,
+                  height: 52,
+                  onPressed: _addUrlImage,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          if (_imageDrafts.isNotEmpty)
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: _imageDrafts
+                  .map((draft) => _imageDraftThumb(draft, isDark))
+                  .toList(),
+            ),
+        ],
       ),
     );
   }
@@ -797,8 +1244,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           Stack(
             children: [
               ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(11)),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(11)),
                 child: SizedBox(
                   width: 105,
                   height: 75,
@@ -813,19 +1259,19 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                 ),
               ),
               Positioned(
-                top: 3,
-                right: 3,
+                top: 4,
+                right: 4,
                 child: GestureDetector(
                   onTap: () => setState(() => _imageDrafts.remove(draft)),
                   child: Container(
-                    padding: const EdgeInsets.all(3),
+                    padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.65),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
                       LucideIcons.x,
-                      size: 12,
+                      size: 14,
                       color: Colors.white,
                     ),
                   ),
@@ -835,28 +1281,26 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           ),
           InkWell(
             onTap: () => _showTagPickerModal(draft),
-            borderRadius:
-                const BorderRadius.vertical(bottom: Radius.circular(11)),
+            borderRadius: const BorderRadius.vertical(bottom: Radius.circular(11)),
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 4),
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
               decoration: BoxDecoration(
                 color: hasTag
                     ? (isDark
                         ? AppColors.darkAccent.withValues(alpha: 0.2)
                         : AppColors.accent.withValues(alpha: 0.1))
                     : Colors.transparent,
-                borderRadius:
-                    const BorderRadius.vertical(bottom: Radius.circular(11)),
+                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(11)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     hasTag ? "${tagInfo['icon']}" : "🏷️",
-                    style: const TextStyle(fontSize: 10),
+                    style: const TextStyle(fontSize: 12),
                   ),
-                  const SizedBox(width: 3),
+                  const SizedBox(width: 4),
                   Flexible(
                     child: Text(
                       hasTag
@@ -886,97 +1330,139 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
     );
   }
 
-  Widget _sectionLabel(String text, bool isDark) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Text(
-        text.toUpperCase(),
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w800,
-          letterSpacing: 1.1,
-          color: isDark ? AppColors.darkAccent : AppColors.accent,
-        ),
+  Widget _buildStep7(bool isDark) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Almost done!",
+            style: TextStyle(
+              fontFamily: 'Cabinet Grotesk',
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+          ),
+          const SizedBox(height: 32),
+          const Text(
+            "Available from",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          InkWell(
+            onTap: () async {
+              final picked = await showDatePicker(
+                context: context,
+                initialDate: _availableFrom,
+                firstDate: DateTime(2020),
+                lastDate: DateTime(2035),
+              );
+              if (picked != null) {
+                setState(() => _availableFrom = picked);
+              }
+            },
+            borderRadius: BorderRadius.circular(14),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              decoration: BoxDecoration(
+                color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: isDark ? AppColors.darkBorder : AppColors.border,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    LucideIcons.calendar,
+                    size: 20,
+                    color: isDark ? AppColors.darkTextSecondary : AppColors.primary,
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    DateFormat('d MMM yyyy').format(_availableFrom),
+                    style: TextStyle(
+                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          FormInputField(
+            controller: _leaseTermCtrl,
+            label: "Lease term (Optional)",
+            hintText: "e.g. 12-24 months",
+            isDark: isDark,
+          ),
+          const SizedBox(height: 24),
+          FormInputField(
+            controller: _contactPhoneCtrl,
+            label: "Contact phone",
+            hintText: "e.g. 0803 123 4567",
+            isDark: isDark,
+            keyboardType: TextInputType.phone,
+          ),
+          const SizedBox(height: 24),
+          FormInputField(
+            controller: _titleCtrl,
+            label: "Listing Title (Optional)",
+            hintText: "e.g. Modern 2-Bedroom Flat",
+            isDark: isDark,
+          ),
+          const SizedBox(height: 24),
+          FormInputField(
+            controller: _descCtrl,
+            label: "Description (Optional)",
+            hintText: "Describe your property...",
+            isDark: isDark,
+            minLines: 3,
+            maxLines: 6,
+          ),
+        ],
       ),
     );
   }
 
-  InputDecoration _deco(bool isDark, String label) {
-    return InputDecoration(
-      labelText: label,
-      labelStyle: TextStyle(
-        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
-        fontSize: 14,
-      ),
-      filled: true,
-      fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
-          color: isDark ? AppColors.darkBorder : AppColors.border,
-        ),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(
-          color: isDark ? AppColors.darkBorder : AppColors.border,
-        ),
-      ),
-    );
-  }
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-  /// Builds a labelled dropdown. [T] is the DropdownMenuEntry type, [V] the value.
-  Widget _dropdown<T, V>({
-    required String label,
-    required bool isDark,
-    required List<DropdownMenuEntry<V>> items,
-    required V value,
-    required ValueChanged<V> onChanged,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+    return Scaffold(
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.background,
+      body: SafeArea(
+        bottom: false,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              _buildTopBar(isDark),
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    _buildStep0(),
+                    _buildStep1(isDark),
+                    _buildStep2(isDark),
+                    _buildStep3(isDark),
+                    _buildStep4(isDark),
+                    _buildStep5(isDark),
+                    _buildStep6(isDark),
+                    _buildStep7(isDark),
+                  ],
+                ),
+              ),
+              _buildBottomBar(isDark),
+            ],
           ),
         ),
-        const SizedBox(height: 6),
-        DropdownMenu<V>(
-          initialSelection: value,
-          dropdownMenuEntries: items,
-          onSelected: (v) {
-            if (v != null) onChanged(v);
-          },
-          expandedInsets: EdgeInsets.zero,
-          inputDecorationTheme: InputDecorationTheme(
-            filled: true,
-            fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
-                color: isDark ? AppColors.darkBorder : AppColors.border,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
-                color: isDark ? AppColors.darkBorder : AppColors.border,
-              ),
-            ),
-          ),
-          textStyle: TextStyle(
-            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
-            fontSize: 15,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
