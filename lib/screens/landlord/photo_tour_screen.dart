@@ -40,37 +40,37 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
     {
       "tag": "bedroom",
       "label": "Bedroom",
-      "icon": "🛏️",
+      "icon": LucideIcons.bed,
       "desc": "Bed, wardrobe, lighting",
     },
     {
       "tag": "bathroom",
       "label": "Full bathroom",
-      "icon": "🛁",
+      "icon": LucideIcons.shower_head,
       "desc": "Shower, toilet, sink",
     },
     {
       "tag": "living_room",
       "label": "Living Room (Parlour)",
-      "icon": "🛋️",
+      "icon": LucideIcons.sofa,
       "desc": "Seating, TV, dining",
     },
     {
       "tag": "kitchen",
       "label": "Kitchen",
-      "icon": "🍳",
+      "icon": LucideIcons.utensils,
       "desc": "Cabinets, sink, cooker",
     },
     {
       "tag": "exterior",
       "label": "Compound & Exterior",
-      "icon": "🏡",
+      "icon": LucideIcons.house,
       "desc": "Gate, parking space, building",
     },
     {
       "tag": "balcony",
       "label": "Balcony / Veranda",
-      "icon": "🌅",
+      "icon": LucideIcons.umbrella,
       "desc": "Terrace, outdoor view",
     },
   ];
@@ -87,11 +87,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
     if (_property.propertyImages.isNotEmpty) {
       for (final img in _property.propertyImages) {
         if (img.url.isNotEmpty) {
-          _drafts.add(ListingImageDraft(
-            url: img.url,
-            tag: img.tag,
-            caption: img.caption,
-          ));
+          _drafts.add(
+            ListingImageDraft(url: img.url, tag: img.tag, caption: img.caption),
+          );
         }
       }
     } else {
@@ -104,12 +102,19 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
   }
 
   List<ListingImageDraft> _getDraftsForTag(String tag) {
-    return _drafts.where((d) => d.tag?.toLowerCase() == tag.toLowerCase()).toList();
+    return _drafts
+        .where((d) => d.tag?.toLowerCase() == tag.toLowerCase())
+        .toList();
   }
 
   List<ListingImageDraft> _getUntaggedDrafts() {
     return _drafts
-        .where((d) => d.tag == null || d.tag!.trim().isEmpty || !_roomCategories.any((r) => r['tag'] == d.tag))
+        .where(
+          (d) =>
+              d.tag == null ||
+              d.tag!.trim().isEmpty ||
+              !_roomCategories.any((r) => r['tag'] == d.tag),
+        )
         .toList();
   }
 
@@ -135,7 +140,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                     fontFamily: 'Cabinet Grotesk',
                     fontWeight: FontWeight.w800,
                     fontSize: 18,
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -144,8 +151,13 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                     LucideIcons.image,
                     color: isDark ? AppColors.darkAccent : AppColors.primary,
                   ),
-                  title: const Text("Choose from Gallery", style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: const Text("Select one or more photos from your device"),
+                  title: const Text(
+                    "Choose from Gallery",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: const Text(
+                    "Select one or more photos from your device",
+                  ),
                   onTap: () {
                     Navigator.pop(ctx);
                     _pickAndUploadImages(initialTag: initialTag);
@@ -156,7 +168,10 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                     LucideIcons.link,
                     color: isDark ? AppColors.darkAccent : AppColors.primary,
                   ),
-                  title: const Text("Add by Image URL", style: TextStyle(fontWeight: FontWeight.bold)),
+                  title: const Text(
+                    "Add by Image URL",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   subtitle: const Text("Paste a direct web link to an image"),
                   onTap: () {
                     Navigator.pop(ctx);
@@ -185,16 +200,16 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
       if (!mounted) return;
 
       if (uploadedUrls.isEmpty) {
-        AppToast.showError(context, message: "Failed to upload selected photos.");
+        AppToast.showError(
+          context,
+          message: "Failed to upload selected photos.",
+        );
         setState(() => _isUploading = false);
         return;
       }
 
       for (final url in uploadedUrls) {
-        _drafts.add(ListingImageDraft(
-          url: url,
-          tag: initialTag,
-        ));
+        _drafts.add(ListingImageDraft(url: url, tag: initialTag));
       }
 
       await _persistPhotosToBackend();
@@ -236,7 +251,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                   fontFamily: 'Cabinet Grotesk',
                   fontWeight: FontWeight.w800,
                   fontSize: 18,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 12),
@@ -328,7 +345,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                       fontFamily: 'Cabinet Grotesk',
                       fontWeight: FontWeight.w800,
                       fontSize: 18,
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
                     ),
                   ),
                   IconButton(
@@ -342,7 +361,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                 "Categorizing photos by room gives prospective tenants an immersive 3D-like tour experience.",
                 style: TextStyle(
                   fontSize: 13,
-                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary,
                 ),
               ),
               const SizedBox(height: 16),
@@ -355,13 +376,19 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                     return ChoiceChip(
                       label: Text("${opt['icon']}  ${opt['label']}"),
                       selected: isSelected,
-                      selectedColor: isDark ? AppColors.darkAccent : AppColors.primary,
-                      backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                      selectedColor: isDark
+                          ? AppColors.darkAccent
+                          : AppColors.primary,
+                      backgroundColor: isDark
+                          ? AppColors.darkSurfaceAlt
+                          : AppColors.surfaceAlt,
                       labelStyle: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: isSelected
                             ? (isDark ? Colors.black : Colors.white)
-                            : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
+                            : (isDark
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.textPrimary),
                       ),
                       onSelected: (selected) async {
                         setState(() {
@@ -419,7 +446,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                           fontFamily: 'Cabinet Grotesk',
                           fontWeight: FontWeight.w800,
                           fontSize: 20,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                         ),
                       ),
                       Row(
@@ -443,25 +472,32 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                             child: Text(
                               "No photos uploaded yet.",
                               style: TextStyle(
-                                color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                                color: isDark
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.textSecondary,
                               ),
                             ),
                           )
                         : GridView.builder(
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 12,
-                              mainAxisSpacing: 12,
-                              childAspectRatio: 0.9,
-                            ),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 12,
+                                  mainAxisSpacing: 12,
+                                  childAspectRatio: 0.9,
+                                ),
                             itemCount: _drafts.length,
                             itemBuilder: (context, i) {
                               final d = _drafts[i];
-                              return _buildPhotoTile(d, isDark, onDelete: () async {
-                                setState(() => _drafts.remove(d));
-                                setModalState(() {});
-                                await _persistPhotosToBackend();
-                              });
+                              return _buildPhotoTile(
+                                d,
+                                isDark,
+                                onDelete: () async {
+                                  setState(() => _drafts.remove(d));
+                                  setModalState(() {});
+                                  await _persistPhotosToBackend();
+                                },
+                              );
                             },
                           ),
                   ),
@@ -541,7 +577,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                       fontFamily: 'Cabinet Grotesk',
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
                     ),
                   ),
                 ],
@@ -556,7 +594,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                   style: TextStyle(
                     fontFamily: 'Satoshi',
                     fontSize: 14,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
                     height: 1.4,
                   ),
                 ),
@@ -566,7 +606,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                 Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                    color: isDark
+                        ? AppColors.darkSurfaceAlt
+                        : AppColors.surfaceAlt,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                       color: isDark ? AppColors.darkBorder : AppColors.border,
@@ -578,7 +620,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                         width: 10,
                         height: 10,
                         decoration: BoxDecoration(
-                          color: _drafts.isEmpty ? Colors.orange : AppColors.success,
+                          color: _drafts.isEmpty
+                              ? Colors.orange
+                              : AppColors.success,
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -592,7 +636,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                             fontFamily: 'Cabinet Grotesk',
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
-                            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary,
                           ),
                         ),
                       ),
@@ -612,7 +658,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                     fontFamily: 'Cabinet Grotesk',
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -636,7 +684,9 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                       fontFamily: 'Cabinet Grotesk',
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -648,10 +698,15 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                       separatorBuilder: (_, _) => const SizedBox(width: 12),
                       itemBuilder: (context, i) {
                         final d = untagged[i];
-                        return _buildPhotoTile(d, isDark, width: 140, onDelete: () async {
-                          setState(() => _drafts.remove(d));
-                          await _persistPhotosToBackend();
-                        });
+                        return _buildPhotoTile(
+                          d,
+                          isDark,
+                          width: 140,
+                          onDelete: () async {
+                            setState(() => _drafts.remove(d));
+                            await _persistPhotosToBackend();
+                          },
+                        );
                       },
                     ),
                   ),
@@ -685,7 +740,7 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
             padding: const EdgeInsets.all(14),
             child: Row(
               children: [
-                Text(room['icon'] as String, style: const TextStyle(fontSize: 22)),
+                Icon(room['icon'] as IconData, size: 22),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -697,21 +752,28 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: 16,
                           fontWeight: FontWeight.w800,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                         ),
                       ),
                       Text(
-                        hasPhotos ? "${drafts.length} photo(s)" : (room['desc'] as String),
+                        hasPhotos
+                            ? "${drafts.length} photo(s)"
+                            : (room['desc'] as String),
                         style: TextStyle(
                           fontSize: 12,
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
                         ),
                       ),
                     ],
                   ),
                 ),
                 TextButton.icon(
-                  onPressed: () => _showAddPhotoOptions(initialTag: room['tag'] as String),
+                  onPressed: () =>
+                      _showAddPhotoOptions(initialTag: room['tag'] as String),
                   icon: const Icon(LucideIcons.plus, size: 16),
                   label: Text(hasPhotos ? "Add" : "Add photos"),
                 ),
@@ -730,10 +792,15 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                 separatorBuilder: (_, _) => const SizedBox(width: 10),
                 itemBuilder: (context, i) {
                   final d = drafts[i];
-                  return _buildPhotoTile(d, isDark, width: 110, onDelete: () async {
-                    setState(() => _drafts.remove(d));
-                    await _persistPhotosToBackend();
-                  });
+                  return _buildPhotoTile(
+                    d,
+                    isDark,
+                    width: 110,
+                    onDelete: () async {
+                      setState(() => _drafts.remove(d));
+                      await _persistPhotosToBackend();
+                    },
+                  );
                 },
               ),
             ),
@@ -771,8 +838,12 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                       imageUrl: draft.url ?? '',
                       fit: BoxFit.cover,
                       placeholder: (_, _) => Container(
-                        color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
-                        child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                        color: isDark
+                            ? AppColors.darkSurfaceAlt
+                            : AppColors.surfaceAlt,
+                        child: const Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
                       ),
                       errorWidget: (_, _, _) => const Center(
                         child: Icon(LucideIcons.image_off, size: 24),

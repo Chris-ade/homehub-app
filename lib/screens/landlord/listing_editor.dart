@@ -43,8 +43,10 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
       "• Quiet hours after 10:00 PM\n• No smoking inside the building\n• Keep compound gate closed at all times\n• Prior notification for large visitor gatherings";
   String _utilitiesInfo =
       "• Central soundproof generator runs 7:00 PM – 12:00 AM daily\n• 24/7 borehole running water with backup overhead tanks\n• Individual prepaid meter for each unit";
-  String _wifiInfo = "Network: HomeHub-Resident\nPassword: Provided upon lease confirmation";
-  String _emergencyContacts = "Caretaker Line: +234 803 123 4567\nEstate Security Gate: +234 802 987 6543";
+  String _wifiInfo =
+      "Network: HomeHub-Resident\nPassword: Provided upon lease confirmation";
+  String _emergencyContacts =
+      "Caretaker Line: +234 803 123 4567\nEstate Security Gate: +234 802 987 6543";
 
   @override
   void initState() {
@@ -60,7 +62,10 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
     ).format(amount);
   }
 
-  Future<void> _updateListingField(Map<String, dynamic> updates, {String? successMessage}) async {
+  Future<void> _updateListingField(
+    Map<String, dynamic> updates, {
+    String? successMessage,
+  }) async {
     final landlord = context.read<LandlordProvider>();
 
     final updated = await landlord.updateListing(_property.id, updates);
@@ -75,7 +80,8 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
     } else {
       AppToast.showError(
         context,
-        message: landlord.apiError ?? "Failed to save changes. Please try again.",
+        message:
+            landlord.apiError ?? "Failed to save changes. Please try again.",
       );
     }
   }
@@ -156,7 +162,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                     "Open in Step-by-Step Wizard",
                     style: TextStyle(fontWeight: FontWeight.w700),
                   ),
-                  subtitle: const Text("Walk through the full 8-step creation wizard"),
+                  subtitle: const Text(
+                    "Walk through the full 8-step creation wizard",
+                  ),
                   onTap: () {
                     Navigator.pop(ctx);
                     _openFullWizard();
@@ -171,7 +179,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                     "Preview as Tenant",
                     style: TextStyle(fontWeight: FontWeight.w700),
                   ),
-                  subtitle: const Text("See how your listing appears in search results"),
+                  subtitle: const Text(
+                    "See how your listing appears in search results",
+                  ),
                   onTap: () {
                     Navigator.pop(ctx);
                     _openPreviewAsTenant();
@@ -183,18 +193,29 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                     "Share Listing",
                     style: TextStyle(fontWeight: FontWeight.w700),
                   ),
-                  subtitle: const Text("Copy public link to share with prospects"),
+                  subtitle: const Text(
+                    "Copy public link to share with prospects",
+                  ),
                   onTap: () {
                     Navigator.pop(ctx);
-                    AppToast.showSuccess(context, message: "Listing link copied to clipboard.");
+                    AppToast.showSuccess(
+                      context,
+                      message: "Listing link copied to clipboard.",
+                    );
                   },
                 ),
                 const Divider(),
                 ListTile(
-                  leading: const Icon(LucideIcons.trash_2, color: AppColors.error),
+                  leading: const Icon(
+                    LucideIcons.trash_2,
+                    color: AppColors.error,
+                  ),
                   title: const Text(
                     "Delete Listing",
-                    style: TextStyle(fontWeight: FontWeight.w700, color: AppColors.error),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.error,
+                    ),
                   ),
                   onTap: () async {
                     Navigator.pop(ctx);
@@ -217,7 +238,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
         backgroundColor: isDark ? AppColors.darkSurface : AppColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text("Delete listing?"),
-        content: Text("\"${_property.title}\" will be permanently removed. This action cannot be undone."),
+        content: Text(
+          "\"${_property.title}\" will be permanently removed. This action cannot be undone.",
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
@@ -233,7 +256,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
     );
 
     if (confirmed == true && mounted) {
-      final ok = await context.read<LandlordProvider>().deleteListing(_property.id);
+      final ok = await context.read<LandlordProvider>().deleteListing(
+        _property.id,
+      );
       if (!mounted) return;
       if (ok) {
         AppToast.showSuccess(context, message: "Listing deleted.");
@@ -271,13 +296,16 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
     String selectedType = _property.type.toLowerCase();
     if (selectedType.contains('hostel') || selectedType.contains('room')) {
       selectedType = 'hostel';
-    } else if (selectedType.contains('flat') || selectedType.contains('apartment')) {
+    } else if (selectedType.contains('flat') ||
+        selectedType.contains('apartment')) {
       selectedType = 'apartment';
     } else {
       selectedType = 'house';
     }
 
-    final sqftCtrl = TextEditingController(text: _property.sqft > 0 ? _property.sqft.toString() : '');
+    final sqftCtrl = TextEditingController(
+      text: _property.sqft > 0 ? _property.sqft.toString() : '',
+    );
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     _showEditorSheet(
@@ -293,38 +321,65 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                 style: TextStyle(
                   fontSize: AppFontSizes.labelLarge,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 6),
               DropdownButtonFormField<String>(
                 initialValue: selectedType,
-                dropdownColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                dropdownColor: isDark
+                    ? AppColors.darkSurfaceAlt
+                    : AppColors.surfaceAlt,
                 style: TextStyle(
                   fontFamily: 'Satoshi',
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                 ),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  fillColor: isDark
+                      ? AppColors.darkSurfaceAlt
+                      : AppColors.surfaceAlt,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: isDark ? AppColors.darkBorder : AppColors.border),
+                    borderSide: BorderSide(
+                      color: isDark ? AppColors.darkBorder : AppColors.border,
+                    ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: isDark ? AppColors.darkBorder : AppColors.border),
+                    borderSide: BorderSide(
+                      color: isDark ? AppColors.darkBorder : AppColors.border,
+                    ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: isDark ? AppColors.white : AppColors.primary, width: 1.5),
+                    borderSide: BorderSide(
+                      color: isDark ? AppColors.white : AppColors.primary,
+                      width: 1.5,
+                    ),
                   ),
                 ),
                 items: const [
-                  DropdownMenuItem(value: 'apartment', child: Text("Apartment / Flat")),
-                  DropdownMenuItem(value: 'house', child: Text("House / Duplex / Bungalow")),
-                  DropdownMenuItem(value: 'hostel', child: Text("Hostel / Student Room")),
+                  DropdownMenuItem(
+                    value: 'apartment',
+                    child: Text("Apartment / Flat"),
+                  ),
+                  DropdownMenuItem(
+                    value: 'house',
+                    child: Text("House / Duplex / Bungalow"),
+                  ),
+                  DropdownMenuItem(
+                    value: 'hostel',
+                    child: Text("Hostel / Student Room"),
+                  ),
                 ],
                 onChanged: (v) {
                   if (v != null) setSheetState(() => selectedType = v);
@@ -344,10 +399,7 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
       ),
       onSave: () {
         final sqft = int.tryParse(sqftCtrl.text.trim()) ?? _property.sqft;
-        _updateListingField({
-          'type': selectedType,
-          'sqft': sqft,
-        });
+        _updateListingField({'type': selectedType, 'sqft': sqft});
       },
     );
   }
@@ -363,27 +415,39 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildStepperRow("Bedrooms", beds, (val) => setSheetState(() => beds = val)),
+              _buildStepperRow(
+                "Bedrooms",
+                beds,
+                (val) => setSheetState(() => beds = val),
+              ),
               const Divider(height: 32),
-              _buildStepperRow("Bathrooms", baths, (val) => setSheetState(() => baths = val)),
+              _buildStepperRow(
+                "Bathrooms",
+                baths,
+                (val) => setSheetState(() => baths = val),
+              ),
             ],
           );
         },
       ),
       onSave: () {
-        _updateListingField({
-          'bedrooms': beds,
-          'bathrooms': baths,
-        });
+        _updateListingField({'bedrooms': beds, 'bathrooms': baths});
       },
     );
   }
 
-  Widget _buildStepperRow(String label, int value, ValueChanged<int> onChanged) {
+  Widget _buildStepperRow(
+    String label,
+    int value,
+    ValueChanged<int> onChanged,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
         Row(
           children: [
             IconButton.outlined(
@@ -391,7 +455,10 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
               icon: const Icon(LucideIcons.minus, size: 18),
             ),
             const SizedBox(width: 16),
-            Text("$value", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
+            Text(
+              "$value",
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+            ),
             const SizedBox(width: 16),
             IconButton.outlined(
               onPressed: value < 20 ? () => onChanged(value + 1) : null,
@@ -434,37 +501,58 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                 style: TextStyle(
                   fontSize: AppFontSizes.labelLarge,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 6),
               DropdownButtonFormField<String>(
                 initialValue: period,
-                dropdownColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                dropdownColor: isDark
+                    ? AppColors.darkSurfaceAlt
+                    : AppColors.surfaceAlt,
                 style: TextStyle(
                   fontFamily: 'Satoshi',
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                 ),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  fillColor: isDark
+                      ? AppColors.darkSurfaceAlt
+                      : AppColors.surfaceAlt,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: isDark ? AppColors.darkBorder : AppColors.border),
+                    borderSide: BorderSide(
+                      color: isDark ? AppColors.darkBorder : AppColors.border,
+                    ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: isDark ? AppColors.darkBorder : AppColors.border),
+                    borderSide: BorderSide(
+                      color: isDark ? AppColors.darkBorder : AppColors.border,
+                    ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: isDark ? AppColors.white : AppColors.primary, width: 1.5),
+                    borderSide: BorderSide(
+                      color: isDark ? AppColors.white : AppColors.primary,
+                      width: 1.5,
+                    ),
                   ),
                 ),
                 items: const [
                   DropdownMenuItem(value: 'monthly', child: Text("Per Month")),
-                  DropdownMenuItem(value: 'annually', child: Text("Per Year (Annual)")),
+                  DropdownMenuItem(
+                    value: 'annually',
+                    child: Text("Per Year (Annual)"),
+                  ),
                 ],
                 onChanged: (v) {
                   if (v != null) setSheetState(() => period = v);
@@ -484,7 +572,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
       ),
       onSave: () {
         final rent = double.tryParse(rentCtrl.text.trim()) ?? _property.price;
-        final deposit = double.tryParse(depositCtrl.text.trim()) ?? _property.securityDeposit;
+        final deposit =
+            double.tryParse(depositCtrl.text.trim()) ??
+            _property.securityDeposit;
         _updateListingField({
           'rent_amount': rent,
           'rent_period': period,
@@ -502,7 +592,8 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
       title: "Description",
       content: CustomInputField(
         controller: ctrl,
-        hintText: "Describe your property features, ambiance, power and water supply, neighborhood...",
+        hintText:
+            "Describe your property features, ambiance, power and water supply, neighborhood...",
         minLines: 4,
         maxLines: 7,
         isDark: isDark,
@@ -541,7 +632,10 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Popular Amenities", style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                "Popular Amenities",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 10),
               Wrap(
                 spacing: 8,
@@ -551,14 +645,20 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                   return FilterChip(
                     label: Text(item),
                     selected: isSelected,
-                    selectedColor: isDark ? AppColors.darkAccent : AppColors.primary,
-                    backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                    selectedColor: isDark
+                        ? AppColors.darkAccent
+                        : AppColors.primary,
+                    backgroundColor: isDark
+                        ? AppColors.darkSurfaceAlt
+                        : AppColors.surfaceAlt,
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                       color: isSelected
                           ? (isDark ? Colors.black : Colors.white)
-                          : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
+                          : (isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary),
                     ),
                     onSelected: (selected) {
                       setSheetState(() {
@@ -573,7 +673,10 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                 }).toList(),
               ),
               const SizedBox(height: 16),
-              const Text("Add Custom Amenity", style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                "Add Custom Amenity",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 8),
               Row(
                 children: [
@@ -646,32 +749,50 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                 style: TextStyle(
                   fontSize: AppFontSizes.labelLarge,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 6),
               DropdownButtonFormField<String>(
                 initialValue: state,
-                dropdownColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                dropdownColor: isDark
+                    ? AppColors.darkSurfaceAlt
+                    : AppColors.surfaceAlt,
                 style: TextStyle(
                   fontFamily: 'Satoshi',
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
                 ),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  fillColor: isDark
+                      ? AppColors.darkSurfaceAlt
+                      : AppColors.surfaceAlt,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: isDark ? AppColors.darkBorder : AppColors.border),
+                    borderSide: BorderSide(
+                      color: isDark ? AppColors.darkBorder : AppColors.border,
+                    ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: isDark ? AppColors.darkBorder : AppColors.border),
+                    borderSide: BorderSide(
+                      color: isDark ? AppColors.darkBorder : AppColors.border,
+                    ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: isDark ? AppColors.white : AppColors.primary, width: 1.5),
+                    borderSide: BorderSide(
+                      color: isDark ? AppColors.white : AppColors.primary,
+                      width: 1.5,
+                    ),
                   ),
                 ),
                 items: NigeriaLocations.states.map((s) {
@@ -705,9 +826,10 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
           'state': state,
           'street_name': streetCtrl.text.trim(),
           'house_number': houseNoCtrl.text.trim(),
-          'address': [houseNoCtrl.text.trim(), streetCtrl.text.trim()]
-              .where((s) => s.isNotEmpty)
-              .join(", "),
+          'address': [
+            houseNoCtrl.text.trim(),
+            streetCtrl.text.trim(),
+          ].where((s) => s.isNotEmpty).join(", "),
         });
       },
     );
@@ -727,7 +849,11 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
     }
   }
 
-  void _editArrivalGuideSection(String sectionTitle, String initialValue, ValueChanged<String> onSaved) {
+  void _editArrivalGuideSection(
+    String sectionTitle,
+    String initialValue,
+    ValueChanged<String> onSaved,
+  ) {
     final ctrl = TextEditingController(text: initialValue);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -781,7 +907,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                       fontFamily: 'Cabinet Grotesk',
                       fontWeight: FontWeight.w800,
                       fontSize: 18,
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
                     ),
                   ),
                   IconButton(
@@ -885,7 +1013,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
               Container(
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                  color: isDark
+                      ? AppColors.darkSurfaceAlt
+                      : AppColors.surfaceAlt,
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Row(
@@ -898,16 +1028,20 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: _selectedTab == 0
-                                ? (isDark ? AppColors.darkSurface : Colors.white)
+                                ? (isDark
+                                      ? AppColors.darkSurface
+                                      : Colors.white)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(100),
                             boxShadow: _selectedTab == 0
                                 ? [
                                     BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.06),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.06,
+                                      ),
                                       blurRadius: 4,
                                       offset: const Offset(0, 2),
-                                    )
+                                    ),
                                   ]
                                 : null,
                           ),
@@ -919,8 +1053,12 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: _selectedTab == 0
-                                    ? (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary)
-                                    : (isDark ? AppColors.darkTextSecondary : AppColors.textSecondary),
+                                    ? (isDark
+                                          ? AppColors.darkTextPrimary
+                                          : AppColors.textPrimary)
+                                    : (isDark
+                                          ? AppColors.darkTextSecondary
+                                          : AppColors.textSecondary),
                               ),
                             ),
                           ),
@@ -935,16 +1073,20 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: _selectedTab == 1
-                                ? (isDark ? AppColors.darkSurface : Colors.white)
+                                ? (isDark
+                                      ? AppColors.darkSurface
+                                      : Colors.white)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(100),
                             boxShadow: _selectedTab == 1
                                 ? [
                                     BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.06),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.06,
+                                      ),
                                       blurRadius: 4,
                                       offset: const Offset(0, 2),
-                                    )
+                                    ),
                                   ]
                                 : null,
                           ),
@@ -956,8 +1098,12 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: _selectedTab == 1
-                                    ? (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary)
-                                    : (isDark ? AppColors.darkTextSecondary : AppColors.textSecondary),
+                                    ? (isDark
+                                          ? AppColors.darkTextPrimary
+                                          : AppColors.textPrimary)
+                                    : (isDark
+                                          ? AppColors.darkTextSecondary
+                                          : AppColors.textSecondary),
                               ),
                             ),
                           ),
@@ -1004,7 +1150,8 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                 // Pricing Card
                 _buildSectionCard(
                   title: "Pricing",
-                  value: "${_formatNaira(_property.price)} / ${_property.period}",
+                  value:
+                      "${_formatNaira(_property.price)} / ${_property.period}",
                   isDark: isDark,
                   onTap: _editPricing,
                 ),
@@ -1013,7 +1160,8 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                 // Security & Caution deposit Card
                 _buildSectionCard(
                   title: "Security deposit",
-                  value: "${_formatNaira(_property.securityDeposit)} refundable caution deposit",
+                  value:
+                      "${_formatNaira(_property.securityDeposit)} refundable caution deposit",
                   isDark: isDark,
                   onTap: _editPricing,
                 ),
@@ -1022,7 +1170,8 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                 // Availability Card
                 _buildSectionCard(
                   title: "Availability",
-                  value: "Available from ${DateFormat('d MMM yyyy').format(_property.availableDate)}",
+                  value:
+                      "Available from ${DateFormat('d MMM yyyy').format(_property.availableDate)}",
                   isDark: isDark,
                   onTap: _editAvailability,
                 ),
@@ -1139,7 +1288,10 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                   foregroundColor: isDark ? Colors.black : Colors.white,
                   elevation: 6,
                   shadowColor: Colors.black.withValues(alpha: 0.35),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 14,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
                   ),
@@ -1168,20 +1320,14 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
       ),
       child: Row(
         children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: isVerified
-                  ? AppColors.success.withValues(alpha: 0.15)
-                  : AppColors.primary.withValues(alpha: 0.15),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              isVerified ? LucideIcons.badge_check : LucideIcons.circle_dot,
-              color: isVerified ? AppColors.success : AppColors.primary,
-              size: 24,
-            ),
+          Icon(
+            isVerified ? LucideIcons.badge_check : LucideIcons.circle_dot,
+            color: isVerified
+                ? (isDark ? AppColors.darkTextPrimary : AppColors.primary)
+                : (isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary),
+            size: 24,
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -1194,7 +1340,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                     fontFamily: 'Cabinet Grotesk',
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -1202,7 +1350,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                   "Published on HomeHub · Ready for inquiries",
                   style: TextStyle(
                     fontSize: 12,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -1215,7 +1365,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
 
   Widget _buildPhotoTourCard(bool isDark) {
     final images = _property.propertyImages;
-    final photoCount = images.isNotEmpty ? images.length : _property.gallery.length;
+    final photoCount = images.isNotEmpty
+        ? images.length
+        : _property.gallery.length;
 
     return Container(
       decoration: BoxDecoration(
@@ -1244,7 +1396,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                         fontFamily: 'Cabinet Grotesk',
                         fontSize: 17,
                         fontWeight: FontWeight.w800,
-                        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary,
                       ),
                     ),
                     const Icon(LucideIcons.chevron_right, size: 20),
@@ -1255,7 +1409,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                   "${_property.beds} bedroom · ${_property.baths} bath",
                   style: TextStyle(
                     fontSize: 13,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 14),
@@ -1281,7 +1437,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                         flex: 1,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                            color: isDark
+                                ? AppColors.darkSurfaceAlt
+                                : AppColors.surfaceAlt,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Center(
@@ -1292,7 +1450,10 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                                 const SizedBox(height: 4),
                                 Text(
                                   "$photoCount photos",
-                                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
@@ -1319,7 +1480,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.textSecondary,
                       ),
                     ),
                   ],
@@ -1357,14 +1520,18 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                     fontFamily: 'Cabinet Grotesk',
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 12),
                 Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                    color: isDark
+                        ? AppColors.darkSurfaceAlt
+                        : AppColors.surfaceAlt,
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Row(
@@ -1381,14 +1548,18 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                                 fontFamily: 'Cabinet Grotesk',
                                 fontWeight: FontWeight.w800,
                                 fontSize: 15,
-                                color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                                color: isDark
+                                    ? AppColors.darkTextPrimary
+                                    : AppColors.textPrimary,
                               ),
                             ),
                             Text(
                               "${_property.baths} Bathroom${_property.baths == 1 ? '' : 's'} · ${_property.sqft > 0 ? '${_property.sqft} sqft' : 'Spacious'}",
                               style: TextStyle(
                                 fontSize: 12,
-                                color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                                color: isDark
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.textSecondary,
                               ),
                             ),
                           ],
@@ -1434,7 +1605,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                         fontFamily: 'Cabinet Grotesk',
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
-                        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary,
                       ),
                     ),
                     const Icon(LucideIcons.chevron_right, size: 20),
@@ -1446,7 +1619,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                     "Add amenities and facilities",
                     style: TextStyle(
                       fontSize: 14,
-                      color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                      color: isDark
+                          ? AppColors.darkTextSecondary
+                          : AppColors.textSecondary,
                     ),
                   )
                 else
@@ -1455,9 +1630,14 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                     runSpacing: 6,
                     children: _property.amenities.take(6).map((a) {
                       return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
-                          color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                          color: isDark
+                              ? AppColors.darkSurfaceAlt
+                              : AppColors.surfaceAlt,
                           borderRadius: BorderRadius.circular(100),
                         ),
                         child: Text(
@@ -1465,7 +1645,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary,
                           ),
                         ),
                       );
@@ -1507,7 +1689,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                         fontFamily: 'Cabinet Grotesk',
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
-                        color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary,
                       ),
                     ),
                     const Icon(LucideIcons.chevron_right, size: 20),
@@ -1524,18 +1708,25 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                     child: IgnorePointer(
                       child: FlutterMap(
                         options: MapOptions(
-                          initialCenter: LatLng(_property.latitude, _property.longitude),
+                          initialCenter: LatLng(
+                            _property.latitude,
+                            _property.longitude,
+                          ),
                           initialZoom: 14.5,
                         ),
                         children: [
                           TileLayer(
-                            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            urlTemplate:
+                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                             userAgentPackageName: 'com.homehub.app',
                           ),
                           MarkerLayer(
                             markers: [
                               Marker(
-                                point: LatLng(_property.latitude, _property.longitude),
+                                point: LatLng(
+                                  _property.latitude,
+                                  _property.longitude,
+                                ),
                                 width: 44,
                                 height: 44,
                                 child: Container(
@@ -1544,9 +1735,11 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withValues(alpha: 0.3),
+                                        color: Colors.black.withValues(
+                                          alpha: 0.3,
+                                        ),
                                         blurRadius: 6,
-                                      )
+                                      ),
                                     ],
                                   ),
                                   child: const Icon(
@@ -1569,7 +1762,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -1582,7 +1777,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
 
   Widget _buildAboutHostCard(bool isDark, UserProvider user) {
     final hostName = user.name.isNotEmpty ? user.name : _property.agent.name;
-    final avatar = user.avatarUrl.isNotEmpty ? user.avatarUrl : _property.agent.avatarUrl;
+    final avatar = user.avatarUrl.isNotEmpty
+        ? user.avatarUrl
+        : _property.agent.avatarUrl;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -1620,7 +1817,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                     fontFamily: 'Cabinet Grotesk',
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -1628,7 +1827,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                   "Started hosting in 2026 · ${_property.agent.role}",
                   style: TextStyle(
                     fontSize: 12,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -1673,7 +1874,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -1683,7 +1886,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 14,
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
                         ),
                       ),
                     ],
@@ -1725,7 +1930,11 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
               children: [
                 Row(
                   children: [
-                    Icon(icon, size: 20, color: isDark ? AppColors.darkAccent : AppColors.primary),
+                    Icon(
+                      icon,
+                      size: 20,
+                      color: isDark ? AppColors.darkAccent : AppColors.primary,
+                    ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
@@ -1734,7 +1943,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: 16,
                           fontWeight: FontWeight.w800,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                         ),
                       ),
                     ),
@@ -1747,7 +1958,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     height: 1.4,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
                   ),
                 ),
               ],
