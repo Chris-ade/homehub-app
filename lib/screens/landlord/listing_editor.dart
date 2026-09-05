@@ -19,10 +19,6 @@ import '../property/property_view.dart';
 import 'add_edit_property.dart';
 import 'photo_tour_screen.dart';
 
-/// Full Airbnb-style Listing Editor screen for Landlords and Agents.
-/// Allows landlords to manage their listing details, photo tour by room,
-/// pricing, amenities, location, and arrival guide instructions using
-/// HomeHub's custom design system input components.
 class ListingEditorScreen extends StatefulWidget {
   final Property property;
 
@@ -269,7 +265,7 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
     }
   }
 
-  // ── Bottom Sheet Modals with Custom Design System Inputs ─────────────────
+  // Bottom Sheet Modals with Custom Design System Inputs
 
   void _editTitle() {
     final ctrl = TextEditingController(text: _property.title);
@@ -643,6 +639,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                 children: presets.map((item) {
                   final isSelected = currentAmenities.contains(item);
                   return FilterChip(
+                    checkmarkColor: isDark
+                        ? AppColors.darkButtonText
+                        : AppColors.buttonText,
                     label: Text(item),
                     selected: isSelected,
                     selectedColor: isDark
@@ -924,19 +923,6 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.pop(ctx),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: const Text("Cancel"),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.pop(ctx);
@@ -945,7 +931,7 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isDark ? Colors.white : Colors.black,
                         foregroundColor: isDark ? Colors.black : Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        padding: const EdgeInsets.symmetric(vertical: 18),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -965,7 +951,7 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
     );
   }
 
-  // ── Build UI ─────────────────────────────────────────────────────────────
+  // Build UI
 
   @override
   Widget build(BuildContext context) {
@@ -1536,7 +1522,13 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Text("🛏️", style: TextStyle(fontSize: 26)),
+                      Icon(
+                        LucideIcons.bed,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary,
+                        size: 26,
+                      ),
                       const SizedBox(width: 14),
                       Expanded(
                         child: Column(
