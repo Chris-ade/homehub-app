@@ -73,7 +73,9 @@ class LandlordPropertyCard extends StatelessWidget {
                               child: Center(
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  color: isDark ? AppColors.white : AppColors.primary,
+                                  color: isDark
+                                      ? AppColors.white
+                                      : AppColors.primary,
                                 ),
                               ),
                             ),
@@ -96,7 +98,7 @@ class LandlordPropertyCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    
+
                     // Info Area
                     Padding(
                       padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
@@ -118,7 +120,7 @@ class LandlordPropertyCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 4),
-                          
+
                           // Row 2: Type and City
                           Text(
                             "${property.type} · ${property.city}",
@@ -132,7 +134,7 @@ class LandlordPropertyCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          
+
                           // Row 3: Price / Period
                           Row(
                             children: [
@@ -168,60 +170,7 @@ class LandlordPropertyCard extends StatelessWidget {
                   ],
                 ),
               ),
-
               // Bottom area: Action buttons
-              Padding(
-                padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 38,
-                        child: OutlinedButton.icon(
-                          onPressed: onEdit,
-                          icon: const Icon(LucideIcons.pencil, size: 16),
-                          label: const Text(
-                            "Edit",
-                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: isDark ? AppColors.darkAccent : AppColors.primary,
-                            side: BorderSide(
-                              color: isDark ? AppColors.darkAccent : AppColors.primary,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: SizedBox(
-                        height: 38,
-                        child: OutlinedButton.icon(
-                          onPressed: onDelete,
-                          icon: const Icon(LucideIcons.trash_2, size: 16),
-                          label: const Text(
-                            "Delete",
-                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColors.error,
-                            side: const BorderSide(color: AppColors.error),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),
@@ -232,13 +181,9 @@ class LandlordPropertyCard extends StatelessWidget {
   Widget _statusChip(bool isDark) {
     final verified = property.status == "Verified";
     final bg = verified
-        ? (isDark
-              ? AppColors.primary.withValues(alpha: 0.25)
-              : AppColors.primary.withValues(alpha: 0.1))
+        ? AppColors.darkAccent
         : (isDark ? AppColors.darkSurfaceAlt : AppColors.accentLight);
-    final fg = verified
-        ? (isDark ? AppColors.primaryLight : AppColors.primary)
-        : (isDark ? AppColors.darkAccent : AppColors.accent);
+    final fg = AppColors.textPrimary;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
