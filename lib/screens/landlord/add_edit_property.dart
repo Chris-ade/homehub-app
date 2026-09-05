@@ -12,6 +12,7 @@ import '../../providers/landlord_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/app_toast.dart';
 import '../../widgets/custom_button.dart';
+import '../../widgets/inputs/custom_input_field.dart';
 import '../../widgets/inputs/form_input_field.dart';
 
 /// Represents a local or remote photo draft with an optional room tag.
@@ -253,13 +254,11 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                 style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
               ),
               const SizedBox(height: 12),
-              TextField(
+              CustomInputField(
                 controller: ctrl,
-                decoration: const InputDecoration(
-                  hintText: "https://...",
-                  filled: true,
-                  border: OutlineInputBorder(),
-                ),
+                hintText: "https://...",
+                isDark: Theme.of(context).brightness == Brightness.dark,
+                prefixIcon: LucideIcons.link,
               ),
               const SizedBox(height: 14),
               CustomButton(

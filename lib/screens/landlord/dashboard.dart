@@ -12,8 +12,8 @@ import '../../widgets/cards/landlord_property_card.dart';
 import '../../widgets/landlord/stat_card.dart';
 import '../../widgets/no_data_widget.dart';
 import '../../widgets/skeletons/property_card_skeleton.dart';
-import '../property/property_view.dart';
 import 'add_edit_property.dart';
+import 'listing_editor.dart';
 
 /// Landlord/agent dashboard: aggregate stats for the account's listings plus a
 /// manageable list of those listings with edit/delete + add.
@@ -53,22 +53,23 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
   }
 
   void _openEditProperty(Property p) async {
-    final result = await Navigator.push<bool>(
+    await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddEditPropertyScreen(existing: p),
+        builder: (context) => ListingEditorScreen(property: p),
       ),
     );
-    if (result == true) await _refresh();
+    if (mounted) await _refresh();
   }
 
-  void _openDetail(Property p) {
-    Navigator.push(
+  void _openDetail(Property p) async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PropertyDetailScreen(property: p),
+        builder: (context) => ListingEditorScreen(property: p),
       ),
     );
+    if (mounted) await _refresh();
   }
 
   Future<void> _confirmDelete(Property p) async {
