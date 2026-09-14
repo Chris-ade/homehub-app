@@ -32,6 +32,7 @@ import 'modals/all_reviews_modal.dart';
 import 'modals/lease_terms_modal.dart';
 import 'modals/tenancy_rules_modal.dart';
 import 'modals/utilities_modal.dart';
+import 'modals/share_property_modal.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
   final Property property;
@@ -215,14 +216,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                 onPageChanged: (idx) =>
                     setState(() => _activeGalleryIndex = idx),
                 onBack: () => Navigator.pop(context),
-                onShare: () {
-                  AppToast.showSuccess(
-                    context,
-                    message: "Listing link copied to clipboard!",
-                    actionLabel: "Share",
-                    onAction: () {},
-                  );
-                },
+                onShare: () => showSharePropertyModal(context, prop, isDark),
                 onToggleFavorite: () {
                   final wasFavorite = prop.isFavorite;
                   propertyProvider.toggleFavorite(prop.id);

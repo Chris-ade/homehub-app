@@ -392,6 +392,7 @@ class _ChatScreenState extends State<ChatScreen> {
           Text(
             "Messages",
             style: TextStyle(
+              fontFamily: "Cabinet Grotesk",
               fontSize: AppFontSizes.titleLarge,
               fontWeight: FontWeight.w700,
               color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,

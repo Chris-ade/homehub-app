@@ -9,9 +9,9 @@ import '../theme/app_theme.dart';
 import '../widgets/cards/property_card.dart';
 import '../widgets/skeletons/property_card_skeleton.dart';
 import '../widgets/cards/city_card.dart';
+import '../widgets/cards/see_all_carousel_card.dart';
 import '../widgets/skeletons/city_card_skeleton.dart';
 import '../widgets/section_header.dart';
-import '../widgets/app_toast.dart';
 import 'property/property_view.dart';
 import 'city_view.dart';
 
@@ -220,33 +220,47 @@ class _HomeScreenState extends State<HomeScreen> {
                             "There's no property listing available at the moment",
                       )
                     : SizedBox(
-                        height: 245,
-                        child: ListView.builder(
-                          padding: const EdgeInsets.only(left: 20, right: 4),
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: featuredList.length,
-                          itemBuilder: (context, index) {
-                            final item = featuredList[index];
-                            return PropertyCard(
-                              property: item,
-                              isHorizontal: true,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        PropertyDetailScreen(property: item),
-                                  ),
+                          height: 245,
+                          child: ListView.builder(
+                            padding: const EdgeInsets.only(left: 20, right: 4),
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: featuredList.length + 1,
+                            itemBuilder: (context, index) {
+                              if (index < featuredList.length) {
+                                final item = featuredList[index];
+                                return PropertyCard(
+                                  property: item,
+                                  isHorizontal: true,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            PropertyDetailScreen(property: item),
+                                      ),
+                                    );
+                                  },
+                                  onFavoriteToggle: () {
+                                    propertyProvider.toggleFavorite(item.id);
+                                  },
                                 );
-                              },
-                              onFavoriteToggle: () {
-                                propertyProvider.toggleFavorite(item.id);
-                              },
-                            );
-                          },
+                              }
+
+                              // End of carousel: "See all" card
+                              return SeeAllCarouselCard(
+                                width: 190,
+                                height: 245,
+                                label: "See all",
+                                images: featuredList
+                                    .take(4)
+                                    .map((p) => p.image)
+                                    .toList(),
+                                onTap: () => widget.onNavigateTab(_searchTabIndex),
+                              );
+                            },
+                          ),
                         ),
-                      ),
               ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 20)),
@@ -258,6 +272,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: SectionHeader(
                     title: "Explore by city",
                     subtitle: "Browse verified listings in your city",
+                    actionLabel: "See all",
+                    onAction: () {
+                      if (cities.isNotEmpty) {
+                        final primaryCity = cities.firstWhere(
+                          (c) => c.listingsCount > 0,
+                          orElse: () => cities.first,
+                        );
+                        propertyProvider.setSelectedCitySlug(primaryCity.slug);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CityDetailScreen(city: primaryCity),
+                          ),
+                        );
+                      } else {
+                        widget.onNavigateTab(_searchTabIndex);
+                      }
+                    },
                   ),
                 ),
               ),
@@ -289,13 +322,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.only(left: 20, right: 6),
                           scrollDirection: Axis.horizontal,
                           physics: const BouncingScrollPhysics(),
-                          itemCount: cities.length,
+                          itemCount: cities.length + 1,
                           itemBuilder: (context, index) {
-                            final city = cities[index];
-                            return CityCard(
-                              city: city,
-                              onTap: () {
-                                if (city.live) {
+                            if (index < cities.length) {
+                              final city = cities[index];
+                              return CityCard(
+                                city: city,
+                                onTap: () {
                                   propertyProvider.setSelectedCitySlug(
                                     city.slug,
                                   );
@@ -306,13 +339,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                           CityDetailScreen(city: city),
                                     ),
                                   );
-                                } else {
-                                  _showWaitlistDialog(
-                                    context,
-                                    city.name,
-                                    isDark,
-                                  );
-                                }
+                                },
+                              );
+                            }
+
+                            // End of carousel: "See all" card
+                            final primaryCity = cities.firstWhere(
+                              (c) => c.listingsCount > 0,
+                              orElse: () => cities.first,
+                            );
+                            return SeeAllCarouselCard(
+                              width: 160,
+                              height: 160,
+                              label: "See all",
+                              images: cities
+                                  .map((c) => c.heroImage)
+                                  .where((img) => img.isNotEmpty)
+                                  .take(4)
+                                  .toList(),
+                              onTap: () {
+                                propertyProvider.setSelectedCitySlug(
+                                  primaryCity.slug,
+                                );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        CityDetailScreen(city: primaryCity),
+                                  ),
+                                );
                               },
                             );
                           },
@@ -426,51 +481,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  void _showWaitlistDialog(BuildContext context, String cityName, bool isDark) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: isDark ? AppColors.darkSurface : AppColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(
-          "$cityName Launching Soon!",
-          style: TextStyle(
-            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Text(
-          "We're currently onboarding verified landlords in $cityName for our Q2 2026 expansion. Join the priority waitlist to get early access!",
-          style: TextStyle(
-            fontSize: 13,
-            color: isDark
-                ? AppColors.darkTextSecondary
-                : AppColors.textSecondary,
-          ),
-        ),
-        actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: isDark
-                  ? AppColors.darkAccent
-                  : AppColors.primary,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              AppToast.showSuccess(
-                context,
-                message: "You've been added to the priority waitlist!",
-              );
-            },
-            child: const Text(
-              "Join Waitlist",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
+
