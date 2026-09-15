@@ -79,8 +79,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          selectedItemColor: isDark ? AppColors.darkAccent : AppColors.accent,
-          unselectedItemColor: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+          selectedItemColor: isDark ? AppColors.darkAccent : AppColors.primary,
+          unselectedItemColor: isDark
+              ? AppColors.darkTextSecondary
+              : AppColors.textSecondary,
           selectedFontSize: 12,
           unselectedFontSize: 11,
           selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
@@ -96,28 +98,40 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 userProvider.isLandlord
                     ? LucideIcons.layout_dashboard
                     : LucideIcons.house,
-                color: isDark ? AppColors.darkAccent : AppColors.accent,
+                color: isDark ? AppColors.darkAccent : AppColors.primary,
               ),
               label: userProvider.isLandlord ? "Dashboard" : "Home",
             ),
             BottomNavigationBarItem(
               icon: const Icon(LucideIcons.search),
-              activeIcon: Icon(LucideIcons.search, color: isDark ? AppColors.darkAccent : AppColors.accent),
+              activeIcon: Icon(
+                LucideIcons.search,
+                color: isDark ? AppColors.darkAccent : AppColors.primary,
+              ),
               label: "Explore",
             ),
             BottomNavigationBarItem(
               icon: const Icon(LucideIcons.heart),
-              activeIcon: Icon(LucideIcons.heart, color: isDark ? AppColors.darkAccent : AppColors.accent),
+              activeIcon: Icon(
+                LucideIcons.heart,
+                color: isDark ? AppColors.darkAccent : AppColors.primary,
+              ),
               label: "Saved",
             ),
             BottomNavigationBarItem(
               icon: const Icon(LucideIcons.mail),
-              activeIcon: Icon(LucideIcons.mail, color: isDark ? AppColors.darkAccent : AppColors.accent),
+              activeIcon: Icon(
+                LucideIcons.mail,
+                color: isDark ? AppColors.darkAccent : AppColors.primary,
+              ),
               label: "Messages",
             ),
             BottomNavigationBarItem(
               icon: const Icon(LucideIcons.user),
-              activeIcon: Icon(LucideIcons.user, color: isDark ? AppColors.darkAccent : AppColors.accent),
+              activeIcon: Icon(
+                LucideIcons.user,
+                color: isDark ? AppColors.darkAccent : AppColors.primary,
+              ),
               label: "Profile",
             ),
           ],

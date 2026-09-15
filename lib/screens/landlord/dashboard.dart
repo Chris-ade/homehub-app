@@ -55,9 +55,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
   void _openEditProperty(Property p) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => ListingEditorScreen(property: p),
-      ),
+      MaterialPageRoute(builder: (context) => ListingEditorScreen(property: p)),
     );
     if (mounted) await _refresh();
   }
@@ -65,9 +63,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
   void _openDetail(Property p) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => ListingEditorScreen(property: p),
-      ),
+      MaterialPageRoute(builder: (context) => ListingEditorScreen(property: p)),
     );
     if (mounted) await _refresh();
   }
@@ -182,7 +178,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
             ),
             const SizedBox(height: 24),
 
-            // ── KPI Stat cards ─────────────────────────────────
+            // Stat cards
             if (landlord.isLoading && landlord.myProperties.isEmpty)
               _statSkeleton(isDark)
             else
@@ -229,14 +225,14 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
 
             const SizedBox(height: 28),
 
-            // ── List a property CTA (Airbnb-style black pill) ──────────────
+            // List a property
             SizedBox(
               width: double.infinity,
               height: 56,
               child: ElevatedButton.icon(
                 onPressed: _openAddProperty,
                 icon: Icon(
-                  LucideIcons.plus,
+                  LucideIcons.house_plus,
                   size: 20,
                   color: isDark ? AppColors.darkBackground : Colors.white,
                 ),
@@ -250,8 +246,9 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                  backgroundColor: isDark
+                      ? AppColors.darkAccent
+                      : AppColors.primary,
                   foregroundColor: Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -263,16 +260,24 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
 
             const SizedBox(height: 32),
 
-            // ── Your Properties section header ─────────────────────────────
+            // Your Properties section header
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Icon(
+                  LucideIcons.house,
+                  size: 20,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.textPrimary,
+                ),
+                const SizedBox(width: 8),
                 Text(
                   "Your Properties",
                   style: TextStyle(
                     fontFamily: 'Cabinet Grotesk',
-                    fontSize: 22,
-                    fontWeight: FontWeight.w800,
+                    fontSize: 21,
+                    fontWeight: FontWeight.w700,
                     letterSpacing: -0.3,
                     color: isDark
                         ? AppColors.darkTextPrimary
@@ -280,33 +285,6 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                if (!landlord.isLoading && landlord.myProperties.isNotEmpty)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: isDark
-                          ? AppColors.darkSurfaceAlt
-                          : AppColors.surfaceAlt,
-                      borderRadius: BorderRadius.circular(100),
-                      border: Border.all(
-                        color: isDark
-                            ? AppColors.darkBorder
-                            : AppColors.border,
-                      ),
-                    ),
-                    child: Text(
-                      "${landlord.myProperties.length}",
-                      style: TextStyle(
-                        fontFamily: 'Cabinet Grotesk',
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: isDark
-                            ? AppColors.darkTextSecondary
-                            : AppColors.textSecondary,
-                      ),
-                    ),
-                  ),
               ],
             ),
             const SizedBox(height: 16),
@@ -315,7 +293,9 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
             if (landlord.isLoading && landlord.myProperties.isEmpty)
               Column(
                 children: List.generate(
-                    2, (_) => const PropertyCardSkeleton(isLandlord: true)),
+                  2,
+                  (_) => const PropertyCardSkeleton(isLandlord: true),
+                ),
               )
             else if (landlord.myProperties.isEmpty)
               const NoDataWidget(

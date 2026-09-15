@@ -191,7 +191,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: "Featured listings",
                     subtitle:
                         "Active homes verified on HomeHub directly from hosts.",
-                    actionLabel: "Browse all",
                     onAction: () => widget.onNavigateTab(1),
                   ),
                 ),
@@ -220,47 +219,48 @@ class _HomeScreenState extends State<HomeScreen> {
                             "There's no property listing available at the moment",
                       )
                     : SizedBox(
-                          height: 245,
-                          child: ListView.builder(
-                            padding: const EdgeInsets.only(left: 20, right: 4),
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: featuredList.length + 1,
-                            itemBuilder: (context, index) {
-                              if (index < featuredList.length) {
-                                final item = featuredList[index];
-                                return PropertyCard(
-                                  property: item,
-                                  isHorizontal: true,
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            PropertyDetailScreen(property: item),
-                                      ),
-                                    );
-                                  },
-                                  onFavoriteToggle: () {
-                                    propertyProvider.toggleFavorite(item.id);
-                                  },
-                                );
-                              }
-
-                              // End of carousel: "See all" card
-                              return SeeAllCarouselCard(
-                                width: 190,
-                                height: 245,
-                                label: "See all",
-                                images: featuredList
-                                    .take(4)
-                                    .map((p) => p.image)
-                                    .toList(),
-                                onTap: () => widget.onNavigateTab(_searchTabIndex),
+                        height: 245,
+                        child: ListView.builder(
+                          padding: const EdgeInsets.only(left: 20, right: 4),
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: featuredList.length + 1,
+                          itemBuilder: (context, index) {
+                            if (index < featuredList.length) {
+                              final item = featuredList[index];
+                              return PropertyCard(
+                                property: item,
+                                isHorizontal: true,
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PropertyDetailScreen(property: item),
+                                    ),
+                                  );
+                                },
+                                onFavoriteToggle: () {
+                                  propertyProvider.toggleFavorite(item.id);
+                                },
                               );
-                            },
-                          ),
+                            }
+
+                            // End of carousel: "See all" card
+                            return SeeAllCarouselCard(
+                              width: 190,
+                              height: 245,
+                              label: "See all",
+                              images: featuredList
+                                  .take(4)
+                                  .map((p) => p.image)
+                                  .toList(),
+                              onTap: () =>
+                                  widget.onNavigateTab(_searchTabIndex),
+                            );
+                          },
                         ),
+                      ),
               ),
 
               const SliverToBoxAdapter(child: SizedBox(height: 20)),
@@ -272,7 +272,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: SectionHeader(
                     title: "Explore by city",
                     subtitle: "Browse verified listings in your city",
-                    actionLabel: "See all",
                     onAction: () {
                       if (cities.isNotEmpty) {
                         final primaryCity = cities.firstWhere(
@@ -482,4 +481,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

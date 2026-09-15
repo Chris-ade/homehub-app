@@ -19,15 +19,11 @@ import '../../widgets/inputs/form_input_field.dart';
 class ListingImageDraft {
   final XFile? file;
   String? url;
-  String? tag; // 'living_room', 'bedroom', 'kitchen', 'bathroom', 'exterior', 'balcony'
+  String?
+  tag; // 'living_room', 'bedroom', 'kitchen', 'bathroom', 'exterior', 'balcony'
   String? caption;
 
-  ListingImageDraft({
-    this.file,
-    this.url,
-    this.tag,
-    this.caption,
-  });
+  ListingImageDraft({this.file, this.url, this.tag, this.caption});
 
   bool get isLocal => file != null;
 }
@@ -51,7 +47,7 @@ const List<String> _kPresetAmenities = [
   "Borehole",
   "Pop Ceiling",
   "Tiled Floor",
-  "Serviced"
+  "Serviced",
 ];
 
 class AddEditPropertyScreen extends StatefulWidget {
@@ -164,9 +160,19 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
   void dispose() {
     _pageController.dispose();
     for (final c in [
-      _titleCtrl, _descCtrl, _streetCtrl, _houseNoCtrl, _cityCtrl,
-      _bedroomsCtrl, _bathroomsCtrl, _sqftCtrl, _rentCtrl, _depositCtrl,
-      _leaseTermCtrl, _contactPhoneCtrl, _amenityCtrl,
+      _titleCtrl,
+      _descCtrl,
+      _streetCtrl,
+      _houseNoCtrl,
+      _cityCtrl,
+      _bedroomsCtrl,
+      _bathroomsCtrl,
+      _sqftCtrl,
+      _rentCtrl,
+      _depositCtrl,
+      _leaseTermCtrl,
+      _contactPhoneCtrl,
+      _amenityCtrl,
     ]) {
       c.dispose();
     }
@@ -336,8 +342,8 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                         color: isSelected
                             ? Colors.white
                             : (isDark
-                                ? AppColors.darkTextPrimary
-                                : AppColors.textPrimary),
+                                  ? AppColors.darkTextPrimary
+                                  : AppColors.textPrimary),
                       ),
                       onSelected: (selected) {
                         setState(() {
@@ -400,7 +406,8 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
 
     // fallback for missing text
     if (_titleCtrl.text.isEmpty) {
-       _titleCtrl.text = "\${_type[0].toUpperCase()}\${_type.substring(1)} in \${_cityCtrl.text}";
+      _titleCtrl.text =
+          "\${_type[0].toUpperCase()}\${_type.substring(1)} in \${_cityCtrl.text}";
     }
 
     final body = <String, dynamic>{
@@ -422,9 +429,10 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
       if (_streetCtrl.text.trim().isNotEmpty)
         'street_name': _streetCtrl.text.trim(),
       'address': _streetCtrl.text.trim().isNotEmpty
-          ? [(_houseNoCtrl.text.trim()), (_streetCtrl.text.trim())]
-              .where((s) => s.isNotEmpty)
-              .join(", ")
+          ? [
+              (_houseNoCtrl.text.trim()),
+              (_streetCtrl.text.trim()),
+            ].where((s) => s.isNotEmpty).join(", ")
           : _streetCtrl.text.trim(),
       'city': _cityCtrl.text.trim(),
       'state': _state,
@@ -453,7 +461,8 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
     } else {
       AppToast.showError(
         context,
-        message: landlord.apiError ?? "Failed to save listing. Please try again.",
+        message:
+            landlord.apiError ?? "Failed to save listing. Please try again.",
       );
     }
   }
@@ -504,31 +513,17 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                       color: isDark ? AppColors.darkBorder : AppColors.border,
                     ),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                 ),
                 child: Text(
                   "Save & exit",
                   style: TextStyle(
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {}, // Questions hook
-                style: TextButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(
-                      color: isDark ? AppColors.darkBorder : AppColors.border,
-                    ),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                ),
-                child: Text(
-                  "Questions?",
-                  style: TextStyle(
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -552,7 +547,9 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           builder: (context, value, _) {
             return LinearProgressIndicator(
               value: value,
-              backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+              backgroundColor: isDark
+                  ? AppColors.darkSurfaceAlt
+                  : AppColors.surfaceAlt,
               color: AppColors.primary,
               minHeight: 2,
             );
@@ -583,7 +580,9 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                 child: Text(
                   "Back",
                   style: TextStyle(
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.textPrimary,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
@@ -607,7 +606,10 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                   ? const SizedBox(
                       width: 20,
                       height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
                     )
                   : Text(
                       _currentStep == _totalSteps
@@ -635,14 +637,8 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             height: 280,
             width: double.infinity,
             alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: const Text(
-              "🏠",
-              style: TextStyle(fontSize: 120),
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+            child: Icon(LucideIcons.house, size: 120),
           ),
           const SizedBox(height: 32),
           Text(
@@ -650,7 +646,6 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: AppColors.textSecondary,
               letterSpacing: 1.1,
             ),
           ),
@@ -667,19 +662,19 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           const SizedBox(height: 12),
           const Text(
             "In this step, we'll ask you which type of property you have and if guests will book the entire place or just a room.",
-            style: TextStyle(
-              fontFamily: 'Satoshi',
-              fontSize: 16,
-              color: AppColors.textSecondary,
-              height: 1.5,
-            ),
+            style: TextStyle(fontFamily: 'Satoshi', fontSize: 16, height: 1.5),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildTypeCard(String value, String label, String icon, bool isDark) {
+  Widget _buildTypeCard(
+    String value,
+    String label,
+    IconData icon,
+    bool isDark,
+  ) {
     final isSelected = _type == value;
     return GestureDetector(
       onTap: () => setState(() => _type = value),
@@ -688,8 +683,8 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
         decoration: BoxDecoration(
           color: isSelected
               ? (isDark
-                  ? AppColors.darkPrimary.withValues(alpha: 0.1)
-                  : AppColors.primary.withValues(alpha: 0.05))
+                    ? AppColors.darkPrimary.withValues(alpha: 0.1)
+                    : AppColors.primary.withValues(alpha: 0.05))
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
@@ -703,14 +698,16 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(icon, style: const TextStyle(fontSize: 28)),
+            Icon(icon, size: 28),
             const SizedBox(height: 12),
             Text(
               label,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
-                color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                color: isDark
+                    ? AppColors.darkTextPrimary
+                    : AppColors.textPrimary,
               ),
             ),
           ],
@@ -719,7 +716,12 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
     );
   }
 
-  Widget _buildHostelTypeCard(String value, String label, String icon, bool isDark) {
+  Widget _buildHostelTypeCard(
+    String value,
+    String label,
+    String icon,
+    bool isDark,
+  ) {
     final isSelected = _hostelType == value;
     return GestureDetector(
       onTap: () => setState(() => _hostelType = value),
@@ -728,8 +730,8 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
         decoration: BoxDecoration(
           color: isSelected
               ? (isDark
-                  ? AppColors.darkPrimary.withValues(alpha: 0.1)
-                  : AppColors.primary.withValues(alpha: 0.05))
+                    ? AppColors.darkPrimary.withValues(alpha: 0.1)
+                    : AppColors.primary.withValues(alpha: 0.05))
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
@@ -750,7 +752,9 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
-                color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                color: isDark
+                    ? AppColors.darkTextPrimary
+                    : AppColors.textPrimary,
               ),
             ),
           ],
@@ -783,9 +787,19 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             crossAxisSpacing: 16,
             childAspectRatio: 1.1,
             children: [
-              _buildTypeCard("apartment", "Apartment / Flat", "🏢", isDark),
-              _buildTypeCard("house", "House / Duplex", "🏡", isDark),
-              _buildTypeCard("hostel", "Hostel", "🏨", isDark),
+              _buildTypeCard(
+                "apartment",
+                "Apartment / Flat",
+                LucideIcons.building,
+                isDark,
+              ),
+              _buildTypeCard(
+                "house",
+                "House / Duplex",
+                LucideIcons.house,
+                isDark,
+              ),
+              _buildTypeCard("hostel", "Hostel", LucideIcons.bed, isDark),
             ],
           ),
           if (_type == 'hostel') ...[
@@ -807,8 +821,18 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
               crossAxisSpacing: 16,
               childAspectRatio: 1.1,
               children: [
-                _buildHostelTypeCard("single_room", "Single Room", "🛏", isDark),
-                _buildHostelTypeCard("self_contained", "Self-contained", "🛋️", isDark),
+                _buildHostelTypeCard(
+                  "single_room",
+                  "Single Room",
+                  "🛏",
+                  isDark,
+                ),
+                _buildHostelTypeCard(
+                  "self_contained",
+                  "Self-contained",
+                  "🛋️",
+                  isDark,
+                ),
               ],
             ),
           ],
@@ -817,7 +841,13 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
     );
   }
 
-  Widget _buildStepper(String label, TextEditingController ctrl, {double min = 0, double max = 20, double step = 1}) {
+  Widget _buildStepper(
+    String label,
+    TextEditingController ctrl, {
+    double min = 0,
+    double max = 20,
+    double step = 1,
+  }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     double currentVal = double.tryParse(ctrl.text) ?? 1;
 
@@ -862,9 +892,14 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
               SizedBox(
                 width: 30,
                 child: Text(
-                  (currentVal % 1 == 0) ? currentVal.toInt().toString() : currentVal.toString(),
+                  (currentVal % 1 == 0)
+                      ? currentVal.toInt().toString()
+                      : currentVal.toString(),
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
@@ -891,7 +926,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -961,7 +996,9 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
               child: DropdownButton<String>(
                 value: _state,
                 isExpanded: true,
-                dropdownColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                dropdownColor: isDark
+                    ? AppColors.darkSurfaceAlt
+                    : AppColors.surfaceAlt,
                 items: NigeriaLocations.states
                     .map((s) => DropdownMenuItem(value: s, child: Text(s)))
                     .toList(),
@@ -1034,7 +1071,9 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
               child: DropdownButton<String>(
                 value: _rentPeriod,
                 isExpanded: true,
-                dropdownColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                dropdownColor: isDark
+                    ? AppColors.darkSurfaceAlt
+                    : AppColors.surfaceAlt,
                 items: const [
                   DropdownMenuItem(value: 'monthly', child: Text('Monthly')),
                   DropdownMenuItem(value: 'annually', child: Text('Annually')),
@@ -1084,11 +1123,15 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                 selected: isSelected,
                 onSelected: (_) => _togglePresetAmenity(amenity),
                 selectedColor: AppColors.accent,
-                backgroundColor: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
+                backgroundColor: isDark
+                    ? AppColors.darkSurfaceAlt
+                    : AppColors.surfaceAlt,
                 labelStyle: TextStyle(
                   color: isSelected
                       ? Colors.white
-                      : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
+                      : (isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary),
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),
                 shape: RoundedRectangleBorder(
@@ -1105,10 +1148,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           const SizedBox(height: 32),
           const Text(
             "Additional amenities",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Row(
@@ -1134,7 +1174,9 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
               ),
             ],
           ),
-          if (_amenities.where((a) => !_kPresetAmenities.contains(a)).isNotEmpty) ...[
+          if (_amenities
+              .where((a) => !_kPresetAmenities.contains(a))
+              .isNotEmpty) ...[
             const SizedBox(height: 16),
             Wrap(
               spacing: 8,
@@ -1142,21 +1184,25 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
               children: _amenities
                   .where((a) => !_kPresetAmenities.contains(a))
                   .map((a) {
-                return Chip(
-                  label: Text(a),
-                  deleteIcon: const Icon(LucideIcons.x, size: 14),
-                  onDeleted: () => setState(() => _amenities.remove(a)),
-                  backgroundColor:
-                      isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
-                  labelStyle: TextStyle(
-                    fontSize: 12,
-                    color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
-                  ),
-                  side: BorderSide(
-                    color: isDark ? AppColors.darkBorder : AppColors.border,
-                  ),
-                );
-              }).toList(),
+                    return Chip(
+                      label: Text(a),
+                      deleteIcon: const Icon(LucideIcons.x, size: 14),
+                      onDeleted: () => setState(() => _amenities.remove(a)),
+                      backgroundColor: isDark
+                          ? AppColors.darkSurfaceAlt
+                          : AppColors.surfaceAlt,
+                      labelStyle: TextStyle(
+                        fontSize: 12,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.textPrimary,
+                      ),
+                      side: BorderSide(
+                        color: isDark ? AppColors.darkBorder : AppColors.border,
+                      ),
+                    );
+                  })
+                  .toList(),
             ),
           ],
         ],
@@ -1243,7 +1289,9 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           Stack(
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(11)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(11),
+                ),
                 child: SizedBox(
                   width: 105,
                   height: 75,
@@ -1280,17 +1328,21 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           ),
           InkWell(
             onTap: () => _showTagPickerModal(draft),
-            borderRadius: const BorderRadius.vertical(bottom: Radius.circular(11)),
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(11),
+            ),
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
               decoration: BoxDecoration(
                 color: hasTag
                     ? (isDark
-                        ? AppColors.darkAccent.withValues(alpha: 0.2)
-                        : AppColors.accent.withValues(alpha: 0.1))
+                          ? AppColors.darkAccent.withValues(alpha: 0.2)
+                          : AppColors.accent.withValues(alpha: 0.1))
                     : Colors.transparent,
-                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(11)),
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(11),
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1309,12 +1361,10 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
                         color: hasTag
-                            ? (isDark
-                                ? AppColors.darkAccent
-                                : AppColors.accent)
+                            ? (isDark ? AppColors.darkAccent : AppColors.accent)
                             : (isDark
-                                ? AppColors.darkTextSecondary
-                                : AppColors.textSecondary),
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.textSecondary),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -1377,13 +1427,17 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                   Icon(
                     LucideIcons.calendar,
                     size: 20,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.primary,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.primary,
                   ),
                   const SizedBox(width: 12),
                   Text(
                     DateFormat('d MMM yyyy').format(_availableFrom),
                     style: TextStyle(
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                     ),
