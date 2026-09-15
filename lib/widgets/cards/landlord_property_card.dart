@@ -84,7 +84,7 @@ class LandlordPropertyCard extends StatelessWidget {
                                   ? AppColors.darkSurfaceAlt
                                   : AppColors.surfaceAlt,
                               child: const Icon(
-                                LucideIcons.building_2,
+                                LucideIcons.building_complex,
                                 size: 48,
                                 color: AppColors.textSecondary,
                               ),

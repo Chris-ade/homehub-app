@@ -128,7 +128,7 @@ class _SplashScreenState extends State<SplashScreen>
                         ],
                       ),
                       child: const Icon(
-                        LucideIcons.building_2,
+                        LucideIcons.building_complex,
                         color: AppColors.primary,
                         size: 48,
                       ),

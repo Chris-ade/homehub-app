@@ -98,17 +98,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   : AppColors.surface,
               title: Row(
                 children: [
-                  const Icon(
-                    LucideIcons.key_round,
-                    color: AppColors.accent,
-                  ),
+                  const Icon(LucideIcons.key_round, color: AppColors.accent),
                   const SizedBox(width: 10),
                   Text(
                     "Reset Password",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w900,
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
                     ),
                   ),
                 ],
@@ -121,7 +120,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     "Enter your email address and we'll send you a password reset link.",
                     style: TextStyle(
                       fontSize: 13,
-                      color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                      color: isDark
+                          ? AppColors.darkTextSecondary
+                          : AppColors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -152,7 +153,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: isDark ? AppColors.darkAccent : AppColors.primary,
+                    backgroundColor: isDark
+                        ? AppColors.darkAccent
+                        : AppColors.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -219,7 +222,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Icon(
-                              LucideIcons.building_2,
+                              LucideIcons.building_complex,
                               color: Colors.white,
                               size: 24,
                             ),
@@ -248,7 +251,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w900,
-                      color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.textPrimary,
                       letterSpacing: -0.5,
                     ),
                   ),
@@ -257,7 +262,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     "Already have an account? Enter your details to continue.",
                     style: TextStyle(
                       fontSize: 18,
-                      color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                      color: isDark
+                          ? AppColors.darkTextSecondary
+                          : AppColors.textSecondary,
                       height: 1.35,
                     ),
                   ),
@@ -294,7 +301,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           fontSize: AppFontSizes.labelLarge,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.textPrimary,
                         ),
                       ),
                       GestureDetector(
@@ -303,7 +312,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           "Forgot Password?",
                           style: TextStyle(
                             fontSize: AppFontSizes.labelMedium,
-                            color: isDark ? AppColors.darkAccent : AppColors.accent,
+                            color: isDark
+                                ? AppColors.darkAccent
+                                : AppColors.accent,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -322,7 +333,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         _obscurePassword
                             ? LucideIcons.eye_off
                             : LucideIcons.eye,
-                        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.textSecondary,
                         size: 20,
                       ),
                       onPressed: () =>
@@ -358,7 +371,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         "Don't have an account? ",
                         style: TextStyle(
                           fontSize: 17,
-                          color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
                         ),
                       ),
                       const SizedBox(width: 4),
@@ -375,7 +390,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           "Create one",
                           style: TextStyle(
                             fontSize: 17,
-                            color: isDark ? AppColors.darkAccent : AppColors.accent,
+                            color: isDark
+                                ? AppColors.darkAccent
+                                : AppColors.accent,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

@@ -346,7 +346,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   value: 'delete',
                   child: Row(
                     children: [
-                      Icon(LucideIcons.trash_2, size: 18, color: Colors.red),
+                      Icon(LucideIcons.trash, size: 18, color: Colors.red),
                       SizedBox(width: 10),
                       Text(
                         "Delete conversation",
@@ -628,7 +628,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           child: Row(
             children: [
               const Icon(
-                LucideIcons.building_2,
+                LucideIcons.building_complex,
                 size: 18,
                 color: AppColors.primary,
               ),

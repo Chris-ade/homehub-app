@@ -903,7 +903,7 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
-                  LucideIcons.trash_2,
+                  LucideIcons.trash,
                   size: 13,
                   color: Colors.white,
                 ),

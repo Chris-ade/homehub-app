@@ -85,7 +85,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Icon(
-                          LucideIcons.building_2,
+                          LucideIcons.building_complex,
                           color: Colors.white,
                           size: 20,
                         ),
@@ -97,7 +97,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           fontFamily: 'Cabinet Grotesk',
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
-                          color: isDark ? AppColors.darkTextPrimary : AppColors.primary,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.primary,
                           letterSpacing: -0.5,
                         ),
                       ),
@@ -112,7 +114,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         fontFamily: 'Satoshi',
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.textSecondary,
                       ),
                     ),
                   ),
@@ -168,7 +172,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             slide["tag"]!,
                             style: TextStyle(
                               fontFamily: 'Satoshi',
-                              color: isDark ? AppColors.darkAccent : AppColors.accent,
+                              color: isDark
+                                  ? AppColors.darkAccent
+                                  : AppColors.accent,
                               fontSize: 10,
                               fontWeight: FontWeight.w800,
                               letterSpacing: 1.0,
@@ -234,7 +240,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         decoration: BoxDecoration(
                           color: _currentPage == idx
                               ? (isDark ? AppColors.white : AppColors.primary)
-                              : (isDark ? AppColors.darkBorder : AppColors.border),
+                              : (isDark
+                                    ? AppColors.darkBorder
+                                    : AppColors.border),
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),

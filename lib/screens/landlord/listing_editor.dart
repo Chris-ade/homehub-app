@@ -203,7 +203,7 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                 const Divider(),
                 ListTile(
                   leading: const Icon(
-                    LucideIcons.trash_2,
+                    LucideIcons.trash,
                     color: AppColors.error,
                   ),
                   title: const Text(

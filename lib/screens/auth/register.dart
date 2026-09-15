@@ -223,7 +223,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           if (!mounted) return;
           setState(() => _isLoading = false);
           if (_isPhoneAvailable == false) {
-            final errorMsg = _phoneCheckMessage ?? "This phone number is already registered.";
+            final errorMsg =
+                _phoneCheckMessage ??
+                "This phone number is already registered.";
             setState(() => _stepError = errorMsg);
             AppToast.showError(context, message: errorMsg);
             return;
@@ -290,7 +292,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (result.success) {
       AppToast.showSuccess(
         context,
-        message: "Account created! Welcome to HomeHub, ${_firstNameController.text.trim()}.",
+        message:
+            "Account created! Welcome to HomeHub, ${_firstNameController.text.trim()}.",
       );
 
       // Offer OTP verification modal
@@ -319,10 +322,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       setState(() {
         _stepError = errorMsg;
       });
-      AppToast.showError(
-        context,
-        message: errorMsg,
-      );
+      AppToast.showError(context, message: errorMsg);
     }
   }
 
@@ -351,7 +351,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             style: TextStyle(
               fontSize: AppFontSizes.titleMedium,
               fontWeight: FontWeight.bold,
-              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.textSecondary,
             ),
           ),
           elevation: 0,
@@ -427,7 +429,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               "Log in",
                               style: TextStyle(
                                 fontSize: 17,
-                                color: isDark ? AppColors.darkAccent : AppColors.accent,
+                                color: isDark
+                                    ? AppColors.darkAccent
+                                    : AppColors.accent,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -481,7 +485,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           "Select how you intend to use HomeHub.",
           style: TextStyle(
             fontSize: AppFontSizes.bodyLarge,
-            color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+            color: isDark
+                ? AppColors.darkTextSecondary
+                : AppColors.textSecondary,
           ),
         ),
         const SizedBox(height: 24),
@@ -499,7 +505,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _buildRoleSelectionCard(
           title: "I'm a Landlord or Agent",
           subtitle: "Looking to list properties for rent.",
-          icon: LucideIcons.building_2,
+          icon: LucideIcons.building_complex,
           value: "agent",
           isDark: isDark,
         ),
@@ -528,7 +534,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             "Enter your full name.",
             style: TextStyle(
               fontSize: AppFontSizes.bodyLarge,
-              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.textSecondary,
             ),
           ),
           const SizedBox(height: 24),
@@ -584,7 +592,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             "We need your email address to verify your account.",
             style: TextStyle(
               fontSize: AppFontSizes.bodyLarge,
-              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.textSecondary,
             ),
           ),
 
@@ -646,7 +656,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             "We also need your mobile number to verify your account.",
             style: TextStyle(
               fontSize: AppFontSizes.bodyLarge,
-              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.textSecondary,
             ),
           ),
 
@@ -712,7 +724,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             "Choose a strong password to secure your account.",
             style: TextStyle(
               fontSize: AppFontSizes.bodyLarge,
-              color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.textSecondary,
             ),
           ),
           const SizedBox(height: 24),
@@ -780,7 +794,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   "I agree to the Terms of Service & Privacy Policy.",
                   style: TextStyle(
                     fontSize: AppFontSizes.bodyMedium,
-                    color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.textSecondary,
                   ),
                 ),
               ),
@@ -824,7 +840,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               decoration: BoxDecoration(
                 color: isSelected
                     ? (isDark ? AppColors.white : AppColors.primary)
-                    : (isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt),
+                    : (isDark
+                          ? AppColors.darkSurfaceAlt
+                          : AppColors.surfaceAlt),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -847,7 +865,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fontWeight: FontWeight.bold,
                       color: isSelected
                           ? (isDark ? AppColors.white : AppColors.primary)
-                          : (isDark ? AppColors.darkTextPrimary : AppColors.textPrimary),
+                          : (isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.textPrimary),
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -855,7 +875,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     subtitle,
                     style: TextStyle(
                       fontSize: AppFontSizes.bodyMedium,
-                      color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+                      color: isDark
+                          ? AppColors.darkTextSecondary
+                          : AppColors.textSecondary,
                       height: 1.3,
                     ),
                   ),

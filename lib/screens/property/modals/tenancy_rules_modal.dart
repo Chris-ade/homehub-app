@@ -31,9 +31,7 @@ void showTenancyRulesModal(BuildContext context, bool isDark) {
               fontFamily: 'Cabinet Grotesk',
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: isDark
-                  ? AppColors.darkTextPrimary
-                  : AppColors.textPrimary,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 6),
@@ -52,9 +50,7 @@ void showTenancyRulesModal(BuildContext context, bool isDark) {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
-              color: isDark
-                  ? AppColors.darkTextPrimary
-                  : AppColors.textPrimary,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 10),
@@ -79,9 +75,7 @@ void showTenancyRulesModal(BuildContext context, bool isDark) {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
-              color: isDark
-                  ? AppColors.darkTextPrimary
-                  : AppColors.textPrimary,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 10),
@@ -96,7 +90,7 @@ void showTenancyRulesModal(BuildContext context, bool isDark) {
             isDark,
           ),
           _buildRuleItem(
-            LucideIcons.trash_2,
+            LucideIcons.trash,
             "Keep common areas and bins clean",
             isDark,
           ),

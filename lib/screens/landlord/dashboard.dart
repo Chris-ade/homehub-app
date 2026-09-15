@@ -136,7 +136,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
           children: [
-            // ── Greeting ──────────────────────────────────────────────────
+            // Greeting
             Row(
               children: [
                 Expanded(
@@ -289,7 +289,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
             ),
             const SizedBox(height: 16),
 
-            // ── Properties list / loading / empty state ────────────────────
+            // Properties list / loading / empty state
             if (landlord.isLoading && landlord.myProperties.isEmpty)
               Column(
                 children: List.generate(

@@ -425,7 +425,7 @@ class _SearchScreenState extends State<SearchScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            LucideIcons.building_2,
+            LucideIcons.building_complex,
             size: 60,
             color: isDark
                 ? AppColors.darkTextSecondary
