@@ -265,7 +265,7 @@ class _LandlordDashboardScreenState extends State<LandlordDashboardScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
-                  LucideIcons.house,
+                  LucideIcons.houses,
                   size: 20,
                   color: isDark
                       ? AppColors.darkTextPrimary
