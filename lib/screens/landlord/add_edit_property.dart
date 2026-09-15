@@ -719,7 +719,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
   Widget _buildHostelTypeCard(
     String value,
     String label,
-    String icon,
+    IconData icon,
     bool isDark,
   ) {
     final isSelected = _hostelType == value;
@@ -745,7 +745,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(icon, style: const TextStyle(fontSize: 28)),
+            Icon(icon, size: 28),
             const SizedBox(height: 12),
             Text(
               label,
@@ -824,13 +824,13 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                 _buildHostelTypeCard(
                   "single_room",
                   "Single Room",
-                  "🛏",
+                  LucideIcons.house,
                   isDark,
                 ),
                 _buildHostelTypeCard(
                   "self_contained",
                   "Self-contained",
-                  "🛋️",
+                  LucideIcons.bed,
                   isDark,
                 ),
               ],
