@@ -848,7 +848,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Icon(
                 icon,
                 color: isSelected
-                    ? Colors.white
+                    ? (isDark ? AppColors.darkButtonText : AppColors.buttonText)
                     : (isDark ? AppColors.darkTextPrimary : AppColors.primary),
                 size: 24,
               ),
@@ -887,7 +887,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             if (isSelected)
               Icon(
                 LucideIcons.circle_check,
-                color: isDark ? AppColors.darkAccent : AppColors.accent,
+                color: isDark ? AppColors.darkAccent : AppColors.primary,
                 size: 22,
               ),
           ],
