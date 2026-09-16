@@ -11,6 +11,7 @@ import '../../widgets/inputs/custom_input_field.dart';
 import '../../widgets/app_toast.dart';
 import '../navbar.dart';
 import 'register.dart';
+import 'forgot_password.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -73,124 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
           : "Invalid email or password. Please try again.";
       AppToast.showError(context, message: errorMsg);
     }
-  }
-
-  void _showForgotPasswordDialog() {
-    final resetEmailController = TextEditingController(
-      text: _emailController.text,
-    );
-    bool isSubmittingReset = false;
-    String? resetStatus;
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setDialogState) {
-            final isDark = Theme.of(context).brightness == Brightness.dark;
-
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              backgroundColor: isDark
-                  ? AppColors.darkSurface
-                  : AppColors.surface,
-              title: Row(
-                children: [
-                  const Icon(LucideIcons.key_round, color: AppColors.accent),
-                  const SizedBox(width: 10),
-                  Text(
-                    "Reset Password",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                      color: isDark
-                          ? AppColors.darkTextPrimary
-                          : AppColors.textPrimary,
-                    ),
-                  ),
-                ],
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Enter your email address and we'll send you a password reset link.",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: isDark
-                          ? AppColors.darkTextSecondary
-                          : AppColors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  CustomInputField(
-                    controller: resetEmailController,
-                    hintText: "you@example.com",
-                    isDark: isDark,
-                    prefixIcon: LucideIcons.mail,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  if (resetStatus != null) ...[
-                    const SizedBox(height: 12),
-                    Text(
-                      resetStatus!,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Cancel"),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isDark
-                        ? AppColors.darkAccent
-                        : AppColors.primary,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  onPressed: isSubmittingReset
-                      ? null
-                      : () async {
-                          final email = resetEmailController.text.trim();
-                          if (email.isEmpty || !email.contains('@')) return;
-
-                          setDialogState(() {
-                            isSubmittingReset = true;
-                          });
-
-                          final userProvider = context.read<UserProvider>();
-                          final res = await userProvider.requestPasswordReset(
-                            email,
-                          );
-
-                          setDialogState(() {
-                            isSubmittingReset = false;
-                            resetStatus = res.message;
-                          });
-                        },
-                  child: Text(
-                    isSubmittingReset ? "Sending..." : "Send Request",
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
   }
 
   @override
@@ -307,14 +190,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: _showForgotPasswordDialog,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ForgotPasswordScreen(
+                                initialEmail: _emailController.text.trim(),
+                              ),
+                            ),
+                          );
+                        },
                         child: Text(
                           "Forgot Password?",
                           style: TextStyle(
                             fontSize: AppFontSizes.labelMedium,
                             color: isDark
                                 ? AppColors.darkAccent
-                                : AppColors.accent,
+                                : AppColors.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -392,7 +284,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 17,
                             color: isDark
                                 ? AppColors.darkAccent
-                                : AppColors.accent,
+                                : AppColors.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
