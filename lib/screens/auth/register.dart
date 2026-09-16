@@ -431,7 +431,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontSize: 17,
                                 color: isDark
                                     ? AppColors.darkAccent
-                                    : AppColors.accent,
+                                    : AppColors.primary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

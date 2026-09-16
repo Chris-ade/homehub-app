@@ -90,7 +90,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-          child: _emailSent ? _buildSuccessState(isDark) : _buildFormState(isDark),
+          child: _emailSent
+              ? _buildSuccessState(isDark)
+              : _buildFormState(isDark),
         ),
       ),
     );
@@ -108,14 +110,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: (isDark ? AppColors.darkAccent : AppColors.accent)
+              color: (isDark ? AppColors.darkAccent : AppColors.primary)
                   .withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
               LucideIcons.key_round,
               size: 28,
-              color: isDark ? AppColors.darkAccent : AppColors.accent,
+              color: isDark ? AppColors.darkAccent : AppColors.primary,
             ),
           ),
 
@@ -128,9 +130,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               fontSize: 28,
               fontWeight: FontWeight.w900,
               fontFamily: 'Cabinet Grotesk',
-              color: isDark
-                  ? AppColors.darkTextPrimary
-                  : AppColors.textPrimary,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
               letterSpacing: -0.5,
             ),
           ),
@@ -191,9 +191,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   Icon(
                     LucideIcons.arrow_left,
                     size: 16,
-                    color: isDark
-                        ? AppColors.darkAccent
-                        : AppColors.primary,
+                    color: isDark ? AppColors.darkAccent : AppColors.primary,
                   ),
                   const SizedBox(width: 8),
                   Text(
@@ -201,9 +199,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: isDark
-                          ? AppColors.darkAccent
-                          : AppColors.primary,
+                      color: isDark ? AppColors.darkAccent : AppColors.primary,
                     ),
                   ),
                 ],
@@ -244,9 +240,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             fontSize: 26,
             fontWeight: FontWeight.w900,
             fontFamily: 'Cabinet Grotesk',
-            color: isDark
-                ? AppColors.darkTextPrimary
-                : AppColors.textPrimary,
+            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
             letterSpacing: -0.5,
           ),
           textAlign: TextAlign.center,
@@ -306,9 +300,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: isDark
-                      ? AppColors.darkAccent
-                      : AppColors.primary,
+                  color: isDark ? AppColors.darkAccent : AppColors.primary,
                 ),
               ),
             ),
