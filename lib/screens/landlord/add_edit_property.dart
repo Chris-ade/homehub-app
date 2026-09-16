@@ -824,7 +824,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                 _buildHostelTypeCard(
                   "single_room",
                   "Single Room",
-                  LucideIcons.house,
+                  Icons.bedroom_parent_outlined,
                   isDark,
                 ),
                 _buildHostelTypeCard(

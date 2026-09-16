@@ -95,9 +95,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                     : LucideIcons.house,
               ),
               activeIcon: Icon(
-                userProvider.isLandlord
-                    ? LucideIcons.layout_dashboard
-                    : LucideIcons.house,
+                userProvider.isLandlord ? Icons.dashboard : LucideIcons.house,
                 color: isDark ? AppColors.darkAccent : AppColors.primary,
               ),
               label: userProvider.isLandlord ? "Dashboard" : "Home",
@@ -113,7 +111,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             BottomNavigationBarItem(
               icon: const Icon(LucideIcons.heart),
               activeIcon: Icon(
-                LucideIcons.heart,
+                Icons.favorite,
                 color: isDark ? AppColors.darkAccent : AppColors.primary,
               ),
               label: "Saved",
@@ -121,7 +119,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             BottomNavigationBarItem(
               icon: const Icon(LucideIcons.mail),
               activeIcon: Icon(
-                LucideIcons.mail,
+                Icons.mail,
                 color: isDark ? AppColors.darkAccent : AppColors.primary,
               ),
               label: "Messages",
