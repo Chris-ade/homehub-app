@@ -419,7 +419,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             ],
           ),
 
-          // ── 12. FIXED BOTTOM ACTION BAR ──
+          // 12. FIXED BOTTOM ACTION BAR ──
           PropertyBottomBar(
             property: prop,
             formattedPrice: _formatCurrency(prop.price),
