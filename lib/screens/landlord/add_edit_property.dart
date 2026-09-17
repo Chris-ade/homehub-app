@@ -638,7 +638,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             width: double.infinity,
             alignment: Alignment.center,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-            child: Icon(LucideIcons.house, size: 120),
+            child: Icon(LucideIcons.house_plus, size: 120),
           ),
           const SizedBox(height: 32),
           Text(
@@ -681,15 +681,12 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected
-              ? (isDark
-                    ? AppColors.darkPrimary.withValues(alpha: 0.1)
-                    : AppColors.primary.withValues(alpha: 0.05))
-              : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected
-                ? AppColors.primary
+                ? isDark
+                      ? AppColors.darkAccent
+                      : AppColors.primary
                 : (isDark ? AppColors.darkBorder : AppColors.border),
             width: isSelected ? 2 : 1,
           ),
@@ -728,15 +725,12 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected
-              ? (isDark
-                    ? AppColors.darkPrimary.withValues(alpha: 0.1)
-                    : AppColors.primary.withValues(alpha: 0.05))
-              : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected
-                ? AppColors.primary
+                ? isDark
+                      ? AppColors.darkAccent
+                      : AppColors.primary
                 : (isDark ? AppColors.darkBorder : AppColors.border),
             width: isSelected ? 2 : 1,
           ),
@@ -799,7 +793,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                 LucideIcons.house,
                 isDark,
               ),
-              _buildTypeCard("hostel", "Hostel", LucideIcons.bed, isDark),
+              _buildTypeCard("hostel", "Hostel", LucideIcons.hotel, isDark),
             ],
           ),
           if (_type == 'hostel') ...[
@@ -829,8 +823,8 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                 ),
                 _buildHostelTypeCard(
                   "self_contained",
-                  "Self-contained",
-                  LucideIcons.bed,
+                  "Self Contained",
+                  LucideIcons.bed_single,
                   isDark,
                 ),
               ],
@@ -957,8 +951,8 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           const SizedBox(height: 24),
           FormInputField(
             controller: _sqftCtrl,
-            label: "Square footage (Optional)",
-            hintText: "e.g. 900",
+            label: "Size in m² (Optional)",
+            hintText: "e.g. 100m²",
             isDark: isDark,
             keyboardType: TextInputType.number,
           ),
@@ -974,7 +968,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Where's your place located?",
+            "Where's your property located?",
             style: TextStyle(
               fontFamily: 'Cabinet Grotesk',
               fontSize: 32,
@@ -983,6 +977,11 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             ),
           ),
           const SizedBox(height: 32),
+          const Text(
+            "State where your property is located.",
+            style: TextStyle(fontSize: 16, height: 1.5),
+          ),
+          const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             decoration: BoxDecoration(
@@ -1009,23 +1008,38 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             ),
           ),
           const SizedBox(height: 16),
+          const Text(
+            "City where your property is located.",
+            style: TextStyle(fontSize: 16, height: 1.5),
+          ),
+          const SizedBox(height: 6),
           FormInputField(
             controller: _cityCtrl,
-            label: "City",
+            label: "",
             hintText: "e.g. Ado-Ekiti",
             isDark: isDark,
           ),
           const SizedBox(height: 16),
+          const Text(
+            "Name of the street",
+            style: TextStyle(fontSize: 16, height: 1.5),
+          ),
+          const SizedBox(height: 6),
           FormInputField(
             controller: _streetCtrl,
-            label: "Street name",
+            label: "",
             hintText: "e.g. Adebayo Road",
             isDark: isDark,
           ),
           const SizedBox(height: 16),
+          const Text(
+            "House number (optional).",
+            style: TextStyle(fontSize: 16, height: 1.5),
+          ),
+          const SizedBox(height: 6),
           FormInputField(
             controller: _houseNoCtrl,
-            label: "House number (Optional)",
+            label: "",
             hintText: "e.g. 12",
             isDark: isDark,
           ),
@@ -1050,14 +1064,21 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             ),
           ),
           const SizedBox(height: 32),
+          const Text("Rent (₦)", style: TextStyle(fontSize: 16, height: 1.5)),
+          const SizedBox(height: 6),
           FormInputField(
             controller: _rentCtrl,
-            label: "Rent (₦)",
+            label: "",
             hintText: "e.g. 850000",
             isDark: isDark,
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 24),
+          const Text(
+            "Select the rent period.",
+            style: TextStyle(fontSize: 16, height: 1.5),
+          ),
+          const SizedBox(height: 6),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             decoration: BoxDecoration(
@@ -1075,8 +1096,26 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                     ? AppColors.darkSurfaceAlt
                     : AppColors.surfaceAlt,
                 items: const [
-                  DropdownMenuItem(value: 'monthly', child: Text('Monthly')),
-                  DropdownMenuItem(value: 'annually', child: Text('Annually')),
+                  DropdownMenuItem(
+                    value: 'monthly',
+                    child: Text(
+                      'Monthly',
+                      style: TextStyle(
+                        fontFamily: "Satoshi",
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: 'annually',
+                    child: Text(
+                      'Annually',
+                      style: TextStyle(
+                        fontFamily: "Satoshi",
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
                 ],
                 onChanged: (v) {
                   if (v != null) setState(() => _rentPeriod = v);
@@ -1085,9 +1124,14 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             ),
           ),
           const SizedBox(height: 24),
+          const Text(
+            "Security deposit (₦) - Optional",
+            style: TextStyle(fontSize: 16, height: 1.5),
+          ),
+          const SizedBox(height: 6),
           FormInputField(
             controller: _depositCtrl,
-            label: "Security deposit (₦) - Optional",
+            label: "",
             hintText: "e.g. 50000",
             isDark: isDark,
             keyboardType: TextInputType.number,
@@ -1119,16 +1163,23 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             children: _kPresetAmenities.map((amenity) {
               final isSelected = _amenities.contains(amenity);
               return FilterChip(
+                checkmarkColor: isDark
+                    ? AppColors.darkButtonText
+                    : AppColors.buttonText,
                 label: Text(amenity),
                 selected: isSelected,
                 onSelected: (_) => _togglePresetAmenity(amenity),
-                selectedColor: AppColors.accent,
+                selectedColor: isDark
+                    ? AppColors.darkAccent
+                    : AppColors.primary,
                 backgroundColor: isDark
                     ? AppColors.darkSurfaceAlt
                     : AppColors.surfaceAlt,
                 labelStyle: TextStyle(
                   color: isSelected
-                      ? Colors.white
+                      ? (isDark
+                            ? AppColors.darkButtonText
+                            : AppColors.buttonText)
                       : (isDark
                             ? AppColors.darkTextPrimary
                             : AppColors.textPrimary),
@@ -1147,16 +1198,16 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           ),
           const SizedBox(height: 32),
           const Text(
-            "Additional amenities",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            "Add additional amenities available on your property.",
+            style: TextStyle(fontSize: 16, height: 1.5),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           Row(
             children: [
               Expanded(
                 child: FormInputField(
                   controller: _amenityCtrl,
-                  label: "Custom amenity",
+                  label: "",
                   hintText: "e.g. Gym, Pool",
                   isDark: isDark,
                   onSubmitted: (_) => _addAmenity(),
@@ -1164,7 +1215,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
               ),
               const SizedBox(width: 12),
               Padding(
-                padding: const EdgeInsets.only(top: 22),
+                padding: const EdgeInsets.only(top: 4),
                 child: CustomButton(
                   text: "Add",
                   isAmber: true,
@@ -1396,10 +1447,10 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           ),
           const SizedBox(height: 32),
           const Text(
-            "Available from",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            "Choose a date when your property becomes available",
+            style: TextStyle(fontSize: 16, height: 1.5),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           InkWell(
             onTap: () async {
               final picked = await showDatePicker(
@@ -1447,32 +1498,53 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             ),
           ),
           const SizedBox(height: 24),
+          const Text(
+            "Lease term (Optional)",
+            style: TextStyle(fontSize: 16, height: 1.5),
+          ),
+          const SizedBox(height: 6),
           FormInputField(
             controller: _leaseTermCtrl,
-            label: "Lease term (Optional)",
+            label: "",
             hintText: "e.g. 12-24 months",
             isDark: isDark,
           ),
           const SizedBox(height: 24),
+          const Text(
+            "Add a phone number where potential tenants can reach you.",
+            style: TextStyle(fontSize: 16, height: 1.5),
+          ),
+          const SizedBox(height: 6),
           FormInputField(
             controller: _contactPhoneCtrl,
-            label: "Contact phone",
+            label: "",
             hintText: "e.g. 0803 123 4567",
             isDark: isDark,
             keyboardType: TextInputType.phone,
           ),
           const SizedBox(height: 24),
+          const Text(
+            "Add a title for your listing (Optional)",
+            style: TextStyle(fontSize: 16, height: 1.5),
+          ),
+          const SizedBox(height: 6),
           FormInputField(
             controller: _titleCtrl,
-            label: "Listing Title (Optional)",
+            label: "",
             hintText: "e.g. Modern 2-Bedroom Flat",
             isDark: isDark,
           ),
           const SizedBox(height: 24),
+          const Text(
+            "Add a description for your listing (Optional)",
+            style: TextStyle(fontSize: 16, height: 1.5),
+          ),
+          const SizedBox(height: 6),
           FormInputField(
             controller: _descCtrl,
-            label: "Description (Optional)",
-            hintText: "Describe your property...",
+            label: "",
+            hintText:
+                "e.g. A spacious and modern 2-bedroom flat located in the heart of the city...",
             isDark: isDark,
             minLines: 3,
             maxLines: 6,

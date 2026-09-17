@@ -51,14 +51,15 @@ class FormInputField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: AppFontSizes.labelLarge,
-            fontWeight: FontWeight.bold,
-            color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+        if (label.isNotEmpty)
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: AppFontSizes.labelLarge,
+              fontWeight: FontWeight.bold,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.textPrimary,
+            ),
           ),
-        ),
         const SizedBox(height: 6),
         CustomInputField(
           controller: controller,
