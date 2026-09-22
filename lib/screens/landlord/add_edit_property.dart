@@ -111,8 +111,22 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
       _descCtrl.text = p.description;
       _streetCtrl.text = p.streetName;
       _houseNoCtrl.text = p.houseNumber;
-      _cityCtrl.text = p.city;
-      _state = p.state.isNotEmpty ? p.state : _state;
+      final cleanState = p.state
+          .replaceAll(RegExp(r'\s+State$', caseSensitive: false), '')
+          .trim();
+      if (NigeriaLocations.states.contains(cleanState)) {
+        _state = cleanState;
+      } else if (NigeriaLocations.states.contains(p.state)) {
+        _state = p.state;
+      }
+      final lgas = NigeriaLocations.getLgasForState(_state);
+      final matchCity = lgas.firstWhere(
+        (c) =>
+            c.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '') ==
+            p.city.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), ''),
+        orElse: () => lgas.isNotEmpty ? lgas.first : p.city,
+      );
+      _cityCtrl.text = matchCity;
       _bedroomsCtrl.text = p.beds.toString();
       _bathroomsCtrl.text = p.baths.toString();
       _sqftCtrl.text = p.sqft.toString();
@@ -153,6 +167,10 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
       // Default beds/baths if empty
       _bedroomsCtrl.text = "1";
       _bathroomsCtrl.text = "1";
+      final lgas = NigeriaLocations.getLgasForState(_state);
+      if (lgas.isNotEmpty && _cityCtrl.text.isEmpty) {
+        _cityCtrl.text = lgas.first;
+      }
     }
   }
 
@@ -317,7 +335,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
               Text(
                 "Select what room or area this photo shows so it appears on the listing's Spaces section.",
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: 15,
                   color: isDark
                       ? AppColors.darkTextSecondary
                       : AppColors.textSecondary,
@@ -331,16 +349,23 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                   ..._kRoomTagOptions.map((opt) {
                     final isSelected = draft.tag == opt['tag'];
                     return ChoiceChip(
-                      label: Text("${opt['icon']}  ${opt['label']}"),
+                      checkmarkColor: isDark
+                          ? AppColors.darkButtonText
+                          : AppColors.buttonText,
+                      label: Text("${opt['label']}"),
                       selected: isSelected,
-                      selectedColor: AppColors.accent,
+                      selectedColor: isDark
+                          ? AppColors.darkAccent
+                          : AppColors.primary,
                       backgroundColor: isDark
                           ? AppColors.darkSurfaceAlt
                           : AppColors.surfaceAlt,
                       labelStyle: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: isSelected
-                            ? Colors.white
+                            ? (isDark
+                                  ? AppColors.darkButtonText
+                                  : AppColors.buttonText)
                             : (isDark
                                   ? AppColors.darkTextPrimary
                                   : AppColors.textPrimary),
@@ -402,6 +427,13 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
       }
       if (!mounted) return;
       setState(() => _uploadingImages = false);
+    }
+
+    final lgas = NigeriaLocations.getLgasForState(_state);
+    if ((_cityCtrl.text.trim().isEmpty ||
+            !lgas.contains(_cityCtrl.text.trim())) &&
+        lgas.isNotEmpty) {
+      _cityCtrl.text = lgas.first;
     }
 
     // fallback for missing text
@@ -993,7 +1025,9 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
-                value: _state,
+                value: NigeriaLocations.states.contains(_state)
+                    ? _state
+                    : NigeriaLocations.states.first,
                 isExpanded: true,
                 dropdownColor: isDark
                     ? AppColors.darkSurfaceAlt
@@ -1002,7 +1036,15 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
                     .map((s) => DropdownMenuItem(value: s, child: Text(s)))
                     .toList(),
                 onChanged: (v) {
-                  if (v != null) setState(() => _state = v);
+                  if (v != null) {
+                    setState(() {
+                      _state = v;
+                      final newCities = NigeriaLocations.getLgasForState(v);
+                      _cityCtrl.text = newCities.isNotEmpty
+                          ? newCities.first
+                          : '';
+                    });
+                  }
                 },
               ),
             ),
@@ -1012,12 +1054,47 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             "City where your property is located.",
             style: TextStyle(fontSize: 16, height: 1.5),
           ),
-          const SizedBox(height: 6),
-          FormInputField(
-            controller: _cityCtrl,
-            label: "",
-            hintText: "e.g. Ado-Ekiti",
-            isDark: isDark,
+          const SizedBox(height: 12),
+          Builder(
+            builder: (context) {
+              final cities = NigeriaLocations.getLgasForState(_state);
+              final currentCity = cities.contains(_cityCtrl.text)
+                  ? _cityCtrl.text
+                  : (cities.isNotEmpty ? cities.first : null);
+
+              return Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? AppColors.darkSurfaceAlt
+                      : AppColors.surfaceAlt,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: isDark ? AppColors.darkBorder : AppColors.border,
+                  ),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: currentCity,
+                    isExpanded: true,
+                    dropdownColor: isDark
+                        ? AppColors.darkSurfaceAlt
+                        : AppColors.surfaceAlt,
+                    items: cities
+                        .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                        .toList(),
+                    onChanged: (v) {
+                      if (v != null) {
+                        setState(() => _cityCtrl.text = v);
+                      }
+                    },
+                  ),
+                ),
+              );
+            },
           ),
           const SizedBox(height: 16),
           const Text(
@@ -1303,11 +1380,14 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           ),
           const SizedBox(height: 24),
           if (_imageDrafts.isNotEmpty)
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
+            Column(
               children: _imageDrafts
-                  .map((draft) => _imageDraftThumb(draft, isDark))
+                  .map(
+                    (draft) => Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: _imageDraftThumb(draft, isDark),
+                    ),
+                  )
                   .toList(),
             ),
         ],
@@ -1323,10 +1403,10 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
     final hasTag = tagInfo.isNotEmpty;
 
     return Container(
-      width: 105,
+      width: double.infinity,
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurfaceAlt : AppColors.surfaceAlt,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: hasTag
               ? (isDark ? AppColors.darkAccent : AppColors.accent)
@@ -1341,35 +1421,42 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
             children: [
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(11),
+                  top: Radius.circular(15),
                 ),
                 child: SizedBox(
-                  width: 105,
-                  height: 75,
+                  width: double.infinity,
+                  height: 190,
                   child: draft.isLocal
                       ? Image.file(File(draft.file!.path), fit: BoxFit.cover)
                       : Image.network(
                           draft.url ?? '',
                           fit: BoxFit.cover,
-                          errorBuilder: (ctx, err, stack) =>
-                              const Icon(LucideIcons.image_off),
+                          errorBuilder: (ctx, err, stack) => Center(
+                            child: Icon(
+                              LucideIcons.image_off,
+                              size: 36,
+                              color: isDark
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.textSecondary,
+                            ),
+                          ),
                         ),
                 ),
               ),
               Positioned(
-                top: 4,
-                right: 4,
+                top: 8,
+                right: 8,
                 child: GestureDetector(
                   onTap: () => setState(() => _imageDrafts.remove(draft)),
                   child: Container(
-                    padding: const EdgeInsets.all(4),
+                    padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.65),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
                       LucideIcons.x,
-                      size: 14,
+                      size: 16,
                       color: Colors.white,
                     ),
                   ),
@@ -1380,45 +1467,60 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           InkWell(
             onTap: () => _showTagPickerModal(draft),
             borderRadius: const BorderRadius.vertical(
-              bottom: Radius.circular(11),
+              bottom: Radius.circular(15),
             ),
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
               decoration: BoxDecoration(
                 color: hasTag
                     ? (isDark
-                          ? AppColors.darkAccent.withValues(alpha: 0.2)
-                          : AppColors.accent.withValues(alpha: 0.1))
+                          ? AppColors.darkAccent.withValues(alpha: 0.15)
+                          : AppColors.accent.withValues(alpha: 0.08))
                     : Colors.transparent,
                 borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(11),
+                  bottom: Radius.circular(15),
                 ),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    hasTag ? "${tagInfo['icon']}" : "🏷️",
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                  const SizedBox(width: 4),
-                  Flexible(
-                    child: Text(
-                      hasTag
-                          ? (tagInfo['label'] ?? '').split(' ').first
-                          : "Tag Room",
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
+                  Row(
+                    children: [
+                      Icon(
+                        LucideIcons.tag,
+                        size: 16,
                         color: hasTag
                             ? (isDark ? AppColors.darkAccent : AppColors.accent)
                             : (isDark
                                   ? AppColors.darkTextSecondary
                                   : AppColors.textSecondary),
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      const SizedBox(width: 8),
+                      Text(
+                        hasTag ? "${tagInfo['label']}" : "Tag room or space",
+                        style: TextStyle(
+                          fontSize: 13.5,
+                          fontWeight: hasTag
+                              ? FontWeight.bold
+                              : FontWeight.w500,
+                          color: hasTag
+                              ? (isDark
+                                    ? AppColors.darkTextPrimary
+                                    : AppColors.textPrimary)
+                              : (isDark
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.textSecondary),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    hasTag ? "Change" : "Add tag",
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? AppColors.darkAccent : AppColors.accent,
                     ),
                   ),
                 ],
