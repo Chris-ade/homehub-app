@@ -743,17 +743,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               child: _isSaving
-                  ? const SizedBox(
+                  ? SizedBox(
                       width: 20,
                       height: 20,
                       child: CircularProgressIndicator(
-                        color: Colors.white,
+                        color: isDark
+                            ? AppColors.darkButtonText
+                            : AppColors.buttonText,
                         strokeWidth: 2,
                       ),
                     )
-                  : const Text(
+                  : Text(
                       "Save",
                       style: TextStyle(
+                        color: isDark
+                            ? AppColors.darkButtonText
+                            : AppColors.buttonText,
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
