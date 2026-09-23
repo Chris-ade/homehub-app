@@ -112,7 +112,9 @@ class PropertyCard extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
-                        LucideIcons.heart,
+                        property.isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
                         color: property.isFavorite
                             ? (isDark ? AppColors.darkAccent : AppColors.accent)
                             : (isDark
