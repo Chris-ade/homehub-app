@@ -91,7 +91,8 @@ class Property {
   final String period; // 'year' or 'month'
   final int beds;
   final int baths;
-  final int sqft;
+  final int sqm;
+  int get sqft => sqm;
   final String type; // 'Flat', 'Apartment', 'Self-contained', 'Hostel', 'Single Room', 'Duplex', 'Mini Flat', 'Bungalow'
   final String status; // 'Verified', 'New', 'Student-friendly', 'Premium', 'Family'
   final Agent agent;
@@ -136,7 +137,8 @@ class Property {
     this.period = "year",
     required this.beds,
     required this.baths,
-    required this.sqft,
+    int? sqm,
+    int? sqft,
     required this.type,
     required this.status,
     required this.agent,
@@ -155,6 +157,7 @@ class Property {
     this.securityDeposit = 100000.0,
   })  : _city = city ?? "Ado Ekiti",
         _state = state ?? "Ekiti",
+        sqm = sqm ?? sqft ?? 85,
         gallery = gallery ?? [image],
         propertyImages = propertyImages ??
             (gallery != null
@@ -301,7 +304,7 @@ class Property {
       period: (json['rent_period'] ?? json['rentPeriod'] ?? "year").toString().contains("month") ? "month" : "year",
       beds: int.tryParse(json['bedrooms']?.toString() ?? json['beds']?.toString() ?? "2") ?? 2,
       baths: int.tryParse(json['bathrooms']?.toString() ?? json['baths']?.toString() ?? "2") ?? 2,
-      sqft: int.tryParse(json['sqft']?.toString() ?? "900") ?? 900,
+      sqm: int.tryParse((json['sqm'] ?? json['sqft'])?.toString() ?? "85") ?? 85,
       type: parsedType,
       status: (json['verified'] == true) ? "Verified" : ((json['is_new'] == true) ? "New" : "Verified"),
       agent: Agent.fromJson(json['user'] ?? json['listed_by'] ?? json['listedBy']),

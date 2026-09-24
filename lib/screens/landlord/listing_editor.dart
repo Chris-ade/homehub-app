@@ -299,8 +299,8 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
       selectedType = 'house';
     }
 
-    final sqftCtrl = TextEditingController(
-      text: _property.sqft > 0 ? _property.sqft.toString() : '',
+    final sqmCtrl = TextEditingController(
+      text: _property.sqm > 0 ? _property.sqm.toString() : '',
     );
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -383,9 +383,9 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
               ),
               const SizedBox(height: 16),
               FormInputField(
-                controller: sqftCtrl,
-                label: "Square Footage (sqft)",
-                hintText: "e.g. 900",
+                controller: sqmCtrl,
+                label: "Property Size (m²)",
+                hintText: "e.g. 120",
                 keyboardType: TextInputType.number,
                 isDark: isDark,
               ),
@@ -394,8 +394,8 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
         },
       ),
       onSave: () {
-        final sqft = int.tryParse(sqftCtrl.text.trim()) ?? _property.sqft;
-        _updateListingField({'type': selectedType, 'sqft': sqft});
+        final sqm = int.tryParse(sqmCtrl.text.trim()) ?? _property.sqm;
+        _updateListingField({'type': selectedType, 'sqm': sqm, 'sqft': sqm});
       },
     );
   }
@@ -1546,7 +1546,7 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
                               ),
                             ),
                             Text(
-                              "${_property.baths} Bathroom${_property.baths == 1 ? '' : 's'} · ${_property.sqft > 0 ? '${_property.sqft} sqft' : 'Spacious'}",
+                              "${_property.baths} Bathroom${_property.baths == 1 ? '' : 's'} · ${_property.sqm > 0 ? '${_property.sqm} m²' : 'Spacious'}",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: isDark

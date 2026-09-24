@@ -13,7 +13,7 @@ class MockData {
       period: "year",
       beds: 3,
       baths: 3,
-      sqft: 1280,
+      sqm: 120,
       type: "Flat",
       status: "Verified",
       agent: const Agent(
@@ -51,7 +51,7 @@ class MockData {
       period: "year",
       beds: 2,
       baths: 2,
-      sqft: 880,
+      sqm: 85,
       type: "Apartment",
       status: "New",
       agent: const Agent(
@@ -87,7 +87,7 @@ class MockData {
       period: "year",
       beds: 1,
       baths: 1,
-      sqft: 420,
+      sqm: 40,
       type: "Self-contained",
       status: "Student-friendly",
       agent: const Agent(
@@ -123,7 +123,7 @@ class MockData {
       period: "year",
       beds: 4,
       baths: 4,
-      sqft: 2100,
+      sqm: 200,
       type: "Duplex",
       status: "Premium",
       agent: const Agent(
@@ -160,7 +160,7 @@ class MockData {
       period: "year",
       beds: 1,
       baths: 1,
-      sqft: 540,
+      sqm: 50,
       type: "Mini Flat",
       status: "Verified",
       agent: const Agent(
@@ -191,7 +191,7 @@ class MockData {
       period: "year",
       beds: 3,
       baths: 3,
-      sqft: 1640,
+      sqm: 150,
       type: "Bungalow",
       status: "Family",
       agent: const Agent(

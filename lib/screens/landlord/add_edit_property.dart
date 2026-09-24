@@ -73,7 +73,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
   final _cityCtrl = TextEditingController();
   final _bedroomsCtrl = TextEditingController();
   final _bathroomsCtrl = TextEditingController();
-  final _sqftCtrl = TextEditingController();
+  final _sqmCtrl = TextEditingController();
   final _rentCtrl = TextEditingController();
   final _depositCtrl = TextEditingController();
   final _leaseTermCtrl = TextEditingController();
@@ -129,7 +129,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
       _cityCtrl.text = matchCity;
       _bedroomsCtrl.text = p.beds.toString();
       _bathroomsCtrl.text = p.baths.toString();
-      _sqftCtrl.text = p.sqft.toString();
+      _sqmCtrl.text = p.sqm > 0 ? p.sqm.toString() : '';
       _rentCtrl.text = p.price.toStringAsFixed(p.price % 1 == 0 ? 0 : 2);
       _depositCtrl.text = p.securityDeposit.toStringAsFixed(0);
       _leaseTermCtrl.text = "";
@@ -185,7 +185,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
       _cityCtrl,
       _bedroomsCtrl,
       _bathroomsCtrl,
-      _sqftCtrl,
+      _sqmCtrl,
       _rentCtrl,
       _depositCtrl,
       _leaseTermCtrl,
@@ -455,7 +455,8 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
         'bedrooms': int.tryParse(_bedroomsCtrl.text.trim()),
         'bathrooms': double.tryParse(_bathroomsCtrl.text.trim()),
       },
-      'sqft': int.tryParse(_sqftCtrl.text.trim()) ?? 0,
+      'sqm': int.tryParse(_sqmCtrl.text.trim()) ?? 0,
+      'sqft': int.tryParse(_sqmCtrl.text.trim()) ?? 0,
       if (_houseNoCtrl.text.trim().isNotEmpty)
         'house_number': _houseNoCtrl.text.trim(),
       if (_streetCtrl.text.trim().isNotEmpty)
@@ -982,7 +983,7 @@ class _AddEditPropertyScreenState extends State<AddEditPropertyScreen> {
           Divider(color: isDark ? AppColors.darkBorder : AppColors.border),
           const SizedBox(height: 24),
           FormInputField(
-            controller: _sqftCtrl,
+            controller: _sqmCtrl,
             label: "Size in m² (Optional)",
             hintText: "e.g. 100m²",
             isDark: isDark,

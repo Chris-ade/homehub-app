@@ -209,7 +209,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         children: [
           CustomScrollView(
             slivers: [
-              // ── 1. PHOTO CAROUSEL APP BAR ──
+              // PHOTO CAROUSEL APP BAR
               PropertyPhotoAppBar(
                 property: prop,
                 activeIndex: _activeGalleryIndex,
@@ -234,7 +234,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                 isDark: isDark,
               ),
 
-              // ── 2. PROPERTY DETAILS CONTENT ──
+              // PROPERTY DETAILS CONTENT
               SliverToBoxAdapter(
                 child: Container(
                   color: isDark ? AppColors.darkBackground : AppColors.surface,
@@ -275,7 +275,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
                       // Subtitle Line 2: Specs
                       Text(
-                        "${prop.beds} ${prop.beds > 1 ? 'bedrooms' : 'bedroom'} · ${prop.baths} ${prop.baths > 1 ? 'bathrooms' : 'bathroom'} · ${prop.sqft} sqft",
+                        "${prop.beds} ${prop.beds > 1 ? 'bedrooms' : 'bedroom'} · ${prop.baths} ${prop.baths > 1 ? 'bathrooms' : 'bathroom'} · ${prop.sqm} m²",
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -305,12 +305,12 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
                       _buildDivider(isDark),
 
-                      // ── 4. KEY HIGHLIGHTS LIST ──
+                      // KEY HIGHLIGHTS LIST
                       PropertyHighlightsSection(property: prop, isDark: isDark),
 
                       _buildDivider(isDark),
 
-                      // ── 5. ABOUT THIS SPACE ──
+                      // ABOUT THIS SPACE
                       PropertyAboutSection(
                         property: prop,
                         isDark: isDark,
@@ -338,13 +338,13 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
                       _buildDivider(isDark),
 
-                      // ── 7. SPACES IN THIS HOME (Only shown when tagged room images exist) ──
+                      // SPACES IN THIS HOME (Only shown when tagged room images exist)
                       if (prop.taggedRoomImages.isNotEmpty) ...[
                         PropertySpacesSection(property: prop, isDark: isDark),
                         _buildDivider(isDark),
                       ],
 
-                      // ── 8. WHAT THIS PLACE OFFERS ──
+                      // WHAT THIS PLACE OFFERS
                       PropertyAmenitiesSection(
                         property: prop,
                         isDark: isDark,
@@ -354,7 +354,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
                       _buildDivider(isDark),
 
-                      // ── 9. WHERE YOU'LL BE (LOCATION & MAP) ──
+                      // WHERE YOU'LL BE (LOCATION & MAP)
                       PropertyMapSection(
                         property: prop,
                         mapController: _mapController,
@@ -377,7 +377,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
                       _buildDivider(isDark),
 
-                      // ── 3. HOST ROW ──
+                      // HOST ROW
                       PropertyHostCard(
                         property: prop,
                         isStartingChat: _startingChat,
