@@ -105,14 +105,14 @@ class LandlordPropertyCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Row 1: Property title
+                          // Property title
                           Text(
                             property.title,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontFamily: 'Cabinet Grotesk',
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: isDark
                                   ? AppColors.darkTextPrimary
@@ -121,13 +121,13 @@ class LandlordPropertyCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
 
-                          // Row 2: Type and City
+                          // Type and City
                           Text(
                             "${property.type} · ${property.city}",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 14,
                               color: isDark
                                   ? AppColors.darkTextSecondary
                                   : AppColors.textSecondary,
@@ -135,7 +135,7 @@ class LandlordPropertyCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
 
-                          // Row 3: Price / Period
+                          // Price / Period
                           Row(
                             children: [
                               Flexible(
