@@ -360,7 +360,7 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
               Text(
                 "Categorizing photos by room gives prospective tenants an immersive 3D-like tour experience.",
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: 15,
                   color: isDark
                       ? AppColors.darkTextSecondary
                       : AppColors.textSecondary,
@@ -374,7 +374,10 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                   ..._roomCategories.map((opt) {
                     final isSelected = draft.tag == opt['tag'];
                     return ChoiceChip(
-                      label: Text("${opt['icon']}  ${opt['label']}"),
+                      checkmarkColor: isDark
+                          ? AppColors.darkButtonText
+                          : AppColors.buttonText,
+                      label: Text("${opt['label']}"),
                       selected: isSelected,
                       selectedColor: isDark
                           ? AppColors.darkAccent
@@ -622,7 +625,7 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
                         decoration: BoxDecoration(
                           color: _drafts.isEmpty
                               ? Colors.orange
-                              : AppColors.success,
+                              : AppColors.buttonText,
                           shape: BoxShape.circle,
                         ),
                       ),
