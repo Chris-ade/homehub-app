@@ -180,9 +180,7 @@ class LandlordPropertyCard extends StatelessWidget {
 
   Widget _statusChip(bool isDark) {
     final verified = property.status == "Verified";
-    final bg = verified
-        ? AppColors.darkAccent
-        : (isDark ? AppColors.darkSurfaceAlt : AppColors.accentLight);
+    final bg = AppColors.white;
     final fg = AppColors.textPrimary;
 
     return Container(
