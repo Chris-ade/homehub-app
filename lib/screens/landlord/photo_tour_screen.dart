@@ -303,7 +303,47 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
       }
     }
 
+    String pType = _property.type.toLowerCase();
+    String? hostelType;
+    if (pType.contains('hostel') || pType.contains('room')) {
+      pType = 'hostel';
+      hostelType = pType.contains('single') ? 'single_room' : 'self_contained';
+    } else if (pType.contains('flat') || pType.contains('apartment')) {
+      pType = 'apartment';
+    } else {
+      pType = 'house';
+    }
+
+    final rentPeriod =
+        _property.period.toLowerCase().contains('month') ? 'monthly' : 'annually';
+    final availableFromStr =
+        _property.availableDate.toIso8601String().split('T').first;
+
     final updated = await landlord.updateListing(_property.id, {
+      'title': _property.title,
+      'description': _property.description,
+      'type': pType,
+      if (pType == 'hostel') 'hostel_type': hostelType ?? 'single_room',
+      'rent_amount': _property.price,
+      'rent_period': rentPeriod,
+      'security_deposit': _property.securityDeposit,
+      if (pType != 'hostel') ...{
+        'bedrooms': _property.beds > 0 ? _property.beds : 1,
+        'bathrooms': _property.baths > 0 ? _property.baths.toDouble() : 1.0,
+      },
+      'sqm': _property.sqm > 0 ? _property.sqm : 85,
+      'sqft': _property.sqm > 0 ? _property.sqm : 85,
+      if (_property.houseNumber.isNotEmpty)
+        'house_number': _property.houseNumber,
+      if (_property.streetName.isNotEmpty)
+        'street_name': _property.streetName,
+      'address': _property.area.isNotEmpty ? _property.area : "Ado Ekiti",
+      'city': _property.city,
+      'state': _property.state,
+      'available_from': availableFromStr,
+      'lease_term': "1 year",
+      'contact_phone': _property.agent.phone,
+      'amenities': _property.amenities,
       'images': finalImages,
     });
 
@@ -317,7 +357,10 @@ class _PhotoTourScreenState extends State<PhotoTourScreen> {
       widget.onPropertyUpdated?.call(updated);
       AppToast.showSuccess(context, message: "Photo tour updated!");
     } else {
-      AppToast.showError(context, message: "Failed to update photos.");
+      AppToast.showError(
+        context,
+        message: landlord.apiError ?? "Failed to update photos.",
+      );
     }
   }
 

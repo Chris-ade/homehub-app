@@ -118,6 +118,7 @@ class LandlordProvider extends ChangeNotifier {
   /// Update a listing via PUT /listings/:id. Returns the updated property or null.
   Future<Property?> updateListing(String id, Map<String, dynamic> body) async {
     _isSubmitting = true;
+    _apiError = null;
     notifyListeners();
     try {
       final res = await _api.put('/listings/$id', auth: true, body: body);
@@ -136,8 +137,10 @@ class LandlordProvider extends ChangeNotifier {
           return updated;
         }
       }
+      _apiError = res.message ?? "Failed to update listing.";
       return null;
-    } catch (_) {
+    } catch (e) {
+      _apiError = e.toString();
       return null;
     } finally {
       _isSubmitting = false;

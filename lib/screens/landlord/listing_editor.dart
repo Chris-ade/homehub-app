@@ -58,13 +58,81 @@ class _ListingEditorScreenState extends State<ListingEditorScreen> {
     ).format(amount);
   }
 
+  Map<String, dynamic> _buildMergedPayload(Map<String, dynamic> updates) {
+    String pType = _property.type.toLowerCase();
+    String? hostelType;
+    if (pType.contains('hostel') || pType.contains('room')) {
+      pType = 'hostel';
+      hostelType = pType.contains('single') ? 'single_room' : 'self_contained';
+    } else if (pType.contains('flat') || pType.contains('apartment')) {
+      pType = 'apartment';
+    } else {
+      pType = 'house';
+    }
+
+    final rentPeriod =
+        _property.period.toLowerCase().contains('month') ? 'monthly' : 'annually';
+    final availableFromStr =
+        _property.availableDate.toIso8601String().split('T').first;
+
+    final imageList = _property.propertyImages.isNotEmpty
+        ? _property.propertyImages.map((img) => img.url).toList()
+        : (_property.gallery.isNotEmpty
+            ? _property.gallery
+            : (_property.image.isNotEmpty ? [_property.image] : <String>[]));
+
+    final payload = <String, dynamic>{
+      'title': _property.title,
+      'description': _property.description,
+      'type': pType,
+      if (pType == 'hostel') 'hostel_type': hostelType ?? 'single_room',
+      'rent_amount': _property.price,
+      'rent_period': rentPeriod,
+      'security_deposit': _property.securityDeposit,
+      if (pType != 'hostel') ...{
+        'bedrooms': _property.beds > 0 ? _property.beds : 1,
+        'bathrooms': _property.baths > 0 ? _property.baths.toDouble() : 1.0,
+      },
+      'sqm': _property.sqm > 0 ? _property.sqm : 85,
+      'sqft': _property.sqm > 0 ? _property.sqm : 85,
+      if (_property.houseNumber.isNotEmpty)
+        'house_number': _property.houseNumber,
+      if (_property.streetName.isNotEmpty)
+        'street_name': _property.streetName,
+      'address': _property.area.isNotEmpty ? _property.area : "Ado Ekiti",
+      'city': _property.city,
+      'state': _property.state,
+      'available_from': availableFromStr,
+      'lease_term': "1 year",
+      'contact_phone': _property.agent.phone,
+      'amenities': _property.amenities,
+      'images': imageList,
+    };
+
+    // Overlay modal updates on top of base property values
+    payload.addAll(updates);
+
+    if (payload['type'] == 'hostel') {
+      payload.remove('bedrooms');
+      payload.remove('bathrooms');
+      if (payload['hostel_type'] == null) {
+        payload['hostel_type'] = 'single_room';
+      }
+    } else {
+      payload.remove('hostel_type');
+    }
+
+    return payload;
+  }
+
   Future<void> _updateListingField(
     Map<String, dynamic> updates, {
     String? successMessage,
   }) async {
     final landlord = context.read<LandlordProvider>();
 
-    final updated = await landlord.updateListing(_property.id, updates);
+    final fullPayload = _buildMergedPayload(updates);
+    final updated = await landlord.updateListing(_property.id, fullPayload);
     if (!mounted) return;
 
     if (updated != null) {
